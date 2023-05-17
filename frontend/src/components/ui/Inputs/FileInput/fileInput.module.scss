@@ -1,0 +1,26 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+
+$preview-image-input-background: $input-background-color;
+
+.imageInput {
+  border: 1px solid $input-border-color;
+  background-color: $preview-image-input-background;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+
+  input {
+    display: none;
+  }
+}
+
+.allFileInput {
+  .fileInput {}
+
+  .removeButton {
+    cursor: pointer;
+    margin-left: 15px;
+  }
+}

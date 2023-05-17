@@ -1,0 +1,24 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/colors";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+
+.linkedUsers {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  img {
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: $black100;
+  }
+}
+
+.buttonStyle {
+  display: flex;
+
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}

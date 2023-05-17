@@ -1,0 +1,42 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+
+.input {
+  background: $input-background;
+  border: $input-border;
+  border-color: $input-border-color;
+  border-radius: $input-border-radius;
+
+  font-family: $font-family-base;
+  font-weight: $font-weight-base;
+  font-size: $font-size-desktop;
+  line-height: $line-height-base;
+
+  padding: $input-padding;
+
+  display: block;
+  width: 100%;
+
+  &.error {
+    outline: 1.2px solid $input-border-color-error;
+  }
+
+  &:placeholder-shown {
+    color: $placeholder-color-focused;
+  }
+
+  &:hover {
+    outline: 1.2px solid $input-border-color-hover;
+  }
+
+  &:focus-visible {
+    outline: 1.2px solid $input-border-color-focused;
+  }
+
+  &:disabled, &.disabled {
+    background-color: $input-background-disabled;
+    border-color: none;
+    color: $placeholder-color-disabled;
+  }
+}

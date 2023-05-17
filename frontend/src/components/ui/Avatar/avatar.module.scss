@@ -1,0 +1,30 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+
+.avatar {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  border-radius: 50%;
+
+  color: white;
+  background-color: white;
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  line-height: 1;
+
+  overflow: hidden;
+
+  user-select: none;
+}
+
+@include themed() {
+  background-color: t('avatar-background');
+}

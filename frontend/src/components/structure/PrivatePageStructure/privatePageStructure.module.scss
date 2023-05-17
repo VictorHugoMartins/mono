@@ -1,0 +1,66 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/colors";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+
+.pageContent {
+  width: 100%;
+  height: 100vh;
+  transition: margin-left 0.2s;
+  overflow: auto;
+
+  &.open {
+    margin-left: $side-menu-width-open;
+    width: calc(100vw - $side-menu-width-open);
+  }
+
+  &.close {
+    margin-left: $side-menu-width-close;
+    width: calc(100vw - $side-menu-width-close);
+
+    @include half {
+      margin-left: 0px;
+    }
+  }
+
+  .content {
+    padding: $space-xg;
+
+    @include mobile {
+      padding: $space-m;
+    }
+
+    &.noPadding {
+      padding: 0;
+    }
+  }
+
+  @include half {
+    width: 100% !important;
+    overflow-y: unset;
+  }
+}
+
+.noPadding {
+  padding: 0 !important;
+}
+
+.fixedHeader {
+  position: sticky;
+  left: 0;
+}
+
+.cardTop {
+  box-shadow: 0px -8px 16px 0px rgb(0 0 0 / 20%);
+  width: 100%;
+  height: 16px;
+  border-radius: 8px 8px 0 0;
+  margin-top: -$space_pp;
+}
+
+
+@include themed {
+  .navBarContent {
+    background-color: t('side-menu-background');
+  }
+}

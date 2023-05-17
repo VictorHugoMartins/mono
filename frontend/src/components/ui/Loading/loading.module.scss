@@ -1,0 +1,45 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+.loading {
+  &.spin {
+    border: 3px solid $blue-200;
+    border-top-color: $blue-500;
+    border-radius: 50%;
+    width: 3em;
+    height: 3em;
+    @include animate(spin, 1s, linear, infinite);
+
+    @include keyframes(spin) {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+  }
+
+  &.primary {
+    border-color: $blue-200;
+    border-top-color: $blue-500;
+  }
+
+  &.secondary {
+    border-color: $gray-100;
+    border-top-color: $gray-500;
+  }
+
+  &.success {
+    border-color: $green-300;
+    border-top-color: $green-500;
+  }
+
+  &.danger {
+    border-color: $red-300;
+    border-top-color: $red-500;
+  }
+
+  &.warning {
+    border-color: $yellow-200;
+    border-top-color: $yellow-500;
+  }
+}

@@ -1,0 +1,8 @@
+@import '../../../assets/styles/base/_mixins.scss';
+@import '../../../assets/styles/base/_variables.scss';
+
+.customTooltip {
+    padding: $space-pp;
+    border-radius: 5px;
+    background-color: $gray-200;
+}

@@ -1,0 +1,45 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+.footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: $footer-background-color;
+  color: $footer-color;
+  justify-content: space-around;
+
+  flex-wrap: wrap;
+
+  #copyright {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #terms {
+    cursor: pointer;
+  }
+
+  #store img {
+    background-color: transparent;
+    margin-left: 5px;
+  }
+
+  .item {
+    padding: $space_g $space_m;
+
+    .appLink {
+      height: 47px;
+      width: 140px;
+    }
+
+    @include halfmobile {
+      padding: $space_m $space_p;
+
+      .appLink {
+        width: 36vw;
+        height: auto;
+      }
+    }
+  }
+}

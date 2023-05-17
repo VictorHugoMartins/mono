@@ -1,0 +1,14 @@
+@import "~/assets/styles/base/_mixins.scss";
+@import "~/assets/styles/base/_variables.scss";
+
+.pageHead {
+  // padding: 1rem 0;
+
+  .icon {
+    cursor: pointer;
+    
+    svg {
+      vertical-align: unset;
+    }
+  }
+}

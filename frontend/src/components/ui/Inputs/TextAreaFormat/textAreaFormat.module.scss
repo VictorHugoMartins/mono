@@ -1,0 +1,13 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "../input.module.scss";
+
+.textAreaFormat {
+  @extend .input;
+  color: $input-color-default;
+
+  img{
+    max-width: 100%!important;
+    width: 100% !important;
+  }
+}

@@ -1,0 +1,12 @@
+@import "~/assets/styles/base/variables";
+
+.chart {
+  width: 100%;
+  height: 250px;
+}
+
+.select {
+  border: 0;
+  border-bottom: 1px solid black;
+  margin: 0 $space-m;
+}

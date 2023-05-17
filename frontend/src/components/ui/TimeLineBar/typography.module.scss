@@ -1,0 +1,54 @@
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+#timeLineBar {
+  height: 20px;
+  width: 100%;
+  min-width: 90px;
+
+  background-color: $black900;
+  overflow: hidden;
+  display: flex;
+
+  caption {
+    text-align: center;
+    width: 100%;
+    color: $black50;
+    // position: relative;
+    // right: 50%;
+    // left: 50%;
+  }
+
+  #step {
+    height: 30px;
+  }
+}
+
+// #timeLineBar {
+//   min-height: 20px;
+//   width: 100%;
+//   min-width: 30px;
+//   padding: 0 2px;
+
+//   background-color: $black900;
+//   overflow: hidden;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+
+//   caption {
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: center;
+//     align-items: center;
+
+//     text-align: center;
+//     width: 100%;
+//     color: $black50;
+//   }
+
+//   #step {
+//     height: 30px;
+//   }
+// }

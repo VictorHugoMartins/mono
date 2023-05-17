@@ -1,0 +1,115 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/colors";
+
+.cardIcon {
+  margin-bottom: 15px;
+}
+
+.mounthCard {
+  color: $fill_icon_mounth_card;
+}
+
+.yearCard {
+  color: $fill_icon_year_card;
+}
+
+.todayHours {
+  color: $fill_icon_todayHours_card;
+}
+
+.hoursChart {
+  display: flex;
+  width: 50vw;
+  // height:60vh;
+  // min-height: 300px;
+  // max-height: 300px;
+  // overflow: scroll;
+}
+
+.containerStyledHome {
+  width: 100%;
+  // height: 83vh;
+}
+
+@media (min-width: 1365px) {
+  .containerStyledHome {
+    // height: 50vh;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hoursChart {
+    width: 45vw;
+  }
+
+}
+
+@media (max-width: 967px) {
+  .hoursChart {
+    width: 75%;
+  }
+}
+
+@media (max-width: 767px) {
+  .hoursChart {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.cardContainer {
+  width: 100%;
+
+  @include half {
+    margin-top: 1rem;
+  }
+}
+
+.chartContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ticketTable {
+  width: 100%;
+  border: 1px solid $primary-color;
+  padding: $space-p;
+
+  tbody {
+    tr {
+      @include half {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      td {
+        border-bottom: 1px solid $primary-color;
+        font-size: 18px;
+
+        a,
+        b {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+}
+
+@include half() {
+  .cardHome {
+    width: 100%;
+    min-width: 144px;
+    height: 152px;
+    max-width: 100%;
+  }
+}
+
+@include halfdesktop() {
+  .chartContainer {
+    width: 100% !important;
+  }
+}

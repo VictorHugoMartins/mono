@@ -1,0 +1,44 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/colors";
+@import "~/assets/styles/base/theme";
+
+$button-color: $secondary-color;
+$button-color: $blue-400;
+$button-secondary-color: $blue-500;
+$primary-button-color: $gray-150;
+$secondary-button-color: $gray-150;
+$success-button-color: $gray-150;
+$danger-button-color: $gray-150;
+$warning-button-color: $gray-150;
+
+$primary-button-background-color: $blue-400;
+$secondary-button-background-color: $red-300;
+$success-button-background-color: $success-color;
+$danger-button-background-color: $danger-color;
+$warning-button-background-color: $warning-color;
+
+.tabButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 5px 5px 0px;
+  padding: 10px;
+  border-top-right-radius: 15px;
+  white-space: nowrap;
+
+  &:hover {
+    border-top-right-radius: 0px;
+  }
+}
+
+
+@include themed {
+  background-color: t('tabs-1-button-background');
+  color: t('tabs-1-button-color');
+
+  &.tabButtonActive {
+    background-color: t('tabs-1-button-active-background');
+  }
+}

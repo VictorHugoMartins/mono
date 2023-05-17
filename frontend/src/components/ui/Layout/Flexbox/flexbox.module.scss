@@ -1,0 +1,35 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+.flexbox {
+  display: flex;
+
+  &.wrap {
+    flex-wrap: wrap;
+  }
+
+  &.horizontalScroll {
+    overflow-x: auto;
+  }
+
+  &.verticalScroll {
+    overflow-y: auto;
+  }
+
+  @each $spacingName in $spacingNames {
+    $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+    &.#{$spacingName}Spacing {
+      column-gap: $value;
+      row-gap: $value;
+    }
+
+    @each $spacingType in $spacingTypes {
+      &.#{$spacingName}#{$spacingType}Margin {
+        #{'margin-#{$spacingType}'}: $value;
+
+      }
+    }
+  }
+
+}

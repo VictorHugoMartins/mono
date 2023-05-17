@@ -1,0 +1,35 @@
+@import '../../../assets/styles/base/_mixins.scss';
+@import '../../../assets/styles/base/_variables.scss';
+
+.localDataTable {
+    .localDataTableHeader {
+        display: flex;
+        justify-content: flex-end;
+
+        background: $blue-200;
+        padding: $space-p $space-m;
+        margin-bottom: $space-m;
+
+        input {
+            width: 218px;
+            height: 28px;
+
+            margin: 0;
+            padding-left: 12px;
+            border: 1px solid #6F8292;
+            box-sizing: border-box;
+            border-radius: 5px;
+
+            &::placeholder {
+                font-style: normal;
+                font-weight: 400;
+                font-size: 15px;
+                line-height: 18px;
+
+                letter-spacing: -0.3px;
+
+                color: #312E2E;
+            }
+        }
+    }
+}

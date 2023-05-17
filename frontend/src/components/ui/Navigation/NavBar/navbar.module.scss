@@ -1,0 +1,183 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+@import "~/assets/styles/base/colors";
+
+.siteNavbar {
+  display: flex;
+  // flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+
+  min-height: $header-desktop-height;
+
+  padding: $header-padding;
+
+  &.noFixed {
+    position: unset;
+  }
+
+
+  @include desktop() {
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+  }
+
+  @include half() {
+    padding: $header-half-padding;
+    margin-left: $side-menu-width-close-half;
+
+    &.public {
+      margin-left: 0;
+    }
+
+    &.notLogged {
+      margin-left: 0;
+    }
+  }
+
+  @include mobile() {
+    margin-left: $side-menu-width-close-mobile;
+  }
+
+  .navbarBrand {
+    display: inline-block;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-right: 1rem;
+    white-space: nowrap;
+
+    img {
+      max-height: $header-brand-height-base;
+
+      @include half() {
+        max-height: $header-brand-height-half;
+      }
+    }
+
+    @include mobile() {
+      margin-right: 0;
+    }
+  }
+
+  .navbarToggler {
+    padding: 0.25rem 0.75rem;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    color: #555;
+    border-color: #555;
+    cursor: pointer;
+
+    span {
+      font-size: 1.5rem;
+      line-height: 1;
+      font-weight: bold;
+      writing-mode: vertical-rl;
+    }
+
+    @include desktop() {
+      display: none;
+    }
+
+  }
+
+  .navbarCollapse {
+    // flex-basis: 100%;
+    // flex-grow: 1;
+    align-items: center;
+
+    @include desktop() {
+      display: flex !important;
+      // flex-basis: auto;
+    }
+
+    @include half() {
+      &:not(.show) {
+        display: none;
+      }
+    }
+  }
+
+  .navbarMrAuto {
+    margin-right: auto;
+    flex: 1;
+  }
+
+  .navbarNav {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+
+    @include desktop() {
+      flex-direction: row;
+    }
+
+    @include mobile() {
+      align-items: center;
+    }
+
+    button {
+      color: $header-link;
+      padding: 0.5rem 1rem;
+    }
+  }
+
+  .navbarLink {
+    text-transform: uppercase;
+    display: block;
+    color: $header-link;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    padding: 0.5rem 1rem;
+
+    &:hover {
+      color: $header-link-hover;
+    }
+
+    @include half() {
+      margin-top: 20px;
+    }
+  }
+
+  .userCircleInfo {
+    border-radius: 50%;
+    background-color: $circle-dropdown-background;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: 900;
+
+    @include half {
+      width: 45px;
+      height: 45px;
+      font-size: 20px;
+    }
+
+    @include mobile {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+    }
+  }
+}
+
+@include themed {
+  background-color: t('navbar-background');
+
+  &.public {
+    background-color: t('navbar-home-background-color');
+    color: t('navbar-home-color');
+  }
+}

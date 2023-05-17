@@ -1,0 +1,23 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "../../../Button/button.module.scss";
+
+$preview-image-input-background: $input-background-color;
+
+.allFileInput {
+  .fileInput {
+    @extend .button;
+
+    cursor: pointer;
+
+    input {
+      display: none;
+    }
+  }
+
+  .removeButton {
+    cursor: pointer;
+    margin-left: 15px;
+  }
+}

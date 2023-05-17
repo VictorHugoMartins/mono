@@ -1,0 +1,16 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/colors";
+@import "~/assets/styles/base/variables";
+
+.chart {
+  height: 400px;
+  width: 100%;
+
+  @include half {
+    height: 300px;
+  }
+
+  @include mobile {
+    height: 200px;
+  }
+}

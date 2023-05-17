@@ -1,0 +1,159 @@
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+.typographyStyle {
+  &.h1 {
+    font-family: $fonte_titulo;
+    font-size: $fonte_xg;
+    font-weight: $fonte_bold;
+    line-height: $fontelinha_3xg;
+
+    @include half {
+      font-size: $fonte_xg_half;
+      line-height: $fontelinha_3xg_half;
+    }
+
+    @include mobile {
+      font-size: $fonte_xg_mobile;
+      line-height: $fontelinha_3xg_mobile;
+    }
+  }
+
+  &.h2 {
+    font-family: $fonte_titulo;
+    font-size: $fonte_g;
+    font-weight: $fonte_bold;
+    line-height: $fontelinha_xg;
+
+    @include half {
+      font-size: $fonte_g_half;
+      line-height: $fontelinha_xg_half;
+    }
+
+    @include mobile {
+      font-size: $fonte_g_mobile;
+      line-height: $fontelinha_xg_mobile;
+    }
+  }
+
+  &.h3 {
+    font-family: $fonte_titulo;
+    font-size: $fonte_g;
+    font-weight: $fonte_regular;
+    line-height: $fontelinha_xg;
+
+    @include half {
+      font-size: $fonte_g_half;
+      line-height: $fontelinha_xg_half;
+    }
+
+    @include mobile {
+      font-size: $fonte_g_mobile;
+      line-height: $fontelinha_xg_mobile;
+    }
+  }
+
+  &.h4 {
+    font-family: $fonte_titulo;
+    font-size: $fonte_base;
+    font-weight: $fonte_bold;
+    line-height: $fontelinha_g;
+
+    @include half {
+      font-size: $fonte_base_half;
+      line-height: $fontelinha_g_half;
+    }
+
+    @include mobile {
+      font-size: $fonte_base_mobile;
+      line-height: $fontelinha_g_mobile;
+    }
+  }
+
+  // corpo
+  &.p {
+    // paragrafo comum
+    font-family: $fonte_corpo;
+    font-size: $fonte_base;
+    font-weight: $fonte_regular;
+    line-height: $fontelinha_xg;
+
+    @include half {
+      font-size: $fonte_base_half;
+      line-height: $fontelinha_xg_half;
+    }
+
+    @include mobile {
+      font-size: $fonte_base_mobile;
+      line-height: $fontelinha_xg_mobile;
+    }
+  }
+
+  &.span {
+    // parágrafo menor
+    font-family: $fonte_corpo;
+    font-size: $fonte_p;
+    font-weight: $fonte_regular;
+    line-height: $fontelinha_xg;
+
+    @include half {
+      font-size: $fonte_p_half;
+      line-height: $fontelinha_xg_half;
+    }
+
+    @include mobile {
+      font-size: $fonte_p_mobile;
+      line-height: $fontelinha_xg_mobile;
+    }
+  }
+
+  &.caption {
+    font-family: $fonte_corpo;
+    font-size: $fonte_pp;
+    font-weight: $fonte_regular;
+    line-height: $fontelinha_g;
+
+    @include half {
+      font-size: $fonte_pp_half;
+      line-height: $fontelinha_g_half;
+    }
+
+    @include mobile {
+      font-size: $fonte_pp_mobile;
+      line-height: $fontelinha_g_mobile;
+    }
+  }
+
+  &.h6 {
+    font-family: $fonte_corpo;
+    font-size: $fonte_mini;
+    font-weight: $fonte_regular;
+    line-height: $fontelinha_m;
+
+    @include half {
+      font-size: $fonte_mini_half;
+      line-height: $fontelinha_m_half;
+    }
+
+    @include mobile {
+      font-size: $fonte_mini_mobile;
+      line-height: $fontelinha_m_mobile;
+    }
+  }
+
+  @each $spacingName in $spacingNames {
+    $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+    @each $spacingType in $spacingTypes {
+      &.#{$spacingName}#{$spacingType}Margin {
+        #{'margin-#{$spacingType}'}: $value;
+
+      }
+    }
+  }
+}
+
+@include themed {
+  color: t('typography-color');
+}

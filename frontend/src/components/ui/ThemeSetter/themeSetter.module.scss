@@ -1,0 +1,15 @@
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/variables";
+
+.themeSetter {
+  padding: $space-m;
+  cursor: pointer;
+
+  display: flex !important;
+  align-items: center;
+  white-space: nowrap;
+
+  &>div {
+    margin-right: $space-p;
+  }
+}

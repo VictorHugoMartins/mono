@@ -1,0 +1,17 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/theme";
+@import "../input.module.scss";
+
+.select {
+  @extend .input;
+  flex: 1;
+
+  &::-webkit-input-placeholder,
+  &::-moz-placeholder {
+    @include themed {
+      color: red;
+    }
+  }
+}

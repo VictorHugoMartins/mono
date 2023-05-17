@@ -1,0 +1,29 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/theme";
+
+.label {
+  font-family: $font-family-base;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-desktop;
+  line-height: $line-height-base;
+
+  margin-bottom: $space-p;
+
+  display: block;
+
+  white-space: nowrap;
+
+  b {
+    color: $input-color-error-message;
+  }
+
+  @include half() {
+    white-space: wrap;
+  }
+}
+
+@include themed {
+  color: t('label-color');
+}

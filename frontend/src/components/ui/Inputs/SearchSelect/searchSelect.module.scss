@@ -1,0 +1,77 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/colors";
+@import "../input.module.scss";
+
+.searchSelect {
+  .searchSelectInputContainer {
+    @extend .input;
+
+    display: flex;
+    align-items: center;
+
+    .searchSelectInput {
+      flex: 1;
+      border: 0;
+      border-radius: $input-border-radius;
+
+      font-family: $font-family-base;
+      font-weight: $font-weight-base;
+      font-size: $font-size-desktop;
+      line-height: $line-height-base;
+
+      &:focus {
+        outline: none !important;
+      }
+    }
+
+    .searchSelectInputIcon {
+      cursor: pointer;
+      padding: 0 $space-p;
+      font-size: 18px;
+      color: $primary-color;
+    }
+  }
+
+  .searchSelectOptions {
+    background-color: $input-background-color;
+    position: absolute;
+    z-index: 9999;
+    border-radius: $space-p;
+    margin-top: $space-p;
+    border: 1px solid rgba($color: #000000, $alpha: 0.5);
+    overflow-y: auto;
+    max-height: 224px;
+    max-width: 300px;
+
+    @include mobile {
+      max-width: 260px;
+    }
+
+    .searchSelectOptionItem {
+      padding: $space-p 16px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $gray-300;
+      }
+    }
+  }
+
+  &.error {
+    border-color: $danger-color;
+  }
+}
+
+@include themed {
+  color: t('card-color');
+
+  li {
+    background-color: t('navbar-select-option-background');
+
+    &:hover {
+      color: $black800;
+    }
+  }
+}

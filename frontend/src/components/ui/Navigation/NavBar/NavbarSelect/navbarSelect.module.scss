@@ -1,0 +1,52 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/theme";
+
+
+.navbarSelect {
+  border: 0;
+  background-color: transparent;
+
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.error {
+    outline: 1.2px solid $input-border-color-error;
+  }
+
+  &:placeholder-shown {
+    color: $placeholder-color-focused;
+  }
+
+  &:hover {
+    outline: 1.2px solid $black300;
+  }
+
+  &:focus-visible {
+    outline: 1.2px solid $input-border-color-focused;
+  }
+
+  &:disabled,
+  &.disabled {
+    background-color: $input-background-disabled;
+    border-color: none;
+    color: $placeholder-color-disabled;
+  }
+}
+
+@include themed {
+  color: t('card-color');
+
+  option {
+    background-color: t('navbar-select-option-background');
+
+    &:hover {
+      color: $black800;
+    }
+  }
+}

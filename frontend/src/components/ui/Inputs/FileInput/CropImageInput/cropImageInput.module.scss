@@ -1,0 +1,19 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+
+.cropImageInput{
+  width: 600px;
+  height: 100%;
+  position: relative;
+
+  @include halfmobile() {
+    width: 300px;;
+  }
+
+  .cropper{
+    position: relative;
+    width: 100%;
+    height: 300px;
+  }
+}

@@ -1,0 +1,44 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+
+.dataTableModal {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  min-width: 300px;
+
+  .dataTableDetail {
+    margin-bottom: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+
+    li {
+      font-family: $font-family-base;
+      font-size: $font-size-base;
+      margin: 1rem 0;
+
+      span {
+        font-weight: $font-weight-bold;
+        color: $font-color-primary;
+      }
+
+      p {
+        img {
+          max-width: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+
+  .buttonsArea {
+    display: inline-flex;
+    gap: 12px;
+  }
+
+  .errorArea {
+    padding: $space-m 0;
+  }
+}

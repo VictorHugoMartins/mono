@@ -1,0 +1,95 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+
+.dropbtn {
+  background-color: transparent;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown .dropdownContent,
+.dropdown:hover .dropdownContent,
+.dropdown:hover .dropdownContent,
+.dropdown:focus .dropdownContent,
+.dropdown:active .dropdownContent {
+  display: block;
+}
+
+.dropdownContent {
+  display: none;
+  min-width: 180px;
+  box-shadow: $box-shadow-1;
+  z-index: 1000;
+
+  &.left {
+    left: 0;
+  }
+
+  &.right {
+    right: 0;
+  }
+
+  a {
+    padding: $space-m;
+    text-decoration: none;
+    display: block;
+  }
+}
+
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+}
+
+.dropdownWithButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdownLogout {
+  display: flex !important;
+  align-items: center;
+  gap: $space-p;
+}
+
+@include themed() {
+  background-color: t('dropdown-background');
+  color: t('dropdown-color');
+
+  a {
+    &:hover {
+      background-color: t('dropdown-hover');
+    }
+  }
+}
+
+@keyframes inAnimation {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes outAnimation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

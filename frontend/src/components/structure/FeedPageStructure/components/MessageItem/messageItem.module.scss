@@ -1,0 +1,11 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import '~/assets/styles/base/theme';
+
+.container {}
+
+@include themed {
+  &.selected {
+    background-color: t('selected-card-background');
+  }
+}

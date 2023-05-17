@@ -1,0 +1,20 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+@import "~/assets/styles/base/colors";
+@import "~/assets/styles/base/typography";
+
+.navbarversion{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: $space-m;
+    margin-top: $space-pp;
+    padding-right: $space-m;
+}
+
+@include themed {
+    color: t('navbar-version-color');
+  }

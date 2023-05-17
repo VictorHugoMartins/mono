@@ -1,0 +1,113 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/theme";
+
+$button-color: $secondary-color;
+$button-color: $blue-400;
+
+$primary-button-color: $gray-150;
+$secondary-button-color: $indigo700;
+$success-button-color: $gray-150;
+$danger-button-color: $gray-150;
+$warning-button-color: $gray-150;
+
+$primary-button-background-color: $primary-color;
+$secondary-button-background-color: $secondary-color;
+$success-button-background-color: $success-color;
+$danger-button-background-color: $danger-color;
+$warning-button-background-color: $warning-color;
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  padding: $space-m $space-xxg;
+  border-radius: $border_radius_small;
+
+  color: $button-color-principal;
+
+  &.primary {
+    background-color: $button-background-principal;
+  }
+
+  &.secondary {
+    color: $secondary-button-color;
+    border: 2px solid $button-border-color-secondary;
+
+    @include themed {
+      background: t('button-background-secondary');
+    }
+  }
+
+  &.primary:hover,
+  &.secondary:hover {
+    background-color: $button-background-hover;
+    color: $button-secondary-color-hover;
+  }
+
+  &.primary:focus {
+    background-color: $button-background-pressed;
+  }
+
+  &.primary:active,
+  &.secondary:active {
+    background-color: $button-background-focused;
+  }
+
+  &.primary:disabled,
+  &.secondary:disabled,
+  &:disabled {
+    cursor: default;
+    color: $button-color-disabled;
+    background-color: $button-background-disabled;
+  }
+
+  &.success {
+    color: $success-button-color;
+    background-color: $success-button-background-color;
+  }
+
+  &.danger {
+    color: $danger-button-color;
+    background-color: $danger-button-background-color;
+  }
+
+  &.warning {
+    color: $warning-button-color;
+    background-color: $warning-button-background-color;
+  }
+
+  &.noPadding {
+    padding: 0;
+  }
+}
+
+.submitButton {
+  padding: $space-m $space-xxg;
+  border-radius: 7px;
+  max-height: 50px;
+
+  &.primary {
+    color: $primary-button-color;
+    background-color: $primary-button-background-color;
+  }
+
+  &.secondary {
+    color: $secondary-button-color;
+    background-color: $secondary-button-background-color;
+  }
+}
+
+.buttonsRowRight {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 0;
+
+  button {
+    margin-left: 20px;
+  }
+}

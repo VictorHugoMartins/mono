@@ -1,0 +1,77 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+.container {
+  position: relative;
+  margin-bottom: $space-xxg;
+
+  @include half {
+    flex-direction: column;
+  }
+
+  .aside {
+    width: 150px;
+    border-right: 1px solid $primary-color;
+    padding-right: $space-m;
+
+    @include half {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid #173b5b;
+      padding-right: 0px;
+      padding-bottom: $space-m;
+    }
+
+    .info {
+      @include half {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: $space-p;
+      }
+
+      .infoItem {
+        margin-bottom: 24px;
+
+        .infoItemLabel {
+          font-size: $space-m;
+          font-weight: bold;
+          color: $primary-color;
+        }
+
+        .infoItemValue {
+          font-size: $space-m;
+          color: $primary-color;
+        }
+      }
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+
+      @include half {
+        display: inline-flex;
+        gap: $space-m;
+      }
+
+      &>div {
+        margin: $space-p 0;
+      }
+    }
+  }
+
+  .content {
+    flex: 1;
+    padding: 0 $space-m;
+
+    @include half {
+      flex-direction: column;
+      padding: 0px;
+      padding-top: $space-m;
+    }
+
+    .messageGroup {}
+  }
+}

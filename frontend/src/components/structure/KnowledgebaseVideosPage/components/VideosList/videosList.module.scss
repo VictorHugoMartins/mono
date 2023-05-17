@@ -1,0 +1,133 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+
+.videosList {
+  width: 100%;
+
+  &.sideMode {
+    width: calc(300px + (2*$space-m));
+    height: 100%;
+    overflow-y: auto;
+
+    @include half {
+      max-height: unset;
+      width: 100%;
+    }
+
+    &>div {
+      .item {
+        .content {
+          display: flex;
+          gap: $space-g;
+
+          .thumbnail {
+            width: 160px;
+            height: 104px;
+          }
+
+          h4 {
+            flex: 1;
+          }
+        }
+      }
+    }
+  }
+
+  &>div {
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      padding: $space-m 0;
+      cursor: pointer;
+
+      .content {
+        width: 300px;
+
+        .thumbnail {
+          height: 160px;
+          width: 100%;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+      }
+
+    }
+  }
+}
+
+@include themed() {
+  &.videosList>div {
+    .item {
+      background-color: t('card-background');
+      color: t('card-color');
+      box-shadow: 1px 1px 1px t('card-shadow-box2');
+
+      &:hover,
+      &.selected {
+        background-color: t('card-background-hover');
+      }
+    }
+  }
+
+
+}
+
+.sideVideosList {
+  width: 360px;
+  min-height: 100%;
+  overflow-y: auto;
+  padding: $space-pp;
+  // padding-bottom: $space-xg;
+
+  max-height: calc(100vh - $header-desktop-height - (2*$space-xg) - 160px);
+
+  @include half {
+    width: 100%;
+    max-height: unset;
+  }
+
+  .list {
+    width: 100%;
+    overflow: scroll;
+
+    .item {
+      .content {
+        display: flex;
+        align-items: center;
+        margin-bottom: $space-g;
+        box-shadow: no;
+
+        .thumbnail {
+          width: 160px;
+          height: 104px;
+          margin-right: $space-p;
+        }
+
+        h4 {
+          flex: 1;
+        }
+      }
+    }
+  }
+}
+
+@include themed() {
+  .list {
+    .item {
+      background-color: t('card-background');
+      color: t('card-color');
+
+      &>div {
+        color: t('primary_color');
+      }
+
+      &:hover,
+      &.selected {
+        background-color: t('card-background-hover');
+      }
+    }
+  }
+}

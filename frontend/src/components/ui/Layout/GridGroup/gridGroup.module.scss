@@ -1,0 +1,75 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+
+.grid {
+  display: grid;
+  grid-auto-rows: auto;
+  grid-auto-columns: max-content;
+
+  @each $spacingName in $spacingNames {
+    $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+    &.#{$spacingName}Spacing {
+      column-gap: $value;
+      row-gap: $value;
+    }
+  }
+
+  @each $spacingName in $spacingNames {
+    $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+    &.#{$spacingName}XsSpacing {
+      column-gap: $value;
+      row-gap: $value;
+    }
+  }
+
+  @include halfmobile("min") {
+
+
+    @each $spacingName in $spacingNames {
+      $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+      &.#{$spacingName}SmSpacing {
+        column-gap: $value;
+        row-gap: $value;
+      }
+    }
+  }
+
+  @include half("min") {
+
+    @each $spacingName in $spacingNames {
+      $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+      &.#{$spacingName}MdSpacing {
+        column-gap: $value;
+        row-gap: $value;
+      }
+    }
+  }
+
+  @include halfdesktop("min") {
+
+    @each $spacingName in $spacingNames {
+      $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+      &.#{$spacingName}LgSpacing {
+        column-gap: $value;
+        row-gap: $value;
+      }
+    }
+  }
+
+  @include desktop("min") {
+    @each $spacingName in $spacingNames {
+      $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+      &.#{$spacingName}XlSpacing {
+        column-gap: $value;
+        row-gap: $value;
+      }
+    }
+  }
+}

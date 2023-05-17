@@ -1,0 +1,91 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+
+.iconInput {
+  position: relative;
+  .iconTextInputContainer {
+    display: flex;
+    align-items: center;
+
+    background: $input-background-color;
+    border: $input-border;
+    border-color: $input-border-color;
+    border-radius: $input-border-radius;
+
+    width: 100%;
+
+    &:focus {
+      border-color: $primary-color !important;
+    }
+
+    .iconTextInput {
+      flex: 1;
+      border: 0;
+      border-radius: $input-border-radius;
+
+      font-family: $font-family-base;
+      font-weight: $font-weight-base;
+      font-size: $font-size-desktop;
+      line-height: $line-height-base;
+
+      padding: $input-padding;
+
+      &.error {
+        border-color: $danger-color;
+      }
+
+      &:focus {
+        outline: none !important;
+      }
+    }
+    .iconTextInputIcon {
+      padding: 0 $space-p;
+      font-size: 24px;
+      color: $primary-color;
+    }
+  }
+
+  .iconInputOptions {
+    background-color: $input-background-color;
+    position: absolute;
+    z-index: 9999;
+    border-radius: $space-p;
+    margin-top: $space-p;
+    border: 1px solid $input-border-color;
+
+    overflow-y: auto;
+    max-width: 90%;
+    max-height: 224px;
+
+    display: grid;
+    grid-auto-rows: auto;
+    grid-auto-columns: max-content;
+    grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+
+    .iconInputOptionItem {
+      padding: $space-p;
+      cursor: pointer;
+      font-size: 28px;
+
+      display: flex;
+      align-items: center;
+      color: $primary-color;
+
+      p {
+        margin-left: $space-p;
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &:hover {
+        background-color: $gray-300;
+      }
+    }
+  }
+
+  &.error {
+    border-color: $danger-color;
+  }
+}

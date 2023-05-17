@@ -1,0 +1,218 @@
+@import "~/assets/styles/base/colors";
+
+$themes: (
+  light: (primary_color: $indigo900,
+
+    avatar-background:$black100,
+
+    article-icon-color: $indigo900,
+
+    // buttons
+    button-background-secondary: transparent,
+
+    // cards
+    card-background: $black0,
+    card-color: $black900,
+    card-color-hover: $black800,
+    card-shadow-box: $black900,
+    card-shadow-box2: rgba(0, 0, 0, 0.25),
+    card-background-hover: $black50,
+
+    // header
+    navbar-background: $indigo50,
+
+    // sidebar
+    side-menu-background: $indigo900,
+    side-menu-color: $black100,
+    side-menu-collapse-button-color: $indigo700,
+
+    // td
+    td-background: transparent,
+    td-color: $black900,
+    td-border-bottom-color: $black900,
+
+    // th
+    th-background: transparent,
+
+    // charts
+    chart-color: $black600,
+
+    //dropdown
+    dropdown-background: $black50,
+    dropdown-color: $black800,
+    dropdown-hover: $black100,
+    dropdown-option-background: $black100,
+    dropdown-option-color: $black800,
+
+    //file card
+    filecard-background: #173b5b57,
+    filecard-color: $indigo900,
+
+    //navbar
+    navbar-title-color: $navbar-color,
+    navbar-select-option-background: transparent,
+    navbar-version-color: $black700,
+    notification-button-icon-color: $black700,
+
+    // label
+    label-color: $black600,
+
+    // tabs
+    tabs-1-group-background: transparent, //style 1
+    tabs-2-group-background: $black50, //style 2
+    tabs-1-button-background: $black300,
+    tabs-1-button-active-background: $indigo700,
+    tabs-1-button-color: $black0,
+    tabs-button-background: $black300,
+    tabs-button-color: $black0,
+
+    // box shadows
+    box-shadow-color: rgba(0, 0, 0, 0.3),
+
+    // tipografia
+    typography-color: $black900,
+
+    // modal
+    modal-background-color: $black50,
+
+    // home menu
+    menu-item-background-color: $black0,
+    menu-item-color: $black800,
+
+    // navbar home
+    navbar-home-background-color: $black0,
+    navbar-home-color: $black800,
+
+    // kanban
+    kanban-card-border-color: $black100,
+
+    // gantt
+    gant-cell-background: $black30,
+    gant-cell-color: $black900,
+    gantt-user-background: #cdcdcd96,
+    gantt-project-background: $black100,
+    gantt-sprint-background: $black50,
+    gantt-sprintCollection-background: $black0,
+
+    selected-card-background: $indigo50,
+  ),
+  dark: (primary_color: $indigo1200,
+
+    avatar-background:$indigo1200,
+
+    article-icon-color: $black0,
+
+    // buttons
+    button-background-secondary: $black30,
+
+    // cards
+    card-background: $indigo1100,
+    card-color: $black50,
+    card-color-hover: $black300,
+    card-shadow-box: $black50,
+    card-shadow-box2: rgba(0, 0, 0, 0.25),
+    card-background-hover: $indigo900,
+
+    // header
+    navbar-background: $indigo1100,
+
+    // sidebar
+    side-menu-background: $indigo1200,
+    side-menu-color: $black50,
+
+    // td
+    td-background: transparent,
+    td-color: $black0,
+    td-border-bottom-color: $black0,
+
+    // th
+    th-background: transparent,
+
+    // charts
+    chart-color: $black50,
+
+    //dropdown
+    dropdown-background: $indigo1200,
+    dropdown-color: $black50,
+    dropdown-hover: $indigo1100,
+    dropdown-option-background: $black100,
+    dropdown-option-color: $black900,
+
+    //file card
+    filecard-background: $indigo1200,
+    filecard-color: $black0,
+
+    //navbar
+    navbar-title-color: $navbar-color,
+    navbar-select-option-background: $indigo1200,
+    navbar-version-color: $black100,
+    notification-button-icon-color: $black100,
+
+    // label
+    label-color: $black50,
+
+    // tabs
+    tabs-1-group-background: transparent, //style 1
+    tabs-2-group-background: transparent, //style 2
+    tabs-1-button-background: $black300,
+    tabs-1-button-active-background: $indigo700,
+    tabs-1-button-color: $black0,
+    tabs-button-background: $black0,
+    tabs-button-color: $black900,
+
+    // box shadows
+    box-shadow-color: rgba(255, 255, 255, 0.3),
+
+    typography-color: $black50,
+
+    // modal
+    modal-background-color: $indigo1000,
+
+    // home menu
+    menu-item-background-color: $indigo1000,
+    menu-item-color: $black30,
+
+    navbar-home-background-color: $indigo1100,
+    navbar-home-color: $black30,
+
+    // kanban
+    kanban-card-border-color: $black800,
+
+    // gantt
+    gant-cell-background: $indigo1000,
+    gant-cell-color: $black30,
+    gantt-user-background: $indigo1000,
+    gantt-project-background: $indigo900,
+    gantt-sprint-background: $indigo800,
+    gantt-sprintCollection-background: $indigo800,
+
+    selected-card-background: $indigo900,
+  ),
+);
+
+@mixin themed() {
+
+  @each $theme,
+  $map in $themes {
+    // .theme#{$theme} &
+    #{if(&, '.theme#{$theme} &',' .theme#{$theme}')} {
+$theme-map: () !global;
+
+    @each $key,
+    $submap in $map {
+      $value: map-get(map-get($themes, $theme), '#{$key}');
+      $theme-map: map-merge($theme-map, ($key: $value)) !global;
+    }
+
+    @content;
+    $theme-map: null !global;
+  }
+}
+}
+
+@function t($key) {
+  @return map-get($theme-map, $key);
+}
+
+.themelight,
+.themedark {}

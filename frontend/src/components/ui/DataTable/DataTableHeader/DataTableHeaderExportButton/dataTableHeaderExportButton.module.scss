@@ -1,0 +1,34 @@
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/mixins";
+
+.dataTableHeaderExportButton {
+
+  &.requesting {
+    opacity: 50%;
+  }
+}
+
+.dropDown {
+  width: 100%;
+}
+
+.exportOptions {
+  width: 100%;
+  position: relative;
+  background-color: white;
+  border-radius: $space-p;
+  display: flex;
+  flex-direction: column;
+  align-items: self-start;
+
+  button {
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+
+    &:hover {
+      background-color: $gray-300;
+    }
+  }
+}

@@ -1,0 +1,109 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+$grid-col-max: 12;
+
+.grid {
+  grid-column: span $grid-col-max;
+
+  &.container {
+    display: grid;
+    grid-template-columns: repeat($grid-col-max, 1fr);
+  }
+
+  @each $spacingName in $spacingNames {
+    $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+    &.#{$spacingName}Spacing {
+      column-gap: $value;
+      row-gap: $value;
+    }
+
+    &.#{$spacingName}Padding {
+      padding: $value;
+    }
+  }
+
+  @for $i from 1 through $grid-col-max {
+    &.gridXs#{$i} {
+      grid-column: span $i;
+    }
+  }
+
+  @each $spacingName in $spacingNames {
+    $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+    &.#{$spacingName}XsSpacing {
+      column-gap: $value;
+      row-gap: $value;
+    }
+  }
+
+  @include halfmobile("min") {
+    @for $i from 1 through $grid-col-max {
+      &.gridSm#{$i} {
+        grid-column: span $i;
+      }
+    }
+
+    @each $spacingName in $spacingNames {
+      $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+      &.#{$spacingName}SmSpacing {
+        column-gap: $value;
+        row-gap: $value;
+      }
+    }
+  }
+
+  @include half("min") {
+    @for $i from 1 through $grid-col-max {
+      &.gridMd#{$i} {
+        grid-column: span $i;
+      }
+    }
+
+    @each $spacingName in $spacingNames {
+      $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+      &.#{$spacingName}MdSpacing {
+        column-gap: $value;
+        row-gap: $value;
+      }
+    }
+  }
+
+  @include halfdesktop("min") {
+    @for $i from 1 through $grid-col-max {
+      &.gridLg#{$i} {
+        grid-column: span $i;
+      }
+    }
+
+    @each $spacingName in $spacingNames {
+      $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+      &.#{$spacingName}LgSpacing {
+        column-gap: $value;
+        row-gap: $value;
+      }
+    }
+  }
+
+  @include desktop("min") {
+    @for $i from 1 through $grid-col-max {
+      &.gridXl#{$i} {
+        grid-column: span $i;
+      }
+    }
+
+    @each $spacingName in $spacingNames {
+      $value: getValue($spacingNames, $spacingValues, $spacingName);
+
+      &.#{$spacingName}XlSpacing {
+        column-gap: $value;
+        row-gap: $value;
+      }
+    }
+  }
+}

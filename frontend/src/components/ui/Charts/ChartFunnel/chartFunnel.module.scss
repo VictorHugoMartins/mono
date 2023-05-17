@@ -1,0 +1,13 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+.funnel {
+  width: 100%;
+  height: 100%;
+
+  div {
+    g[id="brandingLogo"] {
+      display: none !important;
+    }
+  }
+}

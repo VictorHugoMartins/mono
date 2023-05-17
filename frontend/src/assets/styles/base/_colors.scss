@@ -1,0 +1,161 @@
+/* Colors */
+$indigo1200: #040F19;
+$indigo1100: #0C1D2D;
+$indigo1000: #0A1A28;
+$indigo900: #173B5B; // principal
+$indigo800: #215B89;
+$indigo700: #296B9A;
+$indigo600: #347CAB;
+$indigo500: #3F88B7;
+$indigo400: #637C94;
+$indigo300: #6EA9C9;
+$indigo200: #92C1D9;
+$indigo100: #BAD9E8;
+$indigo50: #AEBDCC;
+
+$orange900: #E2500E;
+$orange800: #EC6A10;
+$orange700: #F37A11;
+$orange600: #F98912; // principal
+$orange500: #FD9513;
+$orange400: #FEA42D;
+$orange300: #FEB550;
+$orange200: #FFCA82;
+$orange100: #FFDFB3;
+$orange50: #FFF3E0;
+
+$turquoise900: #006346;
+$turquoise800: #008164;
+$turquoise700: #009172;
+$turquoise600: #00A283;
+$turquoise500: #00B091;
+$turquoise400: #00BEA2;
+$turquoise300: #1BE5A5;
+$turquoise200: #60DDCA; // principal
+$turquoise100: #A6EADF;
+$turquoise50: #DBF7F3;
+
+$cyan900: #0E4998;
+$cyan800: #1E66B6;
+$cyan700: #2577C7;
+$cyan600: #2D89DA;
+$cyan500: #3397E7;
+$cyan400: #51A5E9;
+$cyan300: #6DB5EC;
+$cyan200: #94CAF2; // principal
+$cyan100: #BDDEF7;
+$cyan50: #E1F9FA;
+
+$blue900: #0000F8;
+$blue800: #0008FB;
+$blue700: #000FFF; // principal
+$blue600: #3B1BFF;
+$blue500: #4F20FF;
+$blue400: #774AFF;
+$blue300: #966EFF;
+$blue200: #B79AFF;
+$blue100: #D5C3FF;
+$blue50: #F0E6FF;
+
+$black900: #333333; // principal
+$black800: #464646;
+$black700: #616161;
+$black600: #777777;
+$black500: #8E8E8E;
+$black400: #A4A4A4;
+$black300: #BBBBBB;
+$black200: #D2D2D2;
+$black100: #E8E8E8;
+$black50: #F4F4F4;
+$black30: #F9F9F9;
+$black0: #ffffff;
+
+$green900: #006400;
+$green800: #008300;
+$green700: #009400;
+$green600: #00A611;
+$green500: #17B51C; // principal
+$green400: #4BC147;
+$green300: #70CC6B;
+$green200: #9CDA97;
+$green100: #C3E8C0;
+$green50: #E6F6E5;
+
+$red900: #C7000E;
+$red800: #D7011C;
+$red700: #E41324;
+$red600: #F6242A;
+$red500: #FF3129;
+$red400: #FF4848; // principal
+$red300: #F46E6E;
+$red200: #FA9897;
+$red100: #FFCCD1;
+$red50: #FFEBEE;
+
+// opacidades
+$opacity_1: rgba($black900, 0.6); // fundo da tela ao aplicar modal
+
+// COLORS TOKENS
+// buttons
+$button-background-principal: $indigo700;
+$button-color-principal: $black50;
+$button-background-hover: $indigo400;
+$button-background-pressed: $indigo800;
+$button-background-focused: $indigo800;
+$button-background: $black50;
+$button-background-disabled: $black50;
+$button-color-disabled: $black300;
+$button-color-secondary: $black700;
+$button-border-color-secondary: $indigo700;
+$button-secondary-color-hover: $black30;
+
+// links (a)
+$link-color: $indigo700;
+$link-color-hover: $indigo400;
+$link-color-pressed: $indigo800;
+$link-color-focused: $indigo800;
+$link-color-disabled: $indigo300;
+
+// td
+$td-background-hover: $black50;
+
+// th
+$th-color: $black0;
+$th-background-hover: $indigo500;
+$th-background-pressed: $indigo700;
+
+// table button
+$table-button-background: $indigo700;
+$table-button-fill-icon: $black0;
+
+$label-color: $black600;
+$label-color-dark: $black50;
+$input-background: $black0;
+$input-color-default: $black900;
+$input-color-pressed: $black800;
+$input-border-color: $black100;
+$placeholder-color-hover: $black400;
+$input-border-color-hover: $black300;
+$placeholder-color-focused: $black800;
+$input-border-color-focused: $indigo500;
+$placeholder-color-error: $black300;
+$input-border-color-error: $red800;
+$input-color-error-message: $red600;
+$input-background-disabled: $black100;
+$placeholder-color-disabled: $black500;
+
+// navbar
+$navbar-color: $black50;
+
+// tickets
+$color-ticket-list-item-title: $black900;
+$color-ticket-list-item-subtitle: $black800;
+
+// home cards
+$fill_icon_mounth_card: $turquoise200;
+$fill_icon_year_card: $orange600;
+$fill_icon_todayHours_card: $cyan300;
+
+// footer
+$footer-color: $black0;
+$footer-background-color: $indigo400;

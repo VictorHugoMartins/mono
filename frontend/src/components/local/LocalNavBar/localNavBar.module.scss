@@ -1,0 +1,22 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+
+.outsideSelect {
+  @include half {
+    display: none;
+  }
+}
+
+.insideSelect {
+  display: none;
+
+  @include half {
+    display: unset;
+    padding: 12px $space-m;
+  }
+}
+
+@include themed() {
+  color: t('navbar-title-color');
+}

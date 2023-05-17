@@ -1,0 +1,8 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "../input.module.scss";
+
+.dateInput {
+  @extend .input;
+}

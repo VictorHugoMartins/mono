@@ -1,0 +1,17 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+
+.objectInputBox {
+  background-color: #173b5b12;
+  border: 1px solid $primary-color;
+  padding: $space-m;
+
+  div {
+    width: 100%;
+  }
+
+  &.error {
+    border-color: $danger-color;
+  }
+}

@@ -1,0 +1,55 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+.gaugeGroup {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: $space-m;
+
+  justify-content: center;
+
+  .gaugeCard {
+    padding: 0;
+    max-width: 280px !important;
+    height: 100%;
+
+    h4 {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+
+      @include mobile {
+        display: unset;
+        -webkit-line-clamp: unset;
+        line-clamp: unset;
+        -webkit-box-orient: vertical;
+        overflow: unset;
+      }
+    }
+
+    &.boxShadow {
+      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+      padding: $space-m;
+    }
+  }
+
+  .gaugeItem {
+    position: relative;
+    overflow: hidden;
+
+
+    div {
+      position: absolute;
+
+      g[id="brandingLogo"] {
+        display: none !important;
+      }
+    }
+  }
+
+  .gaugeLabel {
+    text-align: center;
+  }
+}

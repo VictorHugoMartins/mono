@@ -1,0 +1,30 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+.dataTableRenderButtonsColumn {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  width: 100%;
+
+  @include half() {
+    flex-wrap: wrap;
+  }
+
+}
+
+.dropDown {
+  width: 100%;
+}
+
+
+.dataTableRenderHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+  @include half() {
+    flex-direction: column;
+  }
+}

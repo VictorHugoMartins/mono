@@ -1,0 +1,49 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+
+$articleList_padding: $space-xg; //Padding da lista de Artigos
+$articleListItem_spacing: $space-m; //Espaçamento geral dos itens da Lista
+
+.allArticleList {
+  padding: $articleList_padding;
+
+  .allListItem {
+    display: inline-flex;
+    gap: $articleListItem_spacing;
+
+    height: 100px;
+    padding: $articleListItem_spacing;
+
+    cursor: pointer;
+
+    h4 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+
+      @include mobile {
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+      }
+    }
+  }
+}
+
+@include themed() {
+  .allListItem {
+    background-color: t('card-background');
+    color: t('card-color');
+    box-shadow: 1px 1px 1px t('card-shadow-box2');
+
+    &>div {
+      color: t('article-icon-color');
+    }
+
+    &:hover {
+      background-color: t('card-background-hover');
+    }
+  }
+}

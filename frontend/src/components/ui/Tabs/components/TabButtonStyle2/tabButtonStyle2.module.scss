@@ -1,0 +1,76 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/colors";
+@import "~/assets/styles/base/theme";
+
+.tButton {
+  min-width: 230px;
+  padding: $space-m;
+  padding-bottom: 0;
+
+  color: $indigo600;
+
+  button {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+
+    background-color: $black300;
+    color: $black0;
+  }
+
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  hr {
+    height: 4px;
+    width: 100%;
+    border: none;
+
+    margin: 0;
+    background-color: none;
+
+    &.active {
+      background-color: $indigo700;
+    }
+  }
+
+  &:hover {
+    color: $indigo400;
+
+    button {
+      border: 3px solid $indigo400;
+    }
+
+    hr {
+      background-color: $indigo400;
+    }
+  }
+
+  &.active {
+    color: $indigo800;
+
+    button {
+      border: 3px solid $indigo800;
+      background-color: $indigo700;
+    }
+
+    hr {
+      background-color: $indigo800;
+    }
+  }
+}
+
+@include themed {
+  button {
+    background-color: t('tabs-button-background');
+    color: t('tabs-button-color');
+  }
+}

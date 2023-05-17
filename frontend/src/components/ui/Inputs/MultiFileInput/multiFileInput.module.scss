@@ -1,0 +1,39 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "../../Button/button.module.scss";
+
+$primary-button-background-color: $primary-color;
+$button-color: $gray-150;
+
+.container {
+  .previewGroup {
+    display: grid;
+    grid-auto-rows: auto;
+    grid-auto-columns: max-content;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    column-gap: $space-m;
+    row-gap: $space-m;
+
+    margin-bottom: $space-m;
+  }
+
+  .multiFileInput {
+    @extend .button;
+
+    cursor: pointer;
+
+    // p {
+    //   background-color: $primary-button-background-color;
+    //   color: $button-color;
+    //   border-radius: 7px;
+    //   padding: 10px 20px;
+    //   width: 100%;
+    //   text-align: center;
+    // }
+
+    input[type="file"] {
+      display: none;
+    }
+  }
+}

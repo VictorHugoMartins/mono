@@ -1,0 +1,30 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/colors";
+@import "~/assets/styles/base/theme";
+
+.tabs {
+  width: 100%;
+
+  &.headerType {
+    padding: $space-xg;
+    padding-bottom: 0;
+
+    &.styleType3 {
+      padding: $space-p $space-xg;
+      padding-bottom: 0;
+    }
+
+    @include half {
+      padding: $space-m;
+      padding-bottom: 0;
+    }
+  }
+}
+
+@include themed {
+  &.headerType {
+    background-color: t("tabs-2-group-background");
+  }
+}

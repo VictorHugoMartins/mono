@@ -1,0 +1,218 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/colors";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+
+.tooltipContent {
+  padding: $space_m;
+  border-radius: $space_p;
+}
+
+.taskListWrapper {
+  display: table;
+  border-bottom: #e6e4e4 1px solid;
+  border-left: #e6e4e4 1px solid;
+}
+
+.taskListTableRow {
+  display: table-row;
+  text-overflow: ellipsis;
+}
+
+// .taskListTableRow:nth-of-type(even) {
+//   background-color: #f5f5f5;
+// }
+
+.taskListCell {
+  display: table-cell;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taskListNameWrapper {
+  display: flex;
+}
+
+.taskListExpander {
+  // color: rgb(86 86 86);
+  font-size: 0.6rem;
+  padding: 0.15rem 0.2rem 0rem 0.2rem;
+  user-select: none;
+  cursor: pointer;
+}
+
+.taskListEmptyExpander {
+  font-size: 0.6rem;
+  padding-left: 1rem;
+  user-select: none;
+}
+
+
+.button {
+  background-color: $button-background-principal;
+  color: $button-background-principal;
+  padding: $space_pp $space_m ;
+  border-radius: $space_p;
+
+  // margin: $space_pp;
+
+  color: $button-color-principal;
+  background-color: $button-background-principal;
+
+  &:hover {
+    background-color: $button-background-hover;
+    color: $black0;
+  }
+
+  &:focus {
+    background-color: $button-background-pressed;
+    color: $black0;
+  }
+
+  &:active,
+  &.active {
+    background-color: $button-background-focused;
+    color: $black0;
+  }
+
+  &:disabled {
+    cursor: default;
+    color: $black0;
+    background-color: $button-background-disabled;
+  }
+
+  background: #ffffff;
+  border: 1px solid #ced4da;
+  color: #495057;
+  -webkit-transition: background-color 0.2s,
+  color 0.2s,
+  border-color 0.2s,
+  -webkit-box-shadow 0.2s;
+  transition: background-color 0.2s,
+  color 0.2s,
+  border-color 0.2s,
+  -webkit-box-shadow 0.2s;
+  -moz-transition: background-color 0.2s,
+  color 0.2s,
+  border-color 0.2s,
+  box-shadow 0.2s,
+  -moz-box-shadow 0.2s;
+  transition: background-color 0.2s,
+  color 0.2s,
+  border-color 0.2s,
+  box-shadow 0.2s;
+  transition: background-color 0.2s,
+  color 0.2s,
+  border-color 0.2s,
+  box-shadow 0.2s,
+  -webkit-box-shadow 0.2s,
+  -moz-box-shadow 0.2s;
+}
+
+.user {
+  font-size: 14px;
+}
+
+.project {
+  font-size: 14px;
+
+  &.dashboard {
+
+    .taskListExpander,
+    .taskListEmptyExpander {
+      margin-left: 30px;
+    }
+  }
+}
+
+.sprint {
+  background-color: $black50;
+
+  .taskListExpander,
+  .taskListEmptyExpander {
+    margin-left: 30px;
+  }
+
+  &.dashboard {
+
+    .taskListExpander,
+    .taskListEmptyExpander {
+      margin-left: 60px;
+    }
+  }
+}
+
+.sprintCollection {
+  font-size: 12px;
+
+  .taskListExpander,
+  .taskListEmptyExpander {
+    margin-left: 60px;
+  }
+
+  &.dashboard {
+
+    .taskListExpander,
+    .taskListEmptyExpander {
+      margin-left: 90px;
+    }
+  }
+}
+
+.task {
+
+  .taskListExpander,
+  .taskListEmptyExpander {
+    margin-left: 38px;
+  }
+
+  &.dashboard {
+
+    .taskListExpander,
+    .taskListEmptyExpander {
+      margin-left: 72px;
+    }
+  }
+}
+
+.textName {
+  width: 80%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-left: 8px;
+}
+
+
+@include themed {
+  .taskListExpander {
+    color: t('card-color');
+  }
+
+  &.tooltipContent {
+    background-color: t('card-background');
+  }
+
+  &.user {
+    background-color: t('gantt-user-background');
+  }
+
+  &.project {
+    background-color: t('gantt-project-background');
+  }
+
+  &.sprint {
+    background-color: t('gantt-sprint-background');
+  }
+
+  &.sprintCollection,
+  &.task {
+    background-color: t('gantt-sprintCollection-background');
+  }
+
+  &.switch {
+    color: t('card-color');
+  }
+}

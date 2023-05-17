@@ -1,0 +1,75 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+
+.mainmenubtn {
+  background-color: skyblue;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.mainmenubtn:hover {
+  background-color: blue;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownChild {
+  display: none;
+  background-color: skyblue;
+  min-width: 200px;
+}
+
+.dropdownChild a {
+  color: blue;
+  padding: 20px;
+  text-decoration: none;
+  display: block;
+
+  position: absolute;
+  left: 0;
+  width: 100vw;
+  max-width: 100vw;
+}
+
+.dropdown .dropdownChild {
+  display: block;
+
+}
+
+.comScroll {
+  background-color: aqua;
+  width: 200px;
+  padding: 20px;
+
+  overflow: scroll;
+
+  height: 100vh;
+}
+
+.tabelaExterna {
+  background-color: rebeccapurple;
+  width: 100vw;
+  padding: 20px;
+
+  overflow: scroll;
+
+  // position: fixed;
+  // position: absolute;
+  // left: 0;
+}
+
+.tabelaInterna {
+  background-color: lawngreen;
+  width: 110vw;
+  padding: 20px;
+
+  // position: absolute;
+  // left: 0;
+}

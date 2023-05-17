@@ -1,0 +1,24 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+
+.dataTable {
+  width: 100%;
+
+  .dataTableHeader {
+    .searchInput {
+      width: 300px;
+    }
+
+  }
+}
+
+@include themed {
+  .dataTableHeader {
+
+    background: t('th-background');
+  }
+}
+.containerSubmitButton {
+  margin-bottom: $space-p;
+}

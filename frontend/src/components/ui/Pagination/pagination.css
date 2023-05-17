@@ -1,0 +1,23 @@
+/* Paginação  */
+.Mui-selected span {
+  background-color: unset !important;
+  background-color: #173B5B !important;
+}
+
+.MuiPagination-ul {
+  justify-content: center !important;
+}
+
+[class*="light"] .MuiPaginationItem-page {
+  color: #333333;
+}
+
+[class*="dark"] .MuiPaginationItem-page {
+  color: #f4f4f4;
+}
+
+[class*="dark"]  li .Mui-selected,
+[class*="light"]  li .Mui-selected {
+  font-weight: bold;
+  color: #f4f4f4;
+}

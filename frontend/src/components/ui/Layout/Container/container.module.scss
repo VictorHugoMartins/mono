@@ -1,0 +1,27 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+$padding-container-base: 15px;
+
+$width-container-desktop: calc($width-extralarge - (2 * $padding-container-base));
+$width-container-half: calc($width-medium - (2 * $padding-container-base));
+$width-container-mobile: calc($width-extrasmall - (2 * $padding-container-base));
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding: $space_g $space_m;
+
+  @include desktop {
+    max-width: $width-container-desktop !important;
+  }
+
+  @include half {
+    max-width: $width-container-half !important;
+  }
+
+  @include mobile {
+    max-width: 100% !important;
+  }
+
+}

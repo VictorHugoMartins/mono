@@ -1,0 +1,103 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+
+@import url("https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic,900,900italic");
+
+$font-lato: 'Lato', Arial, Verdana, sans-serif;
+
+$font-family-base: $font-lato;
+
+$font-color-primary: $primary-color;
+$font-color-secondary: $secondary-color;
+$font-color-danger: $danger-color;
+
+$font-size-base: 1rem;
+$font-size-ratio: 0.125rem;
+
+$font-size-desktop: $font-size-base;
+$font-size-half: calc($font-size-base - $font-size-ratio);
+$font-size-mobile: calc($font-size-base - (2 * $font-size-ratio));
+
+$font-weight-normal: normal;
+$font-weight-bold: bold;
+$font-weight-base: $font-weight-normal;
+
+$line-height-base: 1.5;
+
+$font-size-h1: calc($font-size-desktop * 2.5);
+$font-size-h2: calc($font-size-desktop * 2);
+$font-size-h3: calc($font-size-desktop * 1.75);
+$font-size-h4: calc($font-size-desktop * 1.5);
+$font-size-h5: calc($font-size-desktop * 1.25);
+$font-size-h6: calc($font-size-desktop * 1);
+
+$font-size-h1_half: calc($font-size-half * 2.5);
+$font-size-h2_half: calc($font-size-half * 2);
+$font-size-h3_half: calc($font-size-half * 1.75);
+$font-size-h4_half: calc($font-size-half * 1.5);
+$font-size-h5_half: calc($font-size-half * 1.25);
+$font-size-h6_half: calc($font-size-half * 1);
+
+$font-size-h1_mobile: calc($font-size-mobile * 2.5);
+$font-size-h2_mobile: calc($font-size-mobile * 2);
+$font-size-h3_mobile: calc($font-size-mobile * 1.75);
+$font-size-h4_mobile: calc($font-size-mobile * 1.5);
+$font-size-h5_mobile: calc($font-size-mobile * 1.25);
+$font-size-h6_mobile: calc($font-size-mobile * 1);
+
+// TIPOGRAFIA
+// familia tipografica
+$fonte_titulo: $font-lato;
+$fonte_corpo: $font-lato;
+
+// tamanho
+$fonte_mini: 10px;
+$fonte_pp: 12px;
+$fonte_p: 14px;
+$fonte_base: 16px;
+$fonte_g: 22px;
+$fonte_xg: 32px;
+
+$fonte_mini_half: calc(10px * 0.9);
+$fonte_pp_half: calc(12px * 0.9);
+$fonte_p_half: calc(14px * 0.9);
+$fonte_base_half: calc(16px * 0.9);
+$fonte_g_half: calc(22px * 0.9);
+$fonte_xg_half: calc(32px * 0.9);
+
+$fonte_mini_mobile: 10px * 0.75;
+$fonte_pp_mobile: 12px * 0.75;
+$fonte_p_mobile: 14px * 0.75;
+$fonte_base_mobile: 16px * 0.75;
+$fonte_g_mobile: 22px * 0.75;
+$fonte_xg_mobile: 32px * 0.75;
+
+// peso
+$fonte_regular: normal;
+$fonte_semibold: 400;
+$fonte_bold: bold;
+
+// entrelinha
+$fontelinha_p: 8px;
+$fontelinha_m: 16px;
+$fontelinha_g: 24px;
+$fontelinha_xg: 32px;
+$fontelinha_xxg: 40px;
+$fontelinha_3xg: 48px;
+
+// entrelinha
+$fontelinha_p_half: calc(8px * 0.9);
+$fontelinha_m_half: calc(16px * 0.9);
+$fontelinha_g_half: calc(24px * 0.9);
+$fontelinha_xg_half: calc(32px * 0.9);
+$fontelinha_xxg_half: calc(40px * 0.9);
+$fontelinha_3xg_half: calc(48px * 0.9);
+
+// entrelinha
+$fontelinha_p_mobile: calc(8px * 0.75);
+$fontelinha_m_mobile: calc(16px * 0.75);
+$fontelinha_g_mobile: calc(24px * 0.75);
+$fontelinha_xg_mobile: calc(32px * 0.75);
+$fontelinha_xxg_mobile: calc(40px * 0.75);
+$fontelinha_3xg_mobile: calc(48px * 0.75);

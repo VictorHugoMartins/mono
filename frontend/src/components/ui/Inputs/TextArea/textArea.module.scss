@@ -1,0 +1,11 @@
+@import "~/assets/styles/base/mixins";
+@import "../input.module.scss";
+
+.textArea {
+  @extend .input;
+
+  img {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}

@@ -1,0 +1,13 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+
+/* Largura do component Dialog */
+.MuiDialog-paperFullWidth {
+  width: unset !important;
+}
+
+.defaultModal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

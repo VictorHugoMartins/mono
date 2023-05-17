@@ -1,0 +1,29 @@
+.table {
+
+  td,
+  th {
+    text-align: center;
+    max-width: 20vw;
+    min-width: 140px;
+  }
+
+  td {
+    padding: 8px;
+    border-bottom: 1px solid black;
+  }
+
+  th {
+    padding: 8px 16px;
+  }
+
+  td.buttons {
+    display: flex;
+    justify-content: center;
+
+    column-gap: 8px;
+  }
+
+  th {
+    background-color: burlywood;
+  }
+}

@@ -1,0 +1,254 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/theme";
+
+.outsideSelect {
+  @include half {
+    display: none;
+  }
+}
+
+.insideSelect {
+  @include desktop {
+    display: none;
+  }
+
+  @include half {
+    padding: 12px $space-m;
+  }
+}
+
+.funcionalitiesMenu {
+  transition: 200ms ease-in-out all;
+
+  padding: $space_xg $space_m;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  min-width: unset;
+  position: fixed !important;
+
+  margin-top: $space_m;
+  border-radius: 0 0 $space_p $space_p;
+  border-top: 2px solid $black50;
+
+  max-height: calc(95vh - $header-desktop-height);
+  overflow: scroll;
+
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0px 9px 10px rgb(0 0 0 / 30%);
+
+  @include halfdesktop {
+    position: unset !important;
+
+    border-radius: 0;
+    box-shadow: unset;
+    max-height: unset;
+    padding: $space_m 0;
+    width: unset !important;
+  }
+
+  @include halfmobile {
+    max-height: unset;
+  }
+
+  .item {
+    min-width: 240px;
+    padding: $space_m;
+
+    @include halfdesktop {
+      width: calc(100% - 10px) !important;
+    }
+
+    h4,
+    svg {
+      color: $indigo700;
+    }
+  }
+
+  svg {
+    margin-right: $space_p;
+  }
+}
+
+.isAnimation {
+  animation: animationMenu 0.5s linear;
+}
+
+.options {
+  p {
+    margin-right: $space_p;
+  }
+
+  @include halfdesktop {
+    top: $header-desktop-height;
+    flex-direction: column;
+    position: fixed;
+    right: 10px;
+
+    background-color: white;
+    padding: $space_m;
+
+
+    width: 40vw;
+    min-width: 260px;
+
+    max-height: calc(90vh - $header-desktop-height);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-radius: 0 0 0 $space_p;
+  }
+
+  @include half {
+    top: $header-half-height;
+  }
+
+  @include mobile {
+    top: $header-mobile-height;
+  }
+}
+
+.burgerMenuButton {
+  display: none;
+
+  @include halfdesktop {
+    display: unset;
+    cursor: pointer;
+
+    position: absolute;
+    top: 24px;
+    right: $space_m;
+  }
+}
+
+.brandImg {
+  max-width: 180px;
+  margin-right: $space_m;
+
+  @include halfmobile {
+    margin-right: 0;
+  }
+
+  @include mobile {
+    max-width: 120px;
+    margin-left: 0;
+  }
+}
+
+@include themed() {
+
+  &.funcionalitiesMenu {
+    background-color: t('menu-item-background-color');
+    color: t('menu-item-color');
+  }
+
+  &.options {
+    // background-color: t('menu-item-background-color');
+    color: t('menu-item-color');
+
+    @include desktop {
+      background-color: transparent !important;
+    }
+  }
+}
+
+@keyframes animationMenu {
+  0% {
+    top: 100%;
+    opacity: 0;
+  }
+
+  50% {
+    top: 50%;
+    opacity: 0.2;
+  }
+
+  60% {
+    opacity: 0.5;
+  }
+
+  80% {
+    opacity: 0.8;
+  }
+
+  100% {
+    top: 0%;
+    opacity: 1;
+  }
+}
+
+.whyMenu {
+  // :after {
+  //   content: "";
+  //   display: table;
+  //   clear: both;
+  // }
+
+  display: flex;
+
+  h3 {
+    font-weight: bold !important;
+    width: 100%;
+    color: $indigo900;
+  }
+
+  hr {
+    background-color: $black400;
+  }
+
+  .titleUnderline {
+    margin-top: -8px;
+    height: 1px;
+    width: 100%;
+    border: none;
+  }
+
+  .divider {
+    height: 100%;
+    width: 1px;
+    border: none;
+    margin: 0 $space_m;
+  }
+
+  .column {
+    width: 20%;
+    // float: left;
+
+    &.one {
+      width: 100%;
+    }
+
+    &.two {
+      width: calc(50% - 8px);
+    }
+
+    // &.three {
+    //   width: 30%;
+    // }
+
+    @include halfdesktop {
+      display: flex;
+      flex-direction: column;
+      width: 100% !important;
+    }
+
+  }
+
+  h4 {
+    color: $indigo500;
+  }
+
+  p {
+    margin-bottom: $space_p;
+  }
+}
+
+.menuFlexbox {
+  display: flex;
+  width: 100%;
+
+  @include halfdesktop {
+    >div { width: 100% !important }
+
+    flex-direction: column;
+  }
+}

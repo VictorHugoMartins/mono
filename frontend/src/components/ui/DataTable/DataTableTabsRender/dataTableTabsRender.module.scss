@@ -1,0 +1,15 @@
+@import "~/assets/styles/base/variables";
+
+.dataTableRenderButtonsColumn {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    width: 100%;
+}
+
+.dataTableRenderHeader {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: $space-m;
+}

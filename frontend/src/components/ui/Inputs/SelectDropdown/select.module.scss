@@ -1,0 +1,63 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/colors";
+@import "../input.module.scss";
+@import "~/assets/styles/base/theme";
+
+.multiselect {
+  position: relative;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  cursor: pointer;
+}
+
+.select {
+  @extend .input;
+}
+
+.checkboxes {
+  display: block;
+  border: 1px #dadada solid;
+  position: absolute;
+  top: 40px;
+  background-color: white;
+  max-height: 225px;
+  min-height: 40px;
+  overflow-y: scroll;
+  width: 100%;
+  z-index: 10000;
+
+  cursor: pointer;
+
+  label {
+    display: block;
+    padding: $space-p $space-pp;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #1e90ff;
+    }
+  }
+}
+
+@include themed() {
+  //.checkboxes label{
+    background-color: t('dropdown-option-background');
+  color: t('dropdown-option-color');
+}

@@ -1,0 +1,84 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+@import "~/assets/styles/base/theme";
+
+.fileCardGroup {
+  display: grid;
+  grid-auto-rows: auto;
+  grid-auto-columns: max-content;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  column-gap: $space-m;
+  row-gap: $space-m;
+
+  margin-bottom: $space-m;
+}
+.fileCardView {
+  overflow-x: scroll;
+  overflow-y: scroll;
+  height: 500px;
+}
+.fileCard {
+  border-radius: $space-p;
+  overflow: hidden;
+  padding: $space-p $space-m;
+
+  .fileCardContent {
+    display: flex;
+    align-items: center;
+
+    .preview {
+      width: 40px;
+      height: 40px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: inherit;
+      }
+    }
+
+    .label {
+      flex: 1;
+      padding: 0 $space-p;
+
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 150%;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .icon {
+      margin-left: auto;
+      margin-right: $space-p;
+    }
+  }
+
+  &.xs {
+    padding: $space-pp $space-pp;
+
+    .preview {
+      width: 24px;
+      height: 24px;
+      margin-right: $space_p;
+    }
+
+    .label {
+      display: none;
+    }
+  }
+}
+
+@include themed {
+  background-color: t('filecard-background');
+  color: t('filecard-color');
+}

@@ -1,0 +1,26 @@
+@import "~/assets/styles/base/mixins";
+@import "~/assets/styles/base/variables";
+@import "~/assets/styles/base/typography";
+
+.multiTextInputButtonGroup {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  .multiTextInputButton {
+    background-color: $primary-color;
+    border-radius: 50%;
+
+    font-weight: bold;
+    color: white;
+
+    width: 20px;
+    height: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: $space-p;
+  }
+}
