@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Checkbox } from "../../Inputs";
 import { SelectObjectType } from "~/types/global/SelectObjectType";
 import { CheckboxGroup, CheckboxProps } from "../../Inputs/Checkbox";
@@ -51,6 +51,8 @@ const CheckboxGroupForm: React.FC<CheckboxGroupFormProps> = ({
     return [];
   }
 
+  const [itemsPerPage, setItemsPerPage] = useState(3);
+
   return (
     <>
       {label && <Label labelFor={name} text={label} required={required} />}
@@ -59,23 +61,35 @@ const CheckboxGroupForm: React.FC<CheckboxGroupFormProps> = ({
         name={name}
         render={(props) => (
           <CheckboxGroup>
-            {options?.map((item, index) => (
-              <Checkbox
-                key={`${name}-${index}`}
-                id={`${name}-${index}`}
-                value={item.value}
-                label={item.label}
-                checked={_isChecked(props.field.value, item.value)}
-                onChange={(e) => {
-                  props.field.onChange(
-                    _onChange(props.field.value, item.value, e.target.checked)
-                  );
-                  if (onValueChange)
-                    onValueChange(e.target.value, e.target.checked);
-                }}
-                name={name}
-              />
-            ))}
+            {/* {options?.map((item, index) => ( */}
+            {options?.slice((1 - 1) * itemsPerPage, 1 * itemsPerPage)
+              .map(function (item, index) {
+                return (
+                  <Checkbox
+                    key={`${name}-${index}`}
+                    id={`${name}-${index}`}
+                    value={item.value}
+                    label={item.label}
+                    checked={_isChecked(props.field.value, item.value)}
+                    onChange={(e) => {
+                      props.field.onChange(
+                        _onChange(props.field.value, item.value, e.target.checked)
+                      );
+                      if (onValueChange)
+                        onValueChange(e.target.value, e.target.checked);
+                    }}
+                    name={name}
+                  />
+                )
+              })}
+            {options.length > 3 &&
+              <p style={{ cursor: "pointer" }} onClick={() => itemsPerPage === options.length ? setItemsPerPage(3) : setItemsPerPage(options.length)}>
+                {!(itemsPerPage === options.length) ?
+                  "Ver mais opções" :
+                  "Ocultar opções"
+                }
+              </p>
+            }
           </CheckboxGroup>
         )}
       />

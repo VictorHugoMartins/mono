@@ -3,8 +3,6 @@
 import Toast from "~/utils/Toast/Toast";
 import FormPageStructure from "../structure/FormPageStructure"
 import { InputRenderType } from "~/types/global/InputRenderType";
-import Select from "../ui/Inputs/Select";
-import Button from "../ui/Button/Button";
 import { SetStateAction } from "react";
 import { ObjectResponse } from "~/types/global/ObjectResponse";
 
@@ -12,9 +10,10 @@ interface DetailsFiltersProps {
   data: any;
   setResultData: (value: SetStateAction<ObjectResponse>) => void;
   filterFunction: Function;
+  survey: string;
 }
 
-const DetailsFilters: React.FC<DetailsFiltersProps> = ({ data, setResultData, filterFunction }) => {
+const DetailsFilters: React.FC<DetailsFiltersProps> = ({ data, survey, setResultData, filterFunction }) => {
   if (!data) return <></>;
   return (
     <>
@@ -22,11 +21,11 @@ const DetailsFilters: React.FC<DetailsFiltersProps> = ({ data, setResultData, fi
         <FormPageStructure
           buildObject={data.result_columns as InputRenderType[]}
           buildPath={'/super_survey/build'}
-          submitPath={'http://localhost:5000/details/getall'}
+          submitPath={'http://localhost:5000/details/getbyid'}
           buttonSubmitText="Filtrar"
           buttonCancelText="Limpar filtros"
           returnPath="/"
-          hiddenInputs={{ ss_id: 3 }}
+          hiddenInputs={{ ss_id: survey }}
           setObjectReturn={setResultData}
           onSuccess={(e) => {
             Toast.success(

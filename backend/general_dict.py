@@ -32,7 +32,8 @@ columnDict = {
 }
 
 # SQL SCRIPTS
-get_all_airbnb_rooms = """SELECT
+def get_airbnb_rooms_by_ss_id(ss_id):
+  return """SELECT
                             room_id,
                             STRING_AGG(DISTINCT CAST(host_id AS varchar), ' JOIN ') AS host_id,
                             STRING_AGG(DISTINCT name, ' JOIN ') AS name,
@@ -61,7 +62,7 @@ get_all_airbnb_rooms = """SELECT
                         ON location.location_id = room.location_id
                       INNER JOIN survey
                         ON survey.survey_id = room.survey_id
-                      WHERE room.survey_id in ( select distinct(survey_id) as survey_id from survey where ss_id = 1 )
+                      WHERE room.survey_id in ( select distinct(survey_id) as survey_id from survey where ss_id = {ss_id} )
                           GROUP BY
                             locality, location.sublocality, location.route, location.location_id, room_id
-                      """
+                      """.format(ss_id=ss_id)

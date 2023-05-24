@@ -3,8 +3,11 @@
 import Toast from "~/utils/Toast/Toast";
 import FormPageStructure from "../structure/FormPageStructure";
 import { InputRenderType } from "~/types/global/InputRenderType";
+import { parseCookies } from "nookies";
 
 export default function NewSurveyOptions() {
+  const { userId } = parseCookies();
+
   const surveyBuild = [
     {
       name: "platform",
@@ -120,7 +123,7 @@ export default function NewSurveyOptions() {
         buttonSubmitText="Solicitar pesquisa"
         buttonCancelText="Cancelar"
         returnPath="/"
-        hiddenInputs={{ user_id: 1 }}
+        hiddenInputs={{ user_id: userId }}
         onSuccess={(e) => {
           Toast.success(
             "Inscrição realizada com sucesso, em breve entraremos em contato."

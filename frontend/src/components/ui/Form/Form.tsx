@@ -79,6 +79,7 @@ const Form: React.FC<FormInterface> = ({
       );
       handleSubmiting(false);
     }
+    handleSubmiting(false);
   };
 
   async function _submitError(message: string, errors?: FormErrorsType) {

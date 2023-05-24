@@ -62,16 +62,19 @@ const Map = ({
             draggable={true}
             animate={true}
           >
-            <Popup>
-              <div style={{ maxWidth: "150px" }}>
-                <div>
-                  <strong>{unfilteredData[i]?.name}</strong>
+            {unfilteredData?.length > 0 &&
+              <Popup>
+                <div style={{ maxWidth: "150px" }}>
+                  <div>
+
+                    <strong>{unfilteredData[i]?.name}</strong>
+                  </div>
+                  <div>
+                    <a href={`https://www.airbnb.com.br/rooms/${unfilteredData[i]?.room_id}`}>Acesse no Airbnb</a>
+                  </div>
                 </div>
-                <div>
-                  <a href={`https://www.airbnb.com.br/rooms/${unfilteredData[i]?.room_id}`}>Acesse no Airbnb</a>
-                </div>
-              </div>
-            </Popup>
+              </Popup>
+            }
             {/* {mapMarkers} */}
           </Marker>
         ))}

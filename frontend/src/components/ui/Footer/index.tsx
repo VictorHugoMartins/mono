@@ -13,13 +13,13 @@ const Footer: React.FC = () => {
       <div className={styles.footer}>
         <div className={styles.item} id={styles.copyright}>
           {/* <img src={navBarIconWhite} /> */}
-          <Typography component="caption">© 2023 Second Mind </Typography>
+          <Typography component="caption"></Typography>
         </div>
-        <div className={styles.item} id={styles.terms}
+        {/* <div className={styles.item} id={styles.terms}
           onClick={() => RedirectTo('/politicadeprivacidade')}
         >
           <Typography component="p">Termos & Privacidade</Typography>
-        </div>
+        </div> */}
         <div className={styles.item} id={styles.store}>
           <a target="_blank" href="https://play.google.com/store/apps/details?id=br.com.secondmind.scmanager&pli=1">
             <picture>

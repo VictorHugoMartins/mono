@@ -1,3 +1,3 @@
 export interface ObjectResponse {
-  response: string | {} | [];
+  response: string | {} | [] | any;
 }

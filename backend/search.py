@@ -322,7 +322,6 @@ def full_process(config, platform="Airbnb", search_area_name='', fill_airbnb_wit
 			fill_bnb_with_selenium = platform != 'Booking'
 			
 			_platform = "Airbnb" if platform != 'Booking' else "Booking"
-			status_super_survey_id = '0'
 
 			if ( super_survey_id is None ): # super survey previously in progress
 					try:
@@ -393,7 +392,7 @@ def full_process(config, platform="Airbnb", search_area_name='', fill_airbnb_wit
 																		logs='Falha ao iniciar busca por ruas de ' + search_area_name)
 			update_super_survey_status(config,
 																super_survey_id,
-																status=6,
+																status=200 if ((platform == 'Airbnb') or (platform == "Booking")) else 6,
 																logs='Pesquisa por ' + search_area_name + ' finalizada')
 			if platform == 'both':
 				update_super_survey_status(config,

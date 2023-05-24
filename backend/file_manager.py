@@ -25,15 +25,16 @@ def buildColumnsObject(columns):
         })
     return obj
 
-def export_datatable(config, sql_command, city, project, toJson):
+def export_datatable(config, sql_command, params, project, toJson):
     try:
         rowcount = -1
-        logging.info("Initializing export Airbnb'b rooms for " + city)
+        logging.info("Initializing export Airbnb'b rooms")
         conn = config.connect()
         cur = conn.cursor()
         cnxn = config.connect()
-        cur.execute(sql_command)
-
+        print(sql_command, params if (type(params) == tuple) else ())
+        cur.execute(sql_command, params if (type(params) == tuple) else ())
+        
         if ( toJson ):
             results = cur.fetchall()
 
@@ -45,16 +46,12 @@ def export_datatable(config, sql_command, city, project, toJson):
                     d[col[0]] = row[idx]
                 data.append(d)
             conn.close()
-            print(data[0].keys())
+            # print(data[0].keys())
 
-            return { "columns": buildColumnsObject(data[0].keys()), "rows": data }
-            # Converte o dicionário para um JSON
-            # json_data = json.dumps(data)
-
-            # Fecha a conexão com o banco de dados
-
-            # # retorna o JSON
-            # return json_data
+            if ( len(data) > 0):
+              return { "columns": buildColumnsObject(data[0].keys()), "rows": data }
+            else:
+              return { "columns": [], "rows": []}
         else:
             # create a directory for all the data for the city
             directory = ('files/').format(project=project)
@@ -79,10 +76,15 @@ def export_datatable(config, sql_command, city, project, toJson):
             logging.info("Finishing export")
 
             return directory
+    except pg.errors.InFailedSqlTransaction:
+        print("Falha ao realizar consulta")
+        return { "columns": [], "rows": []}
     except PermissionError:
         print("Permission denied: ", directory, " is open")
+        return { "columns": [], "rows": []}
     except Exception:
         logging.error("Failed to export")
+        return { "columns": [], "rows": []}
         raise
 
 def main():

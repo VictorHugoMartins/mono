@@ -11,6 +11,7 @@ import { Grid } from "../../components/ui/Layout/Grid";
 import Typography from "../../components/ui/Typography/Typography";
 import Toast from "../../utils/Toast/Toast";
 import React from "react";
+import { setCookie } from "nookies";
 // import loginroute from "~/routes/login.route";
 
 const Login: React.FC = () => {
@@ -40,8 +41,16 @@ const Login: React.FC = () => {
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          setUser(data.object);
-          window.location.assign("/minhas-pesquisas");
+          // setUser(data.object);
+          setCookie(undefined, 'userId', data.object.user_id, {
+            maxAge: 60 * 60 * 24, //24 hours
+            path: "/",
+          });
+          setCookie(undefined, 'userName', data.object.name, {
+            maxAge: 60 * 60 * 24, //24 hours
+            path: "/",
+          });
+          window.location.assign("/minhaspesquisas");
         } else {
           Toast.error(data.message)
         }
