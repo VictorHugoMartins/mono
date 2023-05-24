@@ -4,7 +4,7 @@ import PrivatePageStructure from "~/components/structure/PrivatePageStructure/Pr
 export default function NewSuperSurvey() {
 
   return (
-    <PrivatePageStructure title={"Nova pesquisa"} returnPath="/minhaspesquisas">
+    <PrivatePageStructure title={"Nova pesquisa"} returnPath="/">
       <NewSurveyOptions />
     </PrivatePageStructure>
   )

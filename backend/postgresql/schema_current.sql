@@ -358,7 +358,7 @@ CREATE SEQUENCE user_id_seq
                 NO MAXVALUE
                 CACHE 1;
 
-CREATE TABLE public.city
+CREATE TABLE public.users
 (
   user_id integer NOT NULL DEFAULT nextval('user_id_seq'::regclass),
   name character varying(255),
@@ -370,6 +370,9 @@ CREATE TABLE public.city
 WITH (
   OIDS=FALSE
 );
+
+ALTER TABLE users ADD CONSTRAINT user_unique_constraint UNIQUE (email);
+ALTER TABLE users ADD CONSTRAINT user_unique_login_constraint UNIQUE (login);
 
 CREATE SEQUENCE config_id_seq
                 START WITH 1

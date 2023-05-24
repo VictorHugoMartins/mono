@@ -38,6 +38,7 @@ import Toast from "~/utils/Toast/Toast";
 import styles from "./localNavBar.module.scss";
 import useTheme from "~/hooks/useTheme";
 import NotificationButton from "./NotificationButton";
+import { parseCookies } from "nookies";
 
 interface ModalLogoutButtonsProps {
   handleClose?: React.MouseEventHandler<HTMLButtonElement>;
@@ -52,11 +53,11 @@ interface LocalNavBarProps {
 const LocalNavBar: React.FC<LocalNavBarProps> = ({ returnPath, title, publicPage }) => {
   const [menuOptions, setMenuOptions] = useState<RenderMenuType[]>(null);
   const [openLogoutModal, setOpenLogoutModal] = useState<boolean>(false);
-  const { user } = useUserContext();
+  const { userId, userName } = parseCookies();
 
   const { theme } = useTheme();
 
-  let isLogged = user !== null // isLogged();
+  let isLogged = userId !== null // isLogged();
 
   const handleLogoutModal = (value: boolean) => {
     setOpenLogoutModal(value);
@@ -67,11 +68,11 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ returnPath, title, publicPage
   }, []);
 
   function getMenuOptions() {
-    if (IsLogged()) {
-      menuService.getUserMenu("HEADER").then((response) => {
-        if (response.success) setMenuOptions(response.object);
-      });
-    }
+    // if (IsLogged()) {
+    //   menuService.getUserMenu("HEADER").then((response) => {
+    //     if (response.success) setMenuOptions(response.object);
+    //   });
+    // }
   }
 
   function ModalLogoutButtons({ handleClose }: ModalLogoutButtonsProps) {
@@ -116,7 +117,7 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ returnPath, title, publicPage
       </Flexbox>
       <NavBarMrAuto />
       <Flexbox align="center" spacing="xg">
-        {user?.managementsList?.length > 0 && (
+        {/* {user?.managementsList?.length > 0 && (
           <div className={styles.outsideSelect}>
             <NavbarSelect
               initialValue={user?.managementSelectedId}
@@ -130,18 +131,27 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ returnPath, title, publicPage
               }}
             />
           </div>
-        )}
+        )} */}
 
         {isLogged && (
           <>
-            <NotificationButton />
+            {/* <NotificationButton /> */}
 
             {<NavbarDropdown
               buttonContent={
-                <Avatar alt={user?.name} image={user?.profileImage.file} />
+                <>
+                  <div
+                    style={{
+                      height: 30, width: 30, borderRadius: "100%", backgroundColor: "#fff", color: "black", fontSize: "20px",
+                      textTransform: "uppercase", textAlign: "center", verticalAlign: "middle", lineHeight: "30px"
+                    }}>
+                    {userName ? userName[0] : "-"}
+                  </div>
+                  {/* <Avatar alt={user?.name} image={user?.profileImage.file} /> */}
+                </>
               }
             >
-              {user?.managementsList?.length > 0 && (
+              {/* {user?.managementsList?.length > 0 && (
                 <div className={styles.insideSelect}>
                   <NavbarSelect
                     initialValue={user?.managementSelectedId}
@@ -157,27 +167,27 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ returnPath, title, publicPage
                     }}
                   />
                 </div>
-              )}
+              )} */}
 
-              {menuOptions && (
+              {/* {menuOptions && (
                 <NavbarDropdownOptionsRender options={menuOptions} />
-              )}
+              )} */}
 
               <NavbarDropdownItem
-                href="/perfil/editar"
+                href="/usuario/editar"
                 label="Editar Usuário"
               />
               <NavbarDropdownItem
-                href="/perfil/trocarsenha"
+                href="/usuario/trocarsenha"
                 label="Trocar Senha"
               />
-              <ThemeSetter />
+              {/* <ThemeSetter /> */}
               <DropdownLogoutOption
                 href="#"
                 text="Sair"
                 onClick={() => handleLogoutModal(true)}
               />
-              <Navbarversion />
+              {/* <Navbarversion /> */}
             </NavbarDropdown>}
           </>
         )}

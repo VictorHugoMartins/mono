@@ -1,4 +1,3 @@
-import { useUserContext } from "~/context/global/UserContext";
 import LoginPageStructure from "../../components/structure/LoginPageStructure";
 import ErrorForm from "../../components/ui/Form/ErrorForm";
 import Form from "../../components/ui/Form/Form";
@@ -13,17 +12,21 @@ import Toast from "../../utils/Toast/Toast";
 import React from "react";
 import { setCookie } from "nookies";
 import loginroute from "~/routes/login.route";
-// import loginroute from "~/routes/login.route";
 
-const Login: React.FC = () => {
-  const { setUser } = useUserContext();
-
-  // const { requesting, signIn } = useAuthContext();
-  const signIn = (data: any) => {
-    const apiUrl = 'http://localhost:5000/api/login'; // url da API Flask
+const Register: React.FC = () => {
+  // const { requesting, register } = useAuthContext();
+  const register = (data: any) => {
+    if (data.password !== data.confirmPassword) {
+      Toast.error("As senhas devem ser iguais!")
+      return;
+    }
+    const apiUrl = 'http://localhost:5000/api/register'; // url da API Flask
     const requestData = {
+      email: data.email,
+      name: data.name,
       username: data.username,
-      password: data.password
+      password: data.password,
+      confirmPassword: data.confirmPassword
     }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição
@@ -64,11 +67,11 @@ const Login: React.FC = () => {
   };
 
   return (
-    <LoginPageStructure title="Login">
+    <LoginPageStructure title="Cadastro">
       <Container>
         <Box align="center" justify="center" maxWidth="xs">
           <Form
-            externalSubmit={signIn}
+            externalSubmit={register}
             validation={[
               {
                 name: "username",
@@ -91,8 +94,16 @@ const Login: React.FC = () => {
             <Grid container spacing={"g"} >
               <Grid xs={12}>
                 <Typography component="h1" align="center" color="primary">
-                  Login
+                  Cadastro
                 </Typography>
+              </Grid>
+              <Grid xs={12}>
+                <TextInputForm
+                  name="name"
+                  type="text"
+                  label="Nome Completo"
+                  required
+                />
               </Grid>
               <Grid xs={12}>
                 <TextInputForm
@@ -104,9 +115,25 @@ const Login: React.FC = () => {
               </Grid>
               <Grid xs={12}>
                 <TextInputForm
+                  name="email"
+                  type="email"
+                  label="E-mail"
+                  required
+                />
+              </Grid>
+              <Grid xs={12}>
+                <TextInputForm
                   name="password"
                   type="password"
                   label="Senha"
+                  required
+                />
+              </Grid>
+              <Grid xs={12}>
+                <TextInputForm
+                  name="confirmPassword"
+                  type="password"
+                  label="Confirmar Senha"
                   required
                 />
               </Grid>
@@ -114,12 +141,12 @@ const Login: React.FC = () => {
                 <ErrorForm />
               </Grid>
               <Grid xs={12}>
-                <SubmitButton color="primary" text="Entrar" type="submit" />
+                <SubmitButton color="primary" text="Cadastrar" type="submit" />
                 {/* loading={requesting} /> */}
               </Grid>
               <Grid xs={12}>
                 <Flexbox justify="space-between">
-                  {/* <Link href={"/"}>Quero me inscrever</Link> */}
+                  {/* <Link href={"/cadastro"}>Quero me inscrever</Link> */}
                   {/* <Link href={"/esqueceusenha"}>Esqueceu a senha?</Link> */}
                 </Flexbox>
               </Grid>
@@ -131,4 +158,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default loginroute(Login);
+export default loginroute(Register);

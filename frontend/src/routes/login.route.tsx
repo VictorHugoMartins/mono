@@ -1,6 +1,5 @@
-import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 import { useLayoutEffect, useState } from "react";
-import GetAuthToken from "~/utils/AuthToken/GetAuthToken";
 import RedirectTo from "~/utils/Redirect/Redirect";
 
 export default function loginroute(Component) {
@@ -8,8 +7,8 @@ export default function loginroute(Component) {
     const [isLogged, setIsLogged] = useState(true);
 
     useLayoutEffect(() => {
-      const { token } = GetAuthToken();
-      if (!token) setIsLogged(false);
+      const { userId } = parseCookies();
+      if (!userId) setIsLogged(false);
       else RedirectTo("/");
     }, []);
 

@@ -1,3 +1,4 @@
+import { parseCookies } from "nookies";
 import { useLayoutEffect, useState } from "react";
 import { useUserContext } from "~/context/global/UserContext";
 import CheckAuthToken from "~/utils/AuthToken/CheckAuthToken";
@@ -15,8 +16,8 @@ export default function privateroute(Component) {
 
     async function _privatePageInit() {
       await CheckAuthToken();
-      const { token } = GetAuthToken();
-      if (token) {
+      const { userId } = parseCookies();
+      if (userId) {
         setIsLogged(true);
         getUserInfo();
       } else RedirectTo("/");

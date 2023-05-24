@@ -4,7 +4,8 @@ from general_config import ABConfig
 import search
 from file_manager import export_datatable
 from general_dict import columnDict, get_airbnb_rooms_by_ss_id
-from utils import select_command, buildChartObjectFromValueCounts, send_nullable_value
+from utils import select_command, insert_command, update_command
+from utils import buildChartObjectFromValueCounts, send_nullable_value
 from utils import removeLastWordOfString, buildFilterQuery, asSelectObject, build_options
 	
 ab_config = ABConfig()
@@ -226,6 +227,103 @@ def login(): # Recebe o username e password do request em formato json
 		# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
 		return jsonify({"message": "Erro ao realizar login!", "success": False}), 401 # Inicia a aplicação
 
+@app.route('/api/register', methods=['POST'])
+def register(): # Recebe o username e password do request em formato json
+	data = request.get_json() # Verifica se o usuário existe no dicionário
+	try:
+		user_data = insert_command(ab_config,
+						sql_script="""INSERT INTO users(name, email, login, password) values(%s, %s, %s, %s) returning user_id""",
+						params=((data["name"], data["email"], data['username'], data['password'])),
+						initial_message="Autenticando usuario...",
+						failure_message="Falha ao cadastrar usuário")
+		print("o id:", user_data)
+		if user_data:
+			return jsonify({
+					"object": {
+						"user_id": user_data,
+						"name": data["name"], 
+						"email": data["email"], 
+						"login": data["username"]
+					},
+					"message": "Sucesso ao cadastrar usuário",
+					"success": True
+				})
+		else:
+			return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
+	except:
+		# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
+		return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
+
+@app.route('/api/edit_user', methods=['POST'])
+def edit_user(): # Recebe o username e password do request em formato json
+		data = request.get_json() # Verifica se o usuário existe no dicionário
+		# try:
+		user_data = update_command(ab_config,
+						sql_script="""UPDATE users set name = %s, email = %s, login = %s where user_id = %s returning user_id""",
+						params=((data["name"], data["email"], data['username'], data['userId'])),
+						initial_message="Atualizando dados do usuario...",
+						failure_message="Falha ao atualizar dados do usuário")
+		print("o id:", user_data)
+		if user_data:
+			return jsonify({
+					"object": {
+						"user_id": data["userId"], 
+						"name": data["name"], 
+						"email": data["email"], 
+						"login": data["username"]
+					},
+					"message": "Sucesso ao atualizar dados do usuário",
+					"success": True
+				})
+		else:
+			return jsonify({"message": "Erro ao atualizar dados do usuário!", "success": False}), 401 # Inicia a aplicação
+	# except:
+	# 	# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
+	# 	return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
+
+
+@app.route('/api/change_password', methods=['POST'])
+def change_password(): # Recebe o username e password do request em formato json
+	data = request.get_json() # Verifica se o usuário existe no dicionário
+	try:
+		user_data = insert_command(ab_config,
+						sql_script="""UPDATE users set password = %s where user_id = %s returning user_id""",
+						params=((data["password"], data["userId"])),
+						initial_message="Atualizando senha do usuário...",
+						failure_message="Falha ao atualizar senha do usuário")
+		if user_data:
+			return jsonify({
+					"object": None,
+					"message": "Sucesso ao atualizar senha do usuário",
+					"success": True
+				})
+		else:
+			return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401 # Inicia a aplicação
+	except:
+		# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
+		return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401 # Inicia a aplicação
+
+@app.route('/api/forgot_password', methods=['POST'])
+def forgot_password(): # Recebe o username e password do request em formato json
+	data = request.get_json() # Verifica se o usuário existe no dicionário
+	try:
+		user_data = insert_command(ab_config,
+						sql_script="""UPDATE users set password = %s where email = %s returning user_id""",
+						params=((data["password"], data["email"])),
+						initial_message="Atualizando senha do usuário...",
+						failure_message="Falha ao atualizar senha do usuário")
+		if user_data:
+			return jsonify({
+					"object": None,
+					"message": "Sucesso ao atualizar senha do usuário",
+					"success": True
+				})
+		else:
+			return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401 # Inicia a aplicação
+	except:
+		# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
+		return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401 # Inicia a aplicação
+
 if __name__ == '__main__':
 	app.run(debug=True)
 
@@ -238,6 +336,9 @@ if __name__ == '__main__':
 # gráfico de 2 eixos (ok)
 # paginação na tabela (ok)
 
+# cadastro
+# editar usuário
+# trocar senha
 # visual das tabelas, incluindo paginação
 # continuar pesquisa
 # pesquisar via thread

@@ -1,4 +1,3 @@
-import { useUserContext } from "~/context/global/UserContext";
 import LoginPageStructure from "../../components/structure/LoginPageStructure";
 import ErrorForm from "../../components/ui/Form/ErrorForm";
 import Form from "../../components/ui/Form/Form";
@@ -6,23 +5,21 @@ import SubmitButton from "../../components/ui/Form/SubmitButton/SubmitButton";
 import TextInputForm from "../../components/ui/FormInputs/TextInputForm";
 import Box from "../../components/ui/Layout/Box/Box";
 import Container from "../../components/ui/Layout/Container/Container";
-import Flexbox from "../../components/ui/Layout/Flexbox/Flexbox";
 import { Grid } from "../../components/ui/Layout/Grid";
-import Typography from "../../components/ui/Typography/Typography";
 import Toast from "../../utils/Toast/Toast";
 import React from "react";
-import { setCookie } from "nookies";
 import loginroute from "~/routes/login.route";
 // import loginroute from "~/routes/login.route";
 
-const Login: React.FC = () => {
-  const { setUser } = useUserContext();
-
-  // const { requesting, signIn } = useAuthContext();
-  const signIn = (data: any) => {
-    const apiUrl = 'http://localhost:5000/api/login'; // url da API Flask
+const ForgotPassword: React.FC = () => {
+  const change_password = (data: any) => {
+    if (data.password !== data.confirmPassword) {
+      Toast.error("As senhas devem ser iguais!")
+      return;
+    }
+    const apiUrl = 'http://localhost:5000/api/change_password'; // url da API Flask
     const requestData = {
-      username: data.username,
+      email: data.email,
       password: data.password
     }; // dados de login a serem enviados na requisição
 
@@ -43,14 +40,7 @@ const Login: React.FC = () => {
       .then(data => {
         if (data.success) {
           // setUser(data.object);
-          setCookie(undefined, 'userId', data.object.user_id, {
-            maxAge: 60 * 60 * 24, //24 hours
-            path: "/",
-          });
-          setCookie(undefined, 'userName', data.object.name, {
-            maxAge: 60 * 60 * 24, //24 hours
-            path: "/",
-          });
+          Toast.success(data.message)
           window.location.assign("/");
         } else {
           Toast.error(data.message)
@@ -68,13 +58,13 @@ const Login: React.FC = () => {
       <Container>
         <Box align="center" justify="center" maxWidth="xs">
           <Form
-            externalSubmit={signIn}
+            externalSubmit={change_password}
             validation={[
               {
-                name: "username",
+                name: "email",
                 required: true,
-                type: "username",
-                label: "Nome de usuário:",
+                type: "email",
+                label: "E-mail:",
                 min: null,
                 max: null,
               },
@@ -90,15 +80,10 @@ const Login: React.FC = () => {
           >
             <Grid container spacing={"g"} >
               <Grid xs={12}>
-                <Typography component="h1" align="center" color="primary">
-                  Login
-                </Typography>
-              </Grid>
-              <Grid xs={12}>
                 <TextInputForm
-                  name="username"
-                  type="text"
-                  label="Nome de usuário"
+                  name="email"
+                  type="email"
+                  label="E-mail"
                   required
                 />
               </Grid>
@@ -106,7 +91,15 @@ const Login: React.FC = () => {
                 <TextInputForm
                   name="password"
                   type="password"
-                  label="Senha"
+                  label="Nova Senha"
+                  required
+                />
+              </Grid>
+              <Grid xs={12}>
+                <TextInputForm
+                  name="confirmPassword"
+                  type="password"
+                  label="Confirmar Nova Senha"
                   required
                 />
               </Grid>
@@ -114,14 +107,8 @@ const Login: React.FC = () => {
                 <ErrorForm />
               </Grid>
               <Grid xs={12}>
-                <SubmitButton color="primary" text="Entrar" type="submit" />
+                <SubmitButton color="primary" text="Atualizar senha" type="submit" />
                 {/* loading={requesting} /> */}
-              </Grid>
-              <Grid xs={12}>
-                <Flexbox justify="space-between">
-                  {/* <Link href={"/"}>Quero me inscrever</Link> */}
-                  {/* <Link href={"/esqueceusenha"}>Esqueceu a senha?</Link> */}
-                </Flexbox>
               </Grid>
             </Grid>
           </Form>
@@ -131,4 +118,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default loginroute(Login);
+export default loginroute(ForgotPassword);    

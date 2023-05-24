@@ -110,8 +110,8 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
 
   return (
     <PrivatePageStructure title="Detalhes da pesquisa " returnPath="/minhaspesquisas">
-      <Flexbox width={"100%"} wrap>
-        <div style={{ width: "30% " }}>
+      <Flexbox width={"100%"} justify="space-between">
+        <div style={{ width: "30vw" }}>
           <DetailsFilter
             data={_prepareData}
             setResultData={setFilteredResponseData}

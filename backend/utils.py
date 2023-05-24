@@ -91,6 +91,10 @@ def update_command(config, sql_script, params, initial_message, failure_message)
 				
 				cur.execute(sql_script, params)
 				conn.commit()
+
+				id = cur.fetchone()[0]
+				cur.close()
+				
 				return id
 		except Exception:
 				logging.error(failure_message)
