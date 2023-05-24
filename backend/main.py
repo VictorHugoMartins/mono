@@ -18,7 +18,7 @@ CORS(app)
 def save_super_survey(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
 
-	ss_id = search.full_process(config=ab_config,
+	ss_id = search.initialize_search(config=ab_config,
 													platform=send_nullable_value(data, "platform"),
 													search_area_name=send_nullable_value(data, "city"),
 													user_id=send_nullable_value(data, "user_id"),
@@ -31,6 +31,10 @@ def save_super_survey(): # Recebe o username e password do request em formato js
 													include_locality_search=send_nullable_value(data, "include_locality_search"),
 													include_route_search=send_nullable_value(data, "include_route_search"),
 												)
+
+	thread = Th(1, data, ss_id)
+	thread.start()
+												
 	response = jsonify({
 			"object": { "super_survey_id": ss_id },
 			"message": "Pesquisa cadastrada com sucesso!",
@@ -335,11 +339,11 @@ if __name__ == '__main__':
 # salvar userId e user Name no window storage
 # gráfico de 2 eixos (ok)
 # paginação na tabela (ok)
+# cadastro (ok)
+# editar usuário (ok)
+# trocar senha (ok)
+# visual das tabelas, incluindo paginação (ok)
 
-# cadastro
-# editar usuário
-# trocar senha
-# visual das tabelas, incluindo paginação
 # continuar pesquisa
 # pesquisar via thread
 # tratamento de exceções do full_process

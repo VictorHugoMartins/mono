@@ -116,7 +116,6 @@ class Location():
 		def insert(self):
 			""" Insert a room into the database. Raise an error if it fails """
 			try:
-				print(self.route, self.sublocality, self.locality, self.level1, self.level2, self.country)
 				location_id = None
 				logger.debug("Inserting location")
 				# logger.debug("\tlocation: {}".format(self.address))
@@ -750,7 +749,6 @@ def insert_sublocality(config, sublocality, level2_id, level2):
 				raise
 
 def get_coordinates_list_and_update_database(config, platform="Airbnb", survey_id=1):
-		print("aqui")
 		coordinates_list = select_command(config,
 						sql_script="""SELECT DISTINCT latitude, longitude, room_id from room where survey_id >= %s and location_id is null""" if platform == "Airbnb" else """SELECT DISTINCT latitude, longitude from booking_room where survey_id >= %s""",
 						params=((survey_id,)),
@@ -780,7 +778,6 @@ def reverse_geocode_coordinates_and_update_airbnb_room(config, lat, lng, room_id
 						failure_message="Failed to search coordinates list")
 		if ( len(location_id) == 0): location_id = location.insert()
 		else: location_id = location_id[0][0]
-		print("o location id", location_id, room_id)
 
 		update_airbnb_room_with_location_id(config, room_id, location_id)
 
@@ -789,6 +786,7 @@ def update_airbnb_room_with_location_id(config, room_id, location_id):
 									sql_script="""
 															update room
 															set location_id = %s where room_id = %s
+                              returning room_id
 														""",
 									params=(location_id, room_id,),
 									initial_message="Updating location_id of room: " + str(room_id) + " for " + str(location_id),

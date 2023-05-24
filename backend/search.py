@@ -34,7 +34,7 @@ import airbnb_ws
 from airbnb_score import airbnb_score_search
 from booking import search_booking_rooms
 from utils import select_command, update_command, insert_command
-
+ab_config = ABConfig()
 SCRIPT_VERSION_NUMBER = "5.0"
 
 def db_ping(config):
@@ -48,7 +48,7 @@ def db_ping(config):
 									.format(db_name=config.DB_NAME, db_host=config.DB_HOST))
 				else:
 						print("Connection test failed")
-		except Exception:
+		except Exception as e:
 				logging.exception("Connection test failed")
 
 
@@ -89,7 +89,7 @@ def db_add_survey(config, search_area):
 							+ "\n\tsurvey_description=" + survey_description
 							+ "\n\tsearch_area_id=" + str(search_area_id))
 				return survey_id
-		except Exception:
+		except Exception as e:
 				logging.error("Failed to add survey for %s", search_area)
 				raise
 
@@ -144,7 +144,7 @@ def db_add_search_area(config, search_area, flag):  # version of tom slee
 				print("\tWHERE search_area_id = {}".format(search_area_id))
 				print("\nThis program does not provide a way to do this update automatically.")
 
-		except Exception:
+		except Exception as e:
 				print("Error adding search area to database")
 				raise
 
@@ -164,12 +164,11 @@ def select_routes(config, sublocality):
 						failure_message="Failed to search from sublocalities")
 
 def search_status_for_super_survey_id(config, ss_id):
-		return "PESQUISAR_SUBLOCALITY"
-		# return select_command(config,
-		# 				sql_script="""SELECT status from super_survey where ss_id = %s""",
-		# 				params=(ss_id,),
-		# 				initial_message="Selecting status from super survey",
-		# 				failure_message="Failed to select status for super survey")
+		return select_command(config,
+						sql_script="""SELECT status from super_survey where ss_id = %s""",
+						params=(ss_id,),
+						initial_message="Selecting status from super survey",
+						failure_message="Failed to select status for super survey")
 
 def create_super_survey(config, city, userId):
 		try:
@@ -178,7 +177,7 @@ def create_super_survey(config, city, userId):
 				logging.info("Configurando pesquisa")
 				conn = config.connect()
 				cur = conn.cursor()
-				print("os parametros!!", city, userId if userId else None)
+				print("os parametros: ", city, userId if userId else None)
 
 
 				sql = """INSERT into super_survey(city, user_id, date) values (%s, %s, current_date) returning ss_id"""
@@ -189,16 +188,17 @@ def create_super_survey(config, city, userId):
 				cur.close()
 				
 				return ss_id
-		except Exception:
+		except Exception as e:
+				print(e)
 				logging.error("Falha ao configurar pesquisa")
 				raise
 		finally:
 				return ss_id
 
 def update_super_survey_status(config, ss_id, status, logs):
-		update_command(config,
+		return update_command(config,
 									sql_script="""
-															update super_survey set status = %s, logs = %s where ss_id = %s
+															update super_survey set status = %s, logs = %s where ss_id = %s returning status
 														""",
 									params=(status, logs, ss_id),
 									initial_message="Updating status of super survey " + str(ss_id),
@@ -206,12 +206,12 @@ def update_super_survey_status(config, ss_id, status, logs):
 
 def update_survey_with_super_survey_id(config, super_survey_id, survey_id):
 		update_command(config,
-									sql_script="""UPDATE survey set ss_id = %s where survey_id = %s""",
+									sql_script="""UPDATE survey set ss_id = %s where survey_id = %s returning ss_id""",
 									params=(super_survey_id, survey_id),
 									initial_message="Initializing update of survey with super survey id",
 									failure_message="Failed to update survey with super survey id")
 
-def execute_search(ab_config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=False, start_date=None, finish_date=None, super_survey_id=None,):
+def execute_search(config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=False, start_date=None, finish_date=None, super_survey_id=None,):
 		try:
 			update_super_survey_status(config,
 																		super_survey_id,
@@ -236,7 +236,8 @@ def execute_search(ab_config, platform="Airbnb", search_area_name='', fill_airbn
 
 			if (fill_airbnb_with_selenium):
 					airbnb_score_search(ab_config, search_area_name, 252, None)
-		except Exception:
+		except Exception as e:
+			print(e)
 			update_super_survey_status(config,
 																		super_survey_id,
 																		status=-11,
@@ -264,7 +265,8 @@ def search_sublocalities(config, platform="Airbnb", search_area_name='', fill_ai
 																			super_survey_id,
 																			status=42,
 																			logs='Iniciando busca por bairro ' + sublocality_name + ' ('+ i + '/' + len(city_sublocalities) + ')')
-						except Exception:
+						except Exception as e:
+							print(e)
 							update_super_survey_status(config,
 																			super_survey_id,
 																			status=-42,
@@ -273,7 +275,8 @@ def search_sublocalities(config, platform="Airbnb", search_area_name='', fill_ai
 																		super_survey_id,
 																		status=43,
 																		logs='Busca por bairros de ' + search_area_name + ' concluída (' + len(city_sublocalities) + '/' + len(city_sublocalities) + ')')
-		except Exception:
+		except Exception as e:
+			print(e)
 			update_super_survey_status(config,
 																		super_survey_id,
 																		status=-41,
@@ -300,7 +303,8 @@ def search_routes(config, platform="Airbnb", search_area_name='', fill_airbnb_wi
 																			super_survey_id,
 																			status=52,
 																			logs='Iniciando busca por rua ' + sublocality_name + ' ('+ i + '/' + len(sublocalities_routes) + ')')
-						except Exception:
+						except Exception as e:
+							print(e)
 							update_super_survey_status(config,
 																			super_survey_id,
 																			status=-52,
@@ -309,98 +313,124 @@ def search_routes(config, platform="Airbnb", search_area_name='', fill_airbnb_wi
 																		super_survey_id,
 																		status=53,
 																		logs='Busca por ruas de ' + search_area_name + ' concluída (' + len(sublocalities_routes) + '/' + len(sublocalities_routes) + ')')
-		except Exception:
+		except Exception as e:
+			print(e)
 			update_super_survey_status(config,
 																		super_survey_id,
 																		status=-51,
 																		logs='Falha ao buscar por ruas de ' + search_area_name)        
 
-def full_process(config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=None, start_date=None, finish_date=None, user_id=None, super_survey_id=None,status_super_survey_id=0,
+def full_process(config=ab_config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=None, start_date=None, finish_date=None, user_id=None, super_survey_id=None,status_super_survey_id=0,
+								include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
+		try:
+			if ( (True) or (status_super_survey_id < 3) or (status_super_survey_id==0)):
+					try:
+						print("474")
+						survey_id = execute_search(ab_config, _platform, search_area_name, fill_bnb_with_selenium, start_date, finish_date, super_survey_id)
+						update_super_survey_status(ab_config,
+																		super_survey_id,
+																		status=3,
+																		logs='Iniciando busca por ' + search_area_name)# identify_and_insert_locations(ab_config, _platform, survey_id) #not necessary since is inserting locations at the same time its inserting rooms
+					except Exception as e:
+						print(e)
+						update_super_survey_status(ab_config,
+																		super_survey_id,
+																		status=-3,
+																		logs='Falha ao iniciar busca por ' + search_area_name)
+			if ( (status_super_survey_id < 4) or include_locality_search):
+					try:
+						search_sublocalities(ab_config, _platform, search_area_name, True, start_date, finish_date, user_id)
+						update_super_survey_status(ab_config,
+																		super_survey_id,
+																		status=4,
+																		logs='Iniciando busca por bairros de ' + search_area_name)
+					except Exception as e:
+						print(e)
+						update_super_survey_status(ab_config,
+																		super_survey_id,
+																		status=-4,
+																		logs='Falha ao iniciar busca por bairros de ' + search_area_name)
+			if ( (status_super_survey_id < 5) or include_route_search):
+					try:
+						search_routes(ab_config, _platform, search_area_name, True, start_date, finish_date, user_id)
+						update_super_survey_status(ab_config,
+																		super_survey_id,
+																		status=5,
+																		logs='Iniciando busca por ruas de ' + search_area_name)
+					except Exception as e:
+						print(e)
+						update_super_survey_status(ab_config,
+																		super_survey_id,
+																		status=-5,
+																		logs='Falha ao iniciar busca por ruas de ' + search_area_name)
+			update_super_survey_status(ab_config,
+																super_survey_id,
+																status=200 if ((platform == 'Airbnb') or (platform == "Booking")) else 6,
+																logs='Pesquisa por ' + search_area_name + ' finalizada')
+			if platform == 'both':
+				update_super_survey_status(ab_config,
+																super_survey_id,
+																status=7,
+																logs='Iniciando pesquisa do Booking por ' + search_area_name)
+				return full_process(ab_config,"Booking", search_area_name, False, start_date, finish_date, user_id, status_super_survey_id)
+		except Exception as e:
+			print(e)
+			update_super_survey_status(config,
+																super_survey_id,
+																status=6,
+																logs='Falha ao pesquisar por ' + search_area_name)
+			return super_survey_id
+
+def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=None, start_date=None, finish_date=None, user_id=None, super_survey_id=None,status_super_survey_id=0,
 								include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
 		try:
 			# status 0, ainda n fez nada
 			fill_bnb_with_selenium = platform != 'Booking'
 			
 			_platform = "Airbnb" if platform != 'Booking' else "Booking"
+			print("1")
 
 			if ( super_survey_id is None ): # super survey previously in progress
 					try:
-						super_survey_id = create_super_survey(config, search_area_name, user_id)
-						save_config(config, platform, search_area_name, fill_airbnb_with_selenium,
+						super_survey_id = create_super_survey(ab_config, search_area_name, user_id)
+						print("2")
+						save_config(ab_config, platform, search_area_name, fill_airbnb_with_selenium,
 												start_date, finish_date, user_id, super_survey_id,status_super_survey_id,
 												include_locality_search, include_route_search, columns,
 												clusterization_method, aggregation_method)
+						print("3", super_survey_id)
 						if ( super_survey_id):
-								update_super_survey_status(config,
+								update_super_survey_status(ab_config,
 																				super_survey_id,
 																				status=1,
 																				logs='Configuração concluída. Iniciando pesquisa...')
-					except Exception:
-						update_super_survey_status(config,
+								print("346")
+					except Exception as e:
+						print(e)
+						update_super_survey_status(ab_config,
 																		super_survey_id,
 																		status=-1,
 																		logs='Falha ao configurar pesquisa')
 			else:
 					try:
-						status_super_survey_id = search_status_for_super_survey_id(config, super_survey_id)
-						update_super_survey_status(config,
+						print("3!")
+						status_super_survey_id = search_status_for_super_survey_id(ab_config, super_survey_id)
+						print("4!")
+						update_super_survey_status(ab_config,
 																		super_survey_id,
 																		status=2,
 																		logs='Reiniciando pesquisa...')
-					except Exception:
-						update_super_survey_status(config,
+						print("5!")
+					except Exception as e:
+						print(e)
+						update_super_survey_status(ab_config,
 																		super_survey_id,
 																		status=-2,
 																		logs='Falha ao reiniciar pesquisa')
 			
 			# status 1: n iniciada/n continuada
-			if ( (status_super_survey_id == "PESQUISAR_CIDADE") or (status_super_survey_id=='0')):
-					try:
-						survey_id = execute_search(config, _platform, search_area_name, fill_bnb_with_selenium, start_date, finish_date, super_survey_id)
-						update_super_survey_status(config,
-																		super_survey_id,
-																		status=3,
-																		logs='Iniciando busca por ' + search_area_name)# identify_and_insert_locations(config, _platform, survey_id) #not necessary since is inserting locations at the same time its inserting rooms
-					except Exception:
-						update_super_survey_status(config,
-																		super_survey_id,
-																		status=-3,
-																		logs='Falha ao iniciar busca por ' + search_area_name)
-			elif ( status_super_survey_id == "PESQUISAR_SUBLOCALITY" or include_locality_search):
-					try:
-						search_sublocalities(config, _platform, search_area_name, True, start_date, finish_date, user_id)
-						update_super_survey_status(config,
-																		super_survey_id,
-																		status=4,
-																		logs='Iniciando busca por bairros de ' + search_area_name)
-					except Exception:
-						update_super_survey_status(config,
-																		super_survey_id,
-																		status=-4,
-																		logs='Falha ao iniciar busca por bairros de ' + search_area_name)
-			elif ( status_super_survey_id == "PESQUISAR_ROUTE" or include_route_search):
-					try:
-						search_routes(config, _platform, search_area_name, True, start_date, finish_date, user_id)
-						update_super_survey_status(config,
-																		super_survey_id,
-																		status=5,
-																		logs='Iniciando busca por ruas de ' + search_area_name)
-					except Exception:
-						update_super_survey_status(config,
-																		super_survey_id,
-																		status=-5,
-																		logs='Falha ao iniciar busca por ruas de ' + search_area_name)
-			update_super_survey_status(config,
-																super_survey_id,
-																status=200 if ((platform == 'Airbnb') or (platform == "Booking")) else 6,
-																logs='Pesquisa por ' + search_area_name + ' finalizada')
-			if platform == 'both':
-				update_super_survey_status(config,
-																super_survey_id,
-																status=7,
-																logs='Iniciando pesquisa do Booking por ' + search_area_name)
-				return full_process(config,"Booking", search_area_name, False, start_date, finish_date, user_id, status_super_survey_id)
-		except Exception:
+		except Exception as e:
+			print(e)
 			update_super_survey_status(config,
 																super_survey_id,
 																status=6,
@@ -527,7 +557,7 @@ def main():
 		(parser, args) = parse_args()
 		logging.basicConfig(
 				format='%(levelname)-8s%(message)s', level=logging.INFO)
-		ab_config = ABConfig(args)
+		
 		
 		try:
 				if args.addsearcharea:
@@ -551,7 +581,8 @@ def main():
 						parser.print_help()
 		except (SystemExit, KeyboardInterrupt):
 				sys.exit()
-		except Exception:
+		except Exception as e:
+				print(e)
 				logging.exception("Top level exception handler: quitting.")
 				sys.exit(0)
 
