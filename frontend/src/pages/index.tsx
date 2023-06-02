@@ -77,13 +77,42 @@ export default function MySuperSurveys() {
       return resp;
     };
 
+    const tryAgain = (ss_id: string) => {
+      const apiUrl = 'http://localhost:5000/super_survey/continue'; // url da API Flask
+      const requestData = { ss_id }; // dados de login a serem enviados na requisição
+
+      console.log(requestData);
+
+      // Configuração do cabeçalho da requisição
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+
+      const requestOptions = {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(requestData)
+      };
+
+      // Realiza a requisição para a API Flask
+      const resp = fetch(apiUrl, requestOptions)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            Toast.success(data.message)
+          } else Toast.error(data.message)
+        })
+        .catch(error => Toast.error(error));
+
+      return resp;
+    };
+
     return (
       <>
         {rowData.status !== 200 &&
           <DataTableButton icon="FaCheck" title="Finalizar" onClick={() => updateStatus(rowData.ss_id, 200)} />
         }
-        {rowData.status < 0 &&
-          <DataTableButton icon="FaTelegramPlane" title="Tentar novamente" onClick={() => console.log("b")} />
+        {rowData.status <= 1 &&
+          <DataTableButton icon="FaPlay" title="Tentar novamente" onClick={() => tryAgain(rowData.ss_id)} />
         }
         {(rowData.status > 0) && (rowData.status !== 1) &&
           <DataTableButton icon="FaUpload" title="Baixar dados" onClick={() => downloadData({ ss_id: rowData.ss_id })} />
@@ -113,8 +142,13 @@ export default function MySuperSurveys() {
     const resp = fetch(apiUrl, requestOptions)
       .then(res => res.json())
       .then(data => {
-        setTableData(data.object);
-        // setLoading(false);
+        if (data.success) {
+          setTableData(data.object);
+          // setLoading(false);
+        } else if (data.status === 401) {
+          Toast.error(data.message)
+          window.location.assign("/login")
+        }
       })
       .catch(error => Toast.error(error));
 
@@ -128,7 +162,7 @@ export default function MySuperSurveys() {
     <PrivatePageStructure title={"Minhas pesquisas"}>
       <Flexbox justify="flex-end" width={"100%"} >
         <div style={{ maxWidth: "250px", padding: "8px" }}>
-          <Button color="primary" text={"Iniciar nova pesquisa"} onClick={() => window.location.assign("/novapesquisa")}/>
+          <Button color="primary" text={"Iniciar nova pesquisa"} onClick={() => window.location.assign("/novapesquisa")} />
         </div>
       </Flexbox>
       {_tableData && <Table

@@ -98,6 +98,12 @@ const Register: React.FC = () => {
                 </Typography>
               </Grid>
               <Grid xs={12}>
+                <Typography component="p" align="center" color="primary">
+                  Preencha os dados para solicitar permissão para acessar o sistema.
+                  Caso sua solicitação for aceita, você receberá um e-mail informando os seus dados de acesso.
+                </Typography>
+              </Grid>
+              <Grid xs={12}>
                 <TextInputForm
                   name="name"
                   type="text"
@@ -141,7 +147,7 @@ const Register: React.FC = () => {
                 <ErrorForm />
               </Grid>
               <Grid xs={12}>
-                <SubmitButton color="primary" text="Cadastrar" type="submit" />
+                <SubmitButton color="primary" text="Solicitar Cadastro" type="submit" />
                 {/* loading={requesting} /> */}
               </Grid>
               <Grid xs={12}>

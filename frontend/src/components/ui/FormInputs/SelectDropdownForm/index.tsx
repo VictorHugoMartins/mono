@@ -38,8 +38,10 @@ const SelectDropdownForm: React.FC<SelectDropdownFormInterface> = ({
 
   useEffect(() => {
     if (listenGet && listenId) {
+      console.log("1")
       if (listen) _getOptions(listen);
     } else if (listenGetWithBody && listenId) {
+      console.log("2")
       if (listen) _getOptionsWithBody(listen);
     }
   }, [listen]);

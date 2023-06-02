@@ -464,6 +464,11 @@
   resolved "https://registry.npmjs.org/@next/env/-/env-10.2.3.tgz"
   integrity sha512-uBOjRBjsWC4C8X3DfmWWP6ekwLnf2JCCwQX9KVnJtJkqfDsv1yQPakdOEwvJzXQc3JC/v5KKffYPVmV2wHXCgQ==
 
+"@next/font@^13.4.4":
+  version "13.4.4"
+  resolved "https://registry.yarnpkg.com/@next/font/-/font-13.4.4.tgz#513632591a1041e39c1020022c0995ca78dde4fc"
+  integrity sha512-iYmL/O0rV9NS8a2UXuRoZOzImz8Q0mM8bAmxtj8nccrpwZ6iOOZlbf2d0Genczl4wtuXRXVPR8goGjJM4C2SDg==
+
 "@next/polyfill-module@10.2.3":
   version "10.2.3"
   resolved "https://registry.npmjs.org/@next/polyfill-module/-/polyfill-module-10.2.3.tgz"

@@ -111,7 +111,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
   return (
     <PrivatePageStructure title="Detalhes da pesquisa " returnPath="/minhaspesquisas">
       <Flexbox width={"100%"} justify="space-between">
-        <div style={{ width: "30vw" }}>
+        <div style={{ width: "30vw", maxHeight: "80vh", overflow: "hidden", overflowY: "scroll" }}>
           <DetailsFilter
             data={_prepareData}
             setResultData={setFilteredResponseData}
@@ -125,7 +125,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
       </Flexbox>
       <div>
 
-        <h4>Gráfico</h4>
+        <h2>Gráfico</h2>
         <p>Selecione abaixo as colunas para relacionar dados em um gráfico de barras. Se estiver com dúvidas sobre o que selecionar, clique aqui para obter mais informações</p>
 
         {_prepareData &&
@@ -178,7 +178,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
         <div>
           {_chartData && <ChartBar data={_chartData} />}
         </div>
-        <h4>Dados filtrados</h4>
+        <h2>Dados filtrados</h2>
         <Table
           columns={_filteredData?.columns}
           rows={_filteredData?.rows}

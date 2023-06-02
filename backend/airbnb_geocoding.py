@@ -748,9 +748,9 @@ def insert_sublocality(config, sublocality, level2_id, level2):
 				logger.exception("Exception in insert_sublocality")
 				raise
 
-def get_coordinates_list_and_update_database(config, platform="Airbnb", survey_id=1):
+def get_coordinates_list_and_update_database(config, table='room', platform="Airbnb", survey_id=1):
 		coordinates_list = select_command(config,
-						sql_script="""SELECT DISTINCT latitude, longitude, room_id from room where survey_id >= %s and location_id is null""" if platform == "Airbnb" else """SELECT DISTINCT latitude, longitude from booking_room where survey_id >= %s""",
+						sql_script="""SELECT DISTINCT latitude, longitude, room_id from {table} where survey_id >= %s and location_id is null""".format(table=table),
 						params=((survey_id,)),
 						initial_message="Selecting coordinates list from " + platform + " to update location ids",
 						failure_message="Failed to search coordinates list")
@@ -759,9 +759,9 @@ def get_coordinates_list_and_update_database(config, platform="Airbnb", survey_i
 			lng = coordinate[1]
 			room_id = coordinate[2]
 			if ( lat is not None) and (lng is not None):
-					reverse_geocode_coordinates_and_update_airbnb_room(config, lat, lng, room_id)
+					reverse_geocode_coordinates_and_update_airbnb_room(config, table, lat, lng, room_id)
 
-def reverse_geocode_coordinates_and_update_airbnb_room(config, lat, lng, room_id):
+def reverse_geocode_coordinates_and_update_airbnb_room(config, table, lat, lng, room_id):
 		location = Location(config, str(lat), str(lng)) 
 		location.reverse_geocode(config)
 
@@ -779,15 +779,15 @@ def reverse_geocode_coordinates_and_update_airbnb_room(config, lat, lng, room_id
 		if ( len(location_id) == 0): location_id = location.insert()
 		else: location_id = location_id[0][0]
 
-		update_airbnb_room_with_location_id(config, room_id, location_id)
+		update_airbnb_room_with_location_id(config, table, room_id, location_id)
 
-def update_airbnb_room_with_location_id(config, room_id, location_id):
+def update_airbnb_room_with_location_id(config, table='room', room_id=None, location_id=None):
 		update_command(config,
 									sql_script="""
-															update room
+															update {table}
 															set location_id = %s where room_id = %s
                               returning room_id
-														""",
+														""".format(table=table),
 									params=(location_id, room_id,),
 									initial_message="Updating location_id of room: " + str(room_id) + " for " + str(location_id),
 									failure_message="Failed to save room as deleted")

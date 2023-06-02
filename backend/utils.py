@@ -21,7 +21,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from geopy import distance
 import datetime as dt
-from general_dict import get_airbnb_rooms_by_ss_id
+from general_dict import get_airbnb_rooms_by_ss_id, get_all_rooms_by_ss_id
 
 ab_config = ABConfig()
 
@@ -76,8 +76,12 @@ def select_command(config, sql_script, params, initial_message, failure_message)
 				rowcount = cur.rowcount
 				
 				return cur.fetchall()
+		except psycopg2.errors.InFailedSqlTransaction:
+				logging.error(failure_message)
+				cur.close()
 		except Exception:
 				logging.error(failure_message)
+				cur.close()
 				raise
 
 
@@ -149,11 +153,18 @@ def removeLastWordOfString(word, string):
 		else:
 			return ''.join(string)
 
-def buildFilterQuery(data):
+def buildFilterQuery(data, platform):
+		exclusive_airbnb_columns = ['host_id', 'name', 'minstay', 'bathroom', 'avg_rating', 'extra_host_languages', 'is_superhost', 'room_type']
+		exclusive_booking_columns = ['start_date', 'finish_date']
 		query = 'WHERE'
 		params = []
 		for key in data.keys():
-			if ( key != 'ss_id'):
+			print(key, key in exclusive_airbnb_columns)
+			if ( (platform == 'Airbnb') and (key in exclusive_booking_columns)):
+				continue
+			elif ( (platform == 'Booking') and (key in exclusive_airbnb_columns)):
+				continue
+			elif ( key != 'ss_id'):
 				if ( type(data[key]) == list):
 					values = data[key]
 					if ( len(values) > 1 ):
@@ -188,43 +199,15 @@ def buildFilterQuery(data):
 def asSelectObject(array):
 	result = []
 	for item in array:
-		result.append({ "label": item[0], "value": item[0]})
+		result.append({ "label": item[0] if item[0] else "Indefinido", "value": item[0]})
 	return result
 
 def build_options(column, values, ss_id):
 	if (values == ["min", "max"]):
 		result = select_command(ab_config,
-						sql_script="""WITH consulta AS ( SELECT
-														room_id,
-														STRING_AGG(DISTINCT CAST(host_id AS varchar), 'JOIN ') AS host_id,
-														STRING_AGG(DISTINCT name, 'JOIN ') AS name,
-														STRING_AGG(DISTINCT property_type, 'JOIN ') AS property_type,
-														STRING_AGG(DISTINCT room_type, 'JOIN ') AS room_type,
-														AVG(price) AS price,
-														AVG(minstay) AS minstay,
-														AVG(reviews) AS reviews,
-														AVG(avg_rating) AS avg_rating,
-														AVG(accommodates) AS accommodates,
-														AVG(bedrooms) AS bedrooms,
-														AVG(bathrooms) AS bathrooms,
-														STRING_AGG(DISTINCT bathroom, 'JOIN ') AS bathrooms,
-														MAX(latitude) AS latitude,
-														MAX(longitude) AS longitude,
-														STRING_AGG(DISTINCT extra_host_languages, 'JOIN ') AS extra_host_languages,
-														AVG(CAST(is_superhost AS int)) AS is_superhost,
-														STRING_AGG(DISTINCT comodities, 'JOIN ') AS comodities,
-														location.location_id,
-														location.route,
-														location.sublocality,
-														location.locality
-													FROM
-														room
-												INNER JOIN location
-												ON location.location_id = room.location_id
-													GROUP BY
-														locality, location.sublocality, location.route, location.location_id, room_id ) 
+						sql_script="""WITH consulta AS ( {consulta}) 
 							SELECT min({column}), max({column}) FROM consulta
-							""".format(column=column),
+							""".format(consulta=get_all_rooms_by_ss_id(ss_id), column=column),
 						params=(()),
 						initial_message="Selecionando valores mínimo e máximo para " + str(column),
 						failure_message="Falha ao selecionar valores mínimo e máximo para " + str(column))
@@ -233,10 +216,8 @@ def build_options(column, values, ss_id):
 		return asSelectObject(select_command(ab_config,
 						sql_script="""with consulta as ( {consulta} ) 
 							select distinct({column}) from consulta
-							""".format(consulta=get_airbnb_rooms_by_ss_id(ss_id), column=column),
+							order by {column}
+							""".format(consulta=get_all_rooms_by_ss_id(ss_id), column=column),
 						params=(()),
 						initial_message="Selecionando valores mínimo e máximo para " + str(column),
 						failure_message="Falha ao selecionar valores mínimo e máximo para " + str(column)))
-
-
-

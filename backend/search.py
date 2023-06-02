@@ -189,7 +189,7 @@ def create_super_survey(config, city, userId):
 				
 				return ss_id
 		except Exception as e:
-				print(e)
+				print("o erro:", e)
 				logging.error("Falha ao configurar pesquisa")
 				raise
 		finally:
@@ -213,6 +213,7 @@ def update_survey_with_super_survey_id(config, super_survey_id, survey_id):
 
 def execute_search(config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=False, start_date=None, finish_date=None, super_survey_id=None,):
 		try:
+			_platform = "Airbnb" if platform != 'Booking' else "Booking"
 			update_super_survey_status(config,
 																		super_survey_id,
 																		status=11,
@@ -226,8 +227,6 @@ def execute_search(config, platform="Airbnb", search_area_name='', fill_airbnb_w
 			if (super_survey_id): update_survey_with_super_survey_id(ab_config, super_survey_id, survey_id)
 			survey = ABSurveyByBoundingBox(ab_config, survey_id)
 
-			
-
 			# search for the listings
 			if (platform == "Airbnb"):
 					survey.search(ab_config.FLAGS_ADD)
@@ -237,7 +236,7 @@ def execute_search(config, platform="Airbnb", search_area_name='', fill_airbnb_w
 			if (fill_airbnb_with_selenium):
 					airbnb_score_search(ab_config, search_area_name, 252, None)
 		except Exception as e:
-			print(e)
+			print("o erro:", e)
 			update_super_survey_status(config,
 																		super_survey_id,
 																		status=-11,
@@ -264,19 +263,19 @@ def search_sublocalities(config, platform="Airbnb", search_area_name='', fill_ai
 							update_super_survey_status(config,
 																			super_survey_id,
 																			status=42,
-																			logs='Iniciando busca por bairro ' + sublocality_name + ' ('+ i + '/' + len(city_sublocalities) + ')')
+																			logs='Iniciando busca por bairro ' + sublocality_name + ' ('+ i + '/' + str(len(city_sublocalities)) + ')')
 						except Exception as e:
-							print(e)
+							print("o erro:", e)
 							update_super_survey_status(config,
 																			super_survey_id,
 																			status=-42,
-																			logs='Falha ao buscar por bairro ' + sublocality_name + ' ('+ i + '/' + len(city_sublocalities) + ')')
+																			logs='Falha ao buscar por bairro ' + sublocality_name + ' ('+ i + '/' + str(len(city_sublocalities)) + ')')
 			update_super_survey_status(config,
 																		super_survey_id,
 																		status=43,
-																		logs='Busca por bairros de ' + search_area_name + ' concluída (' + len(city_sublocalities) + '/' + len(city_sublocalities) + ')')
+																		logs='Busca por bairros de ' + search_area_name + ' concluída (' + str(len(city_sublocalities)) + '/' + str(len(city_sublocalities)) + ')')
 		except Exception as e:
-			print(e)
+			print("o erro:", e)
 			update_super_survey_status(config,
 																		super_survey_id,
 																		status=-41,
@@ -302,19 +301,19 @@ def search_routes(config, platform="Airbnb", search_area_name='', fill_airbnb_wi
 							update_super_survey_status(config,
 																			super_survey_id,
 																			status=52,
-																			logs='Iniciando busca por rua ' + sublocality_name + ' ('+ i + '/' + len(sublocalities_routes) + ')')
+																			logs='Iniciando busca por rua ' + sublocality_name + ' ('+ i + '/' + str(len(sublocalities_routes)) + ')')
 						except Exception as e:
-							print(e)
+							print("o erro:", e)
 							update_super_survey_status(config,
 																			super_survey_id,
 																			status=-52,
-																			logs='Falha ao buscar por rua ' + sublocality_name + ' ('+ i + '/' + len(sublocalities_routes) + ')')
+																			logs='Falha ao buscar por rua ' + sublocality_name + ' ('+ i + '/' + str(len(sublocalities_routes)) + ')')
 			update_super_survey_status(config,
 																		super_survey_id,
 																		status=53,
-																		logs='Busca por ruas de ' + search_area_name + ' concluída (' + len(sublocalities_routes) + '/' + len(sublocalities_routes) + ')')
+																		logs='Busca por ruas de ' + search_area_name + ' concluída (' + str(len(sublocalities_routes)) + '/' + str(len(sublocalities_routes)) + ')')
 		except Exception as e:
-			print(e)
+			print("o erro:", e)
 			update_super_survey_status(config,
 																		super_survey_id,
 																		status=-51,
@@ -323,7 +322,9 @@ def search_routes(config, platform="Airbnb", search_area_name='', fill_airbnb_wi
 def full_process(config=ab_config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=None, start_date=None, finish_date=None, user_id=None, super_survey_id=None,status_super_survey_id=0,
 								include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
 		try:
-			if ( (True) or (status_super_survey_id < 3) or (status_super_survey_id==0)):
+			_platform = "Airbnb" if platform != 'Booking' else "Booking"
+			fill_bnb_with_selenium = platform != 'Booking'
+			if ((status_super_survey_id < 3) or (status_super_survey_id==0)):
 					try:
 						print("474")
 						survey_id = execute_search(ab_config, _platform, search_area_name, fill_bnb_with_selenium, start_date, finish_date, super_survey_id)
@@ -332,7 +333,8 @@ def full_process(config=ab_config, platform="Airbnb", search_area_name='', fill_
 																		status=3,
 																		logs='Iniciando busca por ' + search_area_name)# identify_and_insert_locations(ab_config, _platform, survey_id) #not necessary since is inserting locations at the same time its inserting rooms
 					except Exception as e:
-						print(e)
+						print("o erro: ", e)
+						print(search_area_name)
 						update_super_survey_status(ab_config,
 																		super_survey_id,
 																		status=-3,
@@ -345,7 +347,7 @@ def full_process(config=ab_config, platform="Airbnb", search_area_name='', fill_
 																		status=4,
 																		logs='Iniciando busca por bairros de ' + search_area_name)
 					except Exception as e:
-						print(e)
+						print("o erro:", e)
 						update_super_survey_status(ab_config,
 																		super_survey_id,
 																		status=-4,
@@ -358,7 +360,7 @@ def full_process(config=ab_config, platform="Airbnb", search_area_name='', fill_
 																		status=5,
 																		logs='Iniciando busca por ruas de ' + search_area_name)
 					except Exception as e:
-						print(e)
+						print("o erro:", e)
 						update_super_survey_status(ab_config,
 																		super_survey_id,
 																		status=-5,
@@ -374,7 +376,7 @@ def full_process(config=ab_config, platform="Airbnb", search_area_name='', fill_
 																logs='Iniciando pesquisa do Booking por ' + search_area_name)
 				return full_process(ab_config,"Booking", search_area_name, False, start_date, finish_date, user_id, status_super_survey_id)
 		except Exception as e:
-			print(e)
+			print("o erro:", e)
 			update_super_survey_status(config,
 																super_survey_id,
 																status=6,
@@ -406,7 +408,7 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
 																				logs='Configuração concluída. Iniciando pesquisa...')
 								print("346")
 					except Exception as e:
-						print(e)
+						print("o erro:", e)
 						update_super_survey_status(ab_config,
 																		super_survey_id,
 																		status=-1,
@@ -422,7 +424,7 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
 																		logs='Reiniciando pesquisa...')
 						print("5!")
 					except Exception as e:
-						print(e)
+						print("o erro:", e)
 						update_super_survey_status(ab_config,
 																		super_survey_id,
 																		status=-2,
@@ -430,7 +432,7 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
 			
 			# status 1: n iniciada/n continuada
 		except Exception as e:
-			print(e)
+			print("o erro:", e)
 			update_super_survey_status(config,
 																super_survey_id,
 																status=6,
@@ -582,7 +584,7 @@ def main():
 		except (SystemExit, KeyboardInterrupt):
 				sys.exit()
 		except Exception as e:
-				print(e)
+				print("o erro:", e)
 				logging.exception("Top level exception handler: quitting.")
 				sys.exit(0)
 

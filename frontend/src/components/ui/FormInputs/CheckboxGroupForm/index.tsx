@@ -82,7 +82,7 @@ const CheckboxGroupForm: React.FC<CheckboxGroupFormProps> = ({
                   />
                 )
               })}
-            {options.length > 3 &&
+            {options?.length > 3 &&
               <p style={{ cursor: "pointer" }} onClick={() => itemsPerPage === options.length ? setItemsPerPage(3) : setItemsPerPage(options.length)}>
                 {!(itemsPerPage === options.length) ?
                   "Ver mais opções" :

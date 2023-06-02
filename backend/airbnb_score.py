@@ -166,7 +166,7 @@ def update_with_preexistent_comodities(config, city, args):
 
         cur.execute(sql, (city,))
         rowcount = cur.rowcount
-        logging.info(str(srowcount) + " results")
+        logging.info(str(rowcount) + " results")
 
         if rowcount > 0:
             results = cur.fetchall()
@@ -203,7 +203,7 @@ def airbnb_score_search(config, city, survey_id, args):
 
         cur.execute(sql, (survey_id,))
         rowcount = cur.rowcount
-        logging.info(str(srowcount) + " results")
+        logging.info(str(rowcount) + " results")
 
         if rowcount > 0:
             results = cur.fetchall()

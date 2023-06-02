@@ -1,89 +1,132 @@
-import React, { useState } from "react";
-
-//Import components
-import LoginPageStructure from "~/components/structure/LoginPageStructure";
-import Form from "~/components/ui/Form/Form";
-import TextInputForm from "~/components/ui/FormInputs/TextInputForm";
-import Box from "~/components/ui/Layout/Box/Box";
-import Container from "~/components/ui/Layout/Container/Container";
-import { Grid } from "~/components/ui/Layout/Grid";
 import Typography from "~/components/ui/Typography/Typography";
-import accountService from "~/services/account.service";
+import LoginPageStructure from "../../components/structure/LoginPageStructure";
+import ErrorForm from "../../components/ui/Form/ErrorForm";
+import Form from "../../components/ui/Form/Form";
+import SubmitButton from "../../components/ui/Form/SubmitButton/SubmitButton";
+import TextInputForm from "../../components/ui/FormInputs/TextInputForm";
+import Box from "../../components/ui/Layout/Box/Box";
+import Container from "../../components/ui/Layout/Container/Container";
+import { Grid } from "../../components/ui/Layout/Grid";
+import Toast from "../../utils/Toast/Toast";
+import React from "react";
 import loginroute from "~/routes/login.route";
-import SubmitButton from "~/components/ui/Form/SubmitButton/SubmitButton";
+// import loginroute from "~/routes/login.route";
 
 const ForgotPassword: React.FC = () => {
-  const [success, setSuccess] = useState<boolean>(false);
+  const change_password = (data: any) => {
+    if (data.password !== data.confirmPassword) {
+      Toast.error("As senhas devem ser iguais!")
+      return;
+    }
+    const apiUrl = 'http://localhost:5000/api/change_password'; // url da API Flask
+    const requestData = {
+      email: data.email,
+      password: data.password
+    }; // dados de login a serem enviados na requisição
 
-  async function submit({ email }) {
-    const response = await accountService
-      .forgotPassword(email)
-      .then((response) => {
-        setSuccess(response.success);
-        if (!response.success)
-          return { message: response.message, errors: response.errors };
-        return null;
-      });
+    // Configuração do cabeçalho da requisição
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
-    return response;
-  }
+    const requestOptions = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(requestData)
+    };
+
+    // Realiza a requisição para a API Flask
+    const resp = fetch(apiUrl, requestOptions)
+    fetch(apiUrl, requestOptions)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          // setUser(data.object);
+          Toast.success(data.message)
+          window.location.assign("/");
+        } else {
+          Toast.error(data.message)
+        }
+
+        return data
+      })
+      .catch(error => Toast.error(error));
+
+    return null;
+  };
 
   return (
-    <LoginPageStructure>
+    <LoginPageStructure title="Login">
       <Container>
         <Box align="center" justify="center" maxWidth="xs">
-          {success ? (
-            <Grid container spacing={"xg"}>
+          <Form
+            externalSubmit={change_password}
+            validation={[
+              {
+                name: "email",
+                required: true,
+                type: "email",
+                label: "E-mail:",
+                min: null,
+                max: null,
+              },
+              {
+                name: "password",
+                required: true,
+                type: "password",
+                label: "Senha",
+                min: null,
+                max: null,
+              },
+            ]}
+          >
+            <Grid container spacing={"g"} >
               <Grid xs={12}>
                 <Typography component="h1" align="center" color="primary">
-                  Email enviado com sucesso.
+                  Esqueceu sua senha?
                 </Typography>
-                <Typography component="h6" align="center" color="primary">
-                  Enviamos um link de alteração de senha para o seu email
+              </Grid>
+              <Grid xs={12}>
+                <Typography component="p" align="center" color="primary">
+                  Informe os campos abaixo para definir uma nova senha
                 </Typography>
+              </Grid>
+              <Grid xs={12}>
+                <TextInputForm
+                  name="email"
+                  type="email"
+                  label="E-mail"
+                  required
+                />
+              </Grid>
+              <Grid xs={12}>
+                <TextInputForm
+                  name="password"
+                  type="password"
+                  label="Nova Senha"
+                  required
+                />
+              </Grid>
+              <Grid xs={12}>
+                <TextInputForm
+                  name="confirmPassword"
+                  type="password"
+                  label="Confirmar Nova Senha"
+                  required
+                />
+              </Grid>
+              <Grid>
+                <ErrorForm />
+              </Grid>
+              <Grid xs={12}>
+                <SubmitButton color="primary" text="Atualizar senha" type="submit" />
+                {/* loading={requesting} /> */}
               </Grid>
             </Grid>
-          ) : (
-            <Form
-              externalSubmit={submit}
-              validation={[
-                {
-                  name: "email",
-                  required: true,
-                  type: "email",
-                  label: "E-mail",
-                  min: null,
-                  max: null,
-                },
-              ]}
-            >
-              <Grid container spacing={"xg"}>
-                <Grid xs={12}>
-                  <Typography component="h1" align="center" color="primary">
-                    Esqueceu a senha?
-                  </Typography>
-                  <Typography component="h4" align="center" color="primary">
-                    Forneça seu email para criar uma nova:
-                  </Typography>
-                </Grid>
-                <Grid xs={12}>
-                  <TextInputForm
-                    name="email"
-                    type="email"
-                    label="E-mail"
-                    required
-                  />
-                </Grid>
-                <Grid xs={12}>
-                  <SubmitButton color="primary" text="Enviar" type="submit" />
-                </Grid>
-              </Grid>
-            </Form>
-          )}
+          </Form>
         </Box>
       </Container>
     </LoginPageStructure>
   );
 };
 
-export default loginroute(ForgotPassword);
+export default loginroute(ForgotPassword);    

@@ -28,7 +28,7 @@ def buildColumnsObject(columns):
 def export_datatable(config, sql_command, params, project, toJson):
     try:
         rowcount = -1
-        logging.info("Initializing export Airbnb'b rooms")
+        logging.info("Initializing export {project}'s rooms".format(project=project))
         conn = config.connect()
         cur = conn.cursor()
         cnxn = config.connect()
@@ -46,7 +46,11 @@ def export_datatable(config, sql_command, params, project, toJson):
                     d[col[0]] = row[idx]
                 data.append(d)
             conn.close()
-            # print(data[0].keys())
+            
+            print(results)
+            print(data[0].keys())
+
+            
 
             if ( len(data) > 0):
               return { "columns": buildColumnsObject(data[0].keys()), "rows": data }
@@ -82,10 +86,6 @@ def export_datatable(config, sql_command, params, project, toJson):
     except PermissionError:
         print("Permission denied: ", directory, " is open")
         return { "columns": [], "rows": []}
-    except Exception:
-        logging.error("Failed to export")
-        return { "columns": [], "rows": []}
-        raise
 
 def main():
     parser = \

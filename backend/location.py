@@ -142,7 +142,7 @@ def main():
 	(parser, args) = parse_args()
 	logging.basicConfig(format='%(levelname)-8s%(message)s')
 	config = ABConfig(args)
-	get_coordinates_list_and_update_database(config)
+	get_coordinates_list_and_update_database(config, 'room')
 	# if (args.platform):
 	# 	identify_and_insert_locations(config, args.platform, 1)
 

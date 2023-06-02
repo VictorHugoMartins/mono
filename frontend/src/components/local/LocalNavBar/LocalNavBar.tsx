@@ -57,7 +57,7 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ returnPath, title, publicPage
 
   const { theme } = useTheme();
 
-  let isLogged = userId !== null // isLogged();
+  let isLogged = userId && userName // isLogged();
 
   const handleLogoutModal = (value: boolean) => {
     setOpenLogoutModal(value);

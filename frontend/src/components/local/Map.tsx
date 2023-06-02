@@ -5,34 +5,31 @@ import {
   TileLayer,
   Marker,
   Popup,
-  GeoJSON,
   CircleMarker,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
 import { useEffect } from "react";
-
+import { Icon } from "leaflet";
+import img from '../../assets/images/iconRounded.png';
+import { LatLngExpression } from "leaflet";
 const Map = ({
-  coords,
-  lastPosition,
   markers,
-  latestTimestamp,
   unfilteredData,
 }: {
   coords: number[][];
   lastPosition?: [number, number];
   markers?: [number, number][];
   latestTimestamp?: string;
+  unfilteredData: any;
 }) => {
 
+  const airbnbIcon = new Icon({iconUrl: img}),
+    bookingIcon = new Icon({iconUrl: img}),
+    bothIcon = new Icon({iconUrl: img});
+
   const _centerPosition = [markers[markers.length - 1][0], markers[markers.length - 1][1]];
-  const geoJsonObj: any = [
-    {
-      type: "LineString",
-      coordinates: coords,
-    },
-  ];
 
   const mapMarkers = markers?.map((latLng, i) => (
     <CircleMarker key={i} center={latLng} />
@@ -49,7 +46,7 @@ const Map = ({
         // bounds={markers?.length > 0 ? [markers[0][0], markers[0][1]] : null}
         // center={_lastPosition ?? [0, 0]}
         // zoom={12}
-        center={_centerPosition}
+        center={_centerPosition as LatLngExpression}
         zoom={14}
         style={{ height: "100%", width: "100%" }}
       >
@@ -60,39 +57,25 @@ const Map = ({
           <Marker
             position={latLng}
             draggable={true}
-            animate={true}
+            icon={unfilteredData[i]?.origem == 'Airbnb' ? airbnbIcon : unfilteredData[i]?.origem == 'Booking' ? bookingIcon : bothIcon }
           >
             {unfilteredData?.length > 0 &&
               <Popup>
                 <div style={{ maxWidth: "150px" }}>
                   <div>
-
                     <strong>{unfilteredData[i]?.name}</strong>
                   </div>
                   <div>
-                    <a href={`https://www.airbnb.com.br/rooms/${unfilteredData[i]?.room_id}`}>Acesse no Airbnb</a>
+                    {unfilteredData[i]?.origem == 'Airbnb' ?
+                      <a href={`https://www.airbnb.com.br/rooms/${unfilteredData[i]?.room_id}`}>Acesse no Airbnb</a> :
+                      <a href={`https://www.booking.com/hotel/br/${unfilteredData[i]?.hotel_id}`}>Acesse no Booking</a>
+                    }
                   </div>
                 </div>
               </Popup>
             }
-            {/* {mapMarkers} */}
           </Marker>
         ))}
-
-
-        {/* <Marker position={_lastPosition}>
-          {/* draggable={true}> */}
-        {/* <Popup>
-            Last recorded position:
-            <br />
-            {lastPosition[0].toFixed(3)}&#176;,&nbsp;
-            {lastPosition[1].toFixed(3)}&#176;
-            <br />
-            {latestTimestamp}
-          </Popup> */}
-        {/* <GeoJSON data={geoJsonObj}></GeoJSON> 
-          {mapMarkers}
-        </Marker> */}
       </MapContainer>
       }
     </div>

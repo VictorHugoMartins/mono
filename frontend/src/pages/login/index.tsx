@@ -13,6 +13,7 @@ import Toast from "../../utils/Toast/Toast";
 import React from "react";
 import { setCookie } from "nookies";
 import loginroute from "~/routes/login.route";
+import { Link } from "@material-ui/core";
 // import loginroute from "~/routes/login.route";
 
 const Login: React.FC = () => {
@@ -119,8 +120,8 @@ const Login: React.FC = () => {
               </Grid>
               <Grid xs={12}>
                 <Flexbox justify="space-between">
-                  {/* <Link href={"/"}>Quero me inscrever</Link> */}
-                  {/* <Link href={"/esqueceusenha"}>Esqueceu a senha?</Link> */}
+                  <Link href={"/cadastro"}>Quero me cadastrar</Link>
+                  <Link href={"/esqueceusenha"}>Esqueceu a senha?</Link>
                 </Flexbox>
               </Grid>
             </Grid>
