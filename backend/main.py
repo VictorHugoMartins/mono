@@ -42,7 +42,7 @@ def save_super_survey(): # Recebe o username e password do request em formato js
 			"message": "Pesquisa cadastrada com sucesso!",
 			"success": True
 		})
-	# response.headers.add('Access-Control-Allow-Origin', '*')
+	response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -91,7 +91,7 @@ def continue_super_survey(): # Recebe o username e password do request em format
 			"message": "Pesquisa em andamento!",
 			"success": True
 		})
-	# response.headers.add('Access-Control-Allow-Origin', '*')
+	response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -107,7 +107,7 @@ def export_super_survey(): # Recebe o username e password do request em formato 
 			"message": "Dados retornados com sucesso!",
 			"success": True
 		})
-	# response.headers.add('Access-Control-Allow-Origin', '*')
+	response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -136,7 +136,7 @@ def export_super_survey_info(): # Recebe o username e password do request em for
 				"message": "Dados retornados com sucesso!",
 				"success": True
 			})
-		# response.headers.add('Access-Control-Allow-Origin', '*')
+		response.headers.add('Access-Control-Allow-Origin', '*')
 		return response
 	except KeyError:
 		response = jsonify({"message": "Faça login!", "success": False, "status": 401}), 401 # Inicia a aplicação
@@ -207,7 +207,7 @@ def get_all_details(): # Recebe o username e password do request em formato json
 			"message": "Dados retornados com sucesso!",
 			"success": True
 		})
-	# response.headers.add('Access-Control-Allow-Origin', '*')
+	response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -465,7 +465,7 @@ def h(): # Recebe o username e password do request em formato json
 	return jsonify({"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False}), 500 # Inicia a aplicação
 
 if __name__ == '__main__':
-	app.run(port=5000)
+	app.run(host='0.0.0.0', port=5000)
 
 
 # exportar dados csv (ok)

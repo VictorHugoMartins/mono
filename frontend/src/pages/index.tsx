@@ -138,7 +138,7 @@ function MySuperSurveys() {
 
   const loadTableData = (userId: string | number) => {
     setSearching(true);
-    const apiUrl = 'http://localhost:5000/super_survey/getall'; // url da API Flask
+    const apiUrl = 'https://flask-production-7978.up.railway.app/'; // url da API Flask
     const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição
