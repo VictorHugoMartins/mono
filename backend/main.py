@@ -38,7 +38,7 @@ def save_super_survey(): # Recebe o username e password do request em formato js
 
 	thread = Th(1, data, ss_id)
 	thread.start()
-												
+
 	response = jsonify({
 			"object": { "super_survey_id": ss_id },
 			"message": "Pesquisa cadastrada com sucesso!",
@@ -162,7 +162,7 @@ def get_rooms(data, columns):
 	rooms =  export_datatable(ab_config, """
 										WITH consulta AS ( {consulta} ) 
 											SELECT room_id, origem, {columns} FROM consulta {query}
-											""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"]), columns=xNotIn(exclusive_booking_columns, columns), query=query), params, "Airbnb", True)
+											""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"]), columns=columns, query=query), params, "Airbnb", True)
 	return rooms
 
 @app.route('/details/getbyid', methods=['POST'])
@@ -175,6 +175,13 @@ def get_all_details(): # Recebe o username e password do request em formato json
 																(data["ss_id"],),
 																"Selecionando colunas da configuração de pesquisa",
 																"Falha ao selecionar colunas da configuração de pesquisa")
+	if not result:
+			return jsonify({
+				"object": None,
+				"message": "Falha ao selecionar colunas da configuração de pesquisa",
+				"success": False
+		})
+	
 	platform = result[0][0]
 	columns = result[0][1].replace(' ', ', ')
 	if ( 'platform' in columns):
@@ -237,8 +244,6 @@ def get_filters():
 
 		excluded_columns = ["platform", "latitude", "longitude", "city", "host_id"]
 		for column in columns:
-				if (column == "overall_satisfaction"):
-					column = "avg_rating"
 				if (column == 'host_id'):
 						str_columns.append({ "label": columnDict[column]["label"], "value": column })
 						result_columns.append({ "name": column, "type": columnDict[column]["type"], "label": columnDict[column]["label"], "required": False })
@@ -437,8 +442,6 @@ def get_data_columns(): # Recebe o username e password do request em formato jso
 			if ( args.get("platform") in columnDict[x]["excludeIn"]):
 				continue
 			else:
-				if (x == "overall_satisfaction"):
-					x = "avg_rating"
 				result.append({ "label": columnDict[x]["label"], "value": x})
 	
 		return jsonify({
@@ -458,8 +461,12 @@ def hello_world(): # Recebe o username e password do request em formato json
 		# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
 		return jsonify({"message": "Erro!", "success": False}), 500 # Inicia a aplicação
 
+@app.route('/')
+def h(): # Recebe o username e password do request em formato json
+	return jsonify({"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False}), 500 # Inicia a aplicação
+
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', debug=True)
+	app.run(host='0.0.0.0', port=5000,debug=True)
 
 
 # exportar dados csv (ok)

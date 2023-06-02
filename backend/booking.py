@@ -47,7 +47,7 @@ class BListing():
 		self.bedtype = None
 		self.latitude = None
 		self.longitude = None
-		self.overall_satisfaction = None
+		self.avg_rating = None
 		self.comodities = None
 		self.hotel_name = None
 		self.localized_address = None
@@ -129,14 +129,14 @@ class BListing():
 			sql = """
 				insert into booking_room (
 					room_id, room_name, hotel_name, address, comodities,
-					overall_satisfaction, property_type, bed_type, accommodates,
+					avg_rating, property_type, bed_type, accommodates,
 					price, latitude, longitude, reviews, survey_id,
 					checkin_date, checkout_date, location_id
 					)
 				values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 			insert_args = (
 				self.room_id, self.hotel_name, self.room_name, self.localized_address, self.comodities,
-				self.overall_satisfaction, self.property_type, self.bedtype, self.accomodates,
+				self.avg_rating, self.property_type, self.bedtype, self.accomodates,
 				self.price, self.latitude, self.longitude, self.reviews, self.survey_id, self.checkin_date, self.checkout_date,
 				self.location_id
 				)
@@ -166,7 +166,7 @@ class BListing():
 			logger.debug("Updating...")
 			sql = """
 				update booking_room set
-				hotel_id = %s, name = %s, room_name = %s, overall_satisfaction = %s,
+				hotel_id = %s, name = %s, room_name = %s, avg_rating = %s,
 				address = %s, popular_facilities = %s, reviews = %s,
 				property_type = %s, bed_type = %s, accommodates = %s,
 				children_accommodates = %s, price = %s, latitude = %s,
@@ -176,7 +176,7 @@ class BListing():
 				last_modified = now()::timestamp
 				where room_id = %s"""
 			update_args = (
-				self.hotel_id, self.name, self.room_name, self.overall_satisfaction,
+				self.hotel_id, self.name, self.room_name, self.avg_rating,
 				self.address, self.popular_facilities, self.reviews,
 				self.property_type, self.bed_type, self.adults_accommodates,
 				self.children_accommodates, self.price,
@@ -259,10 +259,10 @@ class BListing():
 		try:
 				element = driver.find_element(By.CSS_SELECTOR, 'div.b5cd09854e.d10a6220b4')
 				if ',' in element.text:
-					self.overall_satisfaction = float(element.text.replace(',', '.'))
+					self.avg_rating = float(element.text.replace(',', '.'))
 				else:
 					if len(element.text) > 0:
-						self.overall_satisfaction = float(element.text)
+						self.avg_rating = float(element.text)
 		except selenium.common.exceptions.NoSuchElementException:
 				raise
 		except:

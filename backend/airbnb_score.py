@@ -197,10 +197,8 @@ def airbnb_score_search(config, city, survey_id, args):
         cur = conn.cursor()
 
         sql = """SELECT distinct(room_id) from room, search_area
-				where survey_id = %s"""  # and comodities is null
-        # and price is null
-        # and overall_satisfaction is null
-
+				where survey_id in ( select distinct(survey_id) from survey where ss_id = %s)"""  # and comodities is null
+        
         cur.execute(sql, (survey_id,))
         rowcount = cur.rowcount
         logging.info(str(rowcount) + " results")

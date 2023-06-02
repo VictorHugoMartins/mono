@@ -44,6 +44,7 @@ class Th(Thread):
         self.include_route_search,
         self.ss_id,
     )
+    
     return search.full_process(config=ab_config,
         platform=self.platform[0],
         search_area_name=self.search_area_name[0],

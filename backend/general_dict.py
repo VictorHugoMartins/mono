@@ -33,6 +33,15 @@ columnDict = {
 		"origem": { "type": "checkbox", "label": "Plataforma", "excludeIn": ["Airbnb", "Booking", "both"] },
 }
 
+statusDict = {
+  "PESQUISAR_CIDADE_AIRBNB": [0, 1, -1, 11, -11, 3, -3],
+  "PESQUISAR_CIDADE_BOOKING": [0, 1, -1, 11, -11, 3, -3, 73, 6, 7, -7, 711, -711],
+  "PESQUISAR_BAIRRO_AIRBNB": [4, -4, 41, 42, -41, -42],
+  "PESQUISAR_BAIRRO_BOOKING": [4, -4, 41, 42, -41, -42, 74, -74, 741, 742, -741, -742],
+  "PESQUISAR_RUA_AIRBNB": [5, -5, 43, 51, -51, 82, -82, 81, -81],
+  "PESQUISAR_RUA_BOOKING": [5, -5, 43, 51, -51, 82, -82, 81, -81, 75, -75, 743, 751, -751, 782, -782, 781, -781]
+}
+
 # SQL SCRIPTS
 def get_airbnb_rooms_by_ss_id(ss_id):
 	return """SELECT * from rooms 
