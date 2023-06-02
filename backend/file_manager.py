@@ -47,11 +47,6 @@ def export_datatable(config, sql_command, params, project, toJson):
                 data.append(d)
             conn.close()
             
-            print(results)
-            print(data[0].keys())
-
-            
-
             if ( len(data) > 0):
               return { "columns": buildColumnsObject(data[0].keys()), "rows": data }
             else:
