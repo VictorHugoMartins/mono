@@ -1,7 +1,8 @@
 import NewSurveyOptions from "~/components/local/newSurveyOptions"
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure"
+import privateroute from "~/routes/private.route";
 
-export default function NewSuperSurvey() {
+function NewSuperSurvey() {
 
   return (
     <PrivatePageStructure title={"Nova pesquisa"} returnPath="/">
@@ -9,3 +10,5 @@ export default function NewSuperSurvey() {
     </PrivatePageStructure>
   )
 }
+
+export default privateroute(NewSuperSurvey);

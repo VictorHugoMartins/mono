@@ -122,7 +122,6 @@ export default function NewSurveyOptions() {
   ] as InputRenderType[]
 
   return (
-    <>
       <FormPageStructure
         buildObject={surveyBuild}
         buildPath={'/super_survey/build'}
@@ -133,10 +132,9 @@ export default function NewSurveyOptions() {
         hiddenInputs={{ user_id: userId }}
         onSuccess={(e) => {
           Toast.success(
-            "Inscrição realizada com sucesso, em breve entraremos em contato."
+            "Pesquisa iniciada com sucesso!"
           );
         }}
       />
-    </>
   )
 }

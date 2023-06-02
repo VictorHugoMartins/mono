@@ -42,7 +42,6 @@ yarn-error.log*
 # vercel
 .vercel
 
-
 venv
 *.pyc
 staticfiles
@@ -51,4 +50,3 @@ backend/db.sqlite3
 backend/getting-started/*
 backend/public/
 backend/geckodriver.log
-backend/*.config

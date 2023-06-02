@@ -76,16 +76,16 @@ const Register: React.FC = () => {
               {
                 name: "username",
                 required: true,
-                type: "username",
+                type: "string",
                 label: "Nome de usuário:",
                 min: null,
                 max: null,
               },
               {
-                name: "password",
+                name: "email",
                 required: true,
-                type: "password",
-                label: "Senha",
+                type: "string",
+                label: "E-mail",
                 min: null,
                 max: null,
               },
@@ -127,7 +127,7 @@ const Register: React.FC = () => {
                   required
                 />
               </Grid>
-              <Grid xs={12}>
+              {/* <Grid xs={12}>
                 <TextInputForm
                   name="password"
                   type="password"
@@ -142,19 +142,13 @@ const Register: React.FC = () => {
                   label="Confirmar Senha"
                   required
                 />
-              </Grid>
+              </Grid> */}
               <Grid>
                 <ErrorForm />
               </Grid>
               <Grid xs={12}>
                 <SubmitButton color="primary" text="Solicitar Cadastro" type="submit" />
                 {/* loading={requesting} /> */}
-              </Grid>
-              <Grid xs={12}>
-                <Flexbox justify="space-between">
-                  {/* <Link href={"/cadastro"}>Quero me inscrever</Link> */}
-                  {/* <Link href={"/esqueceusenha"}>Esqueceu a senha?</Link> */}
-                </Flexbox>
               </Grid>
             </Grid>
           </Form>

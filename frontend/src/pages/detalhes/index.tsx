@@ -9,6 +9,8 @@ import FormPageStructure from "~/components/structure/FormPageStructure";
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure";
 import ChartBar from "~/components/ui/Charts/ChartBar";
 import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
+import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
+import privateroute from "~/routes/private.route";
 import { ChartDataType } from "~/types/global/ChartTypes";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
 import { InputRenderType } from "~/types/global/InputRenderType";
@@ -27,6 +29,8 @@ interface DetailsProps {
 }
 
 const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
+  const [searching, setSearching] = useState(false);
+
   const [_prepareData, setPrepareData] = useState<DetailsData>();
   const [_filteredData, setFilteredData] = useState<DataTableRenderType>();
   const [_chartData, setChartData] = useState<ChartDataType[]>();
@@ -35,6 +39,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
 
 
   const prepare = (data: any) => {
+    setSearching(true);
     const apiUrl = 'http://localhost:5000/details/prepare'; // url da API Flask
     const requestData = { ss_id: survey }; // dados de login a serem enviados na requisição
 
@@ -53,9 +58,9 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
       .then(res => res.json())
       .then(data => {
         setPrepareData(data.object);
-        // setLoading(false);
+        setSearching(false);
       })
-      .catch(error => Toast.error(error));
+      .catch(error => { Toast.error(error); setSearching(false) });
 
     return resp;
   };
@@ -71,6 +76,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
   }, [_filteredResponseData])
 
   const getData = (data: any) => {
+    setSearching(true);
     const apiUrl = 'http://localhost:5000/details/getbyid'; // url da API Flask
     const requestData = { ss_id: survey }; // dados de login a serem enviados na requisição
 
@@ -88,10 +94,12 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
     const resp = fetch(apiUrl, requestOptions)
       .then(res => res.json())
       .then(data => {
-        setFilteredData(data.object);
-        // setLoading(false);
+        if (data.success) {
+          setFilteredData(data.object);
+          setSearching(false);
+        } else Toast.error(data.message);
       })
-      .catch(error => Toast.error(error));
+      .catch(error => { Toast.error(error); setSearching(false) });
 
     return resp;
   };
@@ -99,7 +107,6 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
   useEffect(() => {
     if (_prepareData) {
       getData(null);
-      // getChartData(null);
     }
   }, [_prepareData])
 
@@ -110,6 +117,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
 
   return (
     <PrivatePageStructure title="Detalhes da pesquisa " returnPath="/minhaspesquisas">
+      <PopupLoading show={searching} />
       <Flexbox width={"100%"} justify="space-between">
         <div style={{ width: "30vw", maxHeight: "80vh", overflow: "hidden", overflowY: "scroll" }}>
           <DetailsFilter
@@ -198,4 +206,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-export default DetailsPage;
+export default privateroute(DetailsPage);

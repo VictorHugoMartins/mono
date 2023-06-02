@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin
 from general_config import ABConfig
 import search
 from file_manager import export_datatable
@@ -15,7 +14,6 @@ exclusive_airbnb_columns = ['host_id', 'name', 'minstay', 'bathroom', 'avg_ratin
 exclusive_booking_columns = ['start_date', 'finish_date']
 
 app = Flask(__name__) # Dados de usuário armazenados em um dicionário
-CORS(app)
 
 # criar dicionario p converter valores numericos
 @app.route('/super_survey/save', methods=['POST'])
@@ -44,7 +42,7 @@ def save_super_survey(): # Recebe o username e password do request em formato js
 			"message": "Pesquisa cadastrada com sucesso!",
 			"success": True
 		})
-	response.headers.add('Access-Control-Allow-Origin', '*')
+	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -65,9 +63,10 @@ def continue_super_survey(): # Recebe o username e password do request em format
 																	where super_survey_config.ss_id = %s
 																	limit 1""",
 																(data["ss_id"],),
-																"Selecionando colunas da configuração de pesquisa",
-																"Falha ao selecionar colunas da configuração de pesquisa")
-	
+																"Selecionando dado de configuração de pesquisa",
+																"Falha ao selecionar dados de configurações de pesquisa")
+	if not result:
+		return jsonify({"message": "Falha ao selecionar dados de configurações de pesquisa", "success": False}), 500 # Inicia a aplicação
 	new_params = {
 		"platform": result[0][0],
 		"city": result[0][1],
@@ -92,7 +91,7 @@ def continue_super_survey(): # Recebe o username e password do request em format
 			"message": "Pesquisa em andamento!",
 			"success": True
 		})
-	response.headers.add('Access-Control-Allow-Origin', '*')
+	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -108,7 +107,7 @@ def export_super_survey(): # Recebe o username e password do request em formato 
 			"message": "Dados retornados com sucesso!",
 			"success": True
 		})
-	response.headers.add('Access-Control-Allow-Origin', '*')
+	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -137,7 +136,7 @@ def export_super_survey_info(): # Recebe o username e password do request em for
 				"message": "Dados retornados com sucesso!",
 				"success": True
 			})
-		response.headers.add('Access-Control-Allow-Origin', '*')
+		# response.headers.add('Access-Control-Allow-Origin', '*')
 		return response
 	except KeyError:
 		response = jsonify({"message": "Faça login!", "success": False, "status": 401}), 401 # Inicia a aplicação
@@ -208,7 +207,7 @@ def get_all_details(): # Recebe o username e password do request em formato json
 			"message": "Dados retornados com sucesso!",
 			"success": True
 		})
-	response.headers.add('Access-Control-Allow-Origin', '*')
+	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -466,7 +465,7 @@ def h(): # Recebe o username e password do request em formato json
 	return jsonify({"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False}), 500 # Inicia a aplicação
 
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=5000,debug=True)
+	app.run(port=5000)
 
 
 # exportar dados csv (ok)
