@@ -459,7 +459,7 @@ def hello_world(): # Recebe o username e password do request em formato json
 		return jsonify({"message": "Erro!", "success": False}), 500 # Inicia a aplicação
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(host='0.0.0.0', debug=True)
 
 
 # exportar dados csv (ok)
