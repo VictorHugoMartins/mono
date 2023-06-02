@@ -22,7 +22,7 @@ docutils==0.15.2
 Flask==0.12.2
 flask_cors==3.0.10
 folium==0.10.1
-geographiclib==1.50
+geographiclib>=1.52
 geopy==2.3.0
 googlemaps==4.10.0
 googletrans==3.0.0
@@ -98,6 +98,3 @@ whitenoise==5.2.0
 xlrd==1.2.0
 XlsxWriter==1.2.8
 yellowbrick==1.1
-
-
-

@@ -7,7 +7,6 @@ import logging
 import requests
 import argparse
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import selenium
 import psycopg2
@@ -15,7 +14,6 @@ from airbnb_geocoding import Location
 from airbnb_geocoding import BoundingBox
 from lxml import html
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
