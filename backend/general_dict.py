@@ -5,7 +5,6 @@ columnDict = {
 		
 		"name": { "type": "string", "label": "Nome", "excludeIn": ["Booking"] },
 		"hotel_name": { "type": "string", "label": "Nome do hotel", "excludeIn": ["Airbnb"] },
-		"room_name": { "type": "string", "label": "Nome do quarto", "excludeIn": ["Airbnb"] },
 		
 		"latitude": { "type": "decimal", "label": "Latitude", "excludeIn": [] },
 		"longitude": { "type": "decimal", "label": "Longitude", "excludeIn": [] },
@@ -23,12 +22,8 @@ columnDict = {
 		"route": { "type": "checkbox", "label": "Rua", "excludeIn": [] },
 		"sublocality": { "type": "checkbox", "label": "Bairro", "excludeIn": [] },
 		"locality": { "type": "checkbox", "label": "Cidade", "excludeIn": [] },
-		
-		"avg_rating": { "type": "number", "label": "Classificação Média", "excludeIn": ["Booking"] },
-		"overall_satisfaction": { "type": "number", "label": "Classificação Média", "excludeIn": ["Airbnb"] },
-		
+		"avg_rating": { "type": "number", "label": "Classificação Média", "excludeIn": [] },
 		"location_id": { "type": "checkbox", "label": "Código Identificador da Localização", "excludeIn": [] },
-
 		"ss_id": { "type": "string", "label": "Código Identificador da Pesquisa", "excludeIn": ["Airbnb", "Booking", "both"] },
 		"city": { "type": "string", "label": "Cidade", "excludeIn": ["Airbnb", "Booking", "both"] },
 		"status": { "type": "string", "label": "Status", "excludeIn": ["Airbnb", "Booking", "both"] },

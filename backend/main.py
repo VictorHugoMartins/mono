@@ -217,6 +217,13 @@ def get_filters():
 																(data["ss_id"],),
 																"Selecionando colunas da configuração de pesquisa",
 																"Falha ao selecionar colunas da configuração de pesquisa")
+		if not result:
+			return jsonify({
+				"object": None,
+				"message": "Falha ao selecionar colunas da configuração de pesquisa",
+				"success": False
+		})
+			
 		platform = result[0][0]
 		columns = result[0][1].replace('{', '').replace('}','').split(',')
 		print("as colunas: ", columns)
@@ -446,11 +453,7 @@ def get_data_columns(): # Recebe o username e password do request em formato jso
 @app.route('/test/hello_world', methods=['GET'])
 def hello_world(): # Recebe o username e password do request em formato json
 	try:
-		return jsonify({
-				"object": "Hello World",
-				"message": "Sucesso ao retornar colunas para seleção de dados para coleta",
-				"success": True
-			})
+		return "Hello World"
 	except:
 		# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
 		return jsonify({"message": "Erro!", "success": False}), 500 # Inicia a aplicação
