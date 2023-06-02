@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 from general_config import ABConfig
 import search
 from file_manager import export_datatable
@@ -14,6 +15,7 @@ exclusive_airbnb_columns = ['host_id', 'name', 'minstay', 'bathroom', 'avg_ratin
 exclusive_booking_columns = ['start_date', 'finish_date']
 
 app = Flask(__name__) # Dados de usuário armazenados em um dicionário
+CORS(app)
 
 # criar dicionario p converter valores numericos
 @app.route('/super_survey/save', methods=['POST'])
