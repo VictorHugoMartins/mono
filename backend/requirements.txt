@@ -93,7 +93,7 @@ Unidecode==1.1.1
 urllib3==1.25.8
 wcwidth==0.2.5
 webdriver_manager==3.8.6
-Werkzeug==1.0.1
+Werkzeug==0.16.1
 whitenoise==5.2.0
 xlrd==1.2.0
 XlsxWriter==1.2.8
