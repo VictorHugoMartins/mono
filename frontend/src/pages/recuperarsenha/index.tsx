@@ -1,3 +1,4 @@
+import { BASE_API_URL } from "~/config/apiBase";
 import LoginPageStructure from "../../components/structure/LoginPageStructure";
 import ErrorForm from "../../components/ui/Form/ErrorForm";
 import Form from "../../components/ui/Form/Form";
@@ -17,7 +18,7 @@ const ForgotPassword: React.FC = () => {
       Toast.error("As senhas devem ser iguais!")
       return;
     }
-    const apiUrl = 'http://localhost:5000/api/change_password'; // url da API Flask
+    const apiUrl = `${BASE_API_URL}/api/change_password`; // url da API Flask
     const requestData = {
       email: data.email,
       password: data.password

@@ -5,6 +5,7 @@ import FormPageStructure from "../structure/FormPageStructure"
 import { InputRenderType } from "~/types/global/InputRenderType";
 import { SetStateAction } from "react";
 import { ObjectResponse } from "~/types/global/ObjectResponse";
+import { BASE_API_URL } from "~/config/apiBase";
 
 interface DetailsFiltersProps {
   data: any;
@@ -21,7 +22,7 @@ const DetailsFilters: React.FC<DetailsFiltersProps> = ({ data, survey, setResult
         <FormPageStructure
           buildObject={data.result_columns as InputRenderType[]}
           buildPath={'/super_survey/build'}
-          submitPath={'http://localhost:5000/details/getbyid'}
+          submitPath={`${BASE_API_URL}/details/getbyid`}
           buttonSubmitText="Filtrar"
           buttonCancelText="Limpar filtros"
           returnPath="/"

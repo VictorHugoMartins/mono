@@ -6,6 +6,7 @@ import Button from "~/components/ui/Button/Button";
 import DataTableButton from "~/components/ui/DataTable/DataTableButton/DataTableButton";
 import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
+import { BASE_API_URL } from "~/config/apiBase";
 import { useUserContext } from "~/context/global/UserContext";
 import privateroute from "~/routes/private.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
@@ -25,7 +26,7 @@ function MySuperSurveys() {
   function MySuperSurveysButtons({ rowData }: TableButtonProps) {
     const update = (data: any) => {
       setSearching(true);
-      const apiUrl = 'http://localhost:5000/update'; // url da API Flask
+      const apiUrl = `${BASE_API_URL}/update`; // url da API Flask
       const requestData = { ss_id: 50 }; // dados de login a serem enviados na requisição
 
       // Configuração do cabeçalho da requisição
@@ -59,7 +60,7 @@ function MySuperSurveys() {
 
     const downloadData = (obj: any) => {
       setSearching(true);
-      const apiUrl = 'http://localhost:5000/super_survey/export'; // url da API Flask
+      const apiUrl = `${BASE_API_URL}/super_survey/export`; // url da API Flask
       const requestData = { ss_id: obj.ss_id }; // dados de login a serem enviados na requisição
 
       // Configuração do cabeçalho da requisição
@@ -89,7 +90,7 @@ function MySuperSurveys() {
 
     const tryAgain = (ss_id: string) => {
       setSearching(true);
-      const apiUrl = 'http://localhost:5000/super_survey/continue'; // url da API Flask
+      const apiUrl = `${BASE_API_URL}/super_survey/continue`; // url da API Flask
       const requestData = { ss_id }; // dados de login a serem enviados na requisição
 
       console.log(requestData);
@@ -138,7 +139,7 @@ function MySuperSurveys() {
 
   const loadTableData = (userId: string | number) => {
     setSearching(true);
-    const apiUrl = 'http://localhost:5000/super_survey/getall'; // url da API Flask
+    const apiUrl = `${BASE_API_URL}/super_survey/getall`; // url da API Flask
     const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição

@@ -19,6 +19,7 @@ CORS(app)
 
 # criar dicionario p converter valores numericos
 @app.route('/super_survey/save', methods=['POST'])
+@cross_origin()
 def save_super_survey(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
 
@@ -51,6 +52,7 @@ def save_super_survey(): # Recebe o username e password do request em formato js
 	#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 @app.route('/super_survey/continue', methods=['POST'])
+@cross_origin()
 def continue_super_survey(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
 	print(data)
@@ -100,6 +102,7 @@ def continue_super_survey(): # Recebe o username e password do request em format
 	#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 @app.route('/super_survey/export', methods=['POST'])
+@cross_origin()
 def export_super_survey(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
 	
@@ -116,8 +119,10 @@ def export_super_survey(): # Recebe o username e password do request em formato 
 	#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 @app.route('/super_survey/getall', methods=['POST'])
+@cross_origin()
 def export_super_survey_info(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
+	print("uai")
 
 	try:
 		response = jsonify({
@@ -167,6 +172,7 @@ def get_rooms(data, columns):
 	return rooms
 
 @app.route('/details/getbyid', methods=['POST'])
+@cross_origin()
 def get_all_details(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
 	result = select_command(ab_config,
@@ -216,6 +222,7 @@ def get_all_details(): # Recebe o username e password do request em formato json
 	#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 @app.route('/details/prepare', methods=['POST'])
+@cross_origin()
 def get_filters():
 		data = request.get_json()
 		result = select_command(ab_config,
@@ -275,6 +282,7 @@ def get_filters():
 		})
 
 @app.route('/details/chart', methods=['POST'])
+@cross_origin()
 def details_chart(): # Recebe o username e password do request em formato json
 		data = request.get_json() # Verifica se o usuário existe no dicionário
 		if ( (data["agg_method"] != "count") and (data["number_column"] == "nenhum")):
@@ -314,6 +322,7 @@ def buildGraphObjectFromSqlResult(data):
 	return [{ "values": result }]
 
 @app.route('/api/login', methods=['POST'])
+@cross_origin()
 def login(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
 	try:
@@ -340,6 +349,7 @@ def login(): # Recebe o username e password do request em formato json
 		return jsonify({"message": "Erro ao realizar login!", "success": False}), 401 # Inicia a aplicação
 
 @app.route('/api/register', methods=['POST'])
+@cross_origin()
 def register(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
 	try:
@@ -366,6 +376,7 @@ def register(): # Recebe o username e password do request em formato json
 		return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
 
 @app.route('/api/edit_user', methods=['POST'])
+@cross_origin()
 def edit_user(): # Recebe o username e password do request em formato json
 		data = request.get_json() # Verifica se o usuário existe no dicionário
 		# try:
@@ -393,6 +404,7 @@ def edit_user(): # Recebe o username e password do request em formato json
 
 
 @app.route('/api/change_password', methods=['POST'])
+@cross_origin()
 def change_password(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
 	try:
@@ -414,6 +426,7 @@ def change_password(): # Recebe o username e password do request em formato json
 		return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401 # Inicia a aplicação
 
 @app.route('/api/forgot_password', methods=['POST'])
+@cross_origin()
 def forgot_password(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
 	try:
@@ -435,6 +448,7 @@ def forgot_password(): # Recebe o username e password do request em formato json
 		return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401 # Inicia a aplicação
 
 @app.route('/super_survey/get_data_columns', methods=['GET'])
+@cross_origin()
 def get_data_columns(): # Recebe o username e password do request em formato json
 	args = request.args
 	try:
@@ -455,6 +469,7 @@ def get_data_columns(): # Recebe o username e password do request em formato jso
 		return jsonify({"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False}), 500 # Inicia a aplicação
 
 @app.route('/test/hello_world', methods=['GET'])
+@cross_origin()
 def hello_world(): # Recebe o username e password do request em formato json
 	try:
 		return "Hello World"
@@ -463,11 +478,14 @@ def hello_world(): # Recebe o username e password do request em formato json
 		return jsonify({"message": "Erro!", "success": False}), 500 # Inicia a aplicação
 
 @app.route('/')
+@cross_origin()
 def h(): # Recebe o username e password do request em formato json
-	return jsonify({"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False}), 500 # Inicia a aplicação
+	response = jsonify({"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False})
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	return response # Inicia a aplicação
 
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=5000)
+	app.run(host='0.0.0.0', port=5000, debug=True)
 
 
 # exportar dados csv (ok)

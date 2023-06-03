@@ -10,6 +10,7 @@ import PrivatePageStructure from "~/components/structure/PrivatePageStructure/Pr
 import ChartBar from "~/components/ui/Charts/ChartBar";
 import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
+import { BASE_API_URL } from "~/config/apiBase";
 import privateroute from "~/routes/private.route";
 import { ChartDataType } from "~/types/global/ChartTypes";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
@@ -40,7 +41,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
 
   const prepare = (data: any) => {
     setSearching(true);
-    const apiUrl = 'http://localhost:5000/details/prepare'; // url da API Flask
+    const apiUrl = `${BASE_API_URL}/details/prepare`; // url da API Flask
     const requestData = { ss_id: survey }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição
@@ -77,7 +78,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
 
   const getData = (data: any) => {
     setSearching(true);
-    const apiUrl = 'http://localhost:5000/details/getbyid'; // url da API Flask
+    const apiUrl = `${BASE_API_URL}/details/getbyid`; // url da API Flask
     const requestData = { ss_id: survey }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição

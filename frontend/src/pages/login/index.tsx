@@ -14,6 +14,7 @@ import React from "react";
 import { setCookie } from "nookies";
 import loginroute from "~/routes/login.route";
 import { Link } from "@material-ui/core";
+import { BASE_API_URL } from "~/config/apiBase";
 // import loginroute from "~/routes/login.route";
 
 const Login: React.FC = () => {
@@ -21,7 +22,7 @@ const Login: React.FC = () => {
 
   // const { requesting, signIn } = useAuthContext();
   const signIn = (data: any) => {
-    const apiUrl = 'http://localhost:5000/api/login'; // url da API Flask
+    const apiUrl = `${BASE_API_URL}/api/login`; // url da API Flask
     const requestData = {
       username: data.username,
       password: data.password

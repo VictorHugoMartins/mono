@@ -5,12 +5,13 @@ import { Grid } from "./ui/Layout/Grid";
 import ErrorForm from "./ui/Form/ErrorForm";
 import SubmitButton from "./ui/Form/SubmitButton/SubmitButton";
 import { parseCookies } from "nookies";
+import { BASE_API_URL } from "~/config/apiBase";
 
 export default function EditUserForm() {
   const { userId } = parseCookies();
 
   const edit_user = (data: any) => {
-    const apiUrl = 'http://localhost:5000/api/edit_user'; // url da API Flask
+    const apiUrl = `${BASE_API_URL}/api/edit_user`; // url da API Flask
     const requestData = {
       email: data.email,
       name: data.name,

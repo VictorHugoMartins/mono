@@ -12,6 +12,7 @@ import Toast from "../../utils/Toast/Toast";
 import React from "react";
 import { setCookie } from "nookies";
 import loginroute from "~/routes/login.route";
+import { BASE_API_URL } from "~/config/apiBase";
 
 const Register: React.FC = () => {
   // const { requesting, register } = useAuthContext();
@@ -20,7 +21,7 @@ const Register: React.FC = () => {
       Toast.error("As senhas devem ser iguais!")
       return;
     }
-    const apiUrl = 'http://localhost:5000/api/register'; // url da API Flask
+    const apiUrl = `${BASE_API_URL}/api/register` // url da API Flask
     const requestData = {
       email: data.email,
       name: data.name,

@@ -5,6 +5,7 @@ import { Grid } from "./ui/Layout/Grid";
 import ErrorForm from "./ui/Form/ErrorForm";
 import SubmitButton from "./ui/Form/SubmitButton/SubmitButton";
 import { parseCookies } from "nookies";
+import { BASE_API_URL } from "~/config/apiBase";
 
 function ChangePasswordForm() {
   const { userId } = parseCookies();
@@ -14,7 +15,7 @@ function ChangePasswordForm() {
       Toast.error("As senhas devem ser iguais!")
       return;
     }
-    const apiUrl = 'http://localhost:5000/api/change_password'; // url da API Flask
+    const apiUrl = `${BASE_API_URL}/api/change_password`; // url da API Flask
     const requestData = {
       password: data.password,
       userId: userId,
