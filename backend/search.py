@@ -236,7 +236,6 @@ def execute_search(config, platform="Airbnb", search_area_name='', fill_airbnb_w
 					search_booking_rooms(ab_config, search_area_name, start_date, finish_date, survey_id)
 
 			if (fill_airbnb_with_selenium):
-					print("preenchendo c selenium")
 					airbnb_score_search(ab_config, search_area_name, super_survey_id, None)
 		except Exception as e:
 			print("o erro 240:", e)

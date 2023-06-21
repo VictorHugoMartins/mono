@@ -2,7 +2,7 @@ import re
 import bs4
 import time
 import json
-import string
+import random
 import logging
 import requests
 import argparse
@@ -221,3 +221,9 @@ def build_options(column, values, ss_id):
 						params=(()),
 						initial_message="Selecionando valores mínimo e máximo para " + str(column),
 						failure_message="Falha ao selecionar valores mínimo e máximo para " + str(column)))
+
+def get_random_string(length):
+    # choose from all lowercase letter
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    print("Random string of length", length, "is:", result_str)

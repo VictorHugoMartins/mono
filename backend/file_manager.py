@@ -38,6 +38,8 @@ def export_datatable(config, sql_command, params, project, toJson):
         if ( toJson ):
             results = cur.fetchall()
 
+            print(results)
+
             # Cria um dicionário com os resultados
             data = []
             for row in results:
@@ -48,8 +50,10 @@ def export_datatable(config, sql_command, params, project, toJson):
             conn.close()
             
             if ( len(data) > 0):
+              print("tudo")
               return { "columns": buildColumnsObject(data[0].keys()), "rows": data }
             else:
+              print("uai")
               return { "columns": [], "rows": []}
         else:
             # create a directory for all the data for the city

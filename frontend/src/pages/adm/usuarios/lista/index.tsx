@@ -24,44 +24,10 @@ function MySuperSurveys() {
   const { userId, userName } = parseCookies();
 
   function TableButtons({ rowData }: TableButtonProps) {
-    const update = (data: any) => {
+    const acceptUser = (obj: any) => {
       setSearching(true);
-      const apiUrl = `${BASE_API_URL}/update`; // url da API Flask
-      const requestData = { ss_id: data.ss_id }; // dados de login a serem enviados na requisição
-
-      // Configuração do cabeçalho da requisição
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-
-      const requestOptions = {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(requestData)
-      };
-
-      // Realiza a requisição para a API Flask
-      const resp = fetch(apiUrl, requestOptions)
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) Toast.success("Status da pesquisa atualizado com sucesso!")
-          else Toast.error("Erro ao atualizar status da pesquisa!")
-          setSearching(false);
-        })
-        .catch(error => { Toast.error(error); setSearching(false); });
-
-      return resp;
-    };
-
-    function updateStatus(ss_id: string | number, newStatus: number) {
-      setSearching(true);
-      update({ ss_id, newStatus })
-      setSearching(false);
-    }
-
-    const downloadData = (obj: any) => {
-      setSearching(true);
-      const apiUrl = `${BASE_API_URL}/super_survey/export`; // url da API Flask
-      const requestData = { ss_id: obj.ss_id }; // dados de login a serem enviados na requisição
+      const apiUrl = `${BASE_API_URL}/users/accept`; // url da API Flask
+      const requestData = { user_id: obj.user_id }; // dados de login a serem enviados na requisição
 
       // Configuração do cabeçalho da requisição
       const headers = new Headers();
@@ -78,8 +44,35 @@ function MySuperSurveys() {
         .then(res => res.json())
         .then(data => {
           if (data.success) {
-            let csvFile = JSONtoCSV(data.object.rows);
-            downloadCSV(csvFile, obj.ss_id)
+            Toast.success(data.message)
+          } else Toast.error(data.message)
+          setSearching(false)
+        })
+        .catch(error => { Toast.error(error), setSearching(false) });
+
+      return resp;
+    };
+    const deleteUser = (obj: any) => {
+      setSearching(true);
+      const apiUrl = `${BASE_API_URL}/users/delete`; // url da API Flask
+      const requestData = { user_id: obj.user_id }; // dados de login a serem enviados na requisição
+
+      // Configuração do cabeçalho da requisição
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+
+      const requestOptions = {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(requestData)
+      };
+
+      // Realiza a requisição para a API Flask
+      const resp = fetch(apiUrl, requestOptions)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            Toast.success(data.message)
           } else Toast.error("Erro ao baixar dados!")
           setSearching(false)
         })
@@ -88,10 +81,10 @@ function MySuperSurveys() {
       return resp;
     };
 
-    const tryAgain = (ss_id: string) => {
+    const switchPermission = (ss_id: string, newPermission: string) => {
       setSearching(true);
-      const apiUrl = `${BASE_API_URL}/super_survey/continue`; // url da API Flask
-      const requestData = { ss_id }; // dados de login a serem enviados na requisição
+      const apiUrl = `${BASE_API_URL}/users/change_permission`; // url da API Flask
+      const requestData = { ss_id, newPermission }; // dados de login a serem enviados na requisição
 
       console.log(requestData);
 
@@ -121,25 +114,18 @@ function MySuperSurveys() {
 
     return (
       <>
-        {rowData.status !== 200 &&
-          <DataTableButton icon="FaCheck" title="Finalizar" onClick={() => updateStatus(rowData.ss_id, 200)} />
-        }
-        {/* {rowData.status <= 1 && */}
-        <DataTableButton icon="FaPlay" title="Tentar novamente" onClick={() => tryAgain(rowData.ss_id)} />
-        {/* } */}
-        {(rowData.status > 0) && (rowData.status !== 1) &&
-          <DataTableButton icon="FaUpload" title="Baixar dados" onClick={() => downloadData({ ss_id: rowData.ss_id })} />
-        }
-        <DataTableButton icon="FaInfo" title="Ver detalhes" onClick={() => window.location.assign(`/detalhes?survey=${rowData.ss_id}`)} />
+        <DataTableButton icon="FaSync" title={`Transformar em ${rowData.permission === "visitante" ? "adm" : "visitante"}`} onClick={() => switchPermission(rowData.user_id, rowData.permission === "visitante" ? "adm" : "visitante")} />
+        <DataTableButton icon="FaTrash" title="Deletar usuário" onClick={() => deleteUser({ user_id: rowData.user_id })} />
+        {!rowData.password && <DataTableButton icon="FaCheck" title="Aceitar solicitação de acesso" onClick={() => acceptUser({ user_id: rowData.user_id })} />}
       </>
     );
   }
 
-  const [_tableData, setTableData] = useState<DataTableRenderType>();
+  const [_data, setData] = useState<DataTableRenderType>();
 
-  const loadTableData = (userId: string) => {
+  const loadTable = (userId: string) => {
     setSearching(true);
-    const apiUrl = `${BASE_API_URL}/super_survey/getall`; // url da API Flask
+    const apiUrl = `${BASE_API_URL}/users/getall`; // url da API Flask
     const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição
@@ -157,7 +143,7 @@ function MySuperSurveys() {
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          setTableData(data.object);
+          setData(data.object);
           setSearching(false);
         } else if (data.status === 401) {
           Toast.error(data.message)
@@ -170,19 +156,19 @@ function MySuperSurveys() {
   };
 
   useEffect(() => {
-    loadTableData(userId);
+    loadTable(userId);
   }, [userId])
   return (
-    <PrivatePageStructure title={"Minhas pesquisas"}>
-      <Flexbox justify="flex-end" width={"100%"} >
+    <PrivatePageStructure title={"Lista de Usuários"}>
+      {/* <Flexbox justify="flex-end" width={"100%"} >
         <div style={{ maxWidth: "250px", padding: "8px" }}>
           <Button color="primary" text={"Iniciar nova pesquisa"} onClick={() => window.location.assign("/novapesquisa")} />
         </div>
-      </Flexbox>
+      </Flexbox> */}
       <PopupLoading show={searching} />
-      {_tableData && <Table
-        columns={_tableData.columns}
-        rows={_tableData.rows}
+      {_data && <Table
+        columns={_data.columns}
+        rows={_data.rows}
         buttons={<TableButtons />}
       />}
     </PrivatePageStructure>

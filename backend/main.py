@@ -7,6 +7,7 @@ from general_dict import columnDict, get_airbnb_rooms_by_ss_id, get_booking_room
 from utils import select_command, insert_command, update_command
 from utils import buildChartObjectFromValueCounts, send_nullable_value
 from utils import removeLastWordOfString, buildFilterQuery, asSelectObject, build_options
+from utils import get_random_string
 from thread import Th
 
 ab_config = ABConfig()
@@ -112,6 +113,7 @@ def export_super_survey(): # Recebe o username e password do request em formato 
 			"message": "Dados retornados com sucesso!",
 			"success": True
 		})
+	print(response)
 	response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
@@ -143,6 +145,7 @@ def export_super_survey_info(): # Recebe o username e password do request em for
 				"message": "Dados retornados com sucesso!",
 				"success": True
 			})
+		print(response)
 		response.headers.add('Access-Control-Allow-Origin', '*')
 		return response
 	except KeyError:
@@ -241,6 +244,8 @@ def get_filters():
 			
 		platform = result[0][0]
 		columns = result[0][1].replace('{', '').replace('}','').split(',')
+		if ( len(columns) == 1 ):
+			columns = columns[0].split(' ')
 		print("as colunas: ", columns)
 
 		numeric_columns = [{ "label": "Nenhum", "value": "nenhum" }]
@@ -354,8 +359,8 @@ def register(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
 	try:
 		user_data = insert_command(ab_config,
-						sql_script="""INSERT INTO users(name, email, login, password) values(%s, %s, %s, %s) returning user_id""",
-						params=((data["name"], data["email"], data['username'], data['password'])),
+						sql_script="""INSERT INTO users(name, email, login) values(%s, %s, %s) returning user_id""",
+						params=((data["name"], data["email"], data['username'])),
 						initial_message="Autenticando usuario...",
 						failure_message="Falha ao cadastrar usuário")
 		if user_data:
@@ -479,28 +484,109 @@ def hello_world(): # Recebe o username e password do request em formato json
 
 @app.route('/')
 @cross_origin()
-def h(): # Recebe o username e password do request em formato json
+def test(): # Recebe o username e password do request em formato json
 	response = jsonify({"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False})
 	response.headers.add('Access-Control-Allow-Origin', '*')
 	return response # Inicia a aplicação
 
+@app.route('/users/getall', methods=['POST'])
+@cross_origin()
+def get_all_users(): # Recebe o username e password do request em formato json
+	data = request.get_json() # Verifica se o usuário existe no dicionário
+	
+	users =  export_datatable(ab_config, """
+											select
+														user_id,
+														name,
+														login,
+														email,
+														permission,
+															case
+																when password is not null
+																	then 'y'
+																	else null
+																end
+														as password
+													from users
+											""", None, None, True)
+	response = jsonify({
+			"object": users,
+			"message": "Dados retornados com sucesso!",
+			"success": True
+		})
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	return response
+	# finally:
+	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
+	#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
+
+@app.route('/users/change_permission', methods=['POST'])
+@cross_origin()
+def change_permission(): # Recebe o username e password do request em formato json
+	data = request.get_json() # Verifica se o usuário existe no dicionário
+	
+	user_id =  update_command(ab_config,
+						sql_script="""UPDATE users set permission = %s where user_id = %s returning user_id""",
+						params=((data["permission"], data['userId'])),
+						initial_message="Atualizando permissão do usuario...",
+						failure_message="Falha ao atualizar permissão do usuário")
+	if ( user_id ):
+		response = jsonify({
+				"object": users,
+				"message": "Dados retornados com sucesso!",
+				"success": True
+			})
+		response.headers.add('Access-Control-Allow-Origin', '*')
+		return response
+	# finally:
+	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
+	#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
+
+@app.route('/users/delete', methods=['POST'])
+@cross_origin()
+def delete_user(): # Recebe o username e password do request em formato json
+	data = request.get_json() # Verifica se o usuário existe no dicionário
+	
+	userId =  delete_command(ab_config,
+						sql_script="""DELETE from users where user_id = %s returning user_id limit 1""",
+						params=((data['userId'])),
+						initial_message="Deletando usuario...",
+						failure_message="Falha ao deletar usuário")
+	if ( user_id ):
+		response = jsonify({
+				"object": None,
+				"message": "Usuário removido com sucesso!",
+				"success": True
+			})
+		response.headers.add('Access-Control-Allow-Origin', '*')
+		return response
+	# finally:
+	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
+	#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
+
+@app.route('/users/accept', methods=['POST'])
+@cross_origin()
+def accept_user(): # Recebe o username e password do request em formato json
+	data = request.get_json() # Verifica se o usuário existe no dicionário
+	
+	password = get_random_string(10)
+	userId =  update_command(ab_config,
+						sql_script="""UPDATE users set password = %s where user_id = %s returning user_id limit 1""",
+						params=((password, data['userId'])),
+						initial_message="Aceitando solicitação de acesso do usuario...",
+						failure_message="Falha ao aceitar solicitação de acesso")
+	if ( user_id ):
+		response = jsonify({
+				"object": None,
+				"message": "Acesso aceito com sucesso!",
+				"success": True
+			})
+		response.headers.add('Access-Control-Allow-Origin', '*')
+		return response
+	# finally:
+	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
+	#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
+
+
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=5000, debug=True)
-
-
-# exportar dados csv (ok)
-# alterar login para selecionar do bd (ok)
-# metodo user info (salvar user_id no local storage??) (ok)
-# relacionar tudo com ss_id real (ok no back, o user.user_id no front) (ok)
-# salvar userId e user Name no window storage
-# gráfico de 2 eixos (ok)
-# paginação na tabela (ok)
-# cadastro (ok)
-# editar usuário (ok)
-# trocar senha (ok)
-# visual das tabelas, incluindo paginação (ok)
-
-# continuar pesquisa
-# pesquisar via thread
-# tratamento de exceções do full_process
-# set loading false após filtrar (teoricamente ok)
