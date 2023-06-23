@@ -46,7 +46,7 @@ def save_super_survey(): # Recebe o username e password do request em formato js
 			"message": "Pesquisa cadastrada com sucesso!",
 			"success": True
 		})
-	response.headers.add('Access-Control-Allow-Origin', '*')
+	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -96,7 +96,7 @@ def continue_super_survey(): # Recebe o username e password do request em format
 			"message": "Pesquisa em andamento!",
 			"success": True
 		})
-	response.headers.add('Access-Control-Allow-Origin', '*')
+	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -114,7 +114,7 @@ def export_super_survey(): # Recebe o username e password do request em formato 
 			"success": True
 		})
 	print(response)
-	response.headers.add('Access-Control-Allow-Origin', '*')
+	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -146,7 +146,7 @@ def export_super_survey_info(): # Recebe o username e password do request em for
 				"success": True
 			})
 		print(response)
-		response.headers.add('Access-Control-Allow-Origin', '*')
+		# response.headers.add('Access-Control-Allow-Origin', '*')
 		return response
 	except KeyError:
 		response = jsonify({"message": "Faça login!", "success": False, "status": 401}), 401 # Inicia a aplicação
@@ -218,7 +218,7 @@ def get_all_details(): # Recebe o username e password do request em formato json
 			"message": "Dados retornados com sucesso!",
 			"success": True
 		})
-	response.headers.add('Access-Control-Allow-Origin', '*')
+	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -486,7 +486,7 @@ def hello_world(): # Recebe o username e password do request em formato json
 @cross_origin()
 def test(): # Recebe o username e password do request em formato json
 	response = jsonify({"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False})
-	response.headers.add('Access-Control-Allow-Origin', '*')
+	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response # Inicia a aplicação
 
 @app.route('/users/getall', methods=['POST'])
@@ -514,7 +514,7 @@ def get_all_users(): # Recebe o username e password do request em formato json
 			"message": "Dados retornados com sucesso!",
 			"success": True
 		})
-	response.headers.add('Access-Control-Allow-Origin', '*')
+	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -536,7 +536,7 @@ def change_permission(): # Recebe o username e password do request em formato js
 				"message": "Dados retornados com sucesso!",
 				"success": True
 			})
-		response.headers.add('Access-Control-Allow-Origin', '*')
+		# response.headers.add('Access-Control-Allow-Origin', '*')
 		return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -558,7 +558,7 @@ def delete_user(): # Recebe o username e password do request em formato json
 				"message": "Usuário removido com sucesso!",
 				"success": True
 			})
-		response.headers.add('Access-Control-Allow-Origin', '*')
+		# response.headers.add('Access-Control-Allow-Origin', '*')
 		return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -581,7 +581,7 @@ def accept_user(): # Recebe o username e password do request em formato json
 				"message": "Acesso aceito com sucesso!",
 				"success": True
 			})
-		response.headers.add('Access-Control-Allow-Origin', '*')
+		# response.headers.add('Access-Control-Allow-Origin', '*')
 		return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
