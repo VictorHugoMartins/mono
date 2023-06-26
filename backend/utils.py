@@ -77,6 +77,7 @@ def select_command(config, sql_script, params, initial_message, failure_message)
 				
 				return cur.fetchall()
 		except psycopg2.errors.InFailedSqlTransaction:
+				print("psycopg2.errors.InFailedSqlTransaction")
 				logging.error(failure_message)
 				cur.close()
 		except Exception:
@@ -223,7 +224,7 @@ def build_options(column, values, ss_id):
 						failure_message="Falha ao selecionar valores mínimo e máximo para " + str(column)))
 
 def get_random_string(length):
-    # choose from all lowercase letter
-    letters = string.ascii_lowercase
-    result_str = ''.join(random.choice(letters) for i in range(length))
-    print("Random string of length", length, "is:", result_str)
+		# choose from all lowercase letter
+		letters = string.ascii_lowercase
+		result_str = ''.join(random.choice(letters) for i in range(length))
+		print("Random string of length", length, "is:", result_str)

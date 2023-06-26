@@ -336,6 +336,7 @@ def login(): # Recebe o username e password do request em formato json
 						params=((data['username'], data['password'])),
 						initial_message="Autenticando usuario...",
 						failure_message="Falha ao realizar login")
+		print(user_data)
 		if user_data[0][3] == data['username']:
 			return jsonify({
 					"object": {
@@ -348,6 +349,7 @@ def login(): # Recebe o username e password do request em formato json
 					"success": True
 				})
 		else:
+			print("erro 1")
 			return jsonify({"message": "Erro ao realizar login!", "success": False}), 401 # Inicia a aplicação
 	except:
 		# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
