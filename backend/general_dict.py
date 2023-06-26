@@ -57,6 +57,13 @@ def get_airbnb_rooms_by_ss_id(ss_id):
 								AND origem = 'Airbnb'
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id)
 
+def get_airbnb_rooms_by_locality(locality):
+	return """SELECT * from rooms 
+							WHERE
+								locality = {locality}
+								AND origem = 'Airbnb'
+							ORDER BY locality, sublocality, route, location_id, room_id""".format(locality=locality)
+
 def get_booking_rooms_by_ss_id(ss_id):
 	return """SELECT * from rooms 
 							WHERE
@@ -68,6 +75,13 @@ def get_booking_rooms_by_ss_id(ss_id):
 									where
 										ss_id = {ss_id}
 								)
+								AND origem = 'Booking'
+							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id)
+
+def get_booking_rooms_by_locality(locality):
+	return """SELECT * from rooms 
+							WHERE
+								locality = {locality}
 								AND origem = 'Booking'
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id)
 
@@ -84,6 +98,13 @@ def get_all_rooms_by_ss_id(ss_id, origem="'Airbnb' or origem = 'Booking'"):
 								)
 								AND origem = {origem}
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, origem=origem)
+
+def get_all_rooms_by_locality(locality, origem="'Airbnb' or origem = 'Booking'"):
+	return """SELECT * from rooms 
+							WHERE
+								locality = {locality}
+								AND origem = {origem}
+							ORDER BY locality, sublocality, route, location_id, room_id""".format(locality=locality, origem=origem)
 
 def deprecated_get_airbnb_rooms_by_ss_id(ss_id):
 	return """SELECT

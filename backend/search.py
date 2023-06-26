@@ -185,6 +185,7 @@ def create_super_survey(config, city, userId):
 				sql = """INSERT into super_survey(city, user_id, date) values (%s, %s, current_date) returning ss_id"""
 				cur.execute(sql, (city, userId if userId else 1))
 				ss_id = cur.fetchone()[0]
+				print("na 188:", ss_id)
 
 				conn.commit()
 				cur.close()
@@ -402,20 +403,20 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
 			if ( super_survey_id is None ): # super survey previously in progress
 					try:
 						super_survey_id = create_super_survey(ab_config, search_area_name, user_id)
-						print("2")
-						save_config(ab_config, platform, search_area_name, fill_airbnb_with_selenium,
+						if ( super_survey_id):
+								print("2")
+								save_config(ab_config, platform, search_area_name, fill_airbnb_with_selenium,
 												start_date, finish_date, user_id, super_survey_id,status_super_survey_id,
 												include_locality_search, include_route_search, columns,
 												clusterization_method, aggregation_method)
-						print("3", super_survey_id)
-						if ( super_survey_id):
+								print("3", super_survey_id)
 								update_super_survey_status(ab_config,
 																				super_survey_id,
 																				status=1,
 																				logs='Configuração concluída. Iniciando pesquisa...')
 								print("346")
 					except Exception as e:
-						print("o erro:", e)
+						print("o erro na 419:", e)
 						update_super_survey_status(ab_config,
 																		super_survey_id,
 																		status=-1,

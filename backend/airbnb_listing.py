@@ -17,8 +17,6 @@ from datetime import date
 from bs4 import BeautifulSoup
 import json
 
-import airbnb_ws
-
 from airbnb_geocoding import Location
 from airbnb_geocoding import reverse_geocode_coordinates_and_insert
 
