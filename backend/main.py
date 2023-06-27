@@ -38,6 +38,7 @@ def save_super_survey(): # Recebe o username e password do request em formato js
 													include_route_search=send_nullable_value(data, "include_route_search"),
 												)
 
+	print("o ss_id: ", ss_id)
 	thread = Th(1, data, ss_id)
 	thread.start()
 

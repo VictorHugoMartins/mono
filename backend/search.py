@@ -415,6 +415,7 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
 																				status=1,
 																				logs='Configuração concluída. Iniciando pesquisa...')
 								print("346")
+								return super_survey_id
 					except Exception as e:
 						print("o erro na 419:", e)
 						update_super_survey_status(ab_config,
