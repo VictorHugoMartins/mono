@@ -7,7 +7,7 @@ import DataTableButton from "~/components/ui/DataTable/DataTableButton/DataTable
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
 import { BASE_API_URL } from "~/config/apiBase";
 import { useUserContext } from "~/context/global/UserContext";
-import privateroute from "~/routes/private.route";
+import comumroute from "~/routes/public.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
 import { JSONtoCSV, downloadCSV } from "~/utils/JsonFile";
 import Toast from "~/utils/Toast/Toast";
@@ -203,4 +203,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-export default privateroute(MySuperSurveys);
+export default comumroute(MySuperSurveys);
