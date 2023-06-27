@@ -1,3 +1,4 @@
+import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import Table from "~/components/local/table";
@@ -15,7 +16,11 @@ interface TableButtonProps {
   rowData?: any;
 }
 
-function MySuperSurveys() {
+interface DetailsProps {
+  city?: string;
+}
+
+const MySuperSurveys: React.FC<DetailsProps> = ({ city }) => {
   const [searching, setSearching] = useState(false);
 
   const { user } = useUserContext();
@@ -119,21 +124,27 @@ function MySuperSurveys() {
 
     return (
       <>
+        {/* {rowData.status !== 200 &&
+          <DataTableButton icon="FaCheck" title="Finalizar" onClick={() => updateStatus(rowData.ss_id, 200)} />
+        } */}
+        {/* {rowData.status <= 1 && */}
+        {/* <DataTableButton icon="FaPlay" title="Tentar novamente" onClick={() => tryAgain(rowData.ss_id)} /> */}
+        {/* } */}
         {(rowData.status > 0) && (rowData.status !== 1) &&
-          <DataTableButton icon="FaUpload" title="Baixar dados" onClick={() => downloadData({ ss_id: rowData.city })} />
+          <DataTableButton icon="FaUpload" title="Baixar dados" onClick={() => downloadData({ ss_id: rowData.ss_id })} />
         }
-        <DataTableButton icon="FaInfo" title="Ver pesquisas" onClick={() => window.location.assign(`/pesquisasporcidade?city=${rowData.city}`)} />
+        <DataTableButton icon="FaInfo" title="Ver detalhes" onClick={() => window.location.assign(`/detalhes?survey=${rowData.ss_id}`)} />
       </>
     );
   }
 
   const [_tableData, setTableData] = useState<DataTableRenderType>();
 
-  const loadTableData = (userId: string) => {
+  const loadTableData = (city: string) => {
     setSearching(true);
     console.log(BASE_API_URL)
-    const apiUrl = `${BASE_API_URL}/super_survey/public_getall`; // url da API Flask
-    const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
+    const apiUrl = `${BASE_API_URL}/super_survey/getbycity`; // url da API Flask
+    const requestData = { city: city }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição
     const headers = new Headers();
@@ -163,10 +174,10 @@ function MySuperSurveys() {
   };
 
   useEffect(() => {
-    loadTableData(userId);
-  }, [userId])
+    loadTableData(city);
+  }, [city])
   return (
-    <PrivatePageStructure title={"Minhas pesquisas"}>
+    <PrivatePageStructure title={`Pesquisas por ${city}`}>
       {/* <Flexbox justify="flex-end" width={"100%"} >
         <div style={{ maxWidth: "250px", padding: "8px" }}>
           <Button color="primary" text={"Iniciar nova pesquisa"} onClick={() => window.location.assign("/novapesquisa")} />
@@ -181,5 +192,15 @@ function MySuperSurveys() {
     </PrivatePageStructure>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { city } = ctx.query;
+
+  return {
+    props: {
+      city
+    }
+  };
+};
 
 export default privateroute(MySuperSurveys);

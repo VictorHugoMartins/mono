@@ -30,16 +30,18 @@ columnDict = {
 		"logs": { "type": "string", "label": "Logs", "excludeIn": ["Airbnb", "Booking", "both"] },
 		"date": { "type": "string", "label": "Data da Pesquisa", "excludeIn": ["Airbnb", "Booking", "both"] },
 		"platform": { "type": "checkbox", "label": "Plataforma", "excludeIn": ["Airbnb", "Booking", "both"] },
-		"origem": { "type": "checkbox", "label": "Plataforma", "excludeIn": ["Airbnb", "Booking", "both"] },
+
+		"survey_qtd": { "type": "display-only", "label": "Quantidade de Pesquisas", "excludeIn": ["Airbnb", "Booking", "both"] },
+		"last_updated": { "type": "display-only", "label": "Última atualização em", "excludeIn": ["Airbnb", "Booking", "both"] },
 }
 
 statusDict = {
-  "PESQUISAR_CIDADE_AIRBNB": [0, 1, -1, 11, -11, 3, -3],
-  "PESQUISAR_CIDADE_BOOKING": [0, 1, -1, 11, -11, 3, -3, 73, 6, 7, -7, 711, -711],
-  "PESQUISAR_BAIRRO_AIRBNB": [4, -4, 41, 42, -41, -42],
-  "PESQUISAR_BAIRRO_BOOKING": [4, -4, 41, 42, -41, -42, 74, -74, 741, 742, -741, -742],
-  "PESQUISAR_RUA_AIRBNB": [5, -5, 43, 51, -51, 82, -82, 81, -81],
-  "PESQUISAR_RUA_BOOKING": [5, -5, 43, 51, -51, 82, -82, 81, -81, 75, -75, 743, 751, -751, 782, -782, 781, -781]
+	"PESQUISAR_CIDADE_AIRBNB": [0, 1, -1, 11, -11, 3, -3],
+	"PESQUISAR_CIDADE_BOOKING": [0, 1, -1, 11, -11, 3, -3, 73, 6, 7, -7, 711, -711],
+	"PESQUISAR_BAIRRO_AIRBNB": [4, -4, 41, 42, -41, -42],
+	"PESQUISAR_BAIRRO_BOOKING": [4, -4, 41, 42, -41, -42, 74, -74, 741, 742, -741, -742],
+	"PESQUISAR_RUA_AIRBNB": [5, -5, 43, 51, -51, 82, -82, 81, -81],
+	"PESQUISAR_RUA_BOOKING": [5, -5, 43, 51, -51, 82, -82, 81, -81, 75, -75, 743, 751, -751, 782, -782, 781, -781]
 }
 
 # SQL SCRIPTS
@@ -54,14 +56,14 @@ def get_airbnb_rooms_by_ss_id(ss_id):
 									where
 										ss_id = {ss_id}
 								)
-								AND origem = 'Airbnb'
+								AND platform = 'Airbnb'
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id)
 
 def get_airbnb_rooms_by_locality(locality):
 	return """SELECT * from rooms 
 							WHERE
 								locality = {locality}
-								AND origem = 'Airbnb'
+								AND platform = 'Airbnb'
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(locality=locality)
 
 def get_booking_rooms_by_ss_id(ss_id):
@@ -75,17 +77,17 @@ def get_booking_rooms_by_ss_id(ss_id):
 									where
 										ss_id = {ss_id}
 								)
-								AND origem = 'Booking'
+								AND platform = 'Booking'
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id)
 
 def get_booking_rooms_by_locality(locality):
 	return """SELECT * from rooms 
 							WHERE
 								locality = {locality}
-								AND origem = 'Booking'
+								AND platform = 'Booking'
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id)
 
-def get_all_rooms_by_ss_id(ss_id, origem="'Airbnb' or origem = 'Booking'"):
+def get_all_rooms_by_ss_id(ss_id, platform="'Airbnb' or platform = 'Booking'"):
 	return """SELECT * from rooms 
 							WHERE
 								survey_id in (
@@ -96,15 +98,15 @@ def get_all_rooms_by_ss_id(ss_id, origem="'Airbnb' or origem = 'Booking'"):
 									where
 										ss_id = {ss_id}
 								)
-								AND origem = {origem}
-							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, origem=origem)
+								AND platform = {platform}
+							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, platform=platform)
 
-def get_all_rooms_by_locality(locality, origem="'Airbnb' or origem = 'Booking'"):
+def get_all_rooms_by_locality(locality, platform="'Airbnb' or platform = 'Booking'"):
 	return """SELECT * from rooms 
 							WHERE
 								locality = {locality}
-								AND origem = {origem}
-							ORDER BY locality, sublocality, route, location_id, room_id""".format(locality=locality, origem=origem)
+								AND platform = {platform}
+							ORDER BY locality, sublocality, route, location_id, room_id""".format(locality=locality, platform=platform)
 
 def deprecated_get_airbnb_rooms_by_ss_id(ss_id):
 	return """SELECT
@@ -130,7 +132,7 @@ def deprecated_get_airbnb_rooms_by_ss_id(ss_id):
 							location.route,
 							location.sublocality,
 							location.locality,
-							'Airbnb' as origem
+							'Airbnb' as platform
 						FROM
 							room
 					INNER JOIN location
@@ -162,7 +164,7 @@ def deprecated_get_booking_rooms_by_ss_id(ss_id):
 							location.route,
 							location.sublocality,
 							location.locality,
-							'Booking' as origem
+							'Booking' as platform
 						FROM
 							booking_room as b
 					INNER JOIN location

@@ -174,6 +174,14 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ returnPath, title, publicPage
               )} */}
 
               <NavbarDropdownItem
+                href="/minhaspesquisas"
+                label="Minhas Pesquisas"
+              />
+              <NavbarDropdownItem
+                href="/novapesquisa"
+                label="Iniciar Nova Pesquisa"
+              />
+              <NavbarDropdownItem
                 href="/usuario/editar"
                 label="Editar Usuário"
               />

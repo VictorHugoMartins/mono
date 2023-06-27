@@ -57,7 +57,7 @@ const Map = ({
           <Marker
             position={latLng}
             draggable={true}
-            icon={unfilteredData[i]?.origem == 'Airbnb' ? airbnbIcon : unfilteredData[i]?.origem == 'Booking' ? bookingIcon : bothIcon }
+            icon={unfilteredData[i]?.platform == 'Airbnb' ? airbnbIcon : unfilteredData[i]?.platform == 'Booking' ? bookingIcon : bothIcon }
           >
             {unfilteredData?.length > 0 &&
               <Popup>
@@ -66,7 +66,7 @@ const Map = ({
                     <strong>{unfilteredData[i]?.name}</strong>
                   </div>
                   <div>
-                    {unfilteredData[i]?.origem == 'Airbnb' ?
+                    {unfilteredData[i]?.platform == 'Airbnb' ?
                       <a href={`https://www.airbnb.com.br/rooms/${unfilteredData[i]?.room_id}`}>Acesse no Airbnb</a> :
                       <a href={`https://www.booking.com/hotel/br/${unfilteredData[i]?.hotel_id}`}>Acesse no Booking</a>
                     }

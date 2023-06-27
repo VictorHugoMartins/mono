@@ -2,7 +2,9 @@ import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import Table from "~/components/local/table";
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure";
+import Button from "~/components/ui/Button/Button";
 import DataTableButton from "~/components/ui/DataTable/DataTableButton/DataTableButton";
+import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
 import { BASE_API_URL } from "~/config/apiBase";
 import { useUserContext } from "~/context/global/UserContext";
@@ -119,10 +121,16 @@ function MySuperSurveys() {
 
     return (
       <>
-        {(rowData.status > 0) && (rowData.status !== 1) &&
-          <DataTableButton icon="FaUpload" title="Baixar dados" onClick={() => downloadData({ ss_id: rowData.city })} />
+        {rowData.status !== 200 &&
+          <DataTableButton icon="FaCheck" title="Finalizar" onClick={() => updateStatus(rowData.ss_id, 200)} />
         }
-        <DataTableButton icon="FaInfo" title="Ver pesquisas" onClick={() => window.location.assign(`/pesquisasporcidade?city=${rowData.city}`)} />
+        {/* {rowData.status <= 1 && */}
+        <DataTableButton icon="FaPlay" title="Tentar novamente" onClick={() => tryAgain(rowData.ss_id)} />
+        {/* } */}
+        {(rowData.status > 0) && (rowData.status !== 1) &&
+          <DataTableButton icon="FaUpload" title="Baixar dados" onClick={() => downloadData({ ss_id: rowData.ss_id })} />
+        }
+        <DataTableButton icon="FaInfo" title="Ver detalhes" onClick={() => window.location.assign(`/detalhes?survey=${rowData.ss_id}`)} />
       </>
     );
   }
@@ -132,7 +140,7 @@ function MySuperSurveys() {
   const loadTableData = (userId: string) => {
     setSearching(true);
     console.log(BASE_API_URL)
-    const apiUrl = `${BASE_API_URL}/super_survey/public_getall`; // url da API Flask
+    const apiUrl = `${BASE_API_URL}/super_survey/getall`; // url da API Flask
     const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição
@@ -167,11 +175,11 @@ function MySuperSurveys() {
   }, [userId])
   return (
     <PrivatePageStructure title={"Minhas pesquisas"}>
-      {/* <Flexbox justify="flex-end" width={"100%"} >
+      <Flexbox justify="flex-end" width={"100%"} >
         <div style={{ maxWidth: "250px", padding: "8px" }}>
           <Button color="primary" text={"Iniciar nova pesquisa"} onClick={() => window.location.assign("/novapesquisa")} />
         </div>
-      </Flexbox> */}
+      </Flexbox>
       <PopupLoading show={searching} />
       {_tableData && <Table
         columns={_tableData.columns}

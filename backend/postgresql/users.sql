@@ -95,7 +95,7 @@ SELECT
   location.route,
   location.sublocality,
   location.locality,
-  'Booking' as origem,
+  'Booking' as platform,
   MIN(b.survey_id) as survey_id
 FROM
   booking_room as b
@@ -132,7 +132,7 @@ SELECT
   location.route,
   location.sublocality,
   location.locality,
-  'Airbnb' as origem,
+  'Airbnb' as platform,
   MIN(room.survey_id) as survey_id
 FROM
   room

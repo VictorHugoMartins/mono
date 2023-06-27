@@ -57,8 +57,8 @@ class BListing():
 		self.checkin_date = checkin_date
 		self.checkout_date = checkout_date
 
-		self.start_date = None
-		self.finish_date = None
+		self.start_date = dt.date.today() + dt.timedelta(days=15)
+		self.finish_date = dt.date.today() + dt.timedelta(days=16)
 		self.location_id = None
 
 	def save(self, insert_replace_flag):

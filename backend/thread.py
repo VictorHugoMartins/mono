@@ -50,9 +50,9 @@ class Th(Thread):
         clusterization_method=self.clusterization_method[0],
         aggregation_method=self.aggregation_method[0],
         fill_airbnb_with_selenium=self.fill_airbnb_with_selenium[0],
-        start_date=self.start_date[0],
-        finish_date=self.finish_date[0],
+        start_date=self.start_date,
+        finish_date=self.finish_date,
         include_locality_search=((self.include_locality_search[0] == 'true') or self.include_locality_search[0]),
         include_route_search=((self.include_route_search[0] == 'true') or self.include_route_search[0]),
-        super_survey_id=self.ss_id[0],
+        super_survey_id=self.ss_id,
     )

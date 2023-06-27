@@ -157,6 +157,53 @@ def export_super_survey_info(): # Recebe o username e password do request em for
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
 	#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
+@app.route('/super_survey/public_getall', methods=['POST'])
+@cross_origin()
+def export_public_super_survey_info(): # Recebe o username e password do request em formato json
+		data = request.get_json() # Verifica se o usuário existe no dicionário
+		print("uai")
+
+		# try:
+		response = jsonify({
+				"object": export_datatable(ab_config, """
+											select distinct(city), count(city) as survey_qtd, max(date) as last_updated from super_survey where city is not null group by city order by last_updated desc
+										""", None, None, True),
+				"message": "Dados retornados com sucesso!",
+				"success": True
+			})
+		print("o response: ", response)
+		# response.headers.add('Access-Control-Allow-Origin', '*')
+		return response
+		# except KeyError:
+		# 	response = jsonify({"message": "Faça login!", "success": False, "status": 401}), 401 # Inicia a aplicação
+		# 	return response
+
+		# finally:
+		#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
+		#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
+
+@app.route('/super_survey/getbycity', methods=['POST'])
+@cross_origin()
+def export_super_survey_info_by_city(): # Recebe o username e password do request em formato json
+	data = request.get_json() # Verifica se o usuário existe no dicionário
+	print("uai")
+
+	try:
+		response = jsonify({
+				"object": export_datatable(ab_config, """
+											select ss_id, city, date from super_survey where city = %s
+										""", (data['city'],), None, True),
+				"message": "Dados retornados com sucesso!",
+				"success": True
+			})
+		print(response)
+		# response.headers.add('Access-Control-Allow-Origin', '*')
+		return response
+	except:
+		response = jsonify({"message": "Falha ao buscar pesquisas!", "success": False, "status": 500}), 500 # Inicia a aplicação
+		return response
+
+
 def xNotIn(exclusive_list, other_list):
 	result = []
 	other_list = other_list.split(', ')
@@ -171,7 +218,7 @@ def get_rooms(data, columns):
 	columns = columns.replace('{', '').replace('}','')
 	rooms =  export_datatable(ab_config, """
 										WITH consulta AS ( {consulta} ) 
-											SELECT room_id, origem, {columns} FROM consulta {query}
+											SELECT room_id, platform, {columns} FROM consulta {query}
 											""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"]), columns=columns, query=query), params, "Airbnb", True)
 	return rooms
 
