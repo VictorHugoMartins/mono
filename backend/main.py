@@ -9,6 +9,7 @@ from utils import buildChartObjectFromValueCounts, send_nullable_value
 from utils import removeLastWordOfString, buildFilterQuery, asSelectObject, build_options
 from utils import get_random_string
 from thread import Th
+from mail import send_mail
 
 ab_config = ABConfig()
 
@@ -621,11 +622,12 @@ def accept_user(): # Recebe o username e password do request em formato json
 	
 	password = get_random_string(10)
 	userId =  update_command(ab_config,
-						sql_script="""UPDATE users set password = %s where user_id = %s returning user_id limit 1""",
+						sql_script="""UPDATE users set password = %s where user_id = %s returning email limit 1""",
 						params=((password, data['userId'])),
 						initial_message="Aceitando solicitação de acesso do usuario...",
 						failure_message="Falha ao aceitar solicitação de acesso")
-	if ( user_id ):
+	if ( email ):
+		send_mail(email)
 		response = jsonify({
 				"object": None,
 				"message": "Acesso aceito com sucesso!",

@@ -1,34 +1,16 @@
-# import mailtrap as mt
-# # create client and send
-# token="9c6f90bfbee96a3ba3631b3ccad3dc5d"
+import mailtrap as mt
+# create client and send
+token="f143c000ee7a32cc4bb4fd4171a821bd"
 
-# import mailtrap as mt
+def send_mail(email):
+	# create mail object
+	mail = mt.Mail(
+			sender=mt.Address(email="victor.martins1@aluno.ufop.edu.br", name="Mailtrap Test"),
+			to=[mt.Address(email=email)],
+			subject="You are awesome!",
+			text="Congrats for sending test email with Mailtrap!",
+	)
 
-# # create mail object
-# mail = mt.Mail(
-#     sender=mt.Address(email="mailtrap@example.com", name="Mailtrap Test"),
-#     to=[mt.Address(email="your@email.com")],
-#     subject="You are awesome!",
-#     text="Congrats for sending test email with Mailtrap!",
-# )
-
-# # create client and send
-# client = mt.MailtrapClient(token="your-api-key")
-# client.send(mail)
-
-from general_config import ABConfig
-
-def db_ping():
-		"""
-		Test database connectivity, and print success or failure.
-		"""
-		try:
-				config = ABConfig()
-				conn = config.connect()
-				if conn is not None:
-						print("Connection test succeeded: {db_name}@{db_host}"
-									.format(db_name=config.DB_NAME, db_host=config.DB_HOST))
-				else:
-						print("Connection test failed")
-		except Exception as e:
-				logging.exception("Connection test failed")
+	# create client and send
+	client = mt.MailtrapClient(token=token)
+	client.send(mail)

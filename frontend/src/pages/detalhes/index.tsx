@@ -12,6 +12,7 @@ import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
 import { BASE_API_URL } from "~/config/apiBase";
 import privateroute from "~/routes/private.route";
+import comumroute from "~/routes/public.route";
 import { ChartDataType } from "~/types/global/ChartTypes";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
 import { InputRenderType } from "~/types/global/InputRenderType";
@@ -207,4 +208,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-export default privateroute(DetailsPage);
+export default comumroute(DetailsPage);
