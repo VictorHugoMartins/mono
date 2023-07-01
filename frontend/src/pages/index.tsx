@@ -15,7 +15,7 @@ interface TableButtonProps {
   rowData?: any;
 }
 
-function MySuperSurveys() {
+function Home() {
   const [searching, setSearching] = useState(false);
 
   const { user } = useUserContext();
@@ -182,4 +182,4 @@ function MySuperSurveys() {
   )
 }
 
-export default comumroute(MySuperSurveys);
+export default comumroute(Home);

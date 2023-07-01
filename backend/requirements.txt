@@ -45,6 +45,7 @@ joblib==0.15.1
 kiwisolver==1.2.0
 kmodes==0.10.2
 lxml==4.5.0
+mailtrap==2.0.1
 MarkupSafe==1.1.1
 matplotlib==3.2.1
 mpld3==0.5.1
