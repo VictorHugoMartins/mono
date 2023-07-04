@@ -33,6 +33,7 @@ const DetailsFilters: React.FC<DetailsFiltersProps> = ({ data, survey, setResult
             );
           }}
           onCancel={() => filterFunction()}
+          preparePath={`${BASE_API_URL}/details/preparefilter?ss_id=${survey}`}
         />
       }
     </>

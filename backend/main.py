@@ -303,29 +303,29 @@ def get_filters():
 
 		numeric_columns = [{ "label": "Nenhum", "value": "nenhum" }]
 		result_columns = [{
-      "name": "clusterization_method",
-      "label": "Método de Clusterização",
-      "disabled": False,
-      "required": False,
-      "type": "radio",
-      "options": [
-        { "label": "K-Modes", "value": "kmodes" },
-        { "label": "Sem clusterização", "value": "none" },
-      ]
-    },
-    {
-      "name": "agg_method",
-      "label": "Método de Agregação para seleção de dados repetidos:",
-      "disabled": False,
-      "required": False,
-      "type": "radio",
-      "options": [
-        { "label": "Média", "value": "_avg" },
-        { "label": "Menor valor", "value": "_min" },
-        { "label": "Maior valor", "value": "_max" },
-        { "label": "Manter duplicatas", "value": "_repeat" },
-      ]
-    },]
+			"name": "clusterization_method",
+			"label": "Método de Clusterização",
+			"disabled": False,
+			"required": False,
+			"type": "radio",
+			"options": [
+				{ "label": "K-Modes", "value": "kmodes" },
+				{ "label": "Sem clusterização", "value": "none" },
+			]
+		},
+		{
+			"name": "agg_method",
+			"label": "Método de Agregação para seleção de dados repetidos:",
+			"disabled": False,
+			"required": False,
+			"type": "radio",
+			"options": [
+				{ "label": "Média", "value": "_avg" },
+				{ "label": "Menor valor", "value": "_min" },
+				{ "label": "Maior valor", "value": "_max" },
+				{ "label": "Manter duplicatas", "value": "_repeat" },
+			]
+		},]
 		str_columns = []
 
 		if ( platform == 'both' ):
@@ -360,6 +360,26 @@ def get_filters():
 			},
 			"message": "Sucesso ao carregar filtros",
 			"success": True
+		})
+
+@app.route('/details/preparefilter', methods=['GET'])
+@cross_origin()
+def prepare_filter():
+		args = request.args
+		print(args)
+		platform = select_command(ab_config,
+															"""SELECT platform
+																FROM super_survey_config where ss_id = %s
+																limit 1""",
+																(args.get("ss_id"),),
+																"Selecionando colunas da configuração de pesquisa",
+																"Falha ao selecionar colunas da configuração de pesquisa")
+
+		print(platform)
+		return jsonify({
+				"object": { "agg_method": "_avg", "clusterization_method": "kmodes", "platform": platform[0] },
+				"message": "Sucesso ao selecionar colunas da configuração de pesquisa",
+				"success": True
 		})
 
 @app.route('/details/chart', methods=['POST'])
