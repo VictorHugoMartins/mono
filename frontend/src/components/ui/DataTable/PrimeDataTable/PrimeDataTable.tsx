@@ -125,8 +125,8 @@ const PrimeDataTable: React.FC<PrimeDataTableProps> = ({
   function HandleFooterColumnContent({ item, index }) {
     if (!item.isVisible) return <></>;
     else if (item.label === "Prioridade")
-      return resume?.resumPriority ? (
-        <PriorityResume resume={resume.resumPriority} />
+      return resume?.extra_info ? (
+        <PriorityResume resume={resume.extra_info} />
       ) : (
         <></>
       );
@@ -142,7 +142,7 @@ const PrimeDataTable: React.FC<PrimeDataTableProps> = ({
   let _renderEditComponent = level > 0 && editComponent;
   let _renderFooterGroup =
     _renderEditComponent ||
-    resume?.resumPriority ||
+    resume?.extra_info ||
     resume?.resumStatusSprint ||
     resume?.resumStatusTicket;
   let footerGroup = (

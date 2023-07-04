@@ -96,29 +96,7 @@ export default function NewSurveyOptions() {
       type: "checkbox-select",
       listen: { id: "platform", getUrl: "/super_survey/get_data_columns?platform=" },
     },
-    {
-      name: "clusterization_method",
-      label: "Método de Clusterização",
-      disabled: false,
-      required: false,
-      type: "radio",
-      options: [
-        { label: "K-Modes", value: "kmodes" },
-      ]
-    },
-    {
-      name: "aggregation_method",
-      label: "Método de Agregação para seleção de dados repetidos:",
-      disabled: false,
-      required: false,
-      type: "radio",
-      options: [
-        { label: "Média", value: "avg" },
-        { label: "Menor valor", value: "min" },
-        { label: "Maior valor", value: "max" },
-        { label: "Manter duplicatas", value: "keep" },
-      ]
-    },
+    
   ] as InputRenderType[]
 
   return (

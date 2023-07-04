@@ -10,6 +10,7 @@ from utils import removeLastWordOfString, buildFilterQuery, asSelectObject, buil
 from utils import get_random_string
 from thread import Th
 from mail import send_mail
+import psycopg2
 
 ab_config = ABConfig()
 
@@ -66,7 +67,7 @@ def continue_super_survey(): # Recebe o username e password do request em format
 																	include_locality_search, include_route_search, status
 																	FROM super_survey_config
 																	LEFT JOIN super_survey
-																	ON super_survey_config.ss_id = super_survey.ss_id 
+																	ON super_survey_config.ss_id = super_survey.ss_id
 																	where super_survey_config.ss_id = %s
 																	limit 1""",
 																(data["ss_id"],),
@@ -92,7 +93,7 @@ def continue_super_survey(): # Recebe o username e password do request em format
 	print("a data agora:", new_params)
 	thread = Th(1, new_params, data["ss_id"])
 	thread.start()
-												
+
 	response = jsonify({
 			"object": { "super_survey_id": data["ss_id"] },
 			"message": "Pesquisa em andamento!",
@@ -108,7 +109,7 @@ def continue_super_survey(): # Recebe o username e password do request em format
 @cross_origin()
 def export_super_survey(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
-	
+
 	# try:
 	response = jsonify({
 			"object": export_datatable(ab_config, get_all_rooms_by_ss_id(data["ss_id"]), None, "Airbnb", True),
@@ -214,13 +215,15 @@ def xNotIn(exclusive_list, other_list):
 	return ', '.join(result)
 
 
-def get_rooms(data, columns):
+def get_rooms(data, columns, agg_method):
+	print("veio nesse aqui")
 	(query, params) = buildFilterQuery(data, 'both')
+	print("passou desse")
 	columns = columns.replace('{', '').replace('}','')
 	rooms =  export_datatable(ab_config, """
-										WITH consulta AS ( {consulta} ) 
+										WITH consulta AS ( {consulta} )
 											SELECT room_id, platform, {columns} FROM consulta {query}
-											""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"]), columns=columns, query=query), params, "Airbnb", True)
+											""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], agg_method=agg_method), columns=columns, query=query), params, "Airbnb", True)
 	return rooms
 
 @app.route('/details/getbyid', methods=['POST'])
@@ -240,30 +243,31 @@ def get_all_details(): # Recebe o username e password do request em formato json
 				"message": "Falha ao selecionar colunas da configuração de pesquisa",
 				"success": False
 		})
-	
-	platform = result[0][0]
+
+	platform = data["platform"]
 	columns = result[0][1].replace(' ', ', ')
+	agg_method = data["agg_method"]
 	if ( 'platform' in columns):
 			columns = columns.replace('platform, ', '')
 
 	rooms = []
 	if ( platform == "both"):
-		rooms = get_rooms(data, columns)
+		rooms = get_rooms(data, columns, agg_method)
 	elif ( platform == 'Airbnb'):
 		(query, params) = buildFilterQuery(data, 'Airbnb')
 		rooms =  export_datatable(ab_config, """
-											WITH consulta AS ( {consulta} ) 
+											WITH consulta AS ( {consulta} )
 												SELECT room_id, {columns} FROM consulta {query}
-												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Airbnb'"), columns=xNotIn(exclusive_booking_columns, columns), query=query), params, "Airbnb", True)
+												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Airbnb'", agg_method), columns=xNotIn(exclusive_booking_columns, columns), query=query), params, "Airbnb", True)
 	elif (platform == 'Booking'):
 		(query, params) = buildFilterQuery(data, 'Booking')
 		rooms =  export_datatable(ab_config, """
-											WITH consulta AS ( {consulta} ) 
+											WITH consulta AS ( {consulta} )
 												SELECT room_id, {columns} FROM consulta {query}
-												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Booking'"), columns=xNotIn(exclusive_airbnb_columns, columns), query=query), params, "Booking", True)
-	
+												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Booking'", agg_method), columns=xNotIn(exclusive_airbnb_columns, columns), query=query), params, "Booking", True)
+
 	response = jsonify({
-			"object": rooms,
+			"object": { "table": rooms, "extra_info": agg_method },
 			"message": "Dados retornados com sucesso!",
 			"success": True
 		})
@@ -290,7 +294,7 @@ def get_filters():
 				"message": "Falha ao selecionar colunas da configuração de pesquisa",
 				"success": False
 		})
-			
+
 		platform = result[0][0]
 		columns = result[0][1].replace('{', '').replace('}','').split(',')
 		if ( len(columns) == 1 ):
@@ -298,11 +302,34 @@ def get_filters():
 		print("as colunas: ", columns)
 
 		numeric_columns = [{ "label": "Nenhum", "value": "nenhum" }]
-		result_columns = []
+		result_columns = [{
+      "name": "clusterization_method",
+      "label": "Método de Clusterização",
+      "disabled": False,
+      "required": False,
+      "type": "radio",
+      "options": [
+        { "label": "K-Modes", "value": "kmodes" },
+        { "label": "Sem clusterização", "value": "none" },
+      ]
+    },
+    {
+      "name": "agg_method",
+      "label": "Método de Agregação para seleção de dados repetidos:",
+      "disabled": False,
+      "required": False,
+      "type": "radio",
+      "options": [
+        { "label": "Média", "value": "_avg" },
+        { "label": "Menor valor", "value": "_min" },
+        { "label": "Maior valor", "value": "_max" },
+        { "label": "Manter duplicatas", "value": "_repeat" },
+      ]
+    },]
 		str_columns = []
 
 		if ( platform == 'both' ):
-			result_columns.append({ "name": "platform", "type": "radio", "label": "Plataforma", "required": True, "options": [{ "label": "Todas", "value": "todas"}, { "label": "Airbnb", "value": "airbnb"}, {"label": "Booking", "value": "Booking"}] })
+			result_columns.append({ "name": "platform", "type": "radio", "label": "Plataforma", "required": True, "options": [{ "label": "Todas", "value": "both"}, { "label": "Airbnb", "value": "Airbnb"}, {"label": "Booking", "value": "Booking"}] })
 
 		excluded_columns = ["platform", "latitude", "longitude", "city", "host_id"]
 		for column in columns:
@@ -341,7 +368,7 @@ def details_chart(): # Recebe o username e password do request em formato json
 		data = request.get_json() # Verifica se o usuário existe no dicionário
 		if ( (data["agg_method"] != "count") and (data["number_column"] == "nenhum")):
 			return jsonify({
-				"object": null,
+				"object": None,
 				"message": "Selecione um campo numérico para criar a relação entre os dados!",
 				"success": False
 			})
@@ -349,14 +376,15 @@ def details_chart(): # Recebe o username e password do request em formato json
 
 		if ( data["number_column"] == "nenhum" ):
 			data["number_column"] = data["str_column"]
-		
+
+		agg_method = data["aggregation_method"]
 		unformated_chart_data = select_command(ab_config,
 						sql_script="""
 						with consulta as ( {consulta} )
 							select distinct({str_column}), {agg_method}({number_column}) as "{agg_method} de {number_column} por {str_column}" from consulta
 							group by {str_column}
 							order by {agg_method}({number_column}) desc
-							""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Airbnb'"), str_column=data['str_column'], number_column=data['number_column'], agg_method=data['agg_method']),
+							""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Airbnb'", agg_method), str_column=data['str_column'], number_column=data['number_column'], agg_method=data['agg_method']),
 						params=(()),
 						initial_message="Selecionando dados para gerar gráfico...",
 						failure_message="Falha ao selecionar dados para gerar gráfico")
@@ -390,8 +418,8 @@ def login(): # Recebe o username e password do request em formato json
 			return jsonify({
 					"object": {
 						"user_id": user_data[0][0],
-						"name": user_data[0][1], 
-						"email": user_data[0][2], 
+						"name": user_data[0][1],
+						"email": user_data[0][2],
 						"login": user_data[0][3]
 					},
 					"message": "Sucesso ao realizar login",
@@ -414,12 +442,13 @@ def register(): # Recebe o username e password do request em formato json
 						params=((data["name"], data["email"], data['username'])),
 						initial_message="Autenticando usuario...",
 						failure_message="Falha ao cadastrar usuário")
+		print(user_data)
 		if user_data:
 			return jsonify({
 					"object": {
 						"user_id": user_data,
-						"name": data["name"], 
-						"email": data["email"], 
+						"name": data["name"],
+						"email": data["email"],
 						"login": data["username"]
 					},
 					"message": "Sucesso ao cadastrar usuário",
@@ -427,9 +456,10 @@ def register(): # Recebe o username e password do request em formato json
 				})
 		else:
 			return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
-	except:
-		# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
-		return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
+	except psycopg2.errors.UniqueViolation:
+		return jsonify({"message": "Usuário já cadastrado! Talvez seja melhor tentar fazer login...", "success": False}), 500 # Inicia a aplicação
+	# except:	# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
+	# 	return jsonify({"message": "Exceção ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
 
 @app.route('/api/edit_user', methods=['POST'])
 @cross_origin()
@@ -444,9 +474,9 @@ def edit_user(): # Recebe o username e password do request em formato json
 		if user_data:
 			return jsonify({
 					"object": {
-						"user_id": data["userId"], 
-						"name": data["name"], 
-						"email": data["email"], 
+						"user_id": data["userId"],
+						"name": data["name"],
+						"email": data["email"],
 						"login": data["username"]
 					},
 					"message": "Sucesso ao atualizar dados do usuário",
@@ -514,7 +544,7 @@ def get_data_columns(): # Recebe o username e password do request em formato jso
 				continue
 			else:
 				result.append({ "label": columnDict[x]["label"], "value": x})
-	
+
 		return jsonify({
 				"object": result,
 				"message": "Sucesso ao retornar colunas para seleção de dados para coleta",
@@ -544,7 +574,7 @@ def test(): # Recebe o username e password do request em formato json
 @cross_origin()
 def get_all_users(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
-	
+
 	users =  export_datatable(ab_config, """
 											select
 														user_id,
@@ -575,7 +605,7 @@ def get_all_users(): # Recebe o username e password do request em formato json
 @cross_origin()
 def change_permission(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
-	
+
 	user_id =  update_command(ab_config,
 						sql_script="""UPDATE users set permission = %s where user_id = %s returning user_id""",
 						params=((data["permission"], data['userId'])),
@@ -597,7 +627,7 @@ def change_permission(): # Recebe o username e password do request em formato js
 @cross_origin()
 def delete_user(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
-	
+
 	userId =  delete_command(ab_config,
 						sql_script="""DELETE from users where user_id = %s returning user_id limit 1""",
 						params=((data['userId'])),
@@ -619,7 +649,7 @@ def delete_user(): # Recebe o username e password do request em formato json
 @cross_origin()
 def accept_user(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
-	
+
 	password = get_random_string(10)
 	userId =  update_command(ab_config,
 						sql_script="""UPDATE users set password = %s where user_id = %s returning email limit 1""",

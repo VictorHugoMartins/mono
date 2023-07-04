@@ -4,7 +4,7 @@ export type DataTableTab = {
   tabName: string;
   tabValue: string;
   data: DataTableRenderType;
-  resumPriority?: any;
+  extra_info?: any;
   resumStatusTicket?: any,
   resumStatusSprint?: any;
 };

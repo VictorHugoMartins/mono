@@ -4,7 +4,7 @@ import { DataTableRowType } from "./DataTableRowType"
 export type DataTableRenderType = {
   columns: DataTableColumnType[],
   rows: DataTableRowType[],
-  resumPriority?: any;
+  extra_info?: any;
   resumStatusTicket?: any,
   resumStatusSprint?: any;
 }

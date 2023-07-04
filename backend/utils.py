@@ -108,7 +108,7 @@ def update_command(config, sql_script, params, initial_message, failure_message)
 				return id
 
 def insert_command(config, sql_script, params, initial_message, failure_message):
-		
+		try:
 				id = None
 				rowcount = -1
 				logging.info(initial_message)
@@ -123,6 +123,10 @@ def insert_command(config, sql_script, params, initial_message, failure_message)
 				cur.close()
 				
 				return id
+		except Exception as e:
+				print(e)
+				conn.rollback()
+				return None
 
 def prepare_driver(url):
 		'''Returns a Firefox Webdriver.'''
@@ -161,11 +165,16 @@ def buildFilterQuery(data, platform):
 		params = []
 		for key in data.keys():
 			print(key, key in exclusive_airbnb_columns)
+			if (( key == 'agg_method') or ( key == 'clusterization_method')):
+				continue
 			if ( (platform == 'Airbnb') and (key in exclusive_booking_columns)):
 				continue
 			elif ( (platform == 'Booking') and (key in exclusive_airbnb_columns)):
 				continue
-			elif ( key != 'ss_id'):
+			elif ((key == 'platform') and (data[key] == 'both')):
+				data[key] = ['Airbnb', 'Booking']
+			
+			if ( key != 'ss_id'):
 				if ( type(data[key]) == list):
 					values = data[key]
 					if ( len(values) > 1 ):

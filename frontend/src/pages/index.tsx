@@ -166,7 +166,7 @@ function Home() {
     loadTableData(userId);
   }, [userId])
   return (
-    <PrivatePageStructure title={"Minhas pesquisas"}>
+    <PrivatePageStructure title={"Seja bem-vindo!"}>
       {/* <Flexbox justify="flex-end" width={"100%"} >
         <div style={{ maxWidth: "250px", padding: "8px" }}>
           <Button color="primary" text={"Iniciar nova pesquisa"} onClick={() => window.location.assign("/novapesquisa")} />

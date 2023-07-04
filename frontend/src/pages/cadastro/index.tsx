@@ -10,7 +10,6 @@ import { Grid } from "../../components/ui/Layout/Grid";
 import Typography from "../../components/ui/Typography/Typography";
 import Toast from "../../utils/Toast/Toast";
 import React from "react";
-import { setCookie } from "nookies";
 import loginroute from "~/routes/login.route";
 import { BASE_API_URL } from "~/config/apiBase";
 
@@ -46,16 +45,7 @@ const Register: React.FC = () => {
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          // setUser(data.object);
-          setCookie(undefined, 'userId', data.object.user_id, {
-            maxAge: 60 * 60 * 24, //24 hours
-            path: "/",
-          });
-          setCookie(undefined, 'userName', data.object.name, {
-            maxAge: 60 * 60 * 24, //24 hours
-            path: "/",
-          });
-          window.location.assign("/");
+          window.location.assign(`/quasela?name=${data.object.name}&email=${data.object.email}`);
         } else {
           Toast.error(data.message)
         }

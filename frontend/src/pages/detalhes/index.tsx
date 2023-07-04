@@ -34,7 +34,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
   const [searching, setSearching] = useState(false);
 
   const [_prepareData, setPrepareData] = useState<DetailsData>();
-  const [_filteredData, setFilteredData] = useState<DataTableRenderType>();
+  const [_filteredData, setFilteredData] = useState({ table: null as DataTableRenderType, extra_info: "_avg" });
   const [_chartData, setChartData] = useState<ChartDataType[]>();
   const [_filteredResponseData, setFilteredResponseData] = useState<ObjectResponse>();
   const [_chartResponseData, setChartResponseData] = useState<ObjectResponse>();
@@ -80,7 +80,11 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
   const getData = (data: any) => {
     setSearching(true);
     const apiUrl = `${BASE_API_URL}/details/getbyid`; // url da API Flask
-    const requestData = { ss_id: survey }; // dados de login a serem enviados na requisição
+    const requestData = {
+      ss_id: survey,
+      agg_method: data?.agg_method ?? "_avg",
+      platform: data?.platform ?? "both"
+    }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição
     const headers = new Headers();
@@ -130,7 +134,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
           />
         </div>
         <div>
-          <MapRender data={_filteredData?.rows} />
+          <MapRender data={_filteredData?.table?.rows} />
         </div>
       </Flexbox>
       <div>
@@ -143,11 +147,14 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
             // buildObject={data.result_columns as InputRenderType[]}
             setObjectReturn={setChartResponseData}
             buildPath={'/super_survey/build'}
-            submitPath={'http://localhost:5000/details/chart'}
+            submitPath={`${BASE_API_URL}/details/chart`}
             buttonSubmitText="Gerar gráfico"
             // buttonCancelText="Cancelar"
             returnPath="/"
-            hiddenInputs={{ ss_id: survey }}
+            hiddenInputs={{
+              ss_id: survey,
+              aggregation_method: _filteredData?.extra_info ?? "_avg"
+            }}
             // setObjectReturn={setResultData}
             onSuccess={(e) => {
               Toast.success(
@@ -190,8 +197,8 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
         </div>
         <h2>Dados filtrados</h2>
         <Table
-          columns={_filteredData?.columns}
-          rows={_filteredData?.rows}
+          columns={_filteredData?.table?.columns}
+          rows={_filteredData?.table?.rows}
         />
       </div>
     </PrivatePageStructure >

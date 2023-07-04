@@ -45,8 +45,8 @@ statusDict = {
 }
 
 # SQL SCRIPTS
-def get_airbnb_rooms_by_ss_id(ss_id):
-	return """SELECT * from rooms 
+def get_airbnb_rooms_by_ss_id(ss_id, agg_method='_avg'):
+	return """SELECT * from rooms{agg_method} 
 							WHERE
 								survey_id in (
 									select
@@ -57,17 +57,17 @@ def get_airbnb_rooms_by_ss_id(ss_id):
 										ss_id = {ss_id}
 								)
 								AND platform = 'Airbnb'
-							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id)
+							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, agg_method=agg_method)
 
-def get_airbnb_rooms_by_locality(locality):
-	return """SELECT * from rooms 
+def get_airbnb_rooms_by_locality(locality, agg_method='_avg'):
+	return """SELECT * from rooms{agg_method} 
 							WHERE
 								locality = {locality}
 								AND platform = 'Airbnb'
-							ORDER BY locality, sublocality, route, location_id, room_id""".format(locality=locality)
+							ORDER BY locality, sublocality, route, location_id, room_id""".format(locality=locality, agg_method=agg_method)
 
-def get_booking_rooms_by_ss_id(ss_id):
-	return """SELECT * from rooms 
+def get_booking_rooms_by_ss_id(ss_id, agg_method='_avg'):
+	return """SELECT * from rooms{agg_method} 
 							WHERE
 								survey_id in (
 									select
@@ -78,17 +78,17 @@ def get_booking_rooms_by_ss_id(ss_id):
 										ss_id = {ss_id}
 								)
 								AND platform = 'Booking'
-							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id)
+							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, agg_method=agg_method)
 
-def get_booking_rooms_by_locality(locality):
-	return """SELECT * from rooms 
+def get_booking_rooms_by_locality(locality, agg_method='_avg'):
+	return """SELECT * from rooms{agg_method} 
 							WHERE
 								locality = {locality}
 								AND platform = 'Booking'
-							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id)
+							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, agg_method=agg_method)
 
-def get_all_rooms_by_ss_id(ss_id, platform="'Airbnb' or platform = 'Booking'"):
-	return """SELECT * from rooms 
+def get_all_rooms_by_ss_id(ss_id, platform="'Airbnb' or platform = 'Booking'", agg_method='_avg'):
+	return """SELECT * from rooms{agg_method} 
 							WHERE
 								survey_id in (
 									select
@@ -99,14 +99,14 @@ def get_all_rooms_by_ss_id(ss_id, platform="'Airbnb' or platform = 'Booking'"):
 										ss_id = {ss_id}
 								)
 								AND platform = {platform}
-							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, platform=platform)
+							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, platform=platform, agg_method=agg_method)
 
-def get_all_rooms_by_locality(locality, platform="'Airbnb' or platform = 'Booking'"):
-	return """SELECT * from rooms 
+def get_all_rooms_by_locality(locality, platform="'Airbnb' or platform = 'Booking'", agg_method='_avg'):
+	return """SELECT * from rooms{agg_method} 
 							WHERE
 								locality = {locality}
 								AND platform = {platform}
-							ORDER BY locality, sublocality, route, location_id, room_id""".format(locality=locality, platform=platform)
+							ORDER BY locality, sublocality, route, location_id, room_id""".format(locality=locality, platform=platform, agg_method=agg_method)
 
 def deprecated_get_airbnb_rooms_by_ss_id(ss_id):
 	return """SELECT
