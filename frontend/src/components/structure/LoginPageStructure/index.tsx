@@ -14,7 +14,7 @@ interface LoginStructureProps {
 const LoginPageStructure: React.FC<LoginStructureProps> = ({ children, title }) => {
   return (
     <div className={styles.container}>
-      <LocalNavBar title={""} returnPath={"/login"} publicPage />
+      <LocalNavBar title={""} returnPath={"/login"} publicPage hideLoginButton />
       <HeadTitle title={title} />
       <div>
         {children}

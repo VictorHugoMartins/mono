@@ -12,7 +12,8 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 import { useEffect } from "react";
 import { Icon } from "leaflet";
-import img from '../../assets/images/iconRounded.png';
+import pin1 from '../../assets/images/pin1.png';
+import pin0 from '../../assets/images/pin0.png';
 import { LatLngExpression } from "leaflet";
 const Map = ({
   markers,
@@ -25,9 +26,9 @@ const Map = ({
   unfilteredData: any;
 }) => {
 
-  const airbnbIcon = new Icon({iconUrl: img}),
-    bookingIcon = new Icon({iconUrl: img}),
-    bothIcon = new Icon({iconUrl: img});
+  const airbnbIcon = new Icon({ iconUrl: pin0 }),
+    bookingIcon = new Icon({ iconUrl: pin1 }),
+    bothIcon = new Icon({ iconUrl: pin0 });
 
   const _centerPosition = [markers[markers.length - 1][0], markers[markers.length - 1][1]];
 
@@ -57,7 +58,7 @@ const Map = ({
           <Marker
             position={latLng}
             draggable={true}
-            icon={unfilteredData[i]?.platform == 'Airbnb' ? airbnbIcon : unfilteredData[i]?.platform == 'Booking' ? bookingIcon : bothIcon }
+            icon={unfilteredData[i]?.platform == 'Airbnb' ? airbnbIcon : unfilteredData[i]?.platform == 'Booking' ? bookingIcon : bothIcon}
           >
             {unfilteredData?.length > 0 &&
               <Popup>

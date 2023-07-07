@@ -7,6 +7,7 @@ import MapRender from "~/components/local/renderMap";
 import Table from "~/components/local/table"
 import FormPageStructure from "~/components/structure/FormPageStructure";
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure";
+import Button from "~/components/ui/Button/Button";
 import ChartBar from "~/components/ui/Charts/ChartBar";
 import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
@@ -18,6 +19,7 @@ import { DataTableRenderType } from "~/types/global/DataTableRenderType";
 import { InputRenderType } from "~/types/global/InputRenderType";
 import { ObjectResponse } from "~/types/global/ObjectResponse";
 import { SelectObjectType } from "~/types/global/SelectObjectType";
+import { JSONtoCSV, downloadCSV } from "~/utils/JsonFile";
 import Toast from "~/utils/Toast/Toast";
 
 type DetailsData = {
@@ -38,7 +40,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
   const [_chartData, setChartData] = useState<ChartDataType[]>();
   const [_filteredResponseData, setFilteredResponseData] = useState<ObjectResponse>();
   const [_chartResponseData, setChartResponseData] = useState<ObjectResponse>();
-
+  const [_csvFile, setCsvFile] = useState<string>();
 
   const prepare = (data: any) => {
     setSearching(true);
@@ -77,6 +79,39 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
       setFilteredData(_filteredResponseData.response)
   }, [_filteredResponseData])
 
+  const downloadData = (obj: any) => {
+    setSearching(true);
+    downloadCSV(_csvFile, Number(survey))
+    setSearching(false);
+    // const apiUrl = `${BASE_API_URL}/super_survey/export`; // url da API Flask
+    // const requestData = { ss_id: obj.ss_id }; // dados de login a serem enviados na requisição
+
+    // // Configuração do cabeçalho da requisição
+    // const headers = new Headers();
+    // headers.append('Content-Type', 'application/json');
+
+    // const requestOptions = {
+    //   method: 'POST',
+    //   headers,
+    //   body: JSON.stringify(requestData)
+    // };
+
+    // // Realiza a requisição para a API Flask
+    // const resp = fetch(apiUrl, requestOptions)
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     if (data.success) {
+    //       let csvFile = JSONtoCSV(data.object.rows);
+    //       downloadCSV(csvFile, obj.ss_id)
+    //     } else Toast.error("Erro ao baixar dados!")
+    //     setSearching(false)
+    //   })
+    //   .catch(error => { Toast.error(error), setSearching(false) });
+
+    // return resp;
+  };
+
+
   const getData = (data: any) => {
     setSearching(true);
     const apiUrl = `${BASE_API_URL}/details/getbyid`; // url da API Flask
@@ -102,6 +137,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
       .then(data => {
         if (data.success) {
           setFilteredData(data.object);
+          setCsvFile(JSONtoCSV(data.object.table.rows));
           setSearching(false);
         } else Toast.error(data.message);
       })
@@ -124,6 +160,13 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
   return (
     <PrivatePageStructure title="Detalhes da pesquisa " returnPath="/minhaspesquisas">
       <PopupLoading show={searching} />
+      <Flexbox justify="flex-end" width={"100%"} >
+        <div style={{ maxWidth: "250px", padding: "8px" }}>
+          <Button color="primary" text={"Baixar dados filtrados"}
+            onClick={() => downloadData({ ss_id: survey, aggregation_method: _filteredData.extra_info })}
+          />
+        </div>
+      </Flexbox>
       <Flexbox width={"100%"} justify="space-between">
         <div style={{ width: "30vw", maxHeight: "80vh", overflow: "hidden", overflowY: "scroll" }}>
           <DetailsFilter

@@ -39,6 +39,7 @@ import styles from "./localNavBar.module.scss";
 import useTheme from "~/hooks/useTheme";
 import NotificationButton from "./NotificationButton";
 import { parseCookies } from "nookies";
+import RedirectTo from "~/utils/Redirect/Redirect";
 
 interface ModalLogoutButtonsProps {
   handleClose?: React.MouseEventHandler<HTMLButtonElement>;
@@ -48,9 +49,10 @@ interface LocalNavBarProps {
   returnPath?: string;
   title: string;
   publicPage?: boolean;
+  hideLoginButton?: boolean;
 }
 
-const LocalNavBar: React.FC<LocalNavBarProps> = ({ returnPath, title, publicPage }) => {
+const LocalNavBar: React.FC<LocalNavBarProps> = ({ hideLoginButton, returnPath, title, publicPage }) => {
   const [menuOptions, setMenuOptions] = useState<RenderMenuType[]>(null);
   const [openLogoutModal, setOpenLogoutModal] = useState<boolean>(false);
   const { userId, userName } = parseCookies();
@@ -133,7 +135,7 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ returnPath, title, publicPage
           </div>
         )} */}
 
-        {isLogged && (
+        {isLogged ? (
           <>
             {/* <NotificationButton /> */}
 
@@ -198,7 +200,10 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ returnPath, title, publicPage
               {/* <Navbarversion /> */}
             </NavbarDropdown>}
           </>
-        )}
+        ) :
+          !hideLoginButton &&
+          <Button color="primary" text="Login ou Cadastro" onClick={() => RedirectTo("/login")} />
+        }
         <Modal
           title="Deseja sair?"
           openExternal={openLogoutModal}

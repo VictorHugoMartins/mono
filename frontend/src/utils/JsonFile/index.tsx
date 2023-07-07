@@ -1,4 +1,4 @@
-export function JSONtoCSV(json: any) {
+export function JSONtoCSV(json?: any): string {
   let csv = '';
 
   // adiciona os cabeçalhos
@@ -15,7 +15,7 @@ export function JSONtoCSV(json: any) {
     csv += '\n';
   });
 
-  return csv;
+  return csv as string;
 }
 
 export function downloadCSV(csv: string, ss_id: number) {
