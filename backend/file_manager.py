@@ -25,7 +25,7 @@ def buildColumnsObject(columns):
         })
     return obj
 
-def export_datatable(config, sql_command, params, project, toJson):
+def export_datatable(config, sql_command, params, project, toJson, toPandas=False):
     try:
         rowcount = -1
         logging.info("Initializing export {project}'s rooms".format(project=project))
@@ -47,10 +47,18 @@ def export_datatable(config, sql_command, params, project, toJson):
                 data.append(d)
             conn.close()
             
-            if ( len(data) > 0):
-              return { "columns": buildColumnsObject(data[0].keys()), "rows": data }
+            if ( toPandas ):
+              df = pd.DataFrame(results)
+              df.columns = data[0].keys()
+              if ( len(data) > 0):
+                return { "table": { "columns": buildColumnsObject(data[0].keys()), "rows": data }, "df": df }
+              else:
+                return { "table": { "columns": [], "rows": []}, "df": df }
             else:
-              return { "columns": [], "rows": []}
+              if ( len(data) > 0):
+                return { "columns": buildColumnsObject(data[0].keys()), "rows": data }
+              else:
+                return { "columns": [], "rows": []}
         else:
             # create a directory for all the data for the city
             directory = ('files/').format(project=project)
@@ -158,51 +166,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-# SELECT
-#         room_id,
-#         STRING_AGG(DISTINCT room_name, 'JOIN ') AS hotel_names,
-# 		STRING_AGG(DISTINCT hotel_name, 'JOIN ') AS room_names,
-#         STRING_AGG(DISTINCT property_type, 'JOIN ') AS property_types,
-#         STRING_AGG(DISTINCT room_type, 'JOIN ') AS room_types,
-#         AVG(price) AS avg_price,
-#         AVG(reviews) AS avg_reviews,
-#         AVG(overall_satisfaction) AS avg_rating,
-#         AVG(accommodates) AS avg_accommodates,
-#         AVG(bedrooms) AS avg_bedrooms,
-#         AVG(bathrooms) AS avg_bathrooms,
-#        	AVG(latitude) AS avg_latitude,
-#         AVG(longitude) AS avg_longitude,
-#         STRING_AGG(DISTINCT comodities, 'JOIN ') AS comodities,
-# 		STRING_AGG(DISTINCT bed_type, 'JOIN ') AS room_types,
-# 		STRING_AGG(DISTINCT checkin_date, 'JOIN ') AS checkin_date,
-# 		STRING_AGG(DISTINCT checkout_date, 'JOIN ') AS checkout_dates
-#       FROM
-#         booking_room
-#       GROUP BY
-#         room_id;
-
-
-# perguntar plataformas (airbnb/booking/both)
-  # se incluir booking, PODE incluir start and finish date
-# perguntar cidade
-# perguntar se é pra incluir sublocality/route
-# perguntar campos para exportação
-# perguntar se exporta todas as super_surveys juntas
-  # p cada pesquisa especifica, pergunta se exporta todos (incluindo repetidos), se media, maior ou menor
-
-
-# preciso definir como exportar uma ss_id especifica e todas as ss_ids do usuários
-  # -1 para todas, N para especifica?
-# como vai exportar airbnb e booking juntos?? e revisar booking sozinho kk
-
-# quer continuar pesquisa q terminou em status diferente de "totalmente concluída? passe o ss_id"
-
-
-# TELAS INTERESSANTES
-  # cadastro
-  # login
-  # listagem (verificar andamento, cancelar, continuar)
-  # iniciar nova pesquisa
-  # editar/remover dados

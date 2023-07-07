@@ -11,6 +11,9 @@ from utils import get_random_string
 from thread import Th
 from mail import send_mail
 import psycopg2
+import pandas as pd
+
+from clusterization import run_kmodes, run_dbscan, run_birch
 
 ab_config = ABConfig()
 
@@ -116,7 +119,7 @@ def export_super_survey(): # Recebe o username e password do request em formato 
 			"message": "Dados retornados com sucesso!",
 			"success": True
 		})
-	print(response)
+	
 	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
@@ -223,7 +226,7 @@ def get_rooms(data, columns, agg_method):
 	rooms =  export_datatable(ab_config, """
 										WITH consulta AS ( {consulta} )
 											SELECT room_id, platform, {columns} FROM consulta {query}
-											""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], agg_method=agg_method), columns=columns, query=query), params, "Airbnb", True)
+											""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], agg_method=agg_method), columns=columns, query=query), params, "Airbnb", True, True)
 	return rooms
 
 @app.route('/details/getbyid', methods=['POST'])
@@ -258,19 +261,23 @@ def get_all_details(): # Recebe o username e password do request em formato json
 		rooms =  export_datatable(ab_config, """
 											WITH consulta AS ( {consulta} )
 												SELECT room_id, {columns} FROM consulta {query}
-												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Airbnb'", agg_method), columns=xNotIn(exclusive_booking_columns, columns), query=query), params, "Airbnb", True)
+												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Airbnb'", agg_method), columns=xNotIn(exclusive_booking_columns, columns), query=query), params, "Airbnb", True, True)
 	elif (platform == 'Booking'):
 		(query, params) = buildFilterQuery(data, 'Booking')
 		rooms =  export_datatable(ab_config, """
 											WITH consulta AS ( {consulta} )
 												SELECT room_id, {columns} FROM consulta {query}
-												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Booking'", agg_method), columns=xNotIn(exclusive_airbnb_columns, columns), query=query), params, "Booking", True)
+												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Booking'", agg_method), columns=xNotIn(exclusive_airbnb_columns, columns), query=query), params, "Booking", True, True)
 
+	print(rooms.keys())
 	response = jsonify({
-			"object": { "table": rooms, "extra_info": agg_method },
+			"object": { "table": rooms["table"], "extra_info": agg_method },
 			"message": "Dados retornados com sucesso!",
 			"success": True
 		})
+	run_kmodes(rooms["df"])
+	run_dbscan(rooms["df"])
+	run_birch(rooms["df"])
 	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
@@ -457,27 +464,36 @@ def login(): # Recebe o username e password do request em formato json
 def register(): # Recebe o username e password do request em formato json
 	data = request.get_json() # Verifica se o usuário existe no dicionário
 	try:
-		user_data = insert_command(ab_config,
+		result = select_command(ab_config,
+															"""SELECT user_id from users where email = %s or login = %s
+																	limit 1""",
+																(data["email"], data["username"]),
+																"Verificando existência de usuário...",
+																"Falha ao verificar existência de usuário")
+		if result:
+			return jsonify({"message": "E-mail ou nome de usuário indisponíveis!", "success": False}), 400 # Inicia a aplicação
+		else:
+			user_data = insert_command(ab_config,
 						sql_script="""INSERT INTO users(name, email, login) values(%s, %s, %s) returning user_id""",
 						params=((data["name"], data["email"], data['username'])),
 						initial_message="Autenticando usuario...",
 						failure_message="Falha ao cadastrar usuário")
-		print(user_data)
-		if user_data:
-			return jsonify({
-					"object": {
-						"user_id": user_data,
-						"name": data["name"],
-						"email": data["email"],
-						"login": data["username"]
-					},
-					"message": "Sucesso ao cadastrar usuário",
-					"success": True
-				})
-		else:
-			return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
+			print(user_data)
+			if user_data:
+				return jsonify({
+						"object": {
+							"user_id": user_data,
+							"name": data["name"],
+							"email": data["email"],
+							"login": data["username"]
+						},
+						"message": "Sucesso ao cadastrar usuário",
+						"success": True
+					})
+			else:
+				return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
 	except psycopg2.errors.UniqueViolation:
-		return jsonify({"message": "Usuário já cadastrado! Talvez seja melhor tentar fazer login...", "success": False}), 500 # Inicia a aplicação
+		return jsonify({"message": "Usuário já cadastrado! Talvez seja melhor tentar fazer login...", "success": False}), 400 # Inicia a aplicação
 	# except:	# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
 	# 	return jsonify({"message": "Exceção ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
 
