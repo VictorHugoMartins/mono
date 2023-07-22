@@ -3,17 +3,16 @@ from flask_cors import CORS, cross_origin
 from general_config import ABConfig
 import search
 from file_manager import export_datatable
-from general_dict import columnDict, get_airbnb_rooms_by_ss_id, get_booking_rooms_by_ss_id, get_all_rooms_by_ss_id
+from general_dict import columnDict
+from general_dict import get_all_rooms_by_ss_id
 from utils import select_command, insert_command, update_command
-from utils import buildChartObjectFromValueCounts, send_nullable_value
-from utils import removeLastWordOfString, buildFilterQuery, asSelectObject, build_options
+from utils import send_nullable_value
+from utils import buildFilterQuery, build_options
 from utils import get_random_string
 from thread import Th
 from mail import send_mail
 import psycopg2
-import pandas as pd
-
-from clusterization import run_kmodes, run_dbscan, run_birch
+from clusterization import cluster_data
 
 ab_config = ABConfig()
 
@@ -26,8 +25,8 @@ CORS(app)
 # criar dicionario p converter valores numericos
 @app.route('/super_survey/save', methods=['POST'])
 @cross_origin()
-def save_super_survey(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def save_super_survey():
+	data = request.get_json()
 
 	ss_id = search.initialize_search(config=ab_config,
 													platform=send_nullable_value(data, "platform"),
@@ -60,8 +59,8 @@ def save_super_survey(): # Recebe o username e password do request em formato js
 
 @app.route('/super_survey/continue', methods=['POST'])
 @cross_origin()
-def continue_super_survey(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def continue_super_survey():
+	data = request.get_json()
 	print(data)
 	result = select_command(ab_config,
 															"""SELECT platform, search_area_name, super_survey_config.user_id, data_columns,
@@ -110,8 +109,8 @@ def continue_super_survey(): # Recebe o username e password do request em format
 
 @app.route('/super_survey/export', methods=['POST'])
 @cross_origin()
-def export_super_survey(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def export_super_survey():
+	data = request.get_json()
 
 	# try:
 	response = jsonify({
@@ -128,8 +127,8 @@ def export_super_survey(): # Recebe o username e password do request em formato 
 
 @app.route('/super_survey/getall', methods=['POST'])
 @cross_origin()
-def export_super_survey_info(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def export_super_survey_info():
+	data = request.get_json()
 	print("uai")
 
 	try:
@@ -164,8 +163,8 @@ def export_super_survey_info(): # Recebe o username e password do request em for
 
 @app.route('/super_survey/public_getall', methods=['POST'])
 @cross_origin()
-def export_public_super_survey_info(): # Recebe o username e password do request em formato json
-		data = request.get_json() # Verifica se o usuário existe no dicionário
+def export_public_super_survey_info():
+		data = request.get_json()
 		print("uai")
 
 		# try:
@@ -189,8 +188,8 @@ def export_public_super_survey_info(): # Recebe o username e password do request
 
 @app.route('/super_survey/getbycity', methods=['POST'])
 @cross_origin()
-def export_super_survey_info_by_city(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def export_super_survey_info_by_city():
+	data = request.get_json()
 	print("uai")
 
 	try:
@@ -231,8 +230,9 @@ def get_rooms(data, columns, agg_method):
 
 @app.route('/details/getbyid', methods=['POST'])
 @cross_origin()
-def get_all_details(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def get_all_details():
+	data = request.get_json()
+	print(data)
 	result = select_command(ab_config,
 															"""SELECT platform, data_columns
 																FROM super_survey_config where ss_id = %s
@@ -271,18 +271,102 @@ def get_all_details(): # Recebe o username e password do request em formato json
 
 	print(rooms.keys())
 	response = jsonify({
-			"object": { "table": rooms["table"], "extra_info": agg_method },
+			"object": { "table": cluster_data(data["clusterization_method"], rooms["df"], rooms["table"], data), "extra_info": agg_method },
 			"message": "Dados retornados com sucesso!",
 			"success": True
 		})
-	run_kmodes(rooms["df"])
-	run_dbscan(rooms["df"])
-	run_birch(rooms["df"])
+
 	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
 	#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
+
+@app.route('/details/get_cluster_parameters', methods=['POST'])
+@cross_origin()
+def get_clusterization_parameters():
+		data = request.get_json()
+		parameters = {
+			"none": [],
+			"kmodes": [
+						{
+							"name": "n_clusters",
+							"label": "Quantidade de clusters:",
+							"disabled": True,
+							"required": True,
+							"type": "number"
+						},
+						{
+							"name": "init",
+							"label": "Método de inicialização:",
+							"disabled": True,
+							"required": True,
+							"type": "radio",
+							"options": [
+								{ "label": "Huang", "value": "Huang" },
+								{ "label": "Cao", "value": "Cao" },
+								{ "label": "Aleatório", "value": "random" },
+							]
+						},
+						{
+							"name": "n_init",
+							"label": "Quantidade de seeds:",
+							"disabled": True,
+							"required": True,
+							"type": "number"
+						}
+					],
+			"birch": [
+						{
+							"name": "n_clusters",
+							"label": "Quantidade de clusters:",
+							"disabled": True,
+							"required": True,
+							"type": "number",
+						},
+						{
+							"name": "threshold",
+							"label": "Método de inicialização:",
+							"disabled": True,
+							"required": True,
+							"type": "radio",
+							"options": [
+								{ "label": "Huang", "value": "Huang" },
+								{ "label": "Cao", "value": "Cao" },
+								{ "label": "Aleatório", "value": "random" },
+							]
+						},
+						{
+							"name": "branching_factor",
+							"label": "Quantidade de seeds:",
+							"disabled": True,
+							"required": True,
+							"type": "number"
+						}  
+					],
+			"dbscan": [
+						{
+							"name": "min_samples",
+							"label": "Quantidade de clusters:",
+							"disabled": True,
+							"required": True,
+							"type": "number",
+						},
+						{
+							"name": "eps",
+							"label": "Método de inicialização:",
+							"disabled": True,
+							"required": True,
+							"type": "number"
+						}
+					]
+		}
+		
+		return jsonify({
+			"object": parameters[data["clusterization_method"]],
+			"message": "Sucesso ao carregar parâmetros de clusterização!",
+			"success": True
+		})
 
 @app.route('/details/prepare', methods=['POST'])
 @cross_origin()
@@ -310,15 +394,25 @@ def get_filters():
 
 		numeric_columns = [{ "label": "Nenhum", "value": "nenhum" }]
 		result_columns = [{
+			"name": "ss_id",
+			"label": "Código Identificador da Pesquisa",
+			"disabled": False,
+			"required": True,
+			"type": "hidden-number",
+		},
+			{
 			"name": "clusterization_method",
-			"label": "Método de Clusterização",
+			"label": "Método de Agrupamento",
 			"disabled": False,
 			"required": False,
 			"type": "radio",
 			"options": [
+				{ "label": "Sem agrupamento", "value": "none" },
+				{ "label": "Birch", "value": "birch" },
+				{ "label": "DBScan", "value": "dbscan" },
 				{ "label": "K-Modes", "value": "kmodes" },
-				{ "label": "Sem clusterização", "value": "none" },
-			]
+			],
+			"description": "Agrupamento se refere ao processo de gerar grupos menores dentro dos dados coletados a partir de características semelhantes entre eles. Para saber mais sobre cada um dos três métodos disponíveis, acesse: https://scikit-learn.org/stable/modules/clustering.html#birch"
 		},
 		{
 			"name": "agg_method",
@@ -334,6 +428,7 @@ def get_filters():
 			]
 		},]
 		str_columns = []
+		
 
 		if ( platform == 'both' ):
 			result_columns.append({ "name": "platform", "type": "radio", "label": "Plataforma", "required": True, "options": [{ "label": "Todas", "value": "both"}, { "label": "Airbnb", "value": "Airbnb"}, {"label": "Booking", "value": "Booking"}] })
@@ -384,15 +479,27 @@ def prepare_filter():
 
 		print(platform)
 		return jsonify({
-				"object": { "agg_method": "_avg", "clusterization_method": "kmodes", "platform": platform[0] },
+				"object": {
+					"ss_id": args.get("ss_id"),
+					"agg_method": "_avg",
+					"clusterization_method": "none",
+					"platform": platform[0][0],
+					"n_clusters": 3,
+					"init": 'Huang',
+					"n_init": 3,
+					"eps": 3,
+					"min_samples": 50,
+					"threshold": 0.5,
+					"branching_factor": 200,
+				},
 				"message": "Sucesso ao selecionar colunas da configuração de pesquisa",
 				"success": True
 		})
 
 @app.route('/details/chart', methods=['POST'])
 @cross_origin()
-def details_chart(): # Recebe o username e password do request em formato json
-		data = request.get_json() # Verifica se o usuário existe no dicionário
+def details_chart():
+		data = request.get_json()
 		if ( (data["agg_method"] != "count") and (data["number_column"] == "nenhum")):
 			return jsonify({
 				"object": None,
@@ -432,8 +539,8 @@ def buildGraphObjectFromSqlResult(data):
 
 @app.route('/api/login', methods=['POST'])
 @cross_origin()
-def login(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def login():
+	data = request.get_json()
 	try:
 		user_data = select_command(ab_config,
 						sql_script="""SELECT user_id, name, email, login from users where login = %s and password = %s limit 1""",
@@ -461,8 +568,8 @@ def login(): # Recebe o username e password do request em formato json
 
 @app.route('/api/register', methods=['POST'])
 @cross_origin()
-def register(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def register():
+	data = request.get_json()
 	try:
 		result = select_command(ab_config,
 															"""SELECT user_id from users where email = %s or login = %s
@@ -499,8 +606,8 @@ def register(): # Recebe o username e password do request em formato json
 
 @app.route('/api/edit_user', methods=['POST'])
 @cross_origin()
-def edit_user(): # Recebe o username e password do request em formato json
-		data = request.get_json() # Verifica se o usuário existe no dicionário
+def edit_user():
+		data = request.get_json()
 		# try:
 		user_data = update_command(ab_config,
 						sql_script="""UPDATE users set name = %s, email = %s, login = %s where user_id = %s returning user_id""",
@@ -527,8 +634,8 @@ def edit_user(): # Recebe o username e password do request em formato json
 
 @app.route('/api/change_password', methods=['POST'])
 @cross_origin()
-def change_password(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def change_password():
+	data = request.get_json()
 	try:
 		user_data = insert_command(ab_config,
 						sql_script="""UPDATE users set password = %s where user_id = %s returning user_id""",
@@ -549,8 +656,8 @@ def change_password(): # Recebe o username e password do request em formato json
 
 @app.route('/api/forgot_password', methods=['POST'])
 @cross_origin()
-def forgot_password(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def forgot_password():
+	data = request.get_json()
 	try:
 		user_data = insert_command(ab_config,
 						sql_script="""UPDATE users set password = %s where email = %s returning user_id""",
@@ -571,7 +678,7 @@ def forgot_password(): # Recebe o username e password do request em formato json
 
 @app.route('/super_survey/get_data_columns', methods=['GET'])
 @cross_origin()
-def get_data_columns(): # Recebe o username e password do request em formato json
+def get_data_columns():
 	args = request.args
 	try:
 		result = []
@@ -592,7 +699,7 @@ def get_data_columns(): # Recebe o username e password do request em formato jso
 
 @app.route('/test/hello_world', methods=['GET'])
 @cross_origin()
-def hello_world(): # Recebe o username e password do request em formato json
+def hello_world():
 	try:
 		return "Hello World"
 	except:
@@ -601,15 +708,15 @@ def hello_world(): # Recebe o username e password do request em formato json
 
 @app.route('/')
 @cross_origin()
-def test(): # Recebe o username e password do request em formato json
+def test():
 	response = jsonify({"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False})
 	# response.headers.add('Access-Control-Allow-Origin', '*')
 	return response # Inicia a aplicação
 
 @app.route('/users/getall', methods=['POST'])
 @cross_origin()
-def get_all_users(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def get_all_users():
+	data = request.get_json()
 
 	users =  export_datatable(ab_config, """
 											select
@@ -639,8 +746,8 @@ def get_all_users(): # Recebe o username e password do request em formato json
 
 @app.route('/users/change_permission', methods=['POST'])
 @cross_origin()
-def change_permission(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def change_permission():
+	data = request.get_json()
 
 	user_id =  update_command(ab_config,
 						sql_script="""UPDATE users set permission = %s where user_id = %s returning user_id""",
@@ -649,7 +756,7 @@ def change_permission(): # Recebe o username e password do request em formato js
 						failure_message="Falha ao atualizar permissão do usuário")
 	if ( user_id ):
 		response = jsonify({
-				"object": users,
+				"object": user_id,
 				"message": "Dados retornados com sucesso!",
 				"success": True
 			})
@@ -661,15 +768,15 @@ def change_permission(): # Recebe o username e password do request em formato js
 
 @app.route('/users/delete', methods=['POST'])
 @cross_origin()
-def delete_user(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def delete_user():
+	data = request.get_json()
 
 	userId =  delete_command(ab_config,
 						sql_script="""DELETE from users where user_id = %s returning user_id limit 1""",
 						params=((data['userId'])),
 						initial_message="Deletando usuario...",
 						failure_message="Falha ao deletar usuário")
-	if ( user_id ):
+	if ( userId ):
 		response = jsonify({
 				"object": None,
 				"message": "Usuário removido com sucesso!",
@@ -683,11 +790,11 @@ def delete_user(): # Recebe o username e password do request em formato json
 
 @app.route('/users/accept', methods=['POST'])
 @cross_origin()
-def accept_user(): # Recebe o username e password do request em formato json
-	data = request.get_json() # Verifica se o usuário existe no dicionário
+def accept_user():
+	data = request.get_json()
 
 	password = get_random_string(10)
-	userId =  update_command(ab_config,
+	email =  update_command(ab_config,
 						sql_script="""UPDATE users set password = %s where user_id = %s returning email limit 1""",
 						params=((password, data['userId'])),
 						initial_message="Aceitando solicitação de acesso do usuario...",
@@ -704,7 +811,6 @@ def accept_user(): # Recebe o username e password do request em formato json
 	# finally:
 	#     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
 	#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
-
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=5000, debug=True)

@@ -18,12 +18,14 @@ import { LatLngExpression } from "leaflet";
 const Map = ({
   markers,
   unfilteredData,
+  viewForClusters
 }: {
   coords: number[][];
   lastPosition?: [number, number];
   markers?: [number, number][];
   latestTimestamp?: string;
   unfilteredData: any;
+  viewForClusters?: boolean;
 }) => {
 
   const airbnbIcon = new Icon({ iconUrl: pin0 }),
@@ -58,7 +60,7 @@ const Map = ({
           <Marker
             position={latLng}
             draggable={true}
-            icon={unfilteredData[i]?.platform == 'Airbnb' ? airbnbIcon : unfilteredData[i]?.platform == 'Booking' ? bookingIcon : bothIcon}
+            icon={!viewForClusters ? unfilteredData[i]?.platform == 'Airbnb' ? airbnbIcon : unfilteredData[i]?.platform == 'Booking' ? bookingIcon : bothIcon : bothIcon}
           >
             {unfilteredData?.length > 0 &&
               <Popup>

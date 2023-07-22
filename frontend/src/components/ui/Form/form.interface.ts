@@ -13,8 +13,9 @@ export interface FormInterface {
   initialData?: {};
   validation?: YupObjValidationProps[];
   externalInitalData?: {};
-  isMessageApi?:boolean;
-  setObjectReturn?: React.Dispatch<React.SetStateAction<ObjectResponse>>
+  isMessageApi?: boolean;
+  setObjectReturn?: React.Dispatch<React.SetStateAction<ObjectResponse>>;
+  addInputs?: Function;
 }
 
 export type FormExternalResponseType = {

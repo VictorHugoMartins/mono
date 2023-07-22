@@ -20,4 +20,4 @@ export interface TextInputProps {
   error?: boolean,
 }
 
-export type TextInputType = "text" | "email" | "number" | "password" | "hidden" | "search";
+export type TextInputType = "text" | "email" | "number" | "password" | "hidden" | "search" | "decimal-number";

@@ -1,27 +1,16 @@
-import re
-import bs4
 import time
-import json
 import random
 import logging
-import requests
-import argparse
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
-import selenium
 import psycopg2
-from lxml import html
 from selenium import webdriver
 from general_config import ABConfig
-from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from geopy import distance
-import datetime as dt
-from general_dict import get_airbnb_rooms_by_ss_id, get_all_rooms_by_ss_id
+from general_dict import get_all_rooms_by_ss_id
 
 ab_config = ABConfig()
 
@@ -161,10 +150,14 @@ def removeLastWordOfString(word, string):
 def buildFilterQuery(data, platform):
 		exclusive_airbnb_columns = ['host_id', 'name', 'minstay', 'bathroom', 'avg_rating', 'extra_host_languages', 'is_superhost', 'room_type']
 		exclusive_booking_columns = ['start_date', 'finish_date']
+		ignore_columns = ['cluster_parameters', 'n_clusters', 'threshold', 'branching_factor', 'init', 'n_init', 'min_samples', 'eps']
+
 		query = 'WHERE'
 		params = []
 		for key in data.keys():
 			print(key, key in exclusive_airbnb_columns)
+			if ( key in ignore_columns ):
+				continue
 			if (( key == 'agg_method') or ( key == 'clusterization_method')):
 				continue
 			if ( (platform == 'Airbnb') and (key in exclusive_booking_columns)):
@@ -237,3 +230,4 @@ def get_random_string(length):
 		letters = string.ascii_lowercase
 		result_str = ''.join(random.choice(letters) for i in range(length))
 		print("Random string of length", length, "is:", result_str)
+		return result_str

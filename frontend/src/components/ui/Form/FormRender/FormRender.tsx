@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { FormRenderProps, FormRenderInputProps } from "./formRender.interface";
 
 //Import components
@@ -32,8 +32,8 @@ import formService from "~/services/form.service";
 
 //Import types
 import { InputRenderType } from "~/types/global/InputRenderType";
-import { GapPatternObjectType } from "../../Layout/Grid/grid.interface";
 import MultiDoubleTextInputForm from "../../FormInputs/MultiDoubleTextInputForm";
+import { insertNewElementsAtIndex, removeClusterParameterInput, removeClusterParameters } from "~/utils/DetailsFunctions/detailsFunctions";
 
 const FormRender: React.FC<FormRenderProps> = ({
   children,
@@ -50,6 +50,7 @@ const FormRender: React.FC<FormRenderProps> = ({
   isMessageApi
 }) => {
   const [_inputs, setInputs] = useState<InputRenderType[]>(inputs);
+  const [_advancedInputs, setAdvancedInputs] = useState<InputRenderType[]>();
 
   useLayoutEffect(() => {
     if (buildPath) _buildForm();
@@ -64,13 +65,150 @@ const FormRender: React.FC<FormRenderProps> = ({
     }
   }
 
+  function addInputs(clusterMethod: string, clusterParameters: string, action?: number) {
+    console.log("os parametros: ", clusterMethod, clusterParameters)
+    if (action >= 1) {
+      // action 1 -> mudou o metodo
+      // action 2 -> n quer personalizar
+      setAdvancedInputs([]);
+      let x = _inputs;
+      if ((clusterMethod !== "none")) x = removeClusterParameters(x);
+      if (action === 2 || (clusterMethod === "none")) x = removeClusterParameters(x);
+      if (action === 1 && clusterMethod === "none") x = removeClusterParameterInput(x);
+      setAdvancedInputs(x);
+      return
+    }
+
+    if (clusterMethod !== "none" && _inputs[2].name !== "cluster_parameters") { // n tem cluster parameters, adiciona
+      console.log("no um", _inputs[2].name);
+      // setAdvancedInputs(removeClusterParameters(_inputs));
+      const newInputs = insertNewElementsAtIndex(_inputs, [
+        {
+          "name": "cluster_parameters",
+          "label": "Personalizar parâmetros de clusterização",
+          "disabled": false,
+          "required": false,
+          "type": "radio",
+          "options":
+            [
+              { "label": "Sim", "value": "sim" },
+              { "label": "Não", "value": "nao" }
+            ]
+        }] as InputRenderType[], 2);
+      setAdvancedInputs([]);
+      setAdvancedInputs(newInputs);
+    } else {
+      console.log("n entrei no if: ", clusterMethod, _inputs[2].name)
+    }
+
+    if (clusterMethod === "birch" && (clusterParameters === "sim")) {
+      let newInputs = removeClusterParameters(_inputs);
+      newInputs = insertNewElementsAtIndex(_inputs, [
+        {
+          "name": "n_clusters",
+          "label": "Quantidade de grupos:",
+          "disabled": false,
+          "required": true,
+          "type": "number",
+          "description": "Quantidade de grupos a serem formados",
+        },
+        {
+          "name": "threshold",
+          "label": "Distância máxima entre grupos:",
+          "disabled": false,
+          "required": true,
+          "type": "decimal-number",
+          "description": "Distância limite entre os grupos gerados",
+        },
+        {
+          "name": "branching_factor",
+          "label": "Tamanho máximo do grupo:",
+          "disabled": false,
+          "required": true,
+          "type": "number",
+          "description": "Quantidade máxima de subgrupos em cada grupo",
+        }
+      ], 3);
+
+      setAdvancedInputs([]);
+      setAdvancedInputs(newInputs)
+    } else if (clusterMethod === "kmodes" && (clusterParameters === "sim")) {
+      // setAdvancedInputs(removeClusterParameters(_inputs));
+      let newInputs = removeClusterParameters(_inputs);
+      newInputs = insertNewElementsAtIndex(_inputs, [
+        {
+          "name": "n_clusters",
+          "label": "Quantidade de grupos:",
+          "disabled": false,
+          "required": true,
+          "type": "number",
+          "description": "Quantidade de grupos a serem formados",
+        },
+        {
+          "name": "init",
+          "label": "Método de inicialização:",
+          "disabled": false,
+          "required": true,
+          "type": "radio",
+          "options": [
+            { "label": "Huang", "value": "Huang" },
+            { "label": "Cao", "value": "Cao" },
+            { "label": "Aleatório", "value": "random" },
+          ],
+          "description": ""
+        },
+        {
+          "name": "n_init",
+          "label": "Quantidade de tentativas:",
+          "disabled": false,
+          "required": true,
+          "type": "number",
+          "description": "",
+        }
+      ], 3)
+      setAdvancedInputs([]);
+      setAdvancedInputs(newInputs)
+    } else if (clusterMethod === "dbscan" && (clusterParameters === "sim")) {
+      // setAdvancedInputs(removeClusterParameters(_inputs));
+      let newInputs = removeClusterParameters(_inputs);
+      newInputs = insertNewElementsAtIndex(_inputs, [
+        {
+          "name": "eps",
+          "label": "Quantidade de épocas:",
+          "disabled": false,
+          "required": true,
+          "type": "decimal-number",
+          "description": "A distância máxima entre duas amostras para que uma seja considerada vizinha da outra. Não representa um limite máximo nas distâncias dos pontos dentro de um cluster. Este é o parâmetro mais importante para o DBSCAN."
+        },
+        {
+          "name": "min_samples",
+          "label": "Quantidade mínima de amostras:",
+          "disabled": false,
+          "required": true,
+          "type": "number",
+          "description": "O número de amostras (ou peso total) em uma vizinhança para que um ponto seja considerado como um ponto central. Isso inclui o ponto em si."
+        }
+      ], 3);
+      setAdvancedInputs([]);
+      setAdvancedInputs(newInputs)
+    }
+
+  }
+
+  useEffect(() => {
+    if (_advancedInputs?.length > 0) {
+      console.log("setando");
+      setInputs(_advancedInputs);
+    }
+  }, [_advancedInputs])
+
   const formGridSpacing = "xg";
-  // console.log(initialData, 'valor da data Inicial')
   return (
     <>
       <PopupLoading show={_inputs.length <= 0} />
       {_inputs.length > 0 && (
         <Form
+          addInputs={addInputs}
           setObjectReturn={setObjectReturn}
           externalInitalData={externalInitalData}
           postUrl={submitPath}
@@ -206,6 +344,7 @@ export const FormRenderInput: React.FC<FormRenderInputProps> = ({ input }) => {
             name={input.name}
             required={input.required}
             options={input.options}
+            description={input.description}
           />
         );
       case "select":
@@ -238,6 +377,19 @@ export const FormRenderInput: React.FC<FormRenderInputProps> = ({ input }) => {
             type="number"
             required={input.required}
             disabled={input.disabled}
+            description={input.description}
+          />
+        );
+      case "decimal-number":
+        return (
+          <TextInputForm
+            label={input.label}
+            name={input.name}
+            type="number"
+            required={input.required}
+            disabled={input.disabled}
+            description={input.description}
+            step={0.1}
           />
         );
       case "phone":
@@ -288,6 +440,7 @@ export const FormRenderInput: React.FC<FormRenderInputProps> = ({ input }) => {
             type={input.type as TextInputType}
             required={input.required}
             disabled={input.disabled}
+            description={input.description}
           />
         );
     }

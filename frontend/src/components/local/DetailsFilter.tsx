@@ -13,6 +13,7 @@ interface DetailsFiltersProps {
 }
 
 const DetailsFilters: React.FC<DetailsFiltersProps> = ({ data, survey, setResultData, filterFunction }) => {
+  console.log("a survey: ", survey)
   if (!data) return <></>;
   return (
     <>

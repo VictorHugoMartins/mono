@@ -13,6 +13,7 @@ interface RadioGroupFormProps {
   children?: React.ReactNode;
   required?: boolean;
   onValueChange?: (value: string) => void;
+  description?: string;
 }
 
 const RadioGroupForm: React.FC<RadioGroupFormProps> = ({
@@ -21,6 +22,7 @@ const RadioGroupForm: React.FC<RadioGroupFormProps> = ({
   label,
   required,
   onValueChange,
+  description,
 }) => {
   const { control, errors } = useHookFormContext();
 
@@ -33,7 +35,7 @@ const RadioGroupForm: React.FC<RadioGroupFormProps> = ({
 
   return (
     <>
-      {label && <Label labelFor={name} text={label} required={required} />}
+      {label && <Label labelFor={name} text={label} required={required} description={description} />}
       <Controller
         control={control}
         name={name}

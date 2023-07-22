@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 
 type DataProps = {
   data?: any;
+  viewForClusters?: boolean;
   // condensed for code brevity
 };
 
-const MapRender: React.FC<DataProps> = ({ data }) => {
+const MapRender: React.FC<DataProps> = ({ data, viewForClusters }) => {
   // needed to make the Leaflet map render correctly
   const MapWithNoSSR = dynamic(() => import("../../../src/components/local/Map"), {
     ssr: false,
@@ -39,6 +40,7 @@ const MapRender: React.FC<DataProps> = ({ data }) => {
               // lastPosition={lastPosition}
               markers={latLngMarkerPositions}
               unfilteredData={data}
+              viewForClusters={viewForClusters}
             // latestTimestamp={latestTimestamp}
             />
           }

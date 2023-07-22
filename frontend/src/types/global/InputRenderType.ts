@@ -11,6 +11,7 @@ export type InputRenderType = {
   min?: number,
   max?: number,
   shapeFields?: InputRenderType[],
+  description?: string;
 }
 
 export type InputRenderListenType = {

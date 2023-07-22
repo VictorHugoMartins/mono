@@ -15,6 +15,7 @@ import {
 } from "~/utils/FormValidation/FormValidation";
 
 interface HookFormInterface {
+  addInputs?: Function;
   initialData?: Record<string, any>;
   onSubmit: (data: any) => void;
   validation?: YupObjValidationProps[];
@@ -35,6 +36,7 @@ const HookFormContext = createContext({} as HookFormContextType);
 export const useHookFormContext = () => useContext(HookFormContext);
 
 const HookForm: React.FC<HookFormInterface> = ({
+  addInputs,
   children,
   onSubmit,
   initialData,
@@ -58,6 +60,21 @@ const HookForm: React.FC<HookFormInterface> = ({
   useEffect(() => {
     resetForm();
   }, [initialData]);
+
+  useEffect(() => {
+    if (listen["clusterization_method"]) {
+      addInputs(listen["clusterization_method"], null, 1);
+      addInputs(listen["clusterization_method"], listen["cluster_parameters"])
+    }
+  }, [listen?.clusterization_method]);
+
+  useEffect(() => {
+    if (listen["clusterization_method"] && typeof (listen?.cluster_parameters) !== undefined) {
+      addInputs(listen["clusterization_method"], null, 2);
+      addInputs(listen["clusterization_method"], listen["cluster_parameters"])
+    }
+  }, [listen?.cluster_parameters]);
+
 
   function resetForm() {
     reset(initialData);

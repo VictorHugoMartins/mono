@@ -12,7 +12,6 @@ import ChartBar from "~/components/ui/Charts/ChartBar";
 import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
 import { BASE_API_URL } from "~/config/apiBase";
-import privateroute from "~/routes/private.route";
 import comumroute from "~/routes/public.route";
 import { ChartDataType } from "~/types/global/ChartTypes";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
@@ -41,6 +40,8 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
   const [_filteredResponseData, setFilteredResponseData] = useState<ObjectResponse>();
   const [_chartResponseData, setChartResponseData] = useState<ObjectResponse>();
   const [_csvFile, setCsvFile] = useState<string>();
+
+  const [_viewForClusters, setViewForClusters] = useState(false);
 
   const prepare = (data: any) => {
     setSearching(true);
@@ -83,32 +84,6 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
     setSearching(true);
     downloadCSV(_csvFile, Number(survey))
     setSearching(false);
-    // const apiUrl = `${BASE_API_URL}/super_survey/export`; // url da API Flask
-    // const requestData = { ss_id: obj.ss_id }; // dados de login a serem enviados na requisição
-
-    // // Configuração do cabeçalho da requisição
-    // const headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
-
-    // const requestOptions = {
-    //   method: 'POST',
-    //   headers,
-    //   body: JSON.stringify(requestData)
-    // };
-
-    // // Realiza a requisição para a API Flask
-    // const resp = fetch(apiUrl, requestOptions)
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     if (data.success) {
-    //       let csvFile = JSONtoCSV(data.object.rows);
-    //       downloadCSV(csvFile, obj.ss_id)
-    //     } else Toast.error("Erro ao baixar dados!")
-    //     setSearching(false)
-    //   })
-    //   .catch(error => { Toast.error(error), setSearching(false) });
-
-    // return resp;
   };
 
 
@@ -118,7 +93,8 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
     const requestData = {
       ss_id: survey,
       agg_method: data?.agg_method ?? "_avg",
-      platform: data?.platform ?? "both"
+      clusterization_method: data?.clusterization_method ?? "none",
+      platform: data?.platform ?? "both",
     }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição
@@ -166,6 +142,13 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
             onClick={() => downloadData({ ss_id: survey, aggregation_method: _filteredData.extra_info })}
           />
         </div>
+        {_filteredData?.table?.rows && (typeof (_filteredData?.table.rows[0]["cluster"]) !== "undefined") &&
+          <div style={{ maxWidth: "250px", padding: "8px" }}>
+            <Button color="primary" text={_viewForClusters ? "Visualizar anúncios por origem" : "Visualizar anúncios por grupo"}
+              onClick={() => setViewForClusters(!_viewForClusters)}
+            />
+          </div>
+        }
       </Flexbox>
       <Flexbox width={"100%"} justify="space-between">
         <div style={{ width: "30vw", maxHeight: "80vh", overflow: "hidden", overflowY: "scroll" }}>
@@ -177,7 +160,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
           />
         </div>
         <div>
-          <MapRender data={_filteredData?.table?.rows} />
+          <MapRender data={_filteredData?.table?.rows} viewForClusters={_viewForClusters} />
         </div>
       </Flexbox>
       <div>

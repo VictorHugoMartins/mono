@@ -9,6 +9,8 @@ interface TextInputFormInterface extends TextInputProps {
   name: string;
   label?: string;
   disabled?: boolean;
+  description?: string;
+  step?: number;
   onValueChange?: (value: string) => void;
 }
 
@@ -17,6 +19,7 @@ const TextInputForm: React.FC<TextInputFormInterface> = ({
   label,
   required,
   disabled,
+  description,
   onValueChange,
   ...rest
 }) => {
@@ -24,7 +27,7 @@ const TextInputForm: React.FC<TextInputFormInterface> = ({
 
   return (
     <>
-      {label && <Label labelFor={name} text={label} required={required} />}
+      {label && <Label labelFor={name} text={label} required={required} description={description} />}
       <Controller
         name={name}
         control={control}

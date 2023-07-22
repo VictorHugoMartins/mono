@@ -28,6 +28,7 @@ const Form: React.FC<FormInterface> = ({
   externalInitalData,
   isMessageApi,
   setObjectReturn,
+  addInputs
 }) => {
   const [errorSubmit, setErrorSubmit] = useState<string>("");
   const [submiting, setSubmiting] = useState<boolean>(false);
@@ -133,6 +134,7 @@ const Form: React.FC<FormInterface> = ({
         onSubmit={onSubmit}
         initialData={_initialData}
         validation={validation}
+        addInputs={addInputs}
       >
         {children}
       </HookForm>
