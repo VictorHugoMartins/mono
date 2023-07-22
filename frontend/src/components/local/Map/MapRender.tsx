@@ -11,7 +11,7 @@ type DataProps = {
 
 const MapRender: React.FC<DataProps> = ({ data, viewForClusters }) => {
   // needed to make the Leaflet map render correctly
-  const MapWithNoSSR = dynamic(() => import("../../../src/components/local/Map"), {
+  const MapWithNoSSR = dynamic(() => import("./Map"), {
     ssr: false,
   });
 

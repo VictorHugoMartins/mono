@@ -1,7 +1,7 @@
 // import Image from 'next/image'
 
 import Toast from "~/utils/Toast/Toast";
-import FormPageStructure from "../structure/FormPageStructure";
+import FormPageStructure from "../../structure/FormPageStructure";
 import { InputRenderType } from "~/types/global/InputRenderType";
 import { parseCookies } from "nookies";
 

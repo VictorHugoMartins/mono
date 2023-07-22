@@ -1,9 +1,9 @@
 import Toast from "~/utils/Toast/Toast";
-import Form from "../ui/Form/Form";
-import TextInputForm from "../ui/FormInputs/TextInputForm";
-import { Grid } from "../ui/Layout/Grid";
-import ErrorForm from "../ui/Form/ErrorForm";
-import SubmitButton from "../ui/Form/SubmitButton/SubmitButton";
+import Form from "../../ui/Form/Form";
+import TextInputForm from "../../ui/FormInputs/TextInputForm";
+import { Grid } from "../../ui/Layout/Grid";
+import ErrorForm from "../../ui/Form/ErrorForm";
+import SubmitButton from "../../ui/Form/SubmitButton/SubmitButton";
 import { parseCookies } from "nookies";
 import { BASE_API_URL } from "~/config/apiBase";
 

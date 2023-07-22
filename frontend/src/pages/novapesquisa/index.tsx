@@ -1,4 +1,4 @@
-import NewSurveyOptions from "~/components/local/newSurveyOptions"
+import NewSurveyOptions from "~/components/local/Forms/NewSurveyForm"
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure"
 import privateroute from "~/routes/private.route";
 

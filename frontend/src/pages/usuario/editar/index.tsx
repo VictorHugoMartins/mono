@@ -1,4 +1,4 @@
-import EditUserForm from "~/components/local/EditUserForm"
+import EditUserForm from "~/components/local/Forms/EditUserForm"
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure"
 import privateroute from "~/routes/private.route"
 

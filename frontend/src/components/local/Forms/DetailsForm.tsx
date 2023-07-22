@@ -1,5 +1,5 @@
 import Toast from "~/utils/Toast/Toast";
-import FormPageStructure from "../structure/FormPageStructure"
+import FormPageStructure from "../../structure/FormPageStructure"
 import { InputRenderType } from "~/types/global/InputRenderType";
 import { SetStateAction } from "react";
 import { ObjectResponse } from "~/types/global/ObjectResponse";
@@ -13,7 +13,6 @@ interface DetailsFiltersProps {
 }
 
 const DetailsFilters: React.FC<DetailsFiltersProps> = ({ data, survey, setResultData, filterFunction }) => {
-  console.log("a survey: ", survey)
   if (!data) return <></>;
   return (
     <>

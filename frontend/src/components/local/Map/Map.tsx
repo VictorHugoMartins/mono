@@ -12,8 +12,8 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 import { useEffect } from "react";
 import { Icon } from "leaflet";
-import pin1 from '../../assets/images/pin1.png';
-import pin0 from '../../assets/images/pin0.png';
+import pin0 from '~/assets/images/pin0.png';
+import pin1 from '~/assets/images/pin1.png';
 import { LatLngExpression } from "leaflet";
 const Map = ({
   markers,

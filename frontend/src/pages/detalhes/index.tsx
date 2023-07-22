@@ -2,9 +2,9 @@
 
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
-import DetailsFilter from "~/components/local/DetailsFilter"
-import MapRender from "~/components/local/renderMap";
-import Table from "~/components/local/table"
+import DetailsFilter from "~/components/local/Forms/DetailsForm"
+import MapRender from "~/components/local/Map/MapRender";
+import Table from "~/components/ui/Table"
 import FormPageStructure from "~/components/structure/FormPageStructure";
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure";
 import Button from "~/components/ui/Button/Button";
