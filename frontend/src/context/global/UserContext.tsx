@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import accountService from "~/services/account.service";
 import { UserInfoType } from "~/types/api/UserInfoType";
 
 import GetAuthToken from "~/utils/AuthToken/GetAuthToken";
@@ -27,8 +26,8 @@ export function UserProvider({ children }) {
     const { token } = GetAuthToken();
 
     if (token) {
-      let response = await accountService.getUserInfo();
-      if (response.success) setUser(response.object);
+      // let response = await accountService.getUserInfo();
+      // if (response.success) setUser(response.object);
     }
   }
 

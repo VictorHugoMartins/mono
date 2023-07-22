@@ -37,7 +37,7 @@ def prepare_mixed_data(data):
 	return df_scaled
 
 # particionamento
-def run_kmodes(data, table_view, init='Huang', n_clusters=4, n_init=3):
+def run_kmodes(data, table_view, init='Huang', n_clusters=3, n_init=3):
 	d, catColumnsPos = prepare_kmodes_data(data)
 
 	kmodes_model = KPrototypes(n_clusters=n_clusters, init=init, n_init=n_init)

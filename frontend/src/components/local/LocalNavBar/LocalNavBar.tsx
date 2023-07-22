@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 //Import components
-import Avatar from "~/components/ui/Avatar/Avatar";
-import { DropdownButton, DropdownLogoutOption } from "~/components/ui/Dropdown";
+import { DropdownLogoutOption } from "~/components/ui/Dropdown";
 import Button from "~/components/ui/Button/Button";
 import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import Icon from "~/components/ui/Icon/Icon";
@@ -11,21 +10,10 @@ import { Modal } from "~/components/ui/Modal/Modal";
 import NavBar, {
   NavbarDropdown,
   NavbarDropdownItem,
-  NavbarDropdownOptionsRender,
 } from "~/components/ui/Navigation/NavBar/NavBar";
 import NavBarMrAuto from "~/components/ui/Navigation/NavBar/NavBarMrAuto";
-import NavbarSelect from "~/components/ui/Navigation/NavBar/NavbarSelect";
 import { Grid } from "~/components/ui/Layout/Grid";
 import Typography from "~/components/ui/Typography/Typography";
-import ThemeSetter from "~/components/ui/ThemeSetter/ThemeSetter";
-import Navbarversion from "~/components/ui/Navigation/NavBar/Navbarversion";
-
-//Import context
-import { useUserContext } from "~/context/global/UserContext";
-
-//Import services
-import menuService from "~/services/menu.service";
-import managementService from "~/services/management.service";
 
 //Import types
 import { RenderMenuType } from "~/types/global/RenderMenuType";
@@ -37,7 +25,6 @@ import Toast from "~/utils/Toast/Toast";
 
 import styles from "./localNavBar.module.scss";
 import useTheme from "~/hooks/useTheme";
-import NotificationButton from "./NotificationButton";
 import { parseCookies } from "nookies";
 import RedirectTo from "~/utils/Redirect/Redirect";
 
@@ -137,8 +124,6 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ hideLoginButton, returnPath, 
 
         {isLogged ? (
           <>
-            {/* <NotificationButton /> */}
-
             {<NavbarDropdown
               buttonContent={
                 <>

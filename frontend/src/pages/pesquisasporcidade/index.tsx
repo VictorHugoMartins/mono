@@ -1,9 +1,9 @@
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
+import DataTableButton from "~/components/local/LocalDataTable/DataTableButton/DataTableButton";
 import Table from "~/components/local/table";
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure";
-import DataTableButton from "~/components/ui/DataTable/DataTableButton/DataTableButton";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
 import { BASE_API_URL } from "~/config/apiBase";
 import { useUserContext } from "~/context/global/UserContext";

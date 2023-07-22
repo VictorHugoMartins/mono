@@ -1,4 +1,4 @@
-const STORAGE_NAME = "@scmanager";
+const STORAGE_NAME = "@mono";
 
 const STORAGE_TOKEN = `${STORAGE_NAME}/token`;
 const STORAGE_REFRESHTOKEN = `${STORAGE_NAME}/refresh`;

@@ -1,9 +1,7 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 
 import styles from "./privatePageStructure.module.scss";
-import LocalSideMenu from "~/components/local/LocalSideMenu/LocalSideMenu";
 import LocalNavBar from "~/components/local/LocalNavBar/LocalNavBar";
-import { useMenuContext } from "~/context/global/MenuContext";
 import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import HeadTitle from "~/components/ui/HeadTitle";
 import useTheme from "~/hooks/useTheme";
@@ -36,11 +34,6 @@ const PrivatePageStructure: React.FC<PageStructureProps> = ({
 }) => {
   const { theme } = useTheme();
   const [openAside, setOpenAside] = useState(false);
-  const { getMenuOptions } = useMenuContext();
-
-  useLayoutEffect(() => {
-    getMenuOptions();
-  }, []);
 
   return (
     <>

@@ -2,12 +2,12 @@
 
 import ChildrenWithProps from "~/utils/ChildrenWithProps/ChildrenWithProps"
 import styles from './table.module.scss';
-import { PrimeDataTableProps } from "../ui/DataTable/PrimeDataTable/primeDataTable.interface";
 import { useEffect, useState } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import { Box } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
+import { PrimeDataTableProps } from "~/types/global/primeDataTable.interface";
 
 interface TableProps extends PrimeDataTableProps { }
 

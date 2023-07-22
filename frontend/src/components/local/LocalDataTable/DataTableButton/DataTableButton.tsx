@@ -1,11 +1,9 @@
 import React from "react";
 
-import Button from "../../Button/Button";
-import Icon from "../../Icon/Icon";
-
-import { IconTypes } from "../../Icon/icon.interface";
-
 import style from "./dataTableButton.module.scss";
+import { IconTypes } from "~/components/ui/Icon/icon.interface";
+import Button from "~/components/ui/Button/Button";
+import Icon from "~/components/ui/Icon/Icon";
 
 interface DataTableButtonProps {
   icon: IconTypes;
