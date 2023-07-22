@@ -3,7 +3,6 @@ import sys
 import search
 from general_config import ABConfig
 from utils import send_nullable_value
-import logging
 
 ab_config = ABConfig()
 
@@ -47,8 +46,6 @@ class Th(Thread):
         search_area_name=self.search_area_name[0],
         user_id=self.user_id[0],
         columns=self.columns[0],
-        clusterization_method=self.clusterization_method[0],
-        aggregation_method=self.aggregation_method[0],
         fill_airbnb_with_selenium=self.fill_airbnb_with_selenium[0],
         start_date=self.start_date,
         finish_date=self.finish_date,

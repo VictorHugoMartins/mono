@@ -1,24 +1,12 @@
-import re
-import bs4
-import time
-import json
-import string
 import logging
-import requests
 import argparse
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 import selenium
 import psycopg2
-from airbnb_geocoding import Location
 from airbnb_geocoding import BoundingBox
-from lxml import html
-from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-from geopy import distance
 import datetime as dt
 
 from airbnb import db_add_survey
@@ -56,6 +44,7 @@ class BListing():
 		self.survey_id = survey_id
 		self.checkin_date = checkin_date
 		self.checkout_date = checkout_date
+		self.hotel_id = None
 
 		self.start_date = dt.date.today() + dt.timedelta(days=15)
 		self.finish_date = dt.date.today() + dt.timedelta(days=16)
@@ -128,14 +117,14 @@ class BListing():
 			cur = conn.cursor()
 			sql = """
 				insert into booking_room (
-					room_id, room_name, hotel_name, address, comodities,
+					room_id, room_name, hotel_name, hotel_id, address, comodities,
 					avg_rating, property_type, bed_type, accommodates,
 					price, latitude, longitude, reviews, survey_id,
 					checkin_date, checkout_date, location_id
 					)
-				values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+				values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 			insert_args = (
-				self.room_id, self.hotel_name, self.room_name, self.localized_address, self.comodities,
+				self.room_id, self.hotel_name, self.room_name, self.hotel_id, self.localized_address, self.comodities,
 				self.avg_rating, self.property_type, self.bedtype, self.accomodates,
 				self.price, self.latitude, self.longitude, self.reviews, self.survey_id, self.checkin_date, self.checkout_date,
 				self.location_id
@@ -247,6 +236,14 @@ class BListing():
 				self.longitude = coordinates[1]
 		except selenium.common.exceptions.NoSuchElementException:
 				raise
+		
+	def find_hotel_id(self, url):
+		print(url)
+		name = url.split('www.booking.com/hotel/br/')[1]
+		print(name)
+		name = name.split('.pt-br')[0]
+		print(name)
+		self.hotel_id = name
 	
 	def find_property_type(self, driver):
 		try:
@@ -447,6 +444,7 @@ def search_booking_rooms(config, area, start_date, finish_date, survey_id, searc
 					
 					listing = BListing(config, driver, url, survey_id, checkin_date, checkout_date)
 					
+					listing.find_hotel_id(url)
 					listing.find_latlng(hotel_page)
 					listing.find_principal_comodities(hotel_page)
 					listing.find_hotel_name(hotel_page)
@@ -464,7 +462,6 @@ def search_booking_rooms(config, area, start_date, finish_date, survey_id, searc
 				continue
 
 	driver.quit()
-	
 
 def parse_args():
 	"""
@@ -522,7 +519,7 @@ def main():
 			# initialize new survey
 			survey_id = db_add_survey(config, args.city)
 
-			search(config, args.city, args.start_date, args.finish_date,
+			search_booking_rooms(config, args.city, args.start_date, args.finish_date,
 					args.search_reviews, survey_id)
 		elif args.update_routes_with_database:
 			fill_empty_routes(config)

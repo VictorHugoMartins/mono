@@ -5,10 +5,8 @@ import Table from "~/components/ui/Table";
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
 import { BASE_API_URL } from "~/config/apiBase";
-import { useUserContext } from "~/context/global/UserContext";
 import privateroute from "~/routes/private.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
-import { JSONtoCSV, downloadCSV } from "~/utils/JsonFile";
 import Toast from "~/utils/Toast/Toast";
 
 interface TableButtonProps {
@@ -18,8 +16,7 @@ interface TableButtonProps {
 function MySuperSurveys() {
   const [searching, setSearching] = useState(false);
 
-  const { user } = useUserContext();
-  const { userId, userName } = parseCookies();
+  const { userId } = parseCookies();
 
   function TableButtons({ rowData }: TableButtonProps) {
     const acceptUser = (obj: any) => {
@@ -42,7 +39,7 @@ function MySuperSurveys() {
         .then(res => res.json())
         .then(data => {
           if (data.success) {
-            Toast.success(data.message)
+            loadTable(userId);
           } else Toast.error(data.message)
           setSearching(false)
         })
@@ -70,8 +67,8 @@ function MySuperSurveys() {
         .then(res => res.json())
         .then(data => {
           if (data.success) {
-            Toast.success(data.message)
-          } else Toast.error("Erro ao baixar dados!")
+            loadTable(userId);
+          } else Toast.error(data.message)
           setSearching(false)
         })
         .catch(error => { Toast.error(error), setSearching(false) });
@@ -82,7 +79,7 @@ function MySuperSurveys() {
     const switchPermission = (ss_id: string, newPermission: string) => {
       setSearching(true);
       const apiUrl = `${BASE_API_URL}/users/change_permission`; // url da API Flask
-      const requestData = { ss_id, newPermission }; // dados de login a serem enviados na requisição
+      const requestData = { user_id: ss_id, permission: newPermission }; // dados de login a serem enviados na requisição
 
       console.log(requestData);
 
@@ -101,7 +98,7 @@ function MySuperSurveys() {
         .then(res => res.json())
         .then(data => {
           if (data.success) {
-            Toast.success(data.message)
+            loadTable(userId);
           } else Toast.error(data.message)
           setSearching(false);
         })
@@ -156,18 +153,15 @@ function MySuperSurveys() {
   useEffect(() => {
     loadTable(userId);
   }, [userId])
+
   return (
     <PrivatePageStructure title={"Lista de Usuários"}>
-      {/* <Flexbox justify="flex-end" width={"100%"} >
-        <div style={{ maxWidth: "250px", padding: "8px" }}>
-          <Button color="primary" text={"Iniciar nova pesquisa"} onClick={() => window.location.assign("/novapesquisa")} />
-        </div>
-      </Flexbox> */}
       <PopupLoading show={searching} />
       {_data && <Table
         columns={_data.columns}
         rows={_data.rows}
         buttons={<TableButtons />}
+        hiddenColumns={['password']}
       />}
     </PrivatePageStructure>
   )

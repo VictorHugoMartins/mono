@@ -46,7 +46,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
   const prepare = (data: any) => {
     setSearching(true);
     const apiUrl = `${BASE_API_URL}/details/prepare`; // url da API Flask
-    const requestData = { ss_id: survey }; // dados de login a serem enviados na requisição
+    const requestData = { ss_id: survey };
 
     // Configuração do cabeçalho da requisição
     const headers = new Headers();
@@ -95,7 +95,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
       agg_method: data?.agg_method ?? "_avg",
       clusterization_method: data?.clusterization_method ?? "none",
       platform: data?.platform ?? "both",
-    }; // dados de login a serem enviados na requisição
+    };
 
     // Configuração do cabeçalho da requisição
     const headers = new Headers();

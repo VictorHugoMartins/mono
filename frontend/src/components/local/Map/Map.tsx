@@ -11,7 +11,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
 import { useEffect } from "react";
-import { Icon } from "leaflet";
+import { Icon, divIcon } from "leaflet";
 import pin0 from '~/assets/images/pin0.png';
 import pin1 from '~/assets/images/pin1.png';
 import { LatLngExpression } from "leaflet";
@@ -27,10 +27,11 @@ const Map = ({
   unfilteredData: any;
   viewForClusters?: boolean;
 }) => {
+  const colors = ['#264653', '#E76f51', '#e9c46a', '#2a9d8f', '#f4a261', '#3a5a40', '#a3b18a', '#b5838d', '#bc6c25', '#c77dff']
 
-  const airbnbIcon = new Icon({ iconUrl: pin0 }),
-    bookingIcon = new Icon({ iconUrl: pin1 }),
-    bothIcon = new Icon({ iconUrl: pin0 });
+  const airbnbIcon = divIcon({ html: `<div class='marker' style='background-color: ${colors[0]}'></div>` }),
+    bookingIcon = divIcon({ html: `<div class='marker' style='background-color: ${colors[1]}'></div>` }),
+    bothIcon = divIcon({ html: `<div class='marker' style='background-color: ${colors[2]}'></div>` });
 
   const _centerPosition = [markers[markers.length - 1][0], markers[markers.length - 1][1]];
 
@@ -38,13 +39,9 @@ const Map = ({
     <CircleMarker key={i} center={latLng} />
   ));
 
-  useEffect(() => {
-    console.log(markers);
-  }, [markers])
-
   return (
     <div style={{ width: "60vw", height: "80vh" }}>
-      {/* <h2>Asset Tracker Map</h2> */}
+
       {markers?.length > 0 && <MapContainer
         // bounds={markers?.length > 0 ? [markers[0][0], markers[0][1]] : null}
         // center={_lastPosition ?? [0, 0]}
@@ -59,8 +56,10 @@ const Map = ({
         {markers?.map((latLng, i) => (
           <Marker
             position={latLng}
-            draggable={true}
-            icon={!viewForClusters ? unfilteredData[i]?.platform == 'Airbnb' ? airbnbIcon : unfilteredData[i]?.platform == 'Booking' ? bookingIcon : bothIcon : bothIcon}
+            icon={!viewForClusters ?
+              unfilteredData[i]?.platform == 'Airbnb' ? airbnbIcon :
+                unfilteredData[i]?.platform == 'Booking' ? bookingIcon : bothIcon :
+              divIcon({ html: `<div class='marker' style='background-color: ${colors[Number(unfilteredData[i]?.cluster)]}'></div>` })}
           >
             {unfilteredData?.length > 0 &&
               <Popup>

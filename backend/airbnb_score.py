@@ -1,23 +1,9 @@
-import re
-import bs4
 import time
-import json
-import string
 import logging
-import requests
 import argparse
 import selenium
-import psycopg2
-from lxml import html
-from selenium import webdriver
 from general_config import ABConfig
-from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from utils import prepare_driver 
 
 logger = logging.getLogger()

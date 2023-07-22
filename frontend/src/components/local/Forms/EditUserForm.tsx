@@ -15,7 +15,6 @@ export default function EditUserForm() {
     const requestData = {
       email: data.email,
       name: data.name,
-      username: data.username,
       userId: userId,
     };
 
@@ -59,14 +58,6 @@ export default function EditUserForm() {
               name="name"
               type="text"
               label="Nome Completo"
-              required
-            />
-          </Grid>
-          <Grid xs={12}>
-            <TextInputForm
-              name="username"
-              type="text"
-              label="Nome de usuário"
               required
             />
           </Grid>

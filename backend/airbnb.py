@@ -16,21 +16,11 @@
 #   print = get from web site and print
 # ============================================================================
 import logging
-import requests
 import argparse
 import sys
-import time
-import webbrowser
-from lxml import html
-import psycopg2
-import psycopg2.errorcodes
 from general_config import ABConfig
 from airbnb_survey import ABSurveyByBoundingBox
-from airbnb_listing import ABListing
 from airbnb_geocoding import BoundingBox
-from airbnb_geocoding import Location
-import airbnb_ws
-import utils
 
 def db_add_survey(config, search_area):
 		"""

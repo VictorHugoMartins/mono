@@ -1,7 +1,4 @@
 import pandas as pd
-import numpy as np
-import time
-import psycopg2 as pg
 import argparse
 import datetime as dt
 import logging

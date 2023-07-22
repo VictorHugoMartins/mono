@@ -5,7 +5,6 @@ export type UserInfoType = {
   user_id: string | number;
   name: string;
   email: string;
-  login: string;
   
   managementSelectedId: number;
   managementsList: SelectOptionsType;

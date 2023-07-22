@@ -33,6 +33,11 @@ columnDict = {
 
 		"survey_qtd": { "type": "display-only", "label": "Quantidade de Pesquisas", "excludeIn": ["Airbnb", "Booking", "both"] },
 		"last_updated": { "type": "display-only", "label": "Última atualização em", "excludeIn": ["Airbnb", "Booking", "both"] },
+
+    "user_id": { "type": "string", "label": "Código Identificador do Usuário", "excludeIn": ["Airbnb", "Booking", "both"] },
+    "email": { "type": "string", "label": "E-mail", "excludeIn": ["Airbnb", "Booking", "both"] },
+    "password": { "type": "string", "label": "Senha", "excludeIn": ["Airbnb", "Booking", "both"] },
+    "permission": { "type": "string", "label": "Nível de Permissão", "excludeIn": ["Airbnb", "Booking", "both"] },
 }
 
 statusDict = {

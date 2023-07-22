@@ -24,7 +24,7 @@ const Login: React.FC = () => {
   const signIn = (data: any) => {
     const apiUrl = `${BASE_API_URL}/api/login`; // url da API Flask
     const requestData = {
-      username: data.username,
+      email: data.email,
       password: data.password
     }; // dados de login a serem enviados na requisição
 
@@ -73,10 +73,10 @@ const Login: React.FC = () => {
             externalSubmit={signIn}
             validation={[
               {
-                name: "username",
+                name: "email",
                 required: true,
-                type: "username",
-                label: "Nome de usuário:",
+                type: "email",
+                label: "E-mail:",
                 min: null,
                 max: null,
               },
@@ -98,8 +98,8 @@ const Login: React.FC = () => {
               </Grid>
               <Grid xs={12}>
                 <TextInputForm
-                  name="username"
-                  type="text"
+                  name="email"
+                  type="email"
                   label="Nome de usuário"
                   required
                 />

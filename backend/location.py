@@ -1,32 +1,18 @@
-import re
-import bs4
-import time
-import json
-import string
 import logging
-import requests
 import argparse
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-import selenium
 import psycopg2
-from airbnb_geocoding import Location
-from airbnb_geocoding import BoundingBox
-from lxml import html
-from selenium import webdriver
 from general_config import ABConfig
-from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-from geopy import distance
-import datetime as dt
 from utils import select_command
-from search import db_add_survey
 from airbnb_geocoding import reverse_geocode_coordinates_and_insert
 from airbnb_geocoding import get_coordinates_list_and_update_database
 
+FORMAT_STRING = "%(asctime)-15s %(levelname)-8s%(message)s"
+logging.basicConfig(level=logging.INFO, format=FORMAT_STRING)
+logger = logging.getLogger()
+
+# Suppress informational logging from requests module
+logging.getLogger("requests").setLevel(logging.WARNING)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
 class Localization():
 	"""
 	# BListing represents an Airbnb room_id, as captured at a moment in time.

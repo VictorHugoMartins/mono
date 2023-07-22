@@ -9,12 +9,15 @@ import { Box } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import { PrimeDataTableProps } from "~/types/global/primeDataTable.interface";
 
-interface TableProps extends PrimeDataTableProps { }
+interface TableProps extends PrimeDataTableProps {
+  hiddenColumns?: string[];
+}
 
 const Table: React.FC<TableProps> = ({
   columns,
   rows,
-  buttons
+  buttons,
+  hiddenColumns,
 }) => {
   const itemsPerPage = 20;
   const [page, setPage] = useState(1);
@@ -34,7 +37,7 @@ const Table: React.FC<TableProps> = ({
       <div className={styles.table}>
 
         <div className={`${styles.row} ${styles.header} ${styles.blue}`}>
-          {columns?.map((item) => (<div className={styles.cell}>{item.label}</div>))}
+          {columns?.map((item) => (!hiddenColumns?.includes(item.value) ? <div className={styles.cell}>{item.label}</div> : <></>))}
 
           {buttons && <div className={styles.cell}></div>}
 
@@ -45,9 +48,11 @@ const Table: React.FC<TableProps> = ({
             return (
               <div className={styles.row}>
                 {columns?.map((item) => (
-                  <div className={styles.cell} data-title={item.value}>
-                    {row[item.value]}
-                  </div>
+                  !hiddenColumns?.includes(item.value) ?
+                    <div className={styles.cell} data-title={item.value}>
+                      {row[item.value]}
+                    </div>
+                    : <></>
                 ))
                 }
 
@@ -75,7 +80,6 @@ const Table: React.FC<TableProps> = ({
                 showFirstButton
                 color='primary'
                 showLastButton
-              // classes={{ ul: classes.paginator }}
               />
             </Box>
           </div>

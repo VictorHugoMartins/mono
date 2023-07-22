@@ -86,30 +86,6 @@ p {
   margin: 0;
 }
 
-/* [class*="dark"] h1,
-[class*="dark"] h2,
-[class*="dark"] h3,
-[class*="dark"] h4,
-[class*="dark"] h5,
-[class*="dark"] h6,
-[class*="dark"] p,
-[class*="dark"] span,
-[class*="dark"] caption {
-  color: #F4F4F4;
-}
-
-[class*="light"] h1,
-[class*="light"] h2,
-[class*="light"] h3,
-[class*="light"] h4,
-[class*="light"] h5,
-[class*="light"] h6,
-[class*="light"] p,
-[class*="light"] span,
-[class*="light"] caption {
-  color: #333333;
-} */
-
 h1 {
   font-family: 'Lato', Arial, Verdana, sans-serif;
   font-size: 32px;
@@ -267,4 +243,38 @@ h6 {
 
 ._2k9Ys {
   display: none;
+}
+
+
+.marker {
+  transform: perspective(40px) rotateX(20deg) rotateZ(-45deg);
+  transform-origin: 50% 50%;
+  border-radius: 50% 50% 50% 0;
+  padding: 0 3px 3px 0;
+  width: 30px;
+  height: 30px;
+  background: #ed1f34;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -2.2em 0 0 -1.3em;
+  -webkit-box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
+  -moz-box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
+  box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
+}
+
+.marker:after {
+  content: '';
+  width: 1em;
+  height: 1em;
+  margin: 1em 0 0 .7em;
+  background: #ffffff;
+  position: absolute;
+  border-radius: 50%;
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  -moz-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
+  -webkit-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
+  box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
 }

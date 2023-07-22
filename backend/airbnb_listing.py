@@ -10,11 +10,6 @@ from lxml import html
 import psycopg2
 import json
 import airbnb_ws
-import sys
-import random
-import time
-from datetime import date
-from bs4 import BeautifulSoup
 import json
 
 from airbnb_geocoding import Location

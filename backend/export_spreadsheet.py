@@ -123,7 +123,6 @@ def export_datatable(config, city, project, format, start_date):
 
         region = [ define_region(sub, lat, lng) for sub, lat, lng in zip(data['sublocality'], data['latitude'], data['longitude']) ]
         
-        #region = ['Centro' if x in centro else 'Entorno' if x in entorno else 'Distrito' if x in distrito else x for x in data['sublocality']]
         data.insert(16, "region", region)
         data = data.drop(columns=['Unnamed: 0']) #, 'host_id', 'room_type'
         data.to_excel(directory, sheet_name="Total Listings")
@@ -256,7 +255,6 @@ def export_booking_room(config, city, project, format):
 
         region = [ define_region(sub, lat, lng) for sub, lat, lng in zip(data['sublocality'], data['latitude'], data['longitude']) ]
         
-        #region = ['Centro' if x in centro else 'Entorno' if x in entorno else 'Distrito' if x in distrito else x for x in data['sublocality']]
         data.insert(16, "region", region)
         data = data.drop(columns=['Unnamed: 0'])
         data.to_excel(directory, sheet_name="Total Listings")

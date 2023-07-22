@@ -111,6 +111,8 @@ const FormRender: React.FC<FormRenderProps> = ({
           "required": true,
           "type": "number",
           "description": "Quantidade de grupos a serem formados",
+          "min": 1,
+          "max": 5,
         },
         {
           "name": "threshold",
@@ -119,6 +121,8 @@ const FormRender: React.FC<FormRenderProps> = ({
           "required": true,
           "type": "decimal-number",
           "description": "Distância limite entre os grupos gerados",
+          "min": 0,
+          "max": 1,
         },
         {
           "name": "branching_factor",
@@ -143,6 +147,8 @@ const FormRender: React.FC<FormRenderProps> = ({
           "required": true,
           "type": "number",
           "description": "Quantidade de grupos a serem formados",
+          "min": 1,
+          "max": 5,
         },
         {
           "name": "init",
@@ -164,6 +170,8 @@ const FormRender: React.FC<FormRenderProps> = ({
           "required": true,
           "type": "number",
           "description": "",
+          "min": 1,
+          "max": 4,
         }
       ], 3)
       setAdvancedInputs([]);

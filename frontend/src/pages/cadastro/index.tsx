@@ -24,7 +24,6 @@ const Register: React.FC = () => {
     const requestData = {
       email: data.email,
       name: data.name,
-      username: data.username,
       password: data.password,
       confirmPassword: data.confirmPassword
     }; // dados de login a serem enviados na requisição
@@ -65,14 +64,6 @@ const Register: React.FC = () => {
             externalSubmit={register}
             validation={[
               {
-                name: "username",
-                required: true,
-                type: "string",
-                label: "Nome de usuário:",
-                min: null,
-                max: null,
-              },
-              {
                 name: "email",
                 required: true,
                 type: "string",
@@ -99,14 +90,6 @@ const Register: React.FC = () => {
                   name="name"
                   type="text"
                   label="Nome Completo"
-                  required
-                />
-              </Grid>
-              <Grid xs={12}>
-                <TextInputForm
-                  name="username"
-                  type="text"
-                  label="Nome de usuário"
                   required
                 />
               </Grid>

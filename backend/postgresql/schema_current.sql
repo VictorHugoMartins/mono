@@ -274,7 +274,6 @@ CREATE TABLE public.users (
   user_id integer NOT NULL DEFAULT nextval('user_id_seq' :: regclass),
   name character varying(255),
   email character varying(255),
-  login character varying(255),
   password character varying(255),
   CONSTRAINT user_pkey PRIMARY KEY (user_id)
 ) WITH (OIDS = FALSE);
@@ -283,11 +282,6 @@ ALTER TABLE
   users
 ADD
   CONSTRAINT user_unique_constraint UNIQUE (email);
-
-ALTER TABLE
-  users
-ADD
-  CONSTRAINT user_unique_login_constraint UNIQUE (login);
 
 CREATE TABLE public.super_survey_config (
   config_id integer NOT NULL DEFAULT nextval('config_id_seq' :: regclass),
