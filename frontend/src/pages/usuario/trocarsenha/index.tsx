@@ -1,4 +1,4 @@
-import ChangePasswordForm from "~/components/ChangePasswordForm"
+import ChangePasswordForm from "~/components/local/ChangePasswordForm"
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure"
 import privateroute from "~/routes/private.route"
 
