@@ -34,7 +34,7 @@ function Home() {
   const loadTableData = (userId: string) => {
     setSearching(true);
     console.log(BASE_API_URL)
-    const apiUrl = `${BASE_API_URL}/super_survey/public_getall`; // url da API Flask
+    const apiUrl = `${BASE_API_URL}/nav/public_getall`; // url da API Flask
     const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição

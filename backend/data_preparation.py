@@ -2,7 +2,7 @@ import pandas as pd
 import argparse
 import datetime as dt
 import logging
-from general_config import ABConfig
+from config.general_config import ABConfig
 import export_spreadsheet as exs
 from kmodes import kmodes
 from pandas import ExcelWriter
@@ -483,7 +483,7 @@ def main():
 	parser.add_argument("-cfg", "--config_file",
 						metavar="config_file", action="store", default=None,
 						help="""explicitly set configuration file, instead of
-						using the default <username>.config""")
+						using the default config/<username>.config""")
 	parser.add_argument('-a', '--airbnb',
 						action='store_true', default=False,
 						help="plot graphics for airbnb")

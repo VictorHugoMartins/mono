@@ -63,7 +63,7 @@ const MySuperSurveys: React.FC<DetailsProps> = ({ city }) => {
 
     const downloadData = (obj: any) => {
       setSearching(true);
-      const apiUrl = `${BASE_API_URL}/super_survey/export`; // url da API Flask
+      const apiUrl = `${BASE_API_URL}/nav/export`; // url da API Flask
       const requestData = { ss_id: obj.ss_id }; // dados de login a serem enviados na requisição
 
       // Configuração do cabeçalho da requisição
@@ -143,7 +143,7 @@ const MySuperSurveys: React.FC<DetailsProps> = ({ city }) => {
   const loadTableData = (city: string) => {
     setSearching(true);
     console.log(BASE_API_URL)
-    const apiUrl = `${BASE_API_URL}/super_survey/getbycity`; // url da API Flask
+    const apiUrl = `${BASE_API_URL}/nav/getbycity`; // url da API Flask
     const requestData = { city: city }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição

@@ -13,7 +13,7 @@ import configparser
 # ============================================================================
 # CONSTANTS
 # ============================================================================
-# Database: filled in from <username>.config
+# Database: filled in from config/<username>.config
 DB_HOST = None
 DB_PORT = None
 DB_NAME = None
@@ -41,16 +41,16 @@ logger.addHandler(filelog_handler)
 
 
 def init():
-    """ Read the configuration file <username>.config to set up the run
+    """ Read the configuration file config/<username>.config to set up the run
     """
     try:
         config = configparser.ConfigParser()
-        # look for username.config on both Windows (USERNAME) and Linux (USER)
+        # look for config/username.config on both Windows (USERNAME) and Linux (USER)
         if os.name == "nt":
             username = os.environ['USERNAME']
         else:
             username = os.environ['USER']
-        config_file = username + ".config"
+        config_file = 'config/' + username + ".config"
         if not os.path.isfile(config_file):
             logging.error("Configuration file " + config_file + " not found.")
             sys.exit()
