@@ -1,9 +1,7 @@
 import React from "react";
 
-import Box from "~/components/ui/Layout/Box/Box";
 import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import Typography from "~/components/ui/Typography/Typography";
-import useTheme from "~/hooks/useTheme";
 import { AlignType } from "~/types/global/LayoutTypes";
 import { SpacingPatternType } from "~/types/global/SpacingType";
 import ClassJoin from "~/utils/ClassJoin/ClassJoin";
@@ -37,8 +35,6 @@ const Card: React.FC<CardProps> = ({
   title,
   hideCard
 }) => {
-  const { theme } = useTheme();
-
   let classList = [
     style.card,
     removeBoxShadow && style.removeBoxShadow,
@@ -50,7 +46,7 @@ const Card: React.FC<CardProps> = ({
   if (hideCard) return <>{children}</>
   return (
     <div
-      className={`${ClassJoin(classList)} ${style[`theme${theme}`]}`}
+      className={`${ClassJoin(classList)} ${style[`theme${'light'}`]}`}
       style={{ backgroundColor: backgroundColor || "" }}
     >
       <Flexbox flexDirection="column" width={"100%"} height={"100%"} className={style.flexBox}>

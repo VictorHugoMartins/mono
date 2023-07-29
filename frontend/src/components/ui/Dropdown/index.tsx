@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import useTheme from "~/hooks/useTheme";
 import ClassJoin from "~/utils/ClassJoin/ClassJoin";
 import Icon from "../Icon/Icon";
 
@@ -30,7 +29,6 @@ const DropdownButton: React.FC<LayoutProps> = ({
   fixed,
 }) => {
   const [showOptions, setShowOptions] = useState(initialShow ?? false);
-  const { theme } = useTheme();
 
   function handleOnBlur(e: React.FocusEvent<HTMLDivElement, Element>) {
     if (!e.currentTarget.contains(e.relatedTarget)) {
@@ -56,7 +54,7 @@ const DropdownButton: React.FC<LayoutProps> = ({
       </div>
       {showOptions && (
         <div
-          className={`${styles.dropdownContent} ${styles[`theme${theme}`]} ${styles[align]
+          className={`${styles.dropdownContent} ${styles[`theme${'light'}`]} ${styles[align]
             }`}
           style={{
             position: fixed ? "fixed" : "absolute",

@@ -4,8 +4,6 @@ import Flexbox from "../Layout/Flexbox/Flexbox";
 import TabButtonStyle1 from "./components/TabButtonStyle1";
 import TabButtonStyle2 from "./components/TabButtonStyle2";
 
-import useTheme from "~/hooks/useTheme";
-
 import style from "./tabs.module.scss";
 import {
   SelectObjectType,
@@ -32,11 +30,9 @@ const Tabs: React.FC<TabInterface> = ({
   wrap,
   styleType = "1",
 }) => {
-  const { theme } = useTheme();
-
   return (
     <div
-      className={`${style.tabs} ${style[`theme${theme}`]} ${style[`styleType${styleType}`]
+      className={`${style.tabs} ${style[`theme${'light'}`]} ${style[`styleType${styleType}`]
         } ${headerType ? style.headerType : ""}`}
     >
       <Flexbox

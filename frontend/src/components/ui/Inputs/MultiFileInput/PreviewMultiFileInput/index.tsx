@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Icon from "~/components/ui/Icon/Icon";
 import { IconTypes } from "~/components/ui/Icon/icon.interface";
-import useTheme from "~/hooks/useTheme";
 import { FileObjectType } from "~/types/global/FileObjectType";
 import ClassJoin from "~/utils/ClassJoin/ClassJoin";
 
@@ -31,7 +30,6 @@ const PreviewMultiFileInput: React.FC<
     isImage: false,
     icon: null,
   });
-  const { theme } = useTheme();
   const imagesubstring = "data:image";
 
   useEffect(() => _checkPreview(), [fileObject]);
@@ -62,7 +60,7 @@ const PreviewMultiFileInput: React.FC<
     <div
       className={ClassJoin([
         styles.previewMultiFileInput,
-        styles[`theme${theme}`],
+        styles[`theme${'light'}`],
       ])}
     >
       <div className={styles.preview}>

@@ -1,5 +1,4 @@
 import React from "react";
-import useTheme from "~/hooks/useTheme";
 import ClassJoin from "~/utils/ClassJoin/ClassJoin";
 import { Grid } from "../../Layout/Grid";
 
@@ -24,10 +23,9 @@ export interface CheckboxProps {
 
 const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   ({ label, id, ...rest }, ref) => {
-    const { theme } = useTheme();
 
     return (
-      <div className={ClassJoin([style[`theme${theme}`], style.checkbox])}>
+      <div className={ClassJoin([style[`theme${'light'}`], style.checkbox])}>
         <input
           className={style.checkboxinput}
           ref={ref}

@@ -3,7 +3,6 @@ import React from "react";
 import style from "./typography.module.scss";
 import { TypographyProps } from "./typography.interface";
 import ClassJoin from "~/utils/ClassJoin/ClassJoin";
-import useTheme from "~/hooks/useTheme";
 
 const Typography: React.FC<TypographyProps> = ({
   align,
@@ -27,7 +26,6 @@ const Typography: React.FC<TypographyProps> = ({
         : "",
   };
 
-  const { theme } = useTheme();
   let classList = [
     style.typographyStyle,
     style[`${component}`],
@@ -36,7 +34,7 @@ const Typography: React.FC<TypographyProps> = ({
     margin?.bottom && style[`${margin.bottom}bottomMargin`],
     margin?.left && style[`${margin.left}leftMargin`],
     margin?.right && style[`${margin.right}rightMargin`],
-    themed && style[`theme${theme}`],
+    themed && style[`theme${'light'}`],
     className,
   ];
 

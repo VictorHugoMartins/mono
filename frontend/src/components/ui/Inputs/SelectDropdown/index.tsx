@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import style from "./select.module.scss";
-import useTheme from "~/hooks/useTheme";
 
 //Import types
 import { SelectObjectType } from "~/types/global/SelectObjectType";
@@ -21,7 +20,6 @@ export interface SelectDropdownProps {
 
 const SelectDropdown = React.forwardRef<HTMLSelectElement, SelectDropdownProps>(
   ({ name, placeholder, options, error, value, onChange }, ref) => {
-    const { theme } = useTheme();
     const [_values, setValues] = useState<string[]>(value || []);
     const [_labels, setLabels] = useState<string[]>([]);
 
@@ -108,7 +106,7 @@ const SelectDropdown = React.forwardRef<HTMLSelectElement, SelectDropdownProps>(
             <div className={style.overSelect}></div>
           </div>
           {expanded === true ? (
-            <div className={`${style.checkboxes} ${style[`theme${theme}`]}`}id={"checkboxes" + name}>
+            <div className={`${style.checkboxes} ${style[`theme${'light'}`]}`}id={"checkboxes" + name}>
               {options ? (
                 options.map((option) => (
                   <label htmlFor={`${option.label}-${option.value}`}>

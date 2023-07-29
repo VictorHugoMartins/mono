@@ -1,5 +1,4 @@
 import React from "react";
-import useTheme from "~/hooks/useTheme";
 
 import style from "./tabButtonStyle1.module.scss";
 
@@ -14,14 +13,13 @@ const TabButtonStyle1: React.FC<TabButtonStyle1Props> = ({
   tabName,
   onClick,
 }) => {
-  const { theme } = useTheme();
   return (
     <button
       onClick={onClick}
       className={`
       ${style.tabButton}
         ${active ? style.tabButtonActive : ""}
-        ${style[`theme${theme}`]}
+        ${style[`theme${'light'}`]}
       `}
     >
       {tabName}

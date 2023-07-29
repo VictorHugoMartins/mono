@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import useTheme from "~/hooks/useTheme";
 import { SelectOptionsType } from "~/types/global/SelectObjectType";
 
 import styles from "./navbarSelect.module.scss";
@@ -17,8 +16,6 @@ const NavbarSelect: React.FC<NavbarSelectProps> = ({
 }) => {
   const [value, setValue] = useState<string | number>(initialValue);
 
-  const { theme } = useTheme();
-
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
@@ -31,7 +28,7 @@ const NavbarSelect: React.FC<NavbarSelectProps> = ({
 
   return (
     <select
-      className={`${styles.navbarSelect} ${styles[`theme${theme}`]}`}
+      className={`${styles.navbarSelect} ${styles[`theme${'light'}`]}`}
       value={value}
       onChange={_onChange}
     >

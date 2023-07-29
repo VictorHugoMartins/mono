@@ -8,7 +8,6 @@ import {
 } from "~/types/global/SelectObjectType";
 
 import Icon from "../../Icon/Icon";
-import useTheme from "~/hooks/useTheme";
 
 export interface SearchSelectProps {
   disabled?: boolean;
@@ -31,8 +30,6 @@ const SearchSelect: React.FC<SearchSelectProps> = ({
   options,
   value,
 }) => {
-  const { theme } = useTheme();
-
   const [internalValue, setInternalValue] = useState<SelectObjectType>(null);
   const [inputValue, setInputValue] = useState<string>("");
   const [optionsVisible, setOptionsVisible] = useState<boolean>(false);
@@ -51,7 +48,7 @@ const SearchSelect: React.FC<SearchSelectProps> = ({
   }
 
   return (
-    <div className={`${style.searchSelect} ${style[`theme${theme}`]}`}>
+    <div className={`${style.searchSelect} ${style[`theme${'light'}`]}`}>
       <div className={style.searchSelectInputContainer}>
         <input
           className={style.searchSelectInput}

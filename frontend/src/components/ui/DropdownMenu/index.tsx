@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa";
 import useWindowDimensions from "~/context/global/useWindowDimensions";
-import useTheme from "~/hooks/useTheme";
 import ClassJoin from "~/utils/ClassJoin/ClassJoin";
 import Icon from "../Icon/Icon";
 
@@ -36,7 +35,6 @@ const DropdownMenu: React.FC<LayoutProps> = ({
   fixed
 }) => {
   const [showOptions, setShowOptions] = useState(false);
-  const { theme } = useTheme();
   const { isDesktop } = useWindowDimensions();
 
   function handleOnBlur(e: React.FocusEvent<HTMLDivElement, Element>) {
@@ -63,7 +61,7 @@ const DropdownMenu: React.FC<LayoutProps> = ({
       </div>
       {showOptions && (
         <div
-          className={`${styles.dropdownContent} ${styles[`theme${theme}`]} ${styles[align]}`}
+          className={`${styles.dropdownContent} ${styles[`theme${'light'}`]} ${styles[align]}`}
           style={showOptions ?
             {
               position: (isDesktop && fixed) ? "fixed" : "unset",

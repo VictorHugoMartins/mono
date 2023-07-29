@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import useTheme from "~/hooks/useTheme";
 
 import { FileObjectType } from "~/types/global/FileObjectType";
 import ClassJoin from "~/utils/ClassJoin/ClassJoin";
 import Icon from "../Icon/Icon";
 import { IconTypes } from "../Icon/icon.interface";
-import HtmlParseComponent from "../Layout/HtmlParseComponent";
 import { Modal } from "../Modal/Modal";
 
 import styles from "./fileCard.module.scss";
@@ -27,7 +25,6 @@ const FileCard: React.FC<FileCardProps> = ({ fileObject, onRemove, xs }) => {
     isImage: false,
     icon: null,
   });
-  const { theme } = useTheme();
   const imagesubstring = "data:image";
 
   useEffect(() => _checkPreview(), [fileObject]);
@@ -75,7 +72,7 @@ const FileCard: React.FC<FileCardProps> = ({ fileObject, onRemove, xs }) => {
   }
 
   return (
-    <div className={ClassJoin([styles.fileCard, styles[`theme${theme}`], xs && styles.xs])}>
+    <div className={ClassJoin([styles.fileCard, styles[`theme${'light'}`], xs && styles.xs])}>
       <div className={styles.fileCardContent}>
         <div className={styles.preview}>
           {preview.isImage && <img src={fileObject.file} />}
@@ -115,10 +112,8 @@ export const FileCardGroup: React.FC = ({ children }) => {
 };
 
 export const DisplayMore: React.FC = () => {
-  const { theme } = useTheme();
-
   return (
-    <div className={ClassJoin([styles.fileCard, styles[`theme${theme}`]])}>
+    <div className={ClassJoin([styles.fileCard, styles[`theme${'light'}`]])}>
       <div className={styles.fileCardContent}>
         <Icon type={"FaPlus"} size={10} />
       </div>

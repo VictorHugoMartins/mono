@@ -46,8 +46,7 @@ const ChartLine: React.FC<ChartLineProps> = ({
   group,
   minY,
 }) => {
-  const { theme } = useTheme();
-  const fontColor = theme === "dark" ? "white" : "black";
+  const fontColor = "black";
 
   //define array of colors
   const defaultColors = colors || chartColors;

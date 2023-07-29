@@ -13,7 +13,6 @@ import {
 import { Bar } from "react-chartjs-2";
 import chartColors from "../Chart/chartColors.json";
 import { ChartDataType } from "~/types/global/ChartTypes";
-import useTheme from "~/hooks/useTheme";
 
 ChartJS.register(
   CategoryScale,
@@ -41,8 +40,7 @@ const ChartBar: React.FC<ChartBarProps> = ({
   orientation,
   print
 }) => {
-  const { theme } = useTheme();
-  const fontColor = theme === "dark" ? "white" : "black";
+  const fontColor = "black";
 
   //define array of colors
   const defaultColors = colors || chartColors;

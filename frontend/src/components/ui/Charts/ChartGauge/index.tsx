@@ -7,7 +7,6 @@ import style from "./chartGauge.module.scss";
 import Card from "../../Card";
 import ClassJoin from "~/utils/ClassJoin/ClassJoin";
 import Typography from "../../Typography/Typography";
-import useTheme from "~/hooks/useTheme";
 
 // import JSCharting from "jscharting-react";
 const JSCharting = dynamic(() => import("jscharting-react"), { ssr: false });
@@ -32,8 +31,7 @@ const ChartGauge: React.FC<ChartGaugeProps> = ({
   size,
   ticks,
 }) => {
-  const { theme } = useTheme();
-  const fontColor = theme === "dark" ? "white" : "black";
+  const fontColor = "black";
 
   const config = (itemValue: number) => {
     return {

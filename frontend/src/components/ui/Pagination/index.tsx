@@ -4,7 +4,6 @@ import { Box } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 
 import styles from "./pagination.module.scss";
-import useTheme from '~/hooks/useTheme';
 
 type ResponsivePaginationProps = {
   page: number,
@@ -13,11 +12,9 @@ type ResponsivePaginationProps = {
 }
 
 const ResponsivePagination: React.FC<ResponsivePaginationProps> = ({ page, noOfPages, handleChange }) => {
-  const { theme } = useTheme();
-  
   return (
     noOfPages > 1 &&
-    <div className={`${styles.pagination} ${styles[`theme${theme}`]}`}>
+    <div className={`${styles.pagination} ${styles[`theme${'light'}`]}`}>
       <div className={styles.paginationBox}>
         <div className={styles.categoryPagination}>
           <Box component="span">

@@ -6,7 +6,6 @@ import { SideMenuProps } from "./sideMenu.interface";
 import IconRounded from '~/assets/images/iconRounded.png'
 
 import SideMenuCollapseButton from "./SideMenuCollapseButton";
-import useTheme from "~/hooks/useTheme";
 
 type SideMenuContextType = {
   open: boolean;
@@ -24,13 +23,11 @@ const SideMenu: React.FC<SideMenuProps> = ({
   setOpenAside,
   children,
 }) => {
-  const { theme } = useTheme();
-
   return (
     <>
       <aside
         className={`${styles.sideMenu} ${openAside ? styles.open : styles.close}
-        ${styles[`theme${theme}`]}`}
+        ${styles[`theme${'light'}`]}`}
       >
         <SideMenuCollapseButton open={openAside} handleOpen={setOpenAside} />
         <div className={styles.options}>

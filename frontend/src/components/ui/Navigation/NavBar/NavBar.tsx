@@ -11,8 +11,6 @@ import NavbarDropdownItem from "./NavbarDropdownItem";
 import NavbarDropdownOptionsRender from "./NavbarDropdownOptionsRender";
 import NavbarLink from "./NavbarLink";
 
-import useTheme from "~/hooks/useTheme";
-
 const NavBar: React.FC<NavbarProps> = ({
   brand,
   brandImg,
@@ -23,13 +21,10 @@ const NavBar: React.FC<NavbarProps> = ({
   renderButtons,
   publicPage
 }) => {
-  const { theme } = useTheme();
-
   return (
     <nav
-      className={`${styles.siteNavbar} ${noFixed && styles.noFixed} ${inHome && styles.public}  ${publicPage && styles.notLogged} ${
-        styles[`theme${inHome ? "light" : theme}`]
-      }`}
+      className={`${styles.siteNavbar} ${noFixed && styles.noFixed} ${inHome && styles.public}  ${publicPage && styles.notLogged} ${styles[`theme${"light"}`]
+        }`}
     >
       {(brand || brandImg) && (
         <NavbarBrand alt="Navbar Brand" imageUrl={brandImg} href={brandHref}>

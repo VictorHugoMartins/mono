@@ -5,7 +5,6 @@ import MaterialModal from "./MaterialModal/MaterialModal";
 import styles from "./modal.module.scss";
 
 import ChildrenWithProps from "~/utils/ChildrenWithProps/ChildrenWithProps";
-import useTheme from "~/hooks/useTheme";
 import Flexbox from "../Layout/Flexbox/Flexbox";
 import Icon from "../Icon/Icon";
 
@@ -13,7 +12,7 @@ interface ModalProps {
   disabledBackClick?: boolean;
   footer?: React.ReactNode;
   openButton?: React.ReactNode;
-  onClose?: ()=>void;
+  onClose?: () => void;
   hideOpenButton?: boolean;
   openExternal?: boolean;
   title?: string;
@@ -37,8 +36,6 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
   setOpenModal,
 }) => {
-  const { theme } = useTheme();
-
   const [open, setOpen] = useState(openExternal || false);
 
   const handleOpen = () => {
@@ -66,16 +63,16 @@ const Modal: React.FC<ModalProps> = ({
 
   const handleExtenal = (value: boolean) => {
     setOpen(value);
-    if(value===true){
+    if (value === true) {
       handleOpen();
-    }else{
+    } else {
       handleClose();
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
 
-  },[open])
+  }, [open])
 
   return (
     <>
@@ -84,7 +81,7 @@ const Modal: React.FC<ModalProps> = ({
       )}
 
       <MaterialModal
-        openModal={openExternal&& setOpenModal ? openExternal:open}
+        openModal={openExternal && setOpenModal ? openExternal : open}
         onClose={(_, reason) => {
           if (!disabledBackClick || reason !== "backdropClick") {
             handleClose();
@@ -93,10 +90,9 @@ const Modal: React.FC<ModalProps> = ({
       >
         <div
           className={`${styles.modal}
-          ${styles[`theme${theme}`]}
-          ${maxWidth && styles[`boxMaxWidth${maxWidth}`]} ${
-            noOverflow && styles[`noOverflow`]
-          }
+          ${styles[`theme${'light'}`]}
+          ${maxWidth && styles[`boxMaxWidth${maxWidth}`]} ${noOverflow && styles[`noOverflow`]
+            }
             ${fixed && styles[`fixed`]}`}
         >
           <div style={{ width: "100%" }}>

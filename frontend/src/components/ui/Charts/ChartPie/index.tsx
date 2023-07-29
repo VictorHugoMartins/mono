@@ -11,7 +11,6 @@ import {
 import chartColors from "../Chart/chartColors.json";
 
 import { ChartDataType } from "~/types/global/ChartTypes";
-import useTheme from "~/hooks/useTheme";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -28,8 +27,7 @@ const ChartPie: React.FC<ChartPieProps> = ({
   hexColors,
   size,
 }) => {
-  const { theme } = useTheme();
-  const fontColor = theme === "dark" ? "white" : "black";
+  const fontColor = "black";
 
   //define array of colors
   const valuesColors = data[0]?.values.map((item) => {

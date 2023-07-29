@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import Typography from "~/components/ui/Typography/Typography";
-import useTheme from "~/hooks/useTheme";
 import scrollIntoView from "~/utils/ScrollIntoView";
 
 import style from "./tabButtonStyle2.module.scss";
@@ -17,8 +16,6 @@ const TabButtonStyle2: React.FC<TabButtonStyle2Props> = ({
   tabName,
   onClick,
 }) => {
-  const { theme } = useTheme();
-
   useEffect(() => {
     if (active) scrollIntoView(`tab-${tabName}`)
   }, [active])
@@ -28,7 +25,7 @@ const TabButtonStyle2: React.FC<TabButtonStyle2Props> = ({
       id={`tab-${tabName}`}
       onClick={(e) => { onClick(e); }}
       className={`${active ? `${style.tButton} ${style.active}` : `${style.tButton}`
-        } ${style[`theme${theme}`]}`}
+        } ${style[`theme${'light'}`]}`}
     >
       <Flexbox flexDirection="column" align="center" justify="center">
         <button>{tabName.charAt(0)}</button>

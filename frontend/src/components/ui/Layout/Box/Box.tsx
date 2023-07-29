@@ -2,7 +2,6 @@ import React from "react";
 
 import style from "./box.module.scss";
 import { BoxProps } from "./box.interface";
-import useTheme from "~/hooks/useTheme";
 
 const Box: React.FC<BoxProps> = ({
   align = "flex-start",
@@ -16,13 +15,10 @@ const Box: React.FC<BoxProps> = ({
   maxWidth,
   padding,
 }) => {
-  const { theme } = useTheme();
-
   return (
     <div
-      className={`${style.box} ${style[`theme${theme}`]} ${
-        maxWidth && style[`boxMaxWidth${maxWidth}`]
-      } ${boxShadow && style.boxShadow}`}
+      className={`${style.box} ${style[`theme${'light'}`]} ${maxWidth && style[`boxMaxWidth${maxWidth}`]
+        } ${boxShadow && style.boxShadow}`}
       style={{
         alignItems: align,
         // backgroundColor: backgroundColor,

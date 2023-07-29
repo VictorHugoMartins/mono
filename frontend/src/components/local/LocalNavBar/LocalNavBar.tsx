@@ -24,7 +24,6 @@ import Logout from "~/utils/Logout/Logout";
 import Toast from "~/utils/Toast/Toast";
 
 import styles from "./localNavBar.module.scss";
-import useTheme from "~/hooks/useTheme";
 import { parseCookies } from "nookies";
 import RedirectTo from "~/utils/Redirect/Redirect";
 
@@ -43,8 +42,6 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ hideLoginButton, returnPath, 
   const [menuOptions, setMenuOptions] = useState<RenderMenuType[]>(null);
   const [openLogoutModal, setOpenLogoutModal] = useState<boolean>(false);
   const { userId, userName } = parseCookies();
-
-  const { theme } = useTheme();
 
   let isLogged = userId && userName // isLogged();
 
@@ -88,7 +85,7 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ hideLoginButton, returnPath, 
     <NavBar noFixed publicPage={publicPage}>
       <Flexbox flexDirection="column">
         <Flexbox
-          className={`${styles[`theme${theme}`]} ${styles.title}`}
+          className={`${styles[`theme${'light'}`]} ${styles.title}`}
           align="center"
           spacing="m"
         >

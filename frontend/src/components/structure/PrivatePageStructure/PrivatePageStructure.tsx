@@ -4,7 +4,6 @@ import styles from "./privatePageStructure.module.scss";
 import LocalNavBar from "~/components/local/LocalNavBar/LocalNavBar";
 import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import HeadTitle from "~/components/ui/HeadTitle";
-import useTheme from "~/hooks/useTheme";
 import { Grid } from "~/components/ui/Layout/Grid";
 import { GenericComponentType } from "~/types/global/GenericComponentType";
 import { SpacingPatternType } from "~/types/global/SpacingType";
@@ -32,7 +31,6 @@ const PrivatePageStructure: React.FC<PageStructureProps> = ({
   cardTop,
   padding
 }) => {
-  const { theme } = useTheme();
   const [openAside, setOpenAside] = useState(false);
 
   return (
@@ -42,7 +40,7 @@ const PrivatePageStructure: React.FC<PageStructureProps> = ({
         {/* <LocalSideMenu openAside={openAside} setOpenAside={setOpenAside} /> */}
         <main
           className={`${styles.pageContent} ${openAside ? styles.open : styles.close
-            } ${noPadding ? styles.noPadding : ""} ${styles[`theme${theme}`]}`}
+            } ${noPadding ? styles.noPadding : ""} ${styles[`theme${'light'}`]}`}
         >
           {!fixedHeader && <div className={`${styles.navBarContent}`}>
             <LocalNavBar title={title} returnPath={returnPath} />
