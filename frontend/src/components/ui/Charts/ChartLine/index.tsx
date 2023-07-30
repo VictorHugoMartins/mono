@@ -14,7 +14,6 @@ import {
 import { Line } from "react-chartjs-2";
 import chartColors from "../Chart/chartColors.json";
 import { ChartDataType } from "~/types/global/ChartTypes";
-import useTheme from "~/hooks/useTheme";
 
 ChartJS.register(
   CategoryScale,
