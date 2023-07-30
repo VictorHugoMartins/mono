@@ -5,7 +5,6 @@ import SubmitButton from "../../components/ui/Form/SubmitButton/SubmitButton";
 import TextInputForm from "../../components/ui/FormInputs/TextInputForm";
 import Box from "../../components/ui/Layout/Box/Box";
 import Container from "../../components/ui/Layout/Container/Container";
-import Flexbox from "../../components/ui/Layout/Flexbox/Flexbox";
 import { Grid } from "../../components/ui/Layout/Grid";
 import Typography from "../../components/ui/Typography/Typography";
 import Toast from "../../utils/Toast/Toast";
@@ -14,7 +13,6 @@ import loginroute from "~/routes/login.route";
 import { BASE_API_URL } from "~/config/apiBase";
 
 const Register: React.FC = () => {
-  // const { requesting, register } = useAuthContext();
   const register = (data: any) => {
     if (data.password !== data.confirmPassword) {
       Toast.error("As senhas devem ser iguais!")

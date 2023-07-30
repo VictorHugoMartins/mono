@@ -7,7 +7,6 @@ import Button from "~/components/ui/Button/Button";
 import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
 import { BASE_API_URL } from "~/config/apiBase";
-import { useUserContext } from "~/context/global/UserContext";
 import privateroute from "~/routes/private.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
 import { JSONtoCSV, downloadCSV } from "~/utils/JsonFile";
@@ -20,7 +19,6 @@ interface TableButtonProps {
 function MySuperSurveys() {
   const [searching, setSearching] = useState(false);
 
-  const { user } = useUserContext();
   const { userId, userName } = parseCookies();
 
   function TableButtons({ rowData }: TableButtonProps) {

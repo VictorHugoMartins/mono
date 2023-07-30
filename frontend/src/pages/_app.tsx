@@ -1,4 +1,3 @@
-import { AuthProvider } from "~/context/global/AuthContext";
 import { ToastContainer } from "react-toastify";
 import "../assets/styles/base/base.css";
 
@@ -11,16 +10,11 @@ import "../components/ui/Pagination/pagination.css";
 
 //ReactToastify
 import "react-toastify/dist/ReactToastify.css";
-import { UserProvider } from "~/context/global/UserContext";
 
 function MyApp({ Component, pageProps }) {
   return (
     <div className="App">
-      <AuthProvider>
-        <UserProvider>
-          <Component {...pageProps} />
-        </UserProvider>
-      </AuthProvider>
+      <Component {...pageProps} />
       <ToastContainer autoClose={8000} />
     </div>
   );

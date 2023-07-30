@@ -1,4 +1,3 @@
-import { useUserContext } from "~/context/global/UserContext";
 import LoginPageStructure from "../../components/structure/LoginPageStructure";
 import ErrorForm from "../../components/ui/Form/ErrorForm";
 import Form from "../../components/ui/Form/Form";
@@ -15,12 +14,8 @@ import { setCookie } from "nookies";
 import loginroute from "~/routes/login.route";
 import { Link } from "@material-ui/core";
 import { BASE_API_URL } from "~/config/apiBase";
-// import loginroute from "~/routes/login.route";
 
 const Login: React.FC = () => {
-  const { setUser } = useUserContext();
-
-  // const { requesting, signIn } = useAuthContext();
   const signIn = (data: any) => {
     const apiUrl = `${BASE_API_URL}/api/login`; // url da API Flask
     const requestData = {

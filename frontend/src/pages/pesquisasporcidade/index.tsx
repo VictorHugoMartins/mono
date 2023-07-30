@@ -1,12 +1,10 @@
 import { GetServerSideProps } from "next";
-import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import DataTableButton from "~/components/local/LocalDataTable/DataTableButton/DataTableButton";
 import Table from "~/components/ui/Table";
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
 import { BASE_API_URL } from "~/config/apiBase";
-import { useUserContext } from "~/context/global/UserContext";
 import comumroute from "~/routes/public.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
 import { JSONtoCSV, downloadCSV } from "~/utils/JsonFile";
@@ -22,9 +20,6 @@ interface DetailsProps {
 
 const MySuperSurveys: React.FC<DetailsProps> = ({ city }) => {
   const [searching, setSearching] = useState(false);
-
-  const { user } = useUserContext();
-  const { userId, userName } = parseCookies();
 
   function TableButtons({ rowData }: TableButtonProps) {
     const update = (data: any) => {

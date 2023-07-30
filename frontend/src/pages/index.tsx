@@ -6,7 +6,6 @@ import PrivatePageStructure from "~/components/structure/PrivatePageStructure/Pr
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
 import Typography from "~/components/ui/Typography/Typography";
 import { BASE_API_URL } from "~/config/apiBase";
-import { useUserContext } from "~/context/global/UserContext";
 import comumroute from "~/routes/public.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
 import Toast from "~/utils/Toast/Toast";
@@ -18,7 +17,6 @@ interface TableButtonProps {
 function Home() {
   const [searching, setSearching] = useState(false);
 
-  const { user } = useUserContext();
   const { userId, userName } = parseCookies();
 
   function TableButtons({ rowData }: TableButtonProps) {
