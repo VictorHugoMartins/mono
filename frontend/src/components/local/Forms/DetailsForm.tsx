@@ -3,7 +3,7 @@ import FormPageStructure from "../../structure/FormPageStructure"
 import { InputRenderType } from "~/types/global/InputRenderType";
 import { SetStateAction } from "react";
 import { ObjectResponse } from "~/types/global/ObjectResponse";
-import { BASE_API_URL } from "~/config/apiBase";
+import { API_NAV } from "~/config/apiRoutes/nav";
 
 interface DetailsFiltersProps {
   data: any;
@@ -19,8 +19,8 @@ const DetailsFilters: React.FC<DetailsFiltersProps> = ({ data, survey, setResult
       {data?.result_columns &&
         <FormPageStructure
           buildObject={data.result_columns as InputRenderType[]}
-          buildPath={'/super_survey/build'}
-          submitPath={`${BASE_API_URL}/details/getbyid`}
+          buildPath={'na'}
+          submitPath={API_NAV.GETBYID()}
           buttonSubmitText="Filtrar"
           buttonCancelText="Limpar filtros"
           returnPath="/"
@@ -32,7 +32,7 @@ const DetailsFilters: React.FC<DetailsFiltersProps> = ({ data, survey, setResult
             );
           }}
           onCancel={() => filterFunction()}
-          preparePath={`${BASE_API_URL}/details/preparefilter?ss_id=${survey}`}
+          preparePath={API_NAV.PREPAREFILTER(survey)}
         />
       }
     </>

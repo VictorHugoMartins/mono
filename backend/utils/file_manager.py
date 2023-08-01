@@ -7,8 +7,9 @@ from config.general_config import ABConfig
 import os.path
 import os
 import csv
-import simplejson as json
+from datetime import datetime
 from utils.general_dict import columnDict
+
 LOG_LEVEL = logging.INFO
 # Set up logging
 LOG_FORMAT = '%(levelname)-8s%(message)s'
@@ -43,7 +44,12 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
             for row in results:
                 d = {}
                 for idx, col in enumerate(cur.description):
-                    d[col[0]] = row[idx]
+                    if ( col[0] == 'price' ):
+                      d[col[0]] = "${:.2f}".format(row[idx]) if row[idx] else None
+                    elif ( col[0] in ['last_updated', 'date']):
+                       d[col[0]] = row[idx].strftime('%d/%b/%Y') if row[idx] else None
+                    else:
+                      d[col[0]] = row[idx]
                 data.append(d)
             conn.close()
             
@@ -65,8 +71,8 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
             if not os.path.isdir(directory): # if directory don't exists, create
                 os.mkdir(directory)
 
-            today = today = dt.date.today().isoformat()
-            directory = directory + 'airbnb_rooms_{city}_12_05_2023.csv'.format(city=city)
+            today = dt.date.today().isoformat()
+            directory = directory + 'airbnb_rooms_{city}_{today}.csv'.format(city=city)
             csv_path = directory
 
             # Busca os resultados da query e salva em um arquivo CSV

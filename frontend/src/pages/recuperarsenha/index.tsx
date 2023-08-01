@@ -10,6 +10,7 @@ import { Grid } from "../../components/ui/Layout/Grid";
 import Toast from "../../utils/Toast/Toast";
 import React from "react";
 import loginroute from "~/routes/login.route";
+import { API_AUTH } from "~/config/apiRoutes/auth";
 // import loginroute from "~/routes/login.route";
 
 const ForgotPassword: React.FC = () => {
@@ -18,7 +19,7 @@ const ForgotPassword: React.FC = () => {
       Toast.error("As senhas devem ser iguais!")
       return;
     }
-    const apiUrl = `${BASE_API_URL}/api/change_password`; // url da API Flask
+    const apiUrl = API_AUTH.CHANGE_PASSWORD(); // url da API Flask
     const requestData = {
       email: data.email,
       password: data.password

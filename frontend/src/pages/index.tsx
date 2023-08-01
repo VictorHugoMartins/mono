@@ -9,6 +9,7 @@ import { BASE_API_URL } from "~/config/apiBase";
 import comumroute from "~/routes/public.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
 import Toast from "~/utils/Toast/Toast";
+import { API_NAV } from "~/config/apiRoutes/nav";
 
 interface TableButtonProps {
   rowData?: any;
@@ -32,7 +33,7 @@ function Home() {
   const loadTableData = (userId: string) => {
     setSearching(true);
     console.log(BASE_API_URL)
-    const apiUrl = `${BASE_API_URL}/nav/public_getall`; // url da API Flask
+    const apiUrl = API_NAV.PUBLICGETALL(); // url da API Flask
     const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição

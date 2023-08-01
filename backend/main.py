@@ -60,28 +60,28 @@ def getbycity():
     return nav.getbycity(data)
 
 
-@app.route('/details/getbyid', methods=['POST'])
+@app.route('/nav/getbyid', methods=['POST'])
 @cross_origin()
 def getbyid():
     data = request.get_json()
     return super_survey.getbyid(data)
 
 
-@app.route('/details/prepare', methods=['POST'])
+@app.route('/nav/prepare', methods=['POST'])
 @cross_origin()
 def prepare():
     data = request.get_json()
     return super_survey.prepare(data)
 
 
-@app.route('/details/preparefilter', methods=['GET'])
+@app.route('/nav/preparefilter', methods=['GET'])
 @cross_origin()
 def prepare_filter():
     args = request.args
     return super_survey.prepare_filter(args)
 
 
-@app.route('/details/chart', methods=['POST'])
+@app.route('/nav/chart', methods=['POST'])
 @cross_origin()
 def chart():
     data = request.get_json()

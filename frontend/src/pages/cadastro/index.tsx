@@ -11,6 +11,7 @@ import Toast from "../../utils/Toast/Toast";
 import React from "react";
 import loginroute from "~/routes/login.route";
 import { BASE_API_URL } from "~/config/apiBase";
+import { API_AUTH } from "~/config/apiRoutes/auth";
 
 const Register: React.FC = () => {
   const register = (data: any) => {
@@ -18,7 +19,7 @@ const Register: React.FC = () => {
       Toast.error("As senhas devem ser iguais!")
       return;
     }
-    const apiUrl = `${BASE_API_URL}/api/register` // url da API Flask
+    const apiUrl = API_AUTH.REGISTER() // url da API Flask
     const requestData = {
       email: data.email,
       name: data.name,

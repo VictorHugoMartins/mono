@@ -1,4 +1,3 @@
-import { API_ACCOUNT } from "~/config/apiRoutes/account";
 import { UserInfoType } from "~/types/api/UserInfoType";
 import { APIResponseType } from "~/types/global/RequestTypes";
 import { GetRequest, PostRequest } from "~/utils/Requests/Requests";
@@ -93,41 +92,20 @@ type ResendEmailConfirmationData = {
   email: string;
 };
 
-async function resendEmailConfirmation({ email }: ResendEmailConfirmationData) {
-  let response: APIResponseType<any> = {
-    object: {},
-    success: false,
-    message: "",
-  };
-
-  const responseApi = await PostRequest<any>(
-    API_ACCOUNT.RESENDEMAILCONFIRMATION(),
-    {
-      email,
-    }
-  );
-
-  response.success = responseApi.success;
-  response.message = responseApi.message;
-  response.errors = responseApi.errors;
-
-  return response;
-}
-
 async function getUserInfo() {
-  let response: APIResponseType<UserInfoType> = {
-    object: {} as UserInfoType,
-    success: false,
-    message: "",
-  };
+  // let response: APIResponseType<UserInfoType> = {
+  //   object: {} as UserInfoType,
+  //   success: false,
+  //   message: "",
+  // };
 
-  const responseApi = await GetRequest<UserInfoType>(API_ACCOUNT.USERINFO());
+  // const responseApi = await GetRequest<UserInfoType>(API_ACCOUNT.USERINFO());
 
-  if (responseApi.success) response.object = responseApi.object;
-  response.success = responseApi.success;
-  response.message = responseApi.message;
+  // if (responseApi.success) response.object = responseApi.object;
+  // response.success = responseApi.success;
+  // response.message = responseApi.message;
 
-  return response;
+  // return response;
 }
 
 const accountService = {
@@ -136,7 +114,6 @@ const accountService = {
   getUserInfo,
   resetPassword,
   resetPasswordSignIn,
-  resendEmailConfirmation,
 };
 
 export default accountService;

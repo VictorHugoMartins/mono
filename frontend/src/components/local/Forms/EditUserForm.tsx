@@ -6,12 +6,13 @@ import ErrorForm from "../../ui/Form/ErrorForm";
 import SubmitButton from "../../ui/Form/SubmitButton/SubmitButton";
 import { parseCookies } from "nookies";
 import { BASE_API_URL } from "~/config/apiBase";
+import { API_AUTH } from "~/config/apiRoutes/auth";
 
 export default function EditUserForm() {
   const { userId } = parseCookies();
 
   const edit_user = (data: any) => {
-    const apiUrl = `${BASE_API_URL}/api/edit_user`; // url da API Flask
+    const apiUrl = API_AUTH.EDIT_USER(); // url da API Flask
     const requestData = {
       email: data.email,
       name: data.name,

@@ -11,6 +11,8 @@ import privateroute from "~/routes/private.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
 import { JSONtoCSV, downloadCSV } from "~/utils/JsonFile";
 import Toast from "~/utils/Toast/Toast";
+import { API_NAV } from "~/config/apiRoutes/nav";
+import { API_SUPER_SURVEY } from "~/config/apiRoutes/super_survey";
 
 interface TableButtonProps {
   rowData?: any;
@@ -19,7 +21,7 @@ interface TableButtonProps {
 function MySuperSurveys() {
   const [searching, setSearching] = useState(false);
 
-  const { userId, userName } = parseCookies();
+  const { userId } = parseCookies();
 
   function TableButtons({ rowData }: TableButtonProps) {
     const update = (data: any) => {
@@ -58,7 +60,7 @@ function MySuperSurveys() {
 
     const downloadData = (obj: any) => {
       setSearching(true);
-      const apiUrl = `${BASE_API_URL}/nav/export`; // url da API Flask
+      const apiUrl = API_NAV.EXPORT(); // url da API Flask
       const requestData = { ss_id: obj.ss_id }; // dados de login a serem enviados na requisição
 
       // Configuração do cabeçalho da requisição
@@ -88,7 +90,7 @@ function MySuperSurveys() {
 
     const tryAgain = (ss_id: string) => {
       setSearching(true);
-      const apiUrl = `${BASE_API_URL}/super_survey/continue`; // url da API Flask
+      const apiUrl = API_SUPER_SURVEY.CONTINUE(); // url da API Flask
       const requestData = { ss_id }; // dados de login a serem enviados na requisição
 
       console.log(requestData);
@@ -138,7 +140,7 @@ function MySuperSurveys() {
   const loadTableData = (userId: string) => {
     setSearching(true);
     console.log(BASE_API_URL)
-    const apiUrl = `${BASE_API_URL}/nav/getall`; // url da API Flask
+    const apiUrl = API_NAV.GETALL(); // url da API Flask
     const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição

@@ -13,11 +13,11 @@ import React from "react";
 import { setCookie } from "nookies";
 import loginroute from "~/routes/login.route";
 import { Link } from "@material-ui/core";
-import { BASE_API_URL } from "~/config/apiBase";
+import { API_AUTH } from "~/config/apiRoutes/auth";
 
 const Login: React.FC = () => {
   const signIn = (data: any) => {
-    const apiUrl = `${BASE_API_URL}/api/login`; // url da API Flask
+    const apiUrl = API_AUTH.LOGIN(); // url da API Flask
     const requestData = {
       email: data.email,
       password: data.password

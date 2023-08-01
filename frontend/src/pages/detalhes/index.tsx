@@ -20,6 +20,7 @@ import { ObjectResponse } from "~/types/global/ObjectResponse";
 import { SelectObjectType } from "~/types/global/SelectObjectType";
 import { JSONtoCSV, downloadCSV } from "~/utils/JsonFile";
 import Toast from "~/utils/Toast/Toast";
+import { API_NAV } from "~/config/apiRoutes/nav";
 
 type DetailsData = {
   result_columns?: InputRenderType[],
@@ -45,7 +46,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
 
   const prepare = (data: any) => {
     setSearching(true);
-    const apiUrl = `${BASE_API_URL}/details/prepare`; // url da API Flask
+    const apiUrl = API_NAV.PREPARE() // url da API Flask
     const requestData = { ss_id: survey };
 
     // Configuração do cabeçalho da requisição
@@ -89,7 +90,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
 
   const getData = (data: any) => {
     setSearching(true);
-    const apiUrl = `${BASE_API_URL}/details/getbyid`; // url da API Flask
+    const apiUrl = API_NAV.GETBYID(); // url da API Flask
     const requestData = {
       ss_id: survey,
       agg_method: data?.agg_method ?? "_avg",
@@ -173,7 +174,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
             // buildObject={data.result_columns as InputRenderType[]}
             setObjectReturn={setChartResponseData}
             buildPath={'/super_survey/build'}
-            submitPath={`${BASE_API_URL}/details/chart`}
+            submitPath={API_NAV.CHART()}
             buttonSubmitText="Gerar gráfico"
             // buttonCancelText="Cancelar"
             returnPath="/"

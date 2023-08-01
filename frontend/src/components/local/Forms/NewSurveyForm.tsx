@@ -4,6 +4,7 @@ import Toast from "~/utils/Toast/Toast";
 import FormPageStructure from "../../structure/FormPageStructure";
 import { InputRenderType } from "~/types/global/InputRenderType";
 import { parseCookies } from "nookies";
+import { API_SUPER_SURVEY } from "~/config/apiRoutes/super_survey";
 
 export default function NewSurveyOptions() {
   const { userId } = parseCookies();
@@ -30,42 +31,6 @@ export default function NewSurveyOptions() {
       max: 100,
       min: 5,
     },
-    // {
-    //   name: "region",
-    //   label: "Regiões",
-    //   required: false,
-    //   type: "object-list",
-    //   shapeFields: [
-    //     {
-    //       name: "north_latitude",
-    //       label: "Latitude Norte",
-    //
-    // disabled: false,       required: false,
-    //       type: "text",
-    //     },
-    //     {
-    //       name: "south_latitude",
-    //       label: "Latitude Sul",
-    //
-    // disabled: false,       required: false,
-    //       type: "text",
-    //     },
-    //     {
-    //       name: "east_longitude",
-    //       label: "Longitude Leste",
-    //
-    // disabled: false,       required: false,
-    //       type: "text",
-    //     },
-    //     {
-    //       name: "west_longitude",
-    //       label: "Longitude Oeste",
-    //
-    // disabled: false,       required: false,
-    //       type: "text",
-    //     },
-    //   ]
-    // },
     {
       name: "include_locality_search",
       label: "Incluir subpesquisa por bairros?",
@@ -94,7 +59,7 @@ export default function NewSurveyOptions() {
       required: true,
       disabled: false,
       type: "checkbox-select",
-      listen: { id: "platform", getUrl: "/super_survey/get_data_columns?platform=" },
+      listen: { id: "platform", getUrl: API_SUPER_SURVEY.GETDATACOLUMNS() },
     },
     
   ] as InputRenderType[]
@@ -102,8 +67,8 @@ export default function NewSurveyOptions() {
   return (
       <FormPageStructure
         buildObject={surveyBuild}
-        buildPath={'/super_survey/build'}
-        submitPath={'/super_survey/save'}
+        buildPath={'na'}
+        submitPath={API_SUPER_SURVEY.SAVE()}
         buttonSubmitText="Solicitar pesquisa"
         buttonCancelText="Cancelar"
         returnPath="/"

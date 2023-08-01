@@ -142,7 +142,7 @@ def getbyid(data):
         })
 
     platform = data["platform"]
-    columns = result[0][1].replace(' ', ', ')
+    columns = result[0][1].replace(' ', ', ').replace('{', '').replace('}', '')
     agg_method = data["agg_method"]
     if ('platform' in columns):
         columns = columns.replace('platform, ', '')
