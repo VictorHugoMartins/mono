@@ -69,7 +69,6 @@ def restart(data):
                             "Selecionando dado de configuração de pesquisa",
                             "Falha ao selecionar dados de configurações de pesquisa")
     if not result:
-        # Inicia a aplicação
         return jsonify({"message": "Falha ao selecionar dados de configurações de pesquisa", "success": False}), 500
     new_params = {
         "platform": result[0][0],
@@ -101,7 +100,7 @@ def restart(data):
     #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 
-def get_data_columns(args): # ok
+def get_data_columns(args):  # ok
     try:
         result = []
         for x in columnDict:
@@ -121,6 +120,8 @@ def get_data_columns(args): # ok
         return jsonify({"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False}), 500
 
 # specific survey
+
+
 def getbyid(data):
     print(data)
     result = select_command(ab_config,
@@ -173,7 +174,7 @@ def getbyid(data):
     #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 
-def prepare(data): # adicionar campo p/ visualizar cluster específico
+def prepare(data):  # adicionar campo p/ visualizar cluster específico
     result = select_command(ab_config,
                             """SELECT platform, data_columns
 																FROM super_survey_config where ss_id = %s
@@ -276,7 +277,7 @@ def prepare(data): # adicionar campo p/ visualizar cluster específico
     })
 
 
-def prepare_filter(args): # ok
+def prepare_filter(args):  # ok
     print(args)
     platform = select_command(ab_config,
                               """SELECT platform
@@ -306,7 +307,7 @@ def prepare_filter(args): # ok
     })
 
 
-def chart(data): # ok
+def chart(data):  # ok
     if ((data["agg_method"] != "count") and (data["number_column"] == "nenhum")):
         return jsonify({
             "object": None,

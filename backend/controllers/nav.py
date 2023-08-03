@@ -6,24 +6,21 @@ from utils.general_dict import get_all_rooms_by_ss_id
 ab_config = ABConfig()
 
 
-def export(data): # ok
-    # try:
-    response = jsonify({
-        "object": export_datatable(ab_config, get_all_rooms_by_ss_id(data["ss_id"]), None, "Airbnb", True),
-        "message": "Dados retornados com sucesso!",
-        "success": True
-    })
+def export(data):  # ok
+    try:
+        response = jsonify({
+            "object": export_datatable(ab_config, get_all_rooms_by_ss_id(data["ss_id"]), None, "Airbnb", True),
+            "message": "Dados retornados com sucesso!",
+            "success": True
+        })
 
-    # response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
-    # finally:
-    #     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
-    #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
+    finally:
+        return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 500
 
 
-def getall(data): # ok
-    print("uai")
-
+def getall(data):  # ok
     try:
         response = jsonify({
             "object": export_datatable(ab_config, """
@@ -47,38 +44,34 @@ def getall(data): # ok
         # response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     except KeyError:
-        # Inicia a aplicação
         response = jsonify(
             {"message": "Faça login!", "success": False, "status": 401}), 401
         return response
-
-    # finally:
-    #     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
-    #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
+    finally:
+        return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 500
 
 
-def public_getall(data): # ok
-    # try:
-    response = jsonify({
-        "object": export_datatable(ab_config, """
-											select distinct(city), count(city) as survey_qtd, max(date) as last_updated from super_survey where city is not null group by city order by last_updated desc
-										""", None, None, True),
-        "message": "Dados retornados com sucesso!",
-        "success": True
-    })
-    print("o response: ", response)
-    # response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
-    # except KeyError:
-    # 	response = jsonify({"message": "Faça login!", "success": False, "status": 401}), 401 # Inicia a aplicação
-    # 	return response
+def public_getall(data):  # ok
+    try:
+        response = jsonify({
+            "object": export_datatable(ab_config, """
+													select distinct(city), count(city) as survey_qtd, max(date) as last_updated from super_survey where city is not null group by city order by last_updated desc
+												""", None, None, True),
+            "message": "Dados retornados com sucesso!",
+            "success": True
+        })
+        print("o response: ", response)
+        # response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
+    except KeyError:
+        response = jsonify(
+            {"message": "Faça login!", "success": False, "status": 401}), 401
+        return response
+    except:
+        return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 500
 
-    # finally:
-    #     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
-    #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
-
-def getbycity(data): # ok
+def getbycity(data):  # ok
     try:
         response = jsonify({
             "object": export_datatable(ab_config, """
@@ -92,5 +85,5 @@ def getbycity(data): # ok
         return response
     except:
         response = jsonify({"message": "Falha ao buscar pesquisas!",
-                           "success": False, "status": 500}), 500  # Inicia a aplicação
+                            "success": False, "status": 500}), 500  # Inicia a aplicação
         return response

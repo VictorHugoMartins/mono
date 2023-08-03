@@ -6,7 +6,7 @@ import psycopg2
 ab_config = ABConfig()
 
 
-def login(data): # ok
+def login(data):  # ok
     try:
         user_data = select_command(ab_config,
                                    sql_script="""SELECT user_id, name, email from users where email = %s and password = %s limit 1""",
@@ -26,15 +26,12 @@ def login(data): # ok
                 "success": True
             })
         else:
-            # Inicia a aplicação
             return jsonify({"message": "Erro ao realizar login!", "success": False}), 401
     except:
-        # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
-        # Inicia a aplicação
         return jsonify({"message": "Erro ao realizar login!", "success": False}), 401
 
 
-def register(data): # chamando 2 vezes no front, n impede de cadastrar msm email 2 vezes
+def register(data):  # chamando 2 vezes no front, n impede de cadastrar msm email 2 vezes
     try:
         result = select_command(ab_config,
                                 """SELECT user_id from users where email = %s
@@ -43,7 +40,6 @@ def register(data): # chamando 2 vezes no front, n impede de cadastrar msm email
                                 "Verificando existência de usuário...",
                                 "Falha ao verificar existência de usuário")
         if result:
-            # Inicia a aplicação
             return jsonify({"message": "E-mail já cadastrado!", "success": False}), 400
         else:
             user_data = insert_command(ab_config,
@@ -64,42 +60,38 @@ def register(data): # chamando 2 vezes no front, n impede de cadastrar msm email
                     "success": True
                 })
             else:
-                # Inicia a aplicação
                 return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 401
     except psycopg2.errors.UniqueViolation:
-        # Inicia a aplicação
         return jsonify({"message": "Usuário já cadastrado! Talvez seja melhor tentar fazer login...", "success": False}), 400
-    # except:	# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
-    # 	return jsonify({"message": "Exceção ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
+    except:
+        return jsonify({"message": "Exceção ao cadastrar usuário!", "success": False}), 500
 
 
-def edit_user(data): # ok, mas seria bom ter um prepare. atualizar cookies após setar
-    # try:
-    user_data = update_command(ab_config,
-                               sql_script="""UPDATE users set name = %s, email = %s where user_id = %s returning user_id""",
-                               params=(
-                                   (data["name"], data["email"], data['userId'])),
-                               initial_message="Atualizando dados do usuario...",
-                               failure_message="Falha ao atualizar dados do usuário")
-    if user_data:
-        return jsonify({
-            "object": {
-                "user_id": data["userId"],
-                "name": data["name"],
-                "email": data["email"]
-            },
-            "message": "Sucesso ao atualizar dados do usuário",
-            "success": True
-        })
-    else:
-        # Inicia a aplicação
-        return jsonify({"message": "Erro ao atualizar dados do usuário!", "success": False}), 401
-    # except:
-    # 	# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
-    # 	return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
+def edit_user(data):  # ok, mas seria bom ter um prepare. atualizar cookies após setar
+    try:
+        user_data = update_command(ab_config,
+                                   sql_script="""UPDATE users set name = %s, email = %s where user_id = %s returning user_id""",
+                                   params=(
+                                       (data["name"], data["email"], data['userId'])),
+                                   initial_message="Atualizando dados do usuario...",
+                                   failure_message="Falha ao atualizar dados do usuário")
+        if user_data:
+            return jsonify({
+                "object": {
+                    "user_id": data["userId"],
+                    "name": data["name"],
+                    "email": data["email"]
+                },
+                "message": "Sucesso ao atualizar dados do usuário",
+                "success": True
+            })
+        else:
+            return jsonify({"message": "Erro ao atualizar dados do usuário!", "success": False}), 401
+    except:
+        return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 500
 
 
-def change_password(data): # ok
+def change_password(data):  # ok
     try:
         user_data = insert_command(ab_config,
                                    sql_script="""UPDATE users set password = %s where user_id = %s returning user_id""",
@@ -113,15 +105,12 @@ def change_password(data): # ok
                 "success": True
             })
         else:
-            # Inicia a aplicação
             return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401
     except:
-        # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
-        # Inicia a aplicação
         return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401
 
 
-def forgot_password(data): # ok
+def forgot_password(data):  # ok
     try:
         user_data = insert_command(ab_config,
                                    sql_script="""UPDATE users set password = %s where email = %s returning user_id""",
@@ -135,9 +124,6 @@ def forgot_password(data): # ok
                 "success": True
             })
         else:
-            # Inicia a aplicação
             return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401
     except:
-        # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
-        # Inicia a aplicação
         return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401
