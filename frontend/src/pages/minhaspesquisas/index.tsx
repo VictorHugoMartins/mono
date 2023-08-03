@@ -9,7 +9,6 @@ import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
 import { BASE_API_URL } from "~/config/apiBase";
 import privateroute from "~/routes/private.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
-import { JSONtoCSV, downloadCSV } from "~/utils/JsonFile";
 import Toast from "~/utils/Toast/Toast";
 import { API_NAV } from "~/config/apiRoutes/nav";
 import { API_SUPER_SURVEY } from "~/config/apiRoutes/super_survey";
@@ -58,36 +57,6 @@ function MySuperSurveys() {
       setSearching(false);
     }
 
-    const downloadData = (obj: any) => {
-      setSearching(true);
-      const apiUrl = API_NAV.EXPORT(); // url da API Flask
-      const requestData = { ss_id: obj.ss_id }; // dados de login a serem enviados na requisição
-
-      // Configuração do cabeçalho da requisição
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-
-      const requestOptions = {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(requestData)
-      };
-
-      // Realiza a requisição para a API Flask
-      const resp = fetch(apiUrl, requestOptions)
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            let csvFile = JSONtoCSV(data.object.rows);
-            downloadCSV(csvFile, obj.ss_id)
-          } else Toast.error("Erro ao baixar dados!")
-          setSearching(false)
-        })
-        .catch(error => { Toast.error(error), setSearching(false) });
-
-      return resp;
-    };
-
     const tryAgain = (ss_id: string) => {
       setSearching(true);
       const apiUrl = API_SUPER_SURVEY.CONTINUE(); // url da API Flask
@@ -124,12 +93,9 @@ function MySuperSurveys() {
         {rowData.status !== 200 &&
           <DataTableButton icon="FaCheck" title="Finalizar" onClick={() => updateStatus(rowData.ss_id, 200)} />
         }
-        {/* {rowData.status <= 1 && */}
-        <DataTableButton icon="FaPlay" title="Tentar novamente" onClick={() => tryAgain(rowData.ss_id)} />
-        {/* } */}
-        {/* {(rowData.status > 0) && (rowData.status !== 1) &&
-          <DataTableButton icon="FaUpload" title="Baixar dados" onClick={() => downloadData({ ss_id: rowData.ss_id })} />
-        } */}
+        {rowData.status === 200 &&
+          <DataTableButton icon="FaPlay" title="Pesquisar novamente" onClick={() => tryAgain(rowData.ss_id)} />
+        }
         <DataTableButton icon="FaInfo" title="Ver detalhes" onClick={() => window.location.assign(`/detalhes?survey=${rowData.ss_id}`)} />
       </>
     );
@@ -194,3 +160,4 @@ export default privateroute(MySuperSurveys);
 
 // nos logs, fazer o append e exibir o último
 // verificar status dos botões nas tabelas de minhas pesquisas
+// garantir q a pesquisa chega ao 200 msm c status prévio de erro

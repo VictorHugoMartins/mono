@@ -6,6 +6,7 @@ import ErrorForm from "../../ui/Form/ErrorForm";
 import SubmitButton from "../../ui/Form/SubmitButton/SubmitButton";
 import { parseCookies } from "nookies";
 import { API_AUTH } from "~/config/apiRoutes/auth";
+import cleanCookiesAndUpdate from "~/utils/CleanCookiesAndUpdate";
 
 export default function EditUserForm() {
   const { userId } = parseCookies();
@@ -36,6 +37,10 @@ export default function EditUserForm() {
         if (data.success) {
           // setUser(data.object);
           Toast.success(data.message)
+          cleanCookiesAndUpdate({
+            name: requestData.name,
+            userId: requestData.userId
+          })
           window.location.assign("/");
         } else {
           Toast.error(data.message)

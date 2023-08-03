@@ -7,7 +7,6 @@ import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
 import { BASE_API_URL } from "~/config/apiBase";
 import comumroute from "~/routes/public.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
-import { JSONtoCSV, downloadCSV } from "~/utils/JsonFile";
 import Toast from "~/utils/Toast/Toast";
 import { API_NAV } from "~/config/apiRoutes/nav";
 
@@ -23,41 +22,8 @@ const MySuperSurveys: React.FC<DetailsProps> = ({ city }) => {
   const [searching, setSearching] = useState(false);
 
   function TableButtons({ rowData }: TableButtonProps) {
-    const downloadData = (obj: any) => {
-      setSearching(true);
-      const apiUrl = API_NAV.EXPORT(); // url da API Flask
-      const requestData = { ss_id: obj.ss_id }; // dados de login a serem enviados na requisição
-
-      // Configuração do cabeçalho da requisição
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-
-      const requestOptions = {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(requestData)
-      };
-
-      // Realiza a requisição para a API Flask
-      const resp = fetch(apiUrl, requestOptions)
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            let csvFile = JSONtoCSV(data.object.rows);
-            downloadCSV(csvFile, obj.ss_id)
-          } else Toast.error("Erro ao baixar dados!")
-          setSearching(false)
-        })
-        .catch(error => { Toast.error(error), setSearching(false) });
-
-      return resp;
-    };
-
     return (
       <>
-        {(rowData.status > 0) && (rowData.status !== 1) &&
-          <DataTableButton icon="FaUpload" title="Baixar dados" onClick={() => downloadData({ ss_id: rowData.ss_id })} />
-        }
         <DataTableButton icon="FaInfo" title="Ver detalhes" onClick={() => window.location.assign(`/detalhes?survey=${rowData.ss_id}`)} />
       </>
     );
