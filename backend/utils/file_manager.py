@@ -1,13 +1,8 @@
 import psycopg2 as pg
 import pandas as pd
 import argparse
-import datetime as dt
 import logging
 from config.general_config import ABConfig
-import os.path
-import os
-import csv
-from datetime import datetime
 from utils.general_dict import columnDict
 
 LOG_LEVEL = logging.INFO
@@ -28,7 +23,6 @@ def buildColumnsObject(columns):
 
 def export_datatable(config, sql_command, params, project, toJson, toPandas=False):
     try:
-        rowcount = -1
         logging.info("Initializing export {project}'s rooms".format(project=project))
         conn = config.connect()
         cur = conn.cursor()
@@ -51,49 +45,29 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
                     else:
                       d[col[0]] = row[idx]
                 data.append(d)
+            cur.close()
             conn.close()
-            
+
             if ( toPandas ):
               df = pd.DataFrame(results)
-              df.columns = data[0].keys()
-              if ( len(data) > 0):
-                return { "table": { "columns": buildColumnsObject(data[0].keys()), "rows": data }, "df": df }
-              else:
-                return { "table": { "columns": [], "rows": []}, "df": df }
+              if (data[0]):
+                df.columns = data[0].keys()
+                if ( len(data) > 0):
+                  return { "table": { "columns": buildColumnsObject(data[0].keys()), "rows": data }, "df": df }
+                else:
+                  return { "table": { "columns": [], "rows": []}, "df": df }
             else:
               if ( len(data) > 0):
                 return { "columns": buildColumnsObject(data[0].keys()), "rows": data }
               else:
                 return { "columns": [], "rows": []}
-        else:
-            # create a directory for all the data for the city
-            directory = ('files/').format(project=project)
-            if not os.path.isdir(directory): # if directory don't exists, create
-                os.mkdir(directory)
-
-            today = dt.date.today().isoformat()
-            directory = directory + 'airbnb_rooms_{city}_{today}.csv'.format(city=city)
-            csv_path = directory
-
-            # Busca os resultados da query e salva em um arquivo CSV
-            with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
-                writer = csv.writer(csvfile)
-                writer.writerow([d[0] for d in cur.description])
-                for row in cur:
-                    writer.writerow(row)
-
-            # Fecha a conexão com o banco de dados
-            cur.close()
-            conn.close()
 
             logging.info("Finishing export")
-
-            return directory
     except pg.errors.InFailedSqlTransaction:
         print("Falha ao realizar consulta")
         return { "columns": [], "rows": []}
     except PermissionError:
-        print("Permission denied: ", directory, " is open")
+        print("Permission denied!")
         return { "columns": [], "rows": []}
 
 def main():
@@ -104,38 +78,13 @@ def main():
                         metavar="config_file", action="store", default=None,
                         help="""explicitly set configuration file, instead of
                         using the default <username>.config""")
-    parser.add_argument('-c', '--city',
-                        metavar='city', action='store',
-                        help="""set the city""")
     parser.add_argument('-ss', '--ss_id',
                         metavar='city', action='store',
                         help="""id of super_survey to export""")
-    parser.add_argument('-la', '--listings_airbnb',
-                        action='store_true', default=False,
-                        help="export the listings from airbnb")
-    parser.add_argument('-lb', '--listings_booking',
-                        action='store_true', default=False,
-                        help="export the listings from booking")
-    parser.add_argument('-ra', '--reviews_airbnb',
-                        action='store_true', default=False,
-                        help="export the reviews from airbnb")
-    parser.add_argument('-rb', '--reviews_booking',
-                        action='store_true', default=False,
-                        help="export the reviews from booking")
     parser.add_argument('-p', '--project',
                         metavar='project', action='store', default="public",
                         help="""the project determines the table or view: public
                         for room, gis for listing_city, default public""")
-    parser.add_argument('-f', '--format',
-                        metavar='format', action='store', default="csv",
-                        help="""output format (xlsx or csv), default xlsx""")
-    parser.add_argument('-s', '--summary',
-                        action='store_true', default=False,
-                        help="create a summary spreadsheet instead of raw data")
-    parser.add_argument('-sd', '--start_date',
-                        metavar="start_date", action='store',
-                        default=DEFAULT_START_DATE,
-                        help="create a summary spreadsheet instead of raw data")
     args = parser.parse_args()
     ab_config = ABConfig(args)
     export_datatable(ab_config, """

@@ -211,21 +211,19 @@ def execute_search(config, platform="Airbnb", search_area_name='', fill_airbnb_w
         if (super_survey_id):
             update_survey_with_super_survey_id(
                 ab_config, super_survey_id, survey_id)
-        survey = ABSurveyByBoundingBox(ab_config, survey_id)
-
+        
         # search for the listings
         if (_platform == "Airbnb"):
+            survey = ABSurveyByBoundingBox(ab_config, survey_id)
             survey.search(ab_config.FLAGS_ADD)
+            airbnb_score_search(ab_config, search_area_name,
+                                super_survey_id)
         else:
             search_booking_rooms(ab_config, search_area_name,
                                  start_date, finish_date, survey_id)
-
-        if (fill_airbnb_with_selenium):
-            airbnb_score_search(ab_config, search_area_name,
-                                super_survey_id, None)
+            
     except Exception as e:
         print("o erro 240:", e)
-        _platform = "Airbnb" if platform != 'Booking' else "Booking"
         update_super_survey_status(config,
                                    super_survey_id,
                                    status=-11 if (_platform ==
@@ -262,8 +260,7 @@ def search_sublocalities(config, platform="Airbnb", search_area_name='', fill_ai
                     print("o erro:", e)
                     update_super_survey_status(config,
                                                super_survey_id,
-                                               status=-
-                                               42 if (
+                                               status=-42 if (
                                                    platform == "Airbnb") else -742,
                                                logs='Falha ao buscar por bairro ' + sublocality_name + ' (' + i + '/' + str(len(city_sublocalities)) + ')')
         update_super_survey_status(config,
@@ -410,11 +407,6 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
                       include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
     try:
         # status 0, ainda n fez nada
-        fill_bnb_with_selenium = platform != 'Booking'
-
-        _platform = "Airbnb" if platform != 'Booking' else "Booking"
-        print("1")
-
         if (super_survey_id is None):  # super survey previously in progress
             try:
                 super_survey_id = create_super_survey(
@@ -429,7 +421,7 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
                     update_super_survey_status(ab_config,
                                                super_survey_id,
                                                status=1,
-                                               logs='Configuração concluída. Iniciando pesquisa...')
+                                               logs='Configuração concluída')
                     print("346")
                     return super_survey_id
             except Exception as e:
@@ -522,26 +514,9 @@ def parse_args():
     group.add_argument('-dbp', '--dbping',
                        action='store_true', default=False,
                        help='Test the database connection')
-    group.add_argument('-dh', '--displayhost',
-                       metavar='host_id', type=int,
-                       help='display web page for host_id in browser')
-    group.add_argument('-dr', '--displayroom',
-                       metavar='room_id', type=int,
-                       help='display web page for room_id in browser')
-    group.add_argument('-dsv', '--delete_survey',
-                       metavar='survey_id', type=int,
-                       help="""delete a survey from the database, with its
-											 listings""")
     group.add_argument('-f', '--fill', nargs='?',
                        metavar='survey_id', type=int, const=0,
                        help='fill details for rooms collected with -s')
-    group.add_argument('-lsa', '--listsearcharea',
-                       metavar='search_area', type=str,
-                       help="""list information about this search area
-											 from the database""")
-    group.add_argument('-lr', '--listroom',
-                       metavar='room_id', type=int,
-                       help='list information about room_id from the database')
     group.add_argument('-ls', '--listsurveys',
                        action='store_true', default=False,
                        help='list the surveys in the database')
@@ -550,21 +525,12 @@ def parse_args():
                        help="""search for rooms using survey survey_id,
 											 by bounding box
 											 """)
-    group.add_argument('-ur', '--update_routes',
-                       metavar='city_name', type=str,
-                       help="""update routes from rooms""")  # by victor
     group.add_argument('-sbs', '--search_sublocalities',
                        metavar='city_name', type=str,
                        help="""bounding box search from sublocalities""")
     group.add_argument('-sbr', '--search_routes',
                        metavar='city_name', type=str,
                        help="""bounding box search from routes""")
-    group.add_argument('-rss', '--restart_super_survey',
-                       metavar='super_survey_id', type=int,
-                       help="""restart super survey""")
-    # group.add_argument('-css', '--continue_super_survey_by_sublocality',
-    # 									 metavar='super_survey_id', type=int,
-    # 									 help="""continue super survey by sublocality""")
     group.add_argument('-fs', '--full_survey',
                        metavar='full survey area', type=str,
                        help="""make a full survey ininterrumptly""")

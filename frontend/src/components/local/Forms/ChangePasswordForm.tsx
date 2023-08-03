@@ -4,7 +4,6 @@ import { Grid } from "~/components/ui/Layout/Grid";
 import ErrorForm from "~/components/ui/Form/ErrorForm";
 import SubmitButton from "~/components/ui/Form/SubmitButton/SubmitButton";
 import { parseCookies } from "nookies";
-import { BASE_API_URL } from "~/config/apiBase";
 import Form from "~/components/ui/Form/Form";
 import { API_AUTH } from "~/config/apiRoutes/auth";
 

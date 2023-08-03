@@ -10,7 +10,6 @@ import Typography from "../../components/ui/Typography/Typography";
 import Toast from "../../utils/Toast/Toast";
 import React from "react";
 import loginroute from "~/routes/login.route";
-import { BASE_API_URL } from "~/config/apiBase";
 import { API_AUTH } from "~/config/apiRoutes/auth";
 
 const Register: React.FC = () => {

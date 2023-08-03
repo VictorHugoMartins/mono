@@ -3,10 +3,7 @@ import random
 import logging
 import string
 from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-from selenium.webdriver.common.by import By
 from selenium import webdriver
 import psycopg2
 from geopy import distance

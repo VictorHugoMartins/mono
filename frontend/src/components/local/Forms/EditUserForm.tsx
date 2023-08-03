@@ -5,7 +5,6 @@ import { Grid } from "../../ui/Layout/Grid";
 import ErrorForm from "../../ui/Form/ErrorForm";
 import SubmitButton from "../../ui/Form/SubmitButton/SubmitButton";
 import { parseCookies } from "nookies";
-import { BASE_API_URL } from "~/config/apiBase";
 import { API_AUTH } from "~/config/apiRoutes/auth";
 
 export default function EditUserForm() {

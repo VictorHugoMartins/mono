@@ -39,8 +39,7 @@ const PrivatePageStructure: React.FC<PageStructureProps> = ({
       <Flexbox flexDirection="row" justify="space-between">
         {/* <LocalSideMenu openAside={openAside} setOpenAside={setOpenAside} /> */}
         <main
-          className={`${styles.pageContent} ${openAside ? styles.open : styles.close
-            } ${noPadding ? styles.noPadding : ""} ${styles[`theme${'light'}`]}`}
+          className={`${styles.pageContent} ${styles.close} ${noPadding ? styles.noPadding : ""} ${styles[`theme${'light'}`]}`}
         >
           {!fixedHeader && <div className={`${styles.navBarContent}`}>
             <LocalNavBar title={title} returnPath={returnPath} />

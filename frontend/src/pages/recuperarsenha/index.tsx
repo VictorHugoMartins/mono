@@ -1,4 +1,3 @@
-import { BASE_API_URL } from "~/config/apiBase";
 import LoginPageStructure from "../../components/structure/LoginPageStructure";
 import ErrorForm from "../../components/ui/Form/ErrorForm";
 import Form from "../../components/ui/Form/Form";

@@ -10,7 +10,6 @@ import { Grid } from "../../components/ui/Layout/Grid";
 import Toast from "../../utils/Toast/Toast";
 import React from "react";
 import loginroute from "~/routes/login.route";
-import { BASE_API_URL } from "~/config/apiBase";
 import { API_AUTH } from "~/config/apiRoutes/auth";
 // import loginroute from "~/routes/login.route";
 

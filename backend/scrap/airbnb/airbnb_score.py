@@ -172,7 +172,7 @@ def update_with_preexistent_comodities(config, city, args):
         raise
 
 
-def airbnb_score_search(config, city, survey_id, args):
+def airbnb_score_search(config, city, survey_id):
     try:
         driver = None
         rowcount = -1

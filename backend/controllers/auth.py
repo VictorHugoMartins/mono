@@ -5,6 +5,7 @@ import psycopg2
 
 ab_config = ABConfig()
 
+
 def login(data):
     try:
         user_data = select_command(ab_config,
@@ -71,11 +72,13 @@ def register(data):
     # except:	# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
     # 	return jsonify({"message": "Exceção ao cadastrar usuário!", "success": False}), 401 # Inicia a aplicação
 
+
 def edit_user(data):
     # try:
     user_data = update_command(ab_config,
                                sql_script="""UPDATE users set name = %s, email = %s where user_id = %s returning user_id""",
-                               params=((data["name"], data["email"], data['userId'])),
+                               params=(
+                                   (data["name"], data["email"], data['userId'])),
                                initial_message="Atualizando dados do usuario...",
                                failure_message="Falha ao atualizar dados do usuário")
     if user_data:

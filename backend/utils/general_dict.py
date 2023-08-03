@@ -137,7 +137,15 @@ def deprecated_get_airbnb_rooms_by_ss_id(ss_id):
 							location.route,
 							location.sublocality,
 							location.locality,
-							'Airbnb' as platform
+							'Airbnb' as platform,
+							case
+									when strpos(STRING_AGG(DISTINCT bathroom, 'JOIN '), 'shared') <> 0
+										then 'shared'
+									when strpos(STRING_AGG(DISTINCT bathroom, 'JOIN '), 'private') <> 0
+										then 'private'
+										else  null
+									end
+							as bathrooms
 						FROM
 							room
 					INNER JOIN location
@@ -146,7 +154,7 @@ def deprecated_get_airbnb_rooms_by_ss_id(ss_id):
 					ON survey.survey_id = room.survey_id
 				WHERE room.survey_id in ( select distinct(survey_id) as survey_id from survey where ss_id = {ss_id} )
 						GROUP BY
-							locality, location.sublocality, location.route, location.location_id, room_id
+							locality, location.sublocality, location.route, location.location_id, room_id, bathroom
 				""".format(ss_id=ss_id)
 
 def deprecated_get_booking_rooms_by_ss_id(ss_id):
