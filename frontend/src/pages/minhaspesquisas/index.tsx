@@ -127,9 +127,9 @@ function MySuperSurveys() {
         {/* {rowData.status <= 1 && */}
         <DataTableButton icon="FaPlay" title="Tentar novamente" onClick={() => tryAgain(rowData.ss_id)} />
         {/* } */}
-        {(rowData.status > 0) && (rowData.status !== 1) &&
+        {/* {(rowData.status > 0) && (rowData.status !== 1) &&
           <DataTableButton icon="FaUpload" title="Baixar dados" onClick={() => downloadData({ ss_id: rowData.ss_id })} />
-        }
+        } */}
         <DataTableButton icon="FaInfo" title="Ver detalhes" onClick={() => window.location.assign(`/detalhes?survey=${rowData.ss_id}`)} />
       </>
     );
@@ -191,3 +191,6 @@ function MySuperSurveys() {
 }
 
 export default privateroute(MySuperSurveys);
+
+// nos logs, fazer o append e exibir o último
+// verificar status dos botões nas tabelas de minhas pesquisas

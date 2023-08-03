@@ -13,6 +13,7 @@ interface SelectDropdownFormInterface extends SelectDropdownProps {
   listenId?: string | string[];
   listenGet?: string;
   listenGetWithBody?: string;
+  description?: string;
   disabled?: boolean;
   name: string;
   label?: string;
@@ -30,6 +31,7 @@ const SelectDropdownForm: React.FC<SelectDropdownFormInterface> = ({
   listenGetWithBody,
   required,
   options,
+  description,
   ...rest
 }) => {
   const { listen, errors, control } = useHookFormContext();
@@ -97,6 +99,7 @@ const SelectDropdownForm: React.FC<SelectDropdownFormInterface> = ({
   return (
     <>
       {label && <Label labelFor={name} text={label} required={required} />}
+      {description && <p>{description}</p>}
       <Controller
         name={name}
         control={control}

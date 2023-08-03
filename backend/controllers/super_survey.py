@@ -104,7 +104,7 @@ def restart(data):
     #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 
-def get_data_columns(args):
+def get_data_columns(args): # ok
     try:
         result = []
         for x in columnDict:
@@ -122,7 +122,6 @@ def get_data_columns(args):
         # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
         # Inicia a aplicação
         return jsonify({"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False}), 500
-
 
 # specific survey
 def getbyid(data):
@@ -177,7 +176,7 @@ def getbyid(data):
     #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 
-def prepare(data):
+def prepare(data): # adicionar campo p/ visualizar cluster específico
     result = select_command(ab_config,
                             """SELECT platform, data_columns
 																FROM super_survey_config where ss_id = %s
@@ -280,7 +279,7 @@ def prepare(data):
     })
 
 
-def prepare_filter(args):
+def prepare_filter(args): # ok
     print(args)
     platform = select_command(ab_config,
                               """SELECT platform
@@ -310,7 +309,7 @@ def prepare_filter(args):
     })
 
 
-def chart(data):
+def chart(data): # ok
     if ((data["agg_method"] != "count") and (data["number_column"] == "nenhum")):
         return jsonify({
             "object": None,

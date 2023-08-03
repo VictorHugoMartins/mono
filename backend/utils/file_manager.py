@@ -50,12 +50,15 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
 
             if ( toPandas ):
               df = pd.DataFrame(results)
+              df = df.T.drop_duplicates().T # in case of duplicate columns
               if (data[0]):
                 df.columns = data[0].keys()
                 if ( len(data) > 0):
                   return { "table": { "columns": buildColumnsObject(data[0].keys()), "rows": data }, "df": df }
                 else:
                   return { "table": { "columns": [], "rows": []}, "df": df }
+              else:
+                return { "table": { "columns": [], "rows": []}, "df": df }
             else:
               if ( len(data) > 0):
                 return { "columns": buildColumnsObject(data[0].keys()), "rows": data }

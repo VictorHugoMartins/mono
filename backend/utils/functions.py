@@ -46,9 +46,7 @@ def select_command(config, sql_script, params, initial_message, failure_message)
         conn = config.connect()
         cur = conn.cursor()
 
-        sql = sql_script
-
-        cur.execute(sql, (params))
+        cur.execute(sql_script, (params))
 
         return cur.fetchall()
     except psycopg2.errors.InFailedSqlTransaction:
@@ -106,7 +104,6 @@ def update_command(config, sql_script, params, initial_message, failure_message)
 def insert_command(config, sql_script, params, initial_message, failure_message):
     try:
         id = None
-        rowcount = -1
         logging.info(initial_message)
         conn = config.connect()
         cur = conn.cursor()
@@ -121,6 +118,7 @@ def insert_command(config, sql_script, params, initial_message, failure_message)
         return id
     except Exception as e:
         print(e)
+        logging.error(failure_message)
         conn.rollback()
         return None
 

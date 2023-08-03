@@ -6,7 +6,7 @@ from utils.general_dict import get_all_rooms_by_ss_id
 ab_config = ABConfig()
 
 
-def export(data):
+def export(data): # ok
     # try:
     response = jsonify({
         "object": export_datatable(ab_config, get_all_rooms_by_ss_id(data["ss_id"]), None, "Airbnb", True),
@@ -21,7 +21,7 @@ def export(data):
     #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 
-def getall(data):
+def getall(data): # ok
     print("uai")
 
     try:
@@ -57,7 +57,7 @@ def getall(data):
     #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 
-def public_getall(data):
+def public_getall(data): # ok
     # try:
     response = jsonify({
         "object": export_datatable(ab_config, """
@@ -78,11 +78,11 @@ def public_getall(data):
     #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 
-def getbycity(data):
+def getbycity(data): # ok
     try:
         response = jsonify({
             "object": export_datatable(ab_config, """
-											select ss_id, city, date from super_survey where city = %s
+											select ss_id, date, logs from super_survey where city = %s
 										""", (data['city'],), None, True),
             "message": "Dados retornados com sucesso!",
             "success": True

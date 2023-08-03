@@ -60,6 +60,7 @@ export default function NewSurveyOptions() {
       disabled: false,
       type: "checkbox-select",
       listen: { id: "platform", getUrl: API_SUPER_SURVEY.GETDATACOLUMNS() },
+      description: "Selecione dados opcionais adicionais aos campos de Código Identificador da Acomodação, Código Identificador do Anfitrião (para Airbnb)/do Hotel (para Booking), Nome, Preço, Latitude e Longitude, que são sempre coletados."
     },
     
   ] as InputRenderType[]

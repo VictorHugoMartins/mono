@@ -5,15 +5,11 @@ import {
   TileLayer,
   Marker,
   Popup,
-  CircleMarker,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
-import { useEffect } from "react";
-import { Icon, divIcon } from "leaflet";
-import pin0 from '~/assets/images/pin0.png';
-import pin1 from '~/assets/images/pin1.png';
+import { divIcon } from "leaflet";
 import { LatLngExpression } from "leaflet";
 const Map = ({
   markers,
@@ -35,17 +31,10 @@ const Map = ({
 
   const _centerPosition = [markers[markers.length - 1][0], markers[markers.length - 1][1]];
 
-  const mapMarkers = markers?.map((latLng, i) => (
-    <CircleMarker key={i} center={latLng} />
-  ));
-
   return (
     <div style={{ width: "60vw", height: "80vh" }}>
 
       {markers?.length > 0 && <MapContainer
-        // bounds={markers?.length > 0 ? [markers[0][0], markers[0][1]] : null}
-        // center={_lastPosition ?? [0, 0]}
-        // zoom={12}
         center={_centerPosition as LatLngExpression}
         zoom={14}
         style={{ height: "100%", width: "100%" }}
@@ -65,12 +54,17 @@ const Map = ({
               <Popup>
                 <div style={{ maxWidth: "150px" }}>
                   <div>
-                    <strong>{unfilteredData[i]?.name}</strong>
+                    <strong>
+                      {unfilteredData[i]?.name}
+                      {unfilteredData[i]?.hotel_name && ` no ${unfilteredData[i]?.hotel_name}`}
+                    </strong>
                   </div>
                   <div>
-                    {unfilteredData[i]?.platform == 'Airbnb' ?
+                    {unfilteredData[i]?.platform == 'Airbnb' && unfilteredData[i]?.room_id ?
                       <a href={`https://www.airbnb.com.br/rooms/${unfilteredData[i]?.room_id}`}>Acesse no Airbnb</a> :
-                      <a href={`https://www.booking.com/hotel/br/${unfilteredData[i]?.hotel_id}`}>Acesse no Booking</a>
+                      unfilteredData[i]?.hotel_id ?
+                        <a href={`https://www.booking.com/hotel/br/${unfilteredData[i]?.hotel_id}`}>Acesse no Booking</a> :
+                        <h6>Algo deu errado ao tentar encontrar link... Tente encontrar o estabelecimento manualmente</h6>
                     }
                   </div>
                 </div>

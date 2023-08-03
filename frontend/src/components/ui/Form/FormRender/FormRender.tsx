@@ -375,6 +375,7 @@ export const FormRenderInput: React.FC<FormRenderInputProps> = ({ input }) => {
             required={input.required}
             listenId={input.listen?.id}
             listenGet={input.listen?.getUrl}
+            description={input.description}
           />
         );
       case "number":

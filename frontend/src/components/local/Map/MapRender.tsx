@@ -23,8 +23,10 @@ const MapRender: React.FC<DataProps> = ({ data, viewForClusters }) => {
     if (data) {
       let obj = [] as [number, number][];
       for (let i = 0; i < data.length; i++) {
-        // console.log(Number(data[i].latitude), Number(data[i].longitude))
-        obj.push([Number(data[i].latitude), Number(data[i].longitude)]);
+        if (data[i].latitude && data[i].longitude) {
+          // console.log(Number(data[i].latitude), Number(data[i].longitude))
+          obj.push([Number(data[i].latitude), Number(data[i].longitude)]);
+        }
       }
       setLatLngMarkerPositions(obj);
     }

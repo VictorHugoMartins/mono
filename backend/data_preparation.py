@@ -268,7 +268,7 @@ def prepare_booking(db, table='Booking'):
 	db['count_host_id'] = [ -1 for x in db['Unnamed: 0']]
 	db['host_id'] = [ -1 for x in db['Unnamed: 0']]
 
-	db['region'] = [ ddefine_region(sub, lat, lng) for sub, lat, lng in zip(db['sublocality'], db['latitude'], db['longitude']) ]
+	db['region'] = [ define_region(sub, lat, lng) for sub, lat, lng in zip(db['sublocality'], db['latitude'], db['longitude']) ]
         
 	db['property_type'] = translate_property_type(db)
 	db['bathroom'] = [ '' for x in db['Unnamed: 0']]

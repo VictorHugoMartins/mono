@@ -1,57 +1,195 @@
 columnDict = {
-		"room_id": { "type": "string", "label": "Código Identificar da Acomodação", "excludeIn": [] },
-		"host_id": { "type": "string", "label": "Código Identificar do Anfitriao", "excludeIn": [] },
-		"price": { "type": "number", "label": "Preço", "excludeIn": [] },
-		
-		"name": { "type": "string", "label": "Nome", "excludeIn": ["Booking"] },
-		"hotel_name": { "type": "string", "label": "Nome do hotel", "excludeIn": ["Airbnb"] },
-		
-		"latitude": { "type": "decimal", "label": "Latitude", "excludeIn": [] },
-		"longitude": { "type": "decimal", "label": "Longitude", "excludeIn": [] },
-		"property_type": { "type": "checkbox", "label": "Tipo De Propriedade", "excludeIn": [] },
-		"room_type": { "type": "checkbox", "label": "Tipo De Quarto", "excludeIn": ["Booking"] },
-		"minstay": { "type": "number", "label": "Estadia Minima", "excludeIn": ["Booking"] },
-		"reviews": { "type": "number", "label": "Quantidade De Reviews", "excludeIn": [] },
-		"accommodates": { "type": "number", "label": "Quantidade De Pessoas Acomodadas", "excludeIn": [] },
-		"bedrooms": { "type": "number", "label": "Quantidade De Quartos", "excludeIn": [] },
-		"bathrooms": { "type": "number", "label": "Quantidade De Banheiros", "excludeIn": [] },
-		"bathroom": { "type": "string", "label": "TipoDe De Banheiro", "excludeIn": ["Booking"] },
-		"extra_host_languages": { "type": "string", "label": "Idiomas Do Anfitriao", "excludeIn": ["Booking"] },
-		"is_superhost": { "type": "radio", "label": "E Super Anfitriao", "excludeIn": ["Booking"] },
-		"comodities": { "type": "string", "label": "Comodidades", "excludeIn": [] },
-		"route": { "type": "checkbox", "label": "Rua", "excludeIn": [] },
-		"sublocality": { "type": "checkbox", "label": "Bairro", "excludeIn": [] },
-		"locality": { "type": "checkbox", "label": "Cidade", "excludeIn": [] },
-		"avg_rating": { "type": "number", "label": "Classificação Média", "excludeIn": [] },
-		"location_id": { "type": "checkbox", "label": "Código Identificador da Localização", "excludeIn": [] },
-		"ss_id": { "type": "string", "label": "Código Identificador da Pesquisa", "excludeIn": ["Airbnb", "Booking", "both"] },
-		"city": { "type": "string", "label": "Cidade", "excludeIn": ["Airbnb", "Booking", "both"] },
-		"status": { "type": "string", "label": "Status", "excludeIn": ["Airbnb", "Booking", "both"] },
-		"logs": { "type": "string", "label": "Logs", "excludeIn": ["Airbnb", "Booking", "both"] },
-		"date": { "type": "string", "label": "Data da Pesquisa", "excludeIn": ["Airbnb", "Booking", "both"] },
-		"platform": { "type": "checkbox", "label": "Plataforma", "excludeIn": ["Airbnb", "Booking", "both"] },
+    "room_id": {
+        "type": "string",
+        "label": "Código Identificar da Acomodação",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+    "host_id": {
+        "type": "string",
+        "label": "Código Identificador do Anfitrião (do Hotel para Booking)",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+    "price": {
+        "type": "number",
+        "label": "Preço",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
 
-		"survey_qtd": { "type": "display-only", "label": "Quantidade de Pesquisas", "excludeIn": ["Airbnb", "Booking", "both"] },
-		"last_updated": { "type": "display-only", "label": "Última atualização em", "excludeIn": ["Airbnb", "Booking", "both"] },
+    "name": {
+        "type": "string",
+        "label": "Nome",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
 
-    "user_id": { "type": "string", "label": "Código Identificador do Usuário", "excludeIn": ["Airbnb", "Booking", "both"] },
-    "email": { "type": "string", "label": "E-mail", "excludeIn": ["Airbnb", "Booking", "both"] },
-    "password": { "type": "string", "label": "Senha", "excludeIn": ["Airbnb", "Booking", "both"] },
-    "permission": { "type": "string", "label": "Nível de Permissão", "excludeIn": ["Airbnb", "Booking", "both"] },
+    "latitude": {
+        "type": "decimal",
+        "label": "Latitude",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+    "longitude": {
+        "type": "decimal",
+        "label": "Longitude",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+
+    "property_type": {
+        "type": "checkbox",
+        "label": "Tipo De Propriedade",
+        "excludeIn": []
+    },
+    "room_type": {
+        "type": "checkbox",
+        "label": "Tipo De Quarto",
+        "excludeIn": ["Booking"]
+    },
+    "minstay": {
+        "type": "number",
+        "label": "Estadia Minima",
+        "excludeIn": ["Booking"]
+    },
+    "reviews": {
+        "type": "number",
+        "label": "Quantidade De Reviews",
+        "excludeIn": []
+    },
+    "accommodates": {
+        "type": "number",
+        "label": "Quantidade De Pessoas Acomodadas",
+        "excludeIn": []
+    },
+    "bedrooms": {
+        "type": "number",
+        "label": "Quantidade De Quartos",
+        "excludeIn": []
+    },
+    "bathrooms": {
+        "type": "number",
+        "label": "Quantidade De Banheiros",
+        "excludeIn": []
+    },
+    "bathroom": {
+        "type": "string",
+        "label": "TipoDe De Banheiro",
+        "excludeIn": ["Booking"]
+    },
+    "extra_host_languages": {
+        "type": "string",
+        "label": "Idiomas Do Anfitriao",
+        "excludeIn": ["Booking"]
+    },
+    "is_superhost": {
+        "type": "radio",
+        "label": "E Super Anfitriao",
+        "excludeIn": ["Booking"]
+    },
+    "comodities": {
+        "type": "string",
+        "label": "Comodidades",
+        "excludeIn": []
+    },
+    "route": {
+        "type": "checkbox",
+        "label": "Rua",
+        "excludeIn": []
+    },
+    "sublocality": {
+        "type": "checkbox",
+        "label": "Bairro",
+        "excludeIn": []
+    },
+    "locality": {
+        "type": "checkbox",
+        "label": "Cidade",
+        "excludeIn": []
+    },
+    "avg_rating": {
+        "type": "number",
+        "label": "Classificação Média",
+        "excludeIn": []
+    },
+    "location_id": {
+        "type": "checkbox",
+        "label": "Código Identificador da Localização",
+        "excludeIn": []
+    },
+    "ss_id": {
+        "type": "string",
+        "label": "Código Identificador da Pesquisa",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+    "city": {
+        "type": "string",
+        "label": "Cidade",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+    "status": {
+        "type": "string",
+        "label": "Status",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+    "logs": {
+        "type": "string",
+        "label": "Logs",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+    "date": {
+        "type": "string",
+        "label": "Data da Pesquisa",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+    "platform": {
+        "type": "checkbox",
+        "label": "Plataforma",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+
+    "survey_qtd": {
+        "type": "display-only",
+        "label": "Quantidade de Pesquisas",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+    "last_updated": {
+        "type": "display-only",
+        "label": "Última atualização em",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+
+    "user_id": {
+        "type": "string",
+        "label": "Código Identificador do Usuário",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+    "email": {
+        "type": "string",
+        "label": "E-mail",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+    "password": {
+        "type": "string",
+        "label": "Senha",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
+    "permission": {
+        "type": "string",
+        "label": "Nível de Permissão",
+        "excludeIn": ["Airbnb", "Booking", "both"]
+    },
 }
 
 statusDict = {
-	"PESQUISAR_CIDADE_AIRBNB": [0, 1, -1, 11, -11, 3, -3],
-	"PESQUISAR_CIDADE_BOOKING": [0, 1, -1, 11, -11, 3, -3, 73, 6, 7, -7, 711, -711],
-	"PESQUISAR_BAIRRO_AIRBNB": [4, -4, 41, 42, -41, -42],
-	"PESQUISAR_BAIRRO_BOOKING": [4, -4, 41, 42, -41, -42, 74, -74, 741, 742, -741, -742],
-	"PESQUISAR_RUA_AIRBNB": [5, -5, 43, 51, -51, 82, -82, 81, -81],
-	"PESQUISAR_RUA_BOOKING": [5, -5, 43, 51, -51, 82, -82, 81, -81, 75, -75, 743, 751, -751, 782, -782, 781, -781]
+    "PESQUISAR_CIDADE_AIRBNB": [0, 1, -1, 11, -11, 3, -3],
+    "PESQUISAR_CIDADE_BOOKING": [0, 1, -1, 11, -11, 3, -3, 73, 6, 7, -7, 711, -711],
+    "PESQUISAR_BAIRRO_AIRBNB": [4, -4, 41, 42, -41, -42],
+    "PESQUISAR_BAIRRO_BOOKING": [4, -4, 41, 42, -41, -42, 74, -74, 741, 742, -741, -742],
+    "PESQUISAR_RUA_AIRBNB": [5, -5, 43, 51, -51, 82, -82, 81, -81],
+    "PESQUISAR_RUA_BOOKING": [5, -5, 43, 51, -51, 82, -82, 81, -81, 75, -75, 743, 751, -751, 782, -782, 781, -781]
 }
 
 # SQL SCRIPTS
+
+
 def get_airbnb_rooms_by_ss_id(ss_id, agg_method='_avg'):
-	return """SELECT * from rooms{agg_method} 
+    return """SELECT * from rooms{agg_method} 
 							WHERE
 								survey_id in (
 									select
@@ -64,15 +202,17 @@ def get_airbnb_rooms_by_ss_id(ss_id, agg_method='_avg'):
 								AND platform = 'Airbnb'
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, agg_method=agg_method)
 
+
 def get_airbnb_rooms_by_locality(locality, agg_method='_avg'):
-	return """SELECT * from rooms{agg_method} 
+    return """SELECT * from rooms{agg_method} 
 							WHERE
 								locality = {locality}
 								AND platform = 'Airbnb'
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(locality=locality, agg_method=agg_method)
 
+
 def get_booking_rooms_by_ss_id(ss_id, agg_method='_avg'):
-	return """SELECT * from rooms{agg_method} 
+    return """SELECT * from rooms{agg_method} 
 							WHERE
 								survey_id in (
 									select
@@ -85,15 +225,9 @@ def get_booking_rooms_by_ss_id(ss_id, agg_method='_avg'):
 								AND platform = 'Booking'
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, agg_method=agg_method)
 
-def get_booking_rooms_by_locality(locality, agg_method='_avg'):
-	return """SELECT * from rooms{agg_method} 
-							WHERE
-								locality = {locality}
-								AND platform = 'Booking'
-							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, agg_method=agg_method)
 
 def get_all_rooms_by_ss_id(ss_id, platform="'Airbnb' or platform = 'Booking'", agg_method='_avg'):
-	return """SELECT * from rooms{agg_method} 
+    return """SELECT * from rooms{agg_method} 
 							WHERE
 								survey_id in (
 									select
@@ -106,15 +240,17 @@ def get_all_rooms_by_ss_id(ss_id, platform="'Airbnb' or platform = 'Booking'", a
 								AND platform = {platform}
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, platform=platform, agg_method=agg_method)
 
+
 def get_all_rooms_by_locality(locality, platform="'Airbnb' or platform = 'Booking'", agg_method='_avg'):
-	return """SELECT * from rooms{agg_method} 
+    return """SELECT * from rooms{agg_method} 
 							WHERE
 								locality = {locality}
 								AND platform = {platform}
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(locality=locality, platform=platform, agg_method=agg_method)
 
+
 def deprecated_get_airbnb_rooms_by_ss_id(ss_id):
-	return """SELECT
+    return """SELECT
 							room_id,
 							STRING_AGG(DISTINCT CAST(host_id AS varchar), ' JOIN ') AS host_id,
 							STRING_AGG(DISTINCT name, ' JOIN ') AS name,
@@ -157,8 +293,9 @@ def deprecated_get_airbnb_rooms_by_ss_id(ss_id):
 							locality, location.sublocality, location.route, location.location_id, room_id, bathroom
 				""".format(ss_id=ss_id)
 
+
 def deprecated_get_booking_rooms_by_ss_id(ss_id):
-	return """SELECT
+    return """SELECT
 							room_id,
 							STRING_AGG(DISTINCT hotel_name, ' JOIN ') AS name,
 							STRING_AGG(DISTINCT room_name, ' JOIN ') AS hotel_name,

@@ -97,8 +97,10 @@ def login():
 
 @app.route('/auth/register', methods=['POST'])
 @cross_origin()
-def register(DATA):
+def register():
+    print("aqui")
     data = request.get_json()
+    print("aqui tbm")
     return auth.register(data)
 
 

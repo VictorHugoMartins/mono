@@ -8,7 +8,7 @@ from utils.mail import send_mail
 ab_config = ABConfig()
 
 
-def get_all(data):
+def getall(data): # ok
     users = export_datatable(ab_config, """
 											select
 														user_id,
@@ -36,7 +36,7 @@ def get_all(data):
     #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 
-def change_permission(data):
+def change_permission(data): #ok
     user_id = update_command(ab_config,
                              sql_script="""UPDATE users set permission = %s where user_id = %s returning user_id""",
                              params=((data["permission"], data['user_id'])),
@@ -55,10 +55,10 @@ def change_permission(data):
     #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 
-def delete(data):
+def delete(data): # ok
     removed = delete_command(ab_config,
                              sql_script="""DELETE from users where user_id = %s""",
-                             params=((data['user_id'])),
+                             params=((data['user_id'],)),
                              initial_message="Deletando usuario...",
                              failure_message="Falha ao deletar usuário")
     if (removed):
@@ -74,10 +74,10 @@ def delete(data):
     #     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 
-def accept(data):
+def accept(data): # erro no send mail
     password = get_random_string(10)
     email = update_command(ab_config,
-                           sql_script="""UPDATE users set password = %s where user_id = %s returning email limit 1""",
+                           sql_script="""UPDATE users set password = %s where user_id = %s returning email""",
                            params=((password, data['user_id'])),
                            initial_message="Aceitando solicitação de acesso do usuario...",
                            failure_message="Falha ao aceitar solicitação de acesso")

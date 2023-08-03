@@ -24,7 +24,7 @@ const Register: React.FC = () => {
       name: data.name,
       password: data.password,
       confirmPassword: data.confirmPassword
-    }; // dados de login a serem enviados na requisição
+    };
 
     // Configuração do cabeçalho da requisição
     const headers = new Headers();
@@ -99,22 +99,6 @@ const Register: React.FC = () => {
                   required
                 />
               </Grid>
-              {/* <Grid xs={12}>
-                <TextInputForm
-                  name="password"
-                  type="password"
-                  label="Senha"
-                  required
-                />
-              </Grid>
-              <Grid xs={12}>
-                <TextInputForm
-                  name="confirmPassword"
-                  type="password"
-                  label="Confirmar Senha"
-                  required
-                />
-              </Grid> */}
               <Grid>
                 <ErrorForm />
               </Grid>
