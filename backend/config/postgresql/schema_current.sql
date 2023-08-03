@@ -291,7 +291,6 @@ CREATE TABLE public.super_survey_config (
   data_columns character varying(1000) [],
   clusterization_method character varying(100),
   aggregation_method character varying(50),
-  fill_airbnb_with_selenium boolean,
   start_date character varying(15),
   finish_date character varying(15),
   include_locality_search boolean default True,

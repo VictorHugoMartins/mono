@@ -22,8 +22,6 @@ class Th(Thread):
             data, "clusterization_method")
         self.aggregation_method = send_nullable_value(
             data, "aggregation_method")
-        self.fill_airbnb_with_selenium = send_nullable_value(
-            data, "platform") == "Airbnb",
         self.start_date = send_nullable_value(data, "start_date")
         self.finish_date = send_nullable_value(data, "finish_date")
         self.include_locality_search = send_nullable_value(
@@ -39,7 +37,6 @@ class Th(Thread):
               self.columns,
               self.clusterization_method,
               self.aggregation_method,
-              self.fill_airbnb_with_selenium,
               self.start_date,
               self.finish_date,
               self.include_locality_search,
@@ -52,7 +49,6 @@ class Th(Thread):
                                    search_area_name=self.search_area_name,
                                    user_id=self.user_id,
                                    columns=self.columns,
-                                   fill_airbnb_with_selenium=self.fill_airbnb_with_selenium,
                                    start_date=self.start_date,
                                    finish_date=self.finish_date,
                                    include_locality_search=(

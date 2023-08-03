@@ -194,7 +194,7 @@ def update_survey_with_super_survey_id(config, super_survey_id, survey_id):
                    failure_message="Failed to update survey with super survey id")
 
 
-def execute_search(config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=False, start_date=None, finish_date=None, super_survey_id=None):
+def execute_search(config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, super_survey_id=None):
     try:
         _platform = "Airbnb" if platform != 'Booking' else "Booking"
         update_super_survey_status(config,
@@ -232,7 +232,7 @@ def execute_search(config, platform="Airbnb", search_area_name='', fill_airbnb_w
     return survey_id
 
 
-def search_sublocalities(config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=None, start_date=None, finish_date=None, super_survey_id=None):
+def search_sublocalities(config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, super_survey_id=None):
     try:
         update_super_survey_status(config,
                                    super_survey_id,
@@ -249,7 +249,7 @@ def search_sublocalities(config, platform="Airbnb", search_area_name='', fill_ai
             if (city[0] is not None):
                 sublocality_name = city[0] + ', ' + city[1]
                 try:
-                    execute_search(config, platform, sublocality_name, fill_airbnb_with_selenium,
+                    execute_search(config, platform, sublocality_name,
                                    start_date, finish_date, super_survey_id=super_survey_id)
                     update_super_survey_status(config,
                                                super_survey_id,
@@ -277,7 +277,7 @@ def search_sublocalities(config, platform="Airbnb", search_area_name='', fill_ai
                                    logs='Falha ao buscar por bairros de ' + search_area_name)
 
 
-def search_routes(config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=None, start_date=None, finish_date=None, super_survey_id=None):
+def search_routes(config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, super_survey_id=None):
     try:
         update_super_survey_status(config,
                                    super_survey_id,
@@ -294,7 +294,7 @@ def search_routes(config, platform="Airbnb", search_area_name='', fill_airbnb_wi
             if (city[0] is not None):
                 sublocality_name = city[0] + ', ' + city[1]
                 try:
-                    execute_search(config, platform, sublocality_name, fill_airbnb_with_selenium,
+                    execute_search(config, platform, sublocality_name,
                                    start_date, finish_date, super_survey_id=super_survey_id)
                     update_super_survey_status(config,
                                                super_survey_id,
@@ -323,7 +323,7 @@ def search_routes(config, platform="Airbnb", search_area_name='', fill_airbnb_wi
                                    logs='Falha ao buscar por ruas de ' + search_area_name)
 
 
-def full_process(config=ab_config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=None, start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
+def full_process(config=ab_config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
                  include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
     try:
         _platform = "Airbnb" if platform != 'Booking' else "Booking"
@@ -403,7 +403,7 @@ def full_process(config=ab_config, platform="Airbnb", search_area_name='', fill_
         return super_survey_id
 
 
-def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=None, start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
+def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
                       include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
     try:
         # status 0, ainda n fez nada
@@ -413,7 +413,7 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
                     ab_config, search_area_name, user_id)
                 if (super_survey_id):
                     print("2")
-                    save_config(ab_config, platform, search_area_name, fill_airbnb_with_selenium,
+                    save_config(ab_config, platform, search_area_name,
                                 start_date, finish_date, user_id, super_survey_id, status_super_survey_id,
                                 include_locality_search, include_route_search, columns,
                                 clusterization_method, aggregation_method)
@@ -458,13 +458,12 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
         return super_survey_id
 
 
-def save_config(config, platform="Airbnb", search_area_name='', fill_airbnb_with_selenium=None, start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
+def save_config(config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
                 include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
     insert_command(config,
                    """INSERT INTO super_survey_config(
 																platform,
 																search_area_name,
-																fill_airbnb_with_selenium,
 																start_date,
 																finish_date,
 																user_id,
@@ -475,8 +474,8 @@ def save_config(config, platform="Airbnb", search_area_name='', fill_airbnb_with
 																clusterization_method,
 																aggregation_method
 														)
-												values(%s, %s, %s, %s,%s, %s,%s, %s,%s, %s,%s, %s) returning config_id""",
-                   (platform, search_area_name, fill_airbnb_with_selenium,
+												values(%s, %s, %s, %s, %s,%s, %s,%s, %s,%s, %s) returning config_id""",
+                   (platform, search_area_name,
                     start_date, finish_date, user_id, super_survey_id,
                     include_locality_search, include_route_search, columns,
                     clusterization_method, aggregation_method),
@@ -565,10 +564,9 @@ def main():
             db_ping(ab_config)
         elif args.search_sublocalities:
             search_sublocalities(
-                ab_config, args.search_sublocalities, fill_airbnb_with_selenium=True)
+                ab_config, args.search_sublocalities)
         elif args.search_routes:
-            search_routes(ab_config, args.search_routes,
-                          fill_airbnb_with_selenium=True)
+            search_routes(ab_config, args.search_routes)
         elif args.full_survey and args.platform:
             print(args.full_survey, args.platform)
             full_process(config=ab_config, platform=args.platform, search_area_name=args.full_survey,

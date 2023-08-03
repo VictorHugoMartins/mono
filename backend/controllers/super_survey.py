@@ -28,8 +28,6 @@ def save(data):
                                          data, "clusterization_method"),
                                      aggregation_method=send_nullable_value(
                                          data, "aggregation_method"),
-                                     fill_airbnb_with_selenium=send_nullable_value(
-                                         data, "platform") == "Airbnb",
                                      start_date=send_nullable_value(
                                          data, "start_date"),
                                      finish_date=send_nullable_value(
@@ -60,7 +58,7 @@ def restart(data):
     result = select_command(ab_config,
                             """SELECT platform, search_area_name, super_survey_config.user_id, data_columns,
 																	clusterization_method, aggregation_method,
-																	fill_airbnb_with_selenium, start_date, finish_date,
+																	start_date, finish_date,
 																	include_locality_search, include_route_search, status
 																	FROM super_survey_config
 																	LEFT JOIN super_survey
@@ -80,12 +78,11 @@ def restart(data):
         "data_columns": result[0][3],
         "clusterization_method": result[0][4],
         "aggregation_method": result[0][5],
-        "fill_airbnb_with_selenium": result[0][6],
-        "start_date": result[0][7],
-        "finish_date": result[0][8],
-        "include_locality_search": result[0][9],
-        "include_route_search": result[0][10],
-        "status": result[0][11]
+        "start_date": result[0][6],
+        "finish_date": result[0][7],
+        "include_locality_search": result[0][8],
+        "include_route_search": result[0][9],
+        "status": result[0][10]
     }
 
     print("a data agora:", new_params)
