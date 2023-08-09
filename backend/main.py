@@ -50,6 +50,7 @@ def export_super_survey_info():
 @cross_origin()
 def export_public_super_survey_info():
     data = request.get_json()
+    print(data)
     return nav.public_getall(data)
 
 

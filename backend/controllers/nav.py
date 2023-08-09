@@ -23,20 +23,7 @@ def export(data):  # ok
 def list(data):  # ok
     try:
         response = jsonify({
-            "object": export_datatable(ab_config, """
-											SELECT
-													ss_id,
-													city,
-													status,
-													logs,
-													date
-											FROM
-													super_survey
-											WHERE
-													user_id = %s
-											ORDER BY
-													ss_id desc
-										""", (data['user_id'],), "Airbnb", True),
+            "object": export_datatable(ab_config, """SELECT ss_id, city, status, logs, date FROM super_survey WHERE user_id = %s ORDER BY ss_id desc""", (data['user_id'],), "Airbnb", True),
             "message": "Dados retornados com sucesso!",
             "success": True
         })
@@ -68,7 +55,7 @@ def public_getall(data):  # ok
             {"message": "Faça login!", "success": False, "status": 401}), 401
         return response
     except:
-        return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 500
+        return jsonify({"message": "Falha ao buscar dados!", "success": False}), 500
 
 
 def getbycity(data):  # ok
