@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import { ChartDataType } from "~/types/global/ChartTypes";
 
 import style from "./chartGauge.module.scss";
-import Card from "../../Card";
 import ClassJoin from "~/utils/ClassJoin/ClassJoin";
 import Typography from "../../Typography/Typography";
 
@@ -107,19 +106,17 @@ const ChartGauge: React.FC<ChartGaugeProps> = ({
     <div className={style.gaugeGroup}>
       {data?.map((item) =>
         item.values?.map((chartItem) => (
-          <Card
+          <div
             className={ClassJoin([
               style.gaugeCard,
               boxShadow && style.boxShadow,
             ])}
-            removeBoxShadow
-            alignContent="center"
           >
             <Typography component="h4">{chartItem.label}</Typography>
             <div style={gaugeSize} className={style.gaugeItem}>
               <JSCharting options={config(Number(chartItem.value))} />
             </div>
-          </Card>
+          </div>
         ))
       )}
     </div>

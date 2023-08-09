@@ -20,7 +20,7 @@ def export(data):  # ok
         return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 500
 
 
-def getall(data):  # ok
+def list(data):  # ok
     try:
         response = jsonify({
             "object": export_datatable(ab_config, """

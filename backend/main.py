@@ -39,11 +39,11 @@ def export_super_survey():
     return nav.export(data)
 
 
-@app.route('/nav/getall', methods=['POST'])
+@app.route('/nav/list', methods=['POST'])
 @cross_origin()
 def export_super_survey_info():
     data = request.get_json()
-    return nav.getall(data)
+    return nav.list(data)
 
 
 @app.route('/nav/public_getall', methods=['POST'])
@@ -98,9 +98,7 @@ def login():
 @app.route('/auth/register', methods=['POST'])
 @cross_origin()
 def register():
-    print("aqui")
     data = request.get_json()
-    print("aqui tbm")
     return auth.register(data)
 
 
@@ -125,11 +123,11 @@ def forgot_password():
     return auth.forgot_password(data)
 
 
-@app.route('/users/getall', methods=['POST'])
+@app.route('/users/list', methods=['POST'])
 @cross_origin()
-def getall():
+def list():
     data = request.get_json()
-    return users.getall(data)
+    return users.list(data)
 
 
 @app.route('/users/change_permission', methods=['POST'])

@@ -11,7 +11,6 @@ import Button from "~/components/ui/Button/Button";
 import ChartBar from "~/components/ui/Charts/ChartBar";
 import Flexbox from "~/components/ui/Layout/Flexbox/Flexbox";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
-import { BASE_API_URL } from "~/config/apiBase";
 import comumroute from "~/routes/public.route";
 import { ChartDataType } from "~/types/global/ChartTypes";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
@@ -171,24 +170,20 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
 
         {_prepareData &&
           <FormPageStructure
-            // buildObject={data.result_columns as InputRenderType[]}
             setObjectReturn={setChartResponseData}
             buildPath={'/super_survey/build'}
             submitPath={API_NAV.CHART()}
             buttonSubmitText="Gerar gráfico"
-            // buttonCancelText="Cancelar"
             returnPath="/"
             hiddenInputs={{
               ss_id: survey,
               aggregation_method: _filteredData?.extra_info ?? "_avg"
             }}
-            // setObjectReturn={setResultData}
             onSuccess={(e) => {
               Toast.success(
                 "Gráfico gerado com sucesso!"
               );
             }}
-            // onCancel={() => filterFunction()}
             buildObject={[
               {
                 label: "Informação a se obter",

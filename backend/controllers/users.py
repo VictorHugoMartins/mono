@@ -8,7 +8,7 @@ from utils.mail import send_mail
 ab_config = ABConfig()
 
 
-def getall(data):  # ok
+def list(data):  # ok
     try:
         users = export_datatable(ab_config, """
 											select

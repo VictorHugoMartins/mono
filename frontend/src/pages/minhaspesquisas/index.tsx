@@ -106,7 +106,7 @@ function MySuperSurveys() {
   const loadTableData = (userId: string) => {
     setSearching(true);
     console.log(BASE_API_URL)
-    const apiUrl = API_NAV.GETALL(); // url da API Flask
+    const apiUrl = API_NAV.LIST(); // url da API Flask
     const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição
