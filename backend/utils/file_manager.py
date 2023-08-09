@@ -54,15 +54,22 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
               if (data[0]):
                 df.columns = data[0].keys()
                 if ( len(data) > 0):
+                  print("a")
                   return { "table": { "columns": buildColumnsObject(data[0].keys()), "rows": data }, "df": df }
                 else:
+                  print("b")
                   return { "table": { "columns": [], "rows": []}, "df": df }
               else:
+                print("c")
                 return { "table": { "columns": [], "rows": []}, "df": df }
             else:
               if ( len(data) > 0):
+                print("d")
+                print(data[0].keys(), data)
+                print("dd")
                 return { "columns": buildColumnsObject(data[0].keys()), "rows": data }
               else:
+                print("e")
                 return { "columns": [], "rows": []}
 
             logging.info("Finishing export")
@@ -72,6 +79,8 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
     except PermissionError:
         print("Permission denied!")
         return { "columns": [], "rows": []}
+    except:
+        print("erro")
 
 def main():
     parser = \

@@ -16,26 +16,26 @@ def export(data):  # ok
 
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
-    finally:
+    except:
         return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 500
 
 
 def list(data):  # ok
     try:
+        print("nesse")
         response = jsonify({
             "object": export_datatable(ab_config, """SELECT ss_id, city, status, logs, date FROM super_survey WHERE user_id = %s ORDER BY ss_id desc""", (data['user_id'],), "Airbnb", True),
             "message": "Dados retornados com sucesso!",
             "success": True
         })
-        print(response)
         # response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     except KeyError:
         response = jsonify(
             {"message": "Faça login!", "success": False, "status": 401}), 401
         return response
-    finally:
-        return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 500
+    except:
+        return jsonify({"message": "Falha ao buscar dados", "success": False}), 500
 
 
 def public_getall(data):  # ok

@@ -7,7 +7,7 @@ const withTM = require("next-transpile-modules")([
 module.exports = withTM({
   ...withImages(),
   images: {
-    domains: ['scmanager.secondmind.com.br'],
+    domains: [],
     disableStaticImages: true
   },
   trailingSlash: true,
