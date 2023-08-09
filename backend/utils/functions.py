@@ -218,9 +218,10 @@ def buildFilterQuery(data, platform):
 
 def asSelectObject(array):
     result = []
-    for item in array:
-        result.append({"label": item[0] if item[0]
-                      else "Indefinido", "value": item[0]})
+    if array:
+      for item in array:
+          result.append({"label": item[0] if item[0]
+                        else "Indefinido", "value": item[0]})
     return result
 
 
