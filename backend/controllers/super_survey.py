@@ -190,10 +190,15 @@ def prepare(data):  # adicionar campo p/ visualizar cluster específico
         })
 
     platform = result[0][0]
-    columns = result[0][1].replace('{', '').replace('}', '').split(',')
-    if (len(columns) == 1):
-        columns = columns[0].split(' ')
-    print("as colunas: ", columns)
+
+    print(result[0][1])
+    try:
+        columns = result[0][1].replace('{', '').replace('}', '').split(',')
+        if (len(columns) == 1):
+            columns = columns[0].split(' ')
+        print("as colunas: ", columns)
+    except:
+        columns = result[0][1]
 
     numeric_columns = [{"label": "Nenhum", "value": "nenhum"}]
     result_columns = [{
