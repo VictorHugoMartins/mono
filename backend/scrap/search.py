@@ -152,7 +152,6 @@ def search_status_for_super_survey_id(config, ss_id):
 def create_super_survey(config, city, userId):
     try:
         ss_id = None
-        rowcount = -1
         logging.info("Configurando pesquisa")
         conn = config.connect()
         cur = conn.cursor()
@@ -249,8 +248,8 @@ def search_sublocalities(config, platform="Airbnb", search_area_name='', start_d
             if (city[0] is not None):
                 sublocality_name = city[0] + ', ' + city[1]
                 try:
-                    execute_search(config, platform, sublocality_name,
-                                   start_date, finish_date, super_survey_id=super_survey_id)
+                    execute_search(config=config, platform=platform, search_area_name=sublocality_name,
+                                   start_date=start_date, finish_date=finish_date, super_survey_id=super_survey_id)
                     update_super_survey_status(config,
                                                super_survey_id,
                                                status=42 if (
@@ -294,8 +293,8 @@ def search_routes(config, platform="Airbnb", search_area_name='', start_date=Non
             if (city[0] is not None):
                 sublocality_name = city[0] + ', ' + city[1]
                 try:
-                    execute_search(config, platform, sublocality_name,
-                                   start_date, finish_date, super_survey_id=super_survey_id)
+                    execute_search(config=config, platform=platform, search_area_name=sublocality_name,
+                                   start_date=start_date, finish_date=finish_date, super_survey_id=super_survey_id)
                     update_super_survey_status(config,
                                                super_survey_id,
                                                status=82 if (
@@ -333,8 +332,8 @@ def full_process(config=ab_config, platform="Airbnb", search_area_name='', start
             try:
                 print(platform, _platform)
                 print("ESTÁ EM PESQUISAR CIDADE", super_survey_id)
-                survey_id = execute_search(ab_config, _platform, search_area_name,
-                                           fill_bnb_with_selenium, start_date, finish_date, super_survey_id=super_survey_id)
+                survey_id = execute_search(config=ab_config, platform=_platform, search_area_name=search_area_name,
+                                           start_date=start_date, finish_date=finish_date, super_survey_id=super_survey_id)
                 update_super_survey_status(ab_config,
                                            super_survey_id,
                                            status=3 if (
@@ -369,8 +368,8 @@ def full_process(config=ab_config, platform="Airbnb", search_area_name='', start
         if (((status_super_survey_id in statusDict["PESQUISAR_RUA_AIRBNB"]) or
              (status_super_survey_id in statusDict["PESQUISAR_RUA_BOOKING"])) or include_route_search):
             try:
-                search_routes(ab_config, _platform, search_area_name,
-                              True, start_date, finish_date, super_survey_id)
+                search_routes(config=ab_config, platform=_platform, search_area_name=search_area_name,
+                              start_date=start_date, finish_date=finish_date, super_survey_id=super_survey_id)
                 update_super_survey_status(ab_config,
                                            super_survey_id,
                                            status=5 if (
@@ -393,7 +392,7 @@ def full_process(config=ab_config, platform="Airbnb", search_area_name='', start
                                        super_survey_id,
                                        status=7,
                                        logs='Iniciando pesquisa do Booking por ' + search_area_name)
-            return full_process(ab_config, "Booking", search_area_name, False, start_date=start_date, finish_date=finish_date, user_id=user_id, status_super_survey_id=status_super_survey_id * 1000, super_survey_id=super_survey_id)
+            return full_process(config=ab_config, platform="Booking", search_area_name=search_area_name, start_date=start_date, finish_date=finish_date, user_id=user_id, status_super_survey_id=status_super_survey_id * 1000, super_survey_id=super_survey_id)
     except Exception as e:
         print("o erro:", e)
         update_super_survey_status(config,
