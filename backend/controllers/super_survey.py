@@ -167,13 +167,13 @@ def getbyid(data):
 												SELECT room_id, {columns} FROM consulta {query}
 												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Booking'", agg_method), columns=xNotIn(exclusive_airbnb_columns, columns), query=query), params, "Booking", True, True)
 
-		if rooms:
+		try:
 				response = jsonify({
 						"object": {"table": cluster_data(data["clusterization_method"], rooms["df"], rooms["table"], data), "extra_info": agg_method},
 						"message": "Dados retornados com sucesso!",
 						"success": True
 				})
-		else:
+		except KeyError:
 				response = jsonify({
 						"object": {"table": { "columns": [], "rows": []}, "extra_info": agg_method},
 						"message": "Dados retornados com sucesso!",
