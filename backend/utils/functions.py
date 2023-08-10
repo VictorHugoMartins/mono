@@ -267,7 +267,14 @@ def get_rooms(data, columns, agg_method):
     print("veio nesse aqui")
     (query, params) = buildFilterQuery(data, 'both')
     print("passou desse")
-    columns = columns.replace('{', '').replace('}', '')
+    try:
+        columns = columns.replace('{', '').replace('}', '')
+        if (len(columns) == 1):
+            columns = columns[0].split(' ')
+        print("as colunas: ", columns)
+    except:
+        columns = columns
+    
     rooms = export_datatable(ab_config, """
 										WITH consulta AS ( {consulta} )
 											SELECT room_id, platform, {columns} FROM consulta {query}
