@@ -26,7 +26,7 @@ function MySuperSurveys() {
     const update = (data: any) => {
       setSearching(true);
       const apiUrl = API_SUPER_SURVEY.UPDATE(); // url da API Flask
-      const requestData = { ss_id: data.ss_id }; // dados de login a serem enviados na requisição
+      const requestData = data; // dados de login a serem enviados na requisição
 
       // Configuração do cabeçalho da requisição
       const headers = new Headers();

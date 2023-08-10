@@ -363,8 +363,8 @@ def update(data):  # ok
 		try:
 
 				ss_id = select_command(ab_config,
-						sql_script="""update super_survey set permission=%s where ss_id = %s returning ss_id""",
-						params=((data["permission"], data["ss_id"])),
+						sql_script="""update super_survey set status=%s where ss_id = %s returning ss_id""",
+						params=((data["permission"], data["newStatus"])),
 						initial_message="Atualizando permissão do usuário...",
 						failure_message="Falha ao atualizar permissão do usuário")
 				if ss_id:
