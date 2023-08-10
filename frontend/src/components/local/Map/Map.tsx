@@ -48,7 +48,7 @@ const Map = ({
             icon={!viewForClusters ?
               unfilteredData[i]?.platform == 'Airbnb' ? airbnbIcon :
                 unfilteredData[i]?.platform == 'Booking' ? bookingIcon : bothIcon :
-              divIcon({ html: `<div class='marker' style='background-color: ${colors[Number(unfilteredData[i]?.cluster)]}'></div>` })}
+              divIcon({ html: `<div class='marker' style='background-color: ${colors[Number(unfilteredData[i]?.cluster ?? 0)]}'></div>` })}
           >
             {unfilteredData?.length > 0 &&
               <Popup>

@@ -139,7 +139,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
       <Flexbox justify="flex-end" width={"100%"} >
         <div style={{ maxWidth: "250px", padding: "8px" }}>
           <Button color="primary" text={"Baixar dados filtrados"}
-            onClick={() => downloadData({ ss_id: survey, aggregation_method: _filteredData.extra_info })}
+            onClick={() => downloadData({ ss_id: survey, aggregation_method: _filteredData?.extra_info })}
           />
         </div>
         {_filteredData?.table?.rows && (typeof (_filteredData?.table.rows[0]["cluster"]) !== "undefined") &&
@@ -218,10 +218,10 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
           {_chartData && <ChartBar data={_chartData} />}
         </div>
         <h2>Dados filtrados</h2>
-        <Table
+        {/* <Table
           columns={_filteredData?.table?.columns}
           rows={_filteredData?.table?.rows}
-        />
+        /> */}
       </div>
     </PrivatePageStructure >
   )
