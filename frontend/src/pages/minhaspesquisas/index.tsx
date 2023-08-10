@@ -90,10 +90,10 @@ function MySuperSurveys() {
 
     return (
       <>
-        {rowData.status !== 200 &&
+        {Number(rowData.status) !== 200 &&
           <DataTableButton icon="FaCheck" title="Finalizar" onClick={() => updateStatus(rowData.ss_id, 200)} />
         }
-        {rowData.status === 200 &&
+        {Number(rowData.status) === 200 &&
           <DataTableButton icon="FaPlay" title="Pesquisar novamente" onClick={() => tryAgain(rowData.ss_id)} />
         }
         <DataTableButton icon="FaInfo" title="Ver detalhes" onClick={() => window.location.assign(`/detalhes?survey=${rowData.ss_id}`)} />

@@ -11,26 +11,29 @@ LOG_FORMAT = '%(levelname)-8s%(message)s'
 logging.basicConfig(format=LOG_FORMAT, level=LOG_LEVEL)
 DEFAULT_START_DATE = '2020-03-03'
 
+
 def buildColumnsObject(columns):
     obj = []
     for column in columns:
         obj.append({
-          "value": column,
-          "label": columnDict[column]["label"],
-          "type": columnDict[column]["type"],
+            "value": column,
+            "label": columnDict[column]["label"],
+            "type": columnDict[column]["type"],
         })
     return obj
 
+
 def export_datatable(config, sql_command, params, project, toJson, toPandas=False):
-        # try:
-        logging.info("Initializing export {project}'s rooms".format(project=project))
+    try:
+        logging.info(
+            "Initializing export {project}'s rooms".format(project=project))
         conn = config.connect()
         cur = conn.cursor()
         cnxn = config.connect()
         print(sql_command, params if (type(params) == tuple) else ())
         cur.execute(sql_command, params if (type(params) == tuple) else ())
-        
-        if ( toJson ):
+
+        if (toJson):
             results = cur.fetchall()
 
             # Cria um dicionário com os resultados
@@ -38,44 +41,49 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
             for row in results:
                 d = {}
                 for idx, col in enumerate(cur.description):
-                    if ( col[0] == 'price' ):
-                      d[col[0]] = "${:.2f}".format(row[idx]) if row[idx] else None
-                    elif ( col[0] in ['last_updated', 'date']):
-                       d[col[0]] = row[idx].strftime('%d/%b/%Y') if row[idx] else None
+                    if (col[0] == 'price'):
+                        d[col[0]] = "${:.2f}".format(
+                            row[idx]) if row[idx] else None
+                    elif (col[0] in ['last_updated', 'date']):
+                        d[col[0]] = row[idx].strftime(
+                            '%d/%b/%Y') if row[idx] else None
                     else:
-                      d[col[0]] = row[idx]
+                        d[col[0]] = row[idx]
                 data.append(d)
             cur.close()
             conn.close()
 
-            if ( toPandas ):
-              print("veio aqui na 52")
-              df = pd.DataFrame(results)
-              df = df.T.drop_duplicates().T # in case of duplicate columns
-              if ((len(data) > 0) and (data[0])):
-                print("veio na 56")
-                df.columns = data[0].keys()
-                if ( len(data) > 0):
-                  print("a")
-                  return { "table": { "columns": buildColumnsObject(data[0].keys()), "rows": data }, "df": df }
+            if (toPandas):
+                print("veio aqui na 52")
+                df = pd.DataFrame(results)
+                df = df.T.drop_duplicates().T  # in case of duplicate columns
+                if ((len(data) > 0) and (data[0])):
+                    print("veio na 56")
+                    df.columns = data[0].keys()
+                    if (len(data) > 0):
+                        print("a")
+                        return {"table": {"columns": buildColumnsObject(data[0].keys()), "rows": data}, "df": df}
+                    else:
+                        print("b")
+                        return {"table": {"columns": [], "rows": []}, "df": df}
                 else:
-                  print("b")
-                  return { "table": { "columns": [], "rows": []}, "df": df }
-              else:
-                print("c")
-                return { "table": { "columns": [], "rows": []}, "df": df }
+                    print("c")
+                    return {"table": {"columns": [], "rows": []}, "df": df}
             else:
-              if ( len(data) > 0):
-                print("d")
-                print(data[0].keys(), data)
-                print("dd")
-                return { "columns": buildColumnsObject(data[0].keys()), "rows": data }
-              else:
-                print("e")
-                return { "columns": [], "rows": []}
+                if (len(data) > 0):
+                    print("d")
+                    print(data[0].keys(), data)
+                    print("dd")
+                    return {"columns": buildColumnsObject(data[0].keys()), "rows": data}
+                else:
+                    print("e")
+                    return {"columns": [], "rows": []}
         else:
-           return { "columns": [], "rows": []}    
-              
+            return {"columns": [], "rows": []}
+    except:
+        return {"columns": [], "rows": []}
+
+
 def main():
     parser = \
         argparse.ArgumentParser(
@@ -124,6 +132,7 @@ def main():
         GROUP BY
           locality, location.sublocality, location.route, location.location_id, room_id
     """, 'Ouro Preto', args.project.lower())
+
 
 if __name__ == "__main__":
     main()
