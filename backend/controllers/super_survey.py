@@ -356,3 +356,27 @@ def chart(data):  # ok
 		# except:
 		# 	# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
 		# 	return jsonify({"message": "Erro ao selecionar dados para gerar gráfico!", "success": False}), 401 # Inicia a aplicação
+
+def update(data):  # ok
+		try:
+
+				ss_id = select_command(ab_config,
+																							sql_script="""update super_survey set status=%s where ss_id = %s returning ss_id""",
+						params=((data["permission"], data["ss_id"])),
+						initial_message="Atualizando permissão do usuário...",
+						failure_message="Falha ao atualizar permissão do usuário")
+				if ss_id:
+					return jsonify({
+              "object": None,
+              "message": "Sucesso ao atualizar permissão do usuário",
+              "success": True
+          })
+				else:
+					return jsonify({
+              "object": None,
+              "message": "Falha ao atualizar permissão do usuário",
+              "success": False
+          })
+		except:
+			# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
+			return jsonify({"message": "Erro ao atualizar permissão do usuário", "success": False}), 401 # Inicia a aplicação

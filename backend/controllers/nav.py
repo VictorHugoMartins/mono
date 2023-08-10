@@ -17,7 +17,7 @@ def export(data):  # ok
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     except:
-        return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 500
+        return jsonify({"message": "Falha ao exportar dados", "success": False}), 500
 
 
 def list(data):  # ok

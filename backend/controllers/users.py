@@ -10,21 +10,7 @@ ab_config = ABConfig()
 
 def list(data):  # ok
     try:
-        users = export_datatable(ab_config, """
-											select
-														user_id,
-														name,
-														email,
-														permission,
-															case
-																when password is not null
-																	then 'y'
-																	else null
-																end
-														as password
-													from users
-                          order by user_id desc
-											""", None, None, True)
+        users = export_datatable(ab_config, """select user_id, name, email, permission, case when password is not null then 'y' else null end as password from users order by user_id desc""", None, None, True)
         response = jsonify({
             "object": users,
             "message": "Dados retornados com sucesso!",
@@ -33,14 +19,13 @@ def list(data):  # ok
         # response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     finally:
-        return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 500
+        return jsonify({"message": "Falha ao buscar lista de usuário", "success": False}), 500
 
 
 def change_permission(data):
     try:
         user_id = update_command(ab_config,
-                                 sql_script="""
-                              UPDATE users set permission = %s where user_id = %s returning user_id""",
+                                 sql_script="""UPDATE users set permission = %s where user_id = %s returning user_id""",
                                  params=(
                                      (data["permission"], data['user_id'])),
                                  initial_message="Atualizando permissão do usuario...",
@@ -54,7 +39,7 @@ def change_permission(data):
             response.headers.add('Access-Control-Allow-Origin', '*')
             return response
     finally:
-        return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 500
+        return jsonify({"message": "Falha ao alterar permissão do usuário", "success": False}), 500
 
 
 def delete(data):  # ok
@@ -73,7 +58,7 @@ def delete(data):  # ok
             response.headers.add('Access-Control-Allow-Origin', '*')
             return response
     except:
-        return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 500
+        return jsonify({"message": "Falha ao deletar usuário", "success": False}), 500
 
 
 def accept(data):  # erro no send mail
@@ -94,4 +79,4 @@ def accept(data):  # erro no send mail
             # response.headers.add('Access-Control-Allow-Origin', '*')
             return response
     except:
-        return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 500
+        return jsonify({"message": "Falha ao conceder permissão ao usuário", "success": False}), 500

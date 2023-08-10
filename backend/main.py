@@ -24,6 +24,12 @@ def restart():
     data = request.get_json()
     return super_survey.restart(data)
 
+@app.route('/super_survey/update', methods=['POST'])
+@cross_origin()
+def update():
+    data = request.get_json()
+    return super_survey.update(data)
+
 
 @app.route('/super_survey/get_data_columns', methods=['GET'])
 @cross_origin()
