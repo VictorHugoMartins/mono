@@ -52,7 +52,7 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
               print("veio aqui na 52")
               df = pd.DataFrame(results)
               df = df.T.drop_duplicates().T # in case of duplicate columns
-              if (data[0]):
+              if ((len(data) > 0) and (data[0])):
                 print("veio na 56")
                 df.columns = data[0].keys()
                 if ( len(data) > 0):
@@ -73,6 +73,8 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
               else:
                 print("e")
                 return { "columns": [], "rows": []}
+        else:
+           return { "columns": [], "rows": []}    
               
 def main():
     parser = \
