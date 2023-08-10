@@ -42,8 +42,8 @@ function MySuperSurveys() {
       const resp = fetch(apiUrl, requestOptions)
         .then(res => res.json())
         .then(data => {
-          if (data.success) Toast.success("Status da pesquisa atualizado com sucesso!")
-          else Toast.error("Erro ao atualizar status da pesquisa!")
+          if (data.success) Toast.success(data.message)
+          else Toast.error(data.message)
           setSearching(false);
         })
         .catch(error => { Toast.error(error); setSearching(false); });

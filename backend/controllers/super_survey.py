@@ -361,6 +361,7 @@ def chart(data):  # ok
 
 def update(data):  # ok
 		try:
+				print(data)
 
 				ss_id = select_command(ab_config,
 						sql_script="""update super_survey set status=%s where ss_id = %s returning ss_id""",
