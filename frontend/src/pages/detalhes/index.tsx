@@ -142,7 +142,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
             onClick={() => downloadData({ ss_id: survey, aggregation_method: _filteredData?.extra_info })}
           />
         </div>
-        {_filteredData?.table?.rows && (typeof (_filteredData?.table.rows[0]["cluster"]) !== "undefined") &&
+        {_filteredData?.table?.rows && _filteredData?.table?.rows[0] && (typeof (_filteredData?.table.rows[0]["cluster"]) !== "undefined") &&
           <div style={{ maxWidth: "250px", padding: "8px" }}>
             <Button color="primary" text={_viewForClusters ? "Visualizar anúncios por origem" : "Visualizar anúncios por grupo"}
               onClick={() => setViewForClusters(!_viewForClusters)}
