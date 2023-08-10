@@ -218,10 +218,10 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
           {_chartData && <ChartBar data={_chartData} />}
         </div>
         <h2>Dados filtrados</h2>
-        {/* <Table
+        <Table
           columns={_filteredData?.table?.columns}
           rows={_filteredData?.table?.rows}
-        /> */}
+        />
       </div>
     </PrivatePageStructure >
   )
