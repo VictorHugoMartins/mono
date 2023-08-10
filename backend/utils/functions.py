@@ -235,7 +235,10 @@ def build_options(column, values, ss_id):
             initial_message="Selecionando valores mínimo e máximo para " +
             str(column),
             failure_message="Falha ao selecionar valores mínimo e máximo para " + str(column))
-        return (result[0][0], result[0][1])
+        if result:
+          return (result[0][0], result[0][1])
+        else:
+          return (0, 0)
     elif (values == ["options"]):
         return asSelectObject(select_command(ab_config,
                                              sql_script="""with consulta as ( {consulta} ) 
