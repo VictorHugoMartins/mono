@@ -37,7 +37,7 @@ def change_permission(data):
                 "message": "Dados retornados com sucesso!",
                 "success": True
             })
-            response.headers.add('Access-Control-Allow-Origin', '*')
+            # response.headers.add('Access-Control-Allow-Origin', '*')
             return response
     except:
         return jsonify({"message": "Falha ao alterar permissão do usuário", "success": False}), 500
