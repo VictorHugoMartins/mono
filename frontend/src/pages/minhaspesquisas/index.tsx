@@ -25,7 +25,7 @@ function MySuperSurveys() {
   function TableButtons({ rowData }: TableButtonProps) {
     const update = (data: any) => {
       setSearching(true);
-      const apiUrl = `${BASE_API_URL}/update`; // url da API Flask
+      const apiUrl = API_SUPER_SURVEY.UPDATE(); // url da API Flask
       const requestData = { ss_id: data.ss_id }; // dados de login a serem enviados na requisição
 
       // Configuração do cabeçalho da requisição

@@ -139,7 +139,14 @@ def getbyid(data):
         })
 
     platform = data["platform"]
-    columns = result[0][1].replace(' ', ', ').replace('{', '').replace('}', '')
+    print(result[0][1])
+    try:
+        columns = result[0][1].replace('{', '').replace('}', '').split(',')
+        if (len(columns) == 1):
+            columns = columns[0].split(' ')
+        print("as colunas: ", columns)
+    except:
+        columns = result[0][1]
     agg_method = data["agg_method"]
     if ('platform' in columns):
         columns = columns.replace('platform, ', '')
