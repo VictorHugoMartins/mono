@@ -266,14 +266,14 @@ def buildGraphObjectFromSqlResult(data):
 def get_rooms(data, columns, agg_method):
     print("veio nesse aqui")
     (query, params) = buildFilterQuery(data, 'both')
-    print("passou desse")
     try:
         columns = columns.replace('{', '').replace('}', '')
         if (len(columns) == 1):
             columns = columns[0].split(' ')
         print("as colunas: ", columns)
     except:
-        columns = columns
+        columns = ', '.join(columns)
+    print("passou desse", columns)
     
     rooms = export_datatable(ab_config, """
 										WITH consulta AS ( {consulta} )

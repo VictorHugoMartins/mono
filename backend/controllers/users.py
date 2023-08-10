@@ -18,7 +18,7 @@ def list(data):  # ok
         })
         # response.headers.add('Access-Control-Allow-Origin', '*')
         return response
-    finally:
+    except:
         return jsonify({"message": "Falha ao buscar lista de usuário", "success": False}), 500
 
 
@@ -38,7 +38,7 @@ def change_permission(data):
             })
             response.headers.add('Access-Control-Allow-Origin', '*')
             return response
-    finally:
+    except:
         return jsonify({"message": "Falha ao alterar permissão do usuário", "success": False}), 500
 
 

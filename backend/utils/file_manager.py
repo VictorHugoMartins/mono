@@ -22,7 +22,7 @@ def buildColumnsObject(columns):
     return obj
 
 def export_datatable(config, sql_command, params, project, toJson, toPandas=False):
-    try:
+        # try:
         logging.info("Initializing export {project}'s rooms".format(project=project))
         conn = config.connect()
         cur = conn.cursor()
@@ -49,9 +49,11 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
             conn.close()
 
             if ( toPandas ):
+              print("veio aqui na 52")
               df = pd.DataFrame(results)
               df = df.T.drop_duplicates().T # in case of duplicate columns
               if (data[0]):
+                print("veio na 56")
                 df.columns = data[0].keys()
                 if ( len(data) > 0):
                   print("a")
@@ -71,18 +73,7 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
               else:
                 print("e")
                 return { "columns": [], "rows": []}
-
-            logging.info("Finishing export")
-    except pg.errors.InFailedSqlTransaction:
-        print("Falha ao realizar consulta")
-        return { "columns": [], "rows": []}
-    except PermissionError:
-        print("Permission denied!")
-        return { "columns": [], "rows": []}
-    except:
-        return { "columns": [], "rows": []}
-        print("erro")
-
+              
 def main():
     parser = \
         argparse.ArgumentParser(
