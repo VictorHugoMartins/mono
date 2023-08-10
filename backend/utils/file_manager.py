@@ -80,6 +80,7 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
         print("Permission denied!")
         return { "columns": [], "rows": []}
     except:
+        return { "columns": [], "rows": []}
         print("erro")
 
 def main():
