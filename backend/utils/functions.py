@@ -145,7 +145,7 @@ def prepare_driver(url):
     driver_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "driver", "geckodriver")
     # options = Options()
     # options.add_argument('-headless')
-    print("preparando driver")
+    print("preparando driver", driver_path)
     # binary = FirefoxBinary('C:\\Program Files\\Mozilla Firefox\\firefox.exe')
     driver = webdriver.Firefox(executable_path=driver_path)
     print("instanciou o driver")
