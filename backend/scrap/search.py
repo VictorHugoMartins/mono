@@ -343,8 +343,8 @@ def full_process(config=ab_config, platform="Airbnb", search_area_name='', start
             try:
                 print(platform, _platform)
                 print("ESTÁ EM PESQUISAR CIDADE", super_survey_id)
-                survey_id = execute_search(config=ab_config, platform=_platform, search_area_name=search_area_name,
-                                           start_date=start_date, finish_date=finish_date, super_survey_id=super_survey_id)
+                execute_search(config=ab_config, platform=_platform, search_area_name=search_area_name,
+                                start_date=start_date, finish_date=finish_date, super_survey_id=super_survey_id)
                 update_super_survey_status(ab_config,
                                            super_survey_id,
                                            status=3 if (
