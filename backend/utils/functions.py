@@ -77,6 +77,7 @@ def delete_command(config, sql_script, params, initial_message, failure_message)
         logging.error(failure_message)
         raise
     finally:
+        cur.close()
         return rowcount > -1
 
 
@@ -98,6 +99,7 @@ def update_command(config, sql_script, params, initial_message, failure_message)
         logging.error(failure_message)
         raise
     finally:
+        cur.close()
         return id
 
 
