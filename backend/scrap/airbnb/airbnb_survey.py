@@ -11,7 +11,6 @@
 # ============================================================================
 import logging
 import sys
-import random
 import psycopg2
 from datetime import date
 from bs4 import BeautifulSoup
@@ -21,20 +20,6 @@ import scrap.airbnb.airbnb_ws as airbnb_ws
 import os
 
 logger = logging.getLogger()
-
-
-def check_and_create_file(filename):
-    print(os.curdir)
-    try:
-        if not os.path.isdir(filename):
-            print("28")  # if directory don't exists, create
-            os.mkdir(filename)
-            print("errooo!!")
-    except Exception as e:
-        print("o erro: ", e)
-    finally:
-        print("existe o arquivo?", os.path.isdir(filename))
-        exit(0)
 
 
 class ABSurvey():
@@ -295,66 +280,6 @@ class ABSurvey():
         except:
             logger.exception("Survey fini failed")
             return False
-
-    def page_has_been_retrieved(self, room_type, neighborhood_or_zipcode,
-                                guests, page_number, search_by):
-        """
-        Used with neighborhood and zipcode logging (see method above).
-        Returns 1 if the page has been retrieved previously and has rooms
-        Returns 0 if the page has been retrieved previously and has no rooms
-        Returns -1 if the page has not been retrieved previously
-        """
-        conn = self.config.connect()
-        cur = conn.cursor()
-        has_rooms = 0
-        try:
-            if search_by == self.config.SEARCH_BY_NEIGHBORHOOD:
-                neighborhood = neighborhood_or_zipcode
-                # TODO: Currently fails when there are no neighborhoods
-                if neighborhood is None:
-                    has_rooms = -1
-                else:
-                    params = (self.survey_id, room_type, neighborhood, guests,
-                              page_number,)
-                    logger.debug("Params: " + str(params))
-                    sql = """
-                    select spl.has_rooms
-                    from survey_progress_log spl
-                    join neighborhood nb
-                    on spl.neighborhood_id = nb.neighborhood_id
-                    where survey_id = %s
-                    and room_type = %s
-                    and nb.name = %s
-                    and guests = %s
-                    and page_number = %s"""
-                    cur.execute(sql, params)
-                    has_rooms = cur.fetchone()[0]
-                    logger.debug("has_rooms = %s for neighborhood %s",
-                                 str(has_rooms), neighborhood)
-            else:  # SEARCH_BY_ZIPCODE
-                zipcode = int(neighborhood_or_zipcode)
-                params = (self.survey_id, room_type,
-                          zipcode, guests, page_number,)
-                logger.debug(params)
-                sql = """
-                    select spl.has_rooms
-                    from survey_progress_log spl
-                    where survey_id = %s
-                    and room_type = %s
-                    and neighborhood_id = %s
-                    and guests = %s
-                    and page_number = %s"""
-                cur.execute(sql, params)
-                has_rooms = cur.fetchone()[0]
-                logger.debug("has_rooms = %s for zipcode %s",
-                             str(has_rooms), str(zipcode))
-        except Exception:
-            has_rooms = -1
-            logger.debug("Page has not been retrieved previously")
-        finally:
-            cur.close()
-            return has_rooms
-
 
 class ABSurveyByBoundingBox(ABSurvey):
     """
@@ -983,36 +908,3 @@ class ABSurveyByBoundingBox(ABSurvey):
                 "Exception in log_progress: {e}".format(e=type(e)))
             conn.close()
             return False
-
-
-def ABSurveyGlobal(ABSurvey):
-    """
-    Special search to randomly choose rooms from a range rather than to
-    look at specific areas of the world.
-    """
-
-    def search(self, flag, search_by):
-        logger.info("-" * 70)
-        logger.info("Survey {survey_id}, for {search_area_name}".format(
-            survey_id=self.survey_id, search_area_name=self.search_area_name
-        ))
-        ABSurvey.update_survey_entry(self, self.config.SEARCH_AREA_GLOBAL)
-        room_count = 0
-        while room_count < self.config.FILL_MAX_ROOM_COUNT:
-            try:
-                # get a random candidate room_id
-                room_id = random.randint(0, self.config.ROOM_ID_UPPER_BOUND)
-                listing = ABListing(self.config, room_id, self.survey_id)
-                if room_id is None:
-                    break
-                else:
-                    if listing.ws_get_room_info(self.config.FLAGS_ADD):
-                        room_count += 1
-            except AttributeError:
-                logger.error(
-                    "Attribute error: marking room as deleted.")
-                listing.save_as_deleted()
-            except Exception as ex:
-                logger.exception("Error in search:" + str(type(ex)))
-                raise
-        self.fini()

@@ -1,3 +1,4 @@
+import os 
 import time
 import random
 import logging
@@ -18,6 +19,7 @@ exclusive_booking_columns = ['start_date', 'finish_date']
 
 logging = logging.getLogger()
 
+
 def is_inside(lat_center, lng_center, lat_test, lng_test, verbose=False):
     center_point = [{'lat': lat_center, 'lng': lng_center}]
     test_point = [{'lat': lat_test, 'lng': lng_test}]
@@ -36,6 +38,20 @@ def is_inside(lat_center, lng_center, lat_test, lng_test, verbose=False):
                       format(test_point_tuple, radius/1000, center_point_tuple))
             return True
     return False
+
+
+def check_and_create_file(filename):
+    print(os.curdir)
+    try:
+        if not os.path.isdir(filename):
+            print("28")  # if directory don't exists, create
+            os.mkdir(filename)
+            print("errooo!!")
+    except Exception as e:
+        print("o erro: ", e)
+    finally:
+        print("existe o arquivo?", os.path.isdir(filename))
+        exit(0)
 
 
 def select_command(config, sql_script, params, initial_message, failure_message):
@@ -220,9 +236,9 @@ def buildFilterQuery(data, platform):
 def asSelectObject(array):
     result = []
     if array:
-      for item in array:
-          result.append({"label": item[0] if item[0]
-                        else "Indefinido", "value": item[0]})
+        for item in array:
+            result.append({"label": item[0] if item[0]
+                          else "Indefinido", "value": item[0]})
     return result
 
 
@@ -237,9 +253,9 @@ def build_options(column, values, ss_id):
             str(column),
             failure_message="Falha ao selecionar valores mínimo e máximo para " + str(column))
         if result:
-          return (result[0][0], result[0][1])
+            return (result[0][0], result[0][1])
         else:
-          return (0, 0)
+            return (0, 0)
     elif (values == ["options"]):
         return asSelectObject(select_command(ab_config,
                                              sql_script="""with consulta as ( {consulta} ) 
@@ -251,6 +267,7 @@ def build_options(column, values, ss_id):
             str(column),
             failure_message="Falha ao selecionar valores mínimo e máximo para " + str(column)))
 
+
 def get_random_string(length):
     # choose from all lowercase letter
     letters = string.ascii_lowercase
@@ -258,11 +275,13 @@ def get_random_string(length):
     print("Random string of length", length, "is:", result_str)
     return result_str
 
+
 def buildGraphObjectFromSqlResult(data):
     result = []
     for item in data:
         result.append({"label": item[0], "value": item[1]})
     return [{"values": result}]
+
 
 def get_rooms(data, columns, agg_method):
     print("veio nesse aqui")
@@ -275,12 +294,13 @@ def get_rooms(data, columns, agg_method):
     except:
         columns = ', '.join(columns)
     print("passou desse", columns)
-    
+
     rooms = export_datatable(ab_config, """
 										WITH consulta AS ( {consulta} )
 											SELECT room_id, platform, {columns} FROM consulta {query}
 											""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], agg_method=agg_method), columns=columns, query=query), params, "Airbnb", True, True)
     return rooms
+
 
 def xNotIn(exclusive_list, other_list):
     result = []
