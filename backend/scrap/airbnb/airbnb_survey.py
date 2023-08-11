@@ -19,6 +19,7 @@ from bs4 import BeautifulSoup
 import json
 from scrap.airbnb.airbnb_listing import ABListing
 import scrap.airbnb.airbnb_ws as airbnb_ws
+import os
 
 logger = logging.getLogger()
 
@@ -32,6 +33,14 @@ class Timer:
         self.end = time.clock()
         self.interval = self.end - self.start
 
+def verificar_e_criar_arquivo(filename):
+    arquivo = f"%s".format(filename)
+    
+    if not os.path.exists(arquivo):
+        # O arquivo não existe, então vamos criá-lo
+        with open(arquivo, 'w') as f:
+            # Escreva algo no arquivo vazio, se desejar
+            f.write("Este é um novo arquivo de log")
 
 class ABSurvey():
     """
@@ -53,16 +62,25 @@ class ABSurvey():
         logger.setLevel(config.log_level)
 
         # create a file handler
-        logfile = "public/survey-{survey_id}.log".format(
-            survey_id=self.survey_id)
-        filelog_handler = logging.FileHandler(logfile, encoding="utf-8")
-        filelog_handler.setLevel(config.log_level)
-        filelog_formatter = logging.Formatter(
-            '%(asctime)-15s %(levelname)-8s%(message)s')
-        filelog_handler.setFormatter(filelog_formatter)
+        try:
+            logfile = "public/survey-{survey_id}.log".format(
+                survey_id=self.survey_id)
+            filelog_handler = logging.FileHandler(logfile, encoding="utf-8")
+        except:
+            verificar_e_criar_arquivo("public/survey-{survey_id}.log".format(
+                survey_id=self.survey_id))
+            logfile = "public/survey-{survey_id}.log".format(
+                survey_id=self.survey_id)
+            filelog_handler = logging.FileHandler(logfile, encoding="utf-8")
+        finally:
+            filelog_handler.setLevel(config.log_level)
+            filelog_formatter = logging.Formatter(
+                '%(asctime)-15s %(levelname)-8s%(message)s')
+            filelog_handler.setFormatter(filelog_formatter)
 
-        # logging: set log file name, format, and level
-        logger.addHandler(filelog_handler)
+            # logging: set log file name, format, and level
+            logger.addHandler(filelog_handler)
+    
 
         # Suppress informational logging from requests module
         logging.getLogger("requests").setLevel(logging.WARNING)
