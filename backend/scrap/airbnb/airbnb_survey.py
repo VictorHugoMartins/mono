@@ -13,7 +13,6 @@ import logging
 import sys
 import random
 import psycopg2
-import time
 from datetime import date
 from bs4 import BeautifulSoup
 import json
@@ -24,19 +23,19 @@ import os
 logger = logging.getLogger()
 
 
-class Timer:
-    def __enter__(self):
-        self.start = time.clock()
-        return self
-
-    def __exit__(self, *args):
-        self.end = time.clock()
-        self.interval = self.end - self.start
-
-
 def check_and_create_file(filename):
-    if not os.path.isdir(filename):  # if directory don't exists, create
-        os.mkdir(filename)
+    print(os.curdir)
+    try:
+        if not os.path.isdir(filename):
+            print("28")  # if directory don't exists, create
+            os.mkdir(filename)
+            print("errooo!!")
+    except Exception as e:
+        print("o erro: ", e)
+    finally:
+        print("existe o arquivo?", os.path.isdir(filename))
+        exit(0)
+
 
 class ABSurvey():
     """
@@ -58,23 +57,27 @@ class ABSurvey():
         logger.setLevel(config.log_level)
 
         # create a file handler
-        check_and_create_file("logs/survey-{survey_id}.log".format(
-                survey_id=self.survey_id))
-        logfile = "logs/survey-{survey_id}.log".format(
-            survey_id=self.survey_id)
-        filelog_handler = logging.FileHandler(logfile, encoding="utf-8")
-        filelog_handler.setLevel(config.log_level)
-        filelog_formatter = logging.Formatter(
-            '%(asctime)-15s %(levelname)-8s%(message)s')
-        filelog_handler.setFormatter(filelog_formatter)
+        print("criando aqui!!!")
+        # check_and_create_file(".logs/survey-{survey_id}.log".format(
+        #     survey_id=self.survey_id))
+        
+        # logfile = "logs/survey-{survey_id}.log".format(
+        #     survey_id=self.survey_id)
+        # filelog_handler = logging.FileHandler(logfile, encoding="utf-8")
+        # filelog_handler.setLevel(config.log_level)
+        # filelog_formatter = logging.Formatter(
+        #     '%(asctime)-15s %(levelname)-8s%(message)s')
+        # filelog_handler.setFormatter(filelog_formatter)
 
         # logging: set log file name, format, and level
-        logger.addHandler(filelog_handler)
+        # logger.addHandler(filelog_handler)
 
         # Suppress informational logging from requests module
         logging.getLogger("requests").setLevel(logging.WARNING)
         logging.getLogger("urllib3").setLevel(logging.WARNING)
         logger.propagate = False
+
+        print("56")
 
     def set_search_area(self):
         """

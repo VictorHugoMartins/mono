@@ -130,7 +130,7 @@ def prepare_driver(url):
     options = Options()
     # options.add_argument('-headless')
     binary = FirefoxBinary('C:\\Program Files\\Mozilla Firefox\\firefox.exe')
-    driver = webdriver.Firefox(firefox_binary=binary, executable_path=r'C:\\geckodriver.exe', options=options)
+    driver = webdriver.Firefox()
     driver.get(url)
     time.sleep(3)
     return driver
