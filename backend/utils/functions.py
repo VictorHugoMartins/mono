@@ -49,14 +49,13 @@ def select_command(config, sql_script, params, initial_message, failure_message)
         cur.execute(sql_script, (params))
 
         return cur.fetchall()
-    except psycopg2.errors.InFailedSqlTransaction:
-        print("psycopg2.errors.InFailedSqlTransaction")
-        logging.error(failure_message)
-        cur.close()
     except Exception:
         logging.error(failure_message)
+        return None
+    finally:
+        print("vai fechar a conexão")
         cur.close()
-        raise
+        print("fechou")
 
 
 def delete_command(config, sql_script, params, initial_message, failure_message):
@@ -70,14 +69,14 @@ def delete_command(config, sql_script, params, initial_message, failure_message)
         rowcount = cur.rowcount
         conn.commit()
 
-        cur.close()
-
         return rowcount > -1
     except Exception:
         logging.error(failure_message)
         raise
     finally:
+        print("vai fechar a conexão")
         cur.close()
+        print("fechou")
         return rowcount > -1
 
 
@@ -98,7 +97,9 @@ def update_command(config, sql_script, params, initial_message, failure_message)
         logging.error(failure_message)
         raise
     finally:
+        print("vai fechar a conexão")
         cur.close()
+        print("fechou")
         return id
 
 
