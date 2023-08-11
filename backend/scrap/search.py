@@ -50,18 +50,18 @@ def db_add_survey(config, search_area):
         survey_id = cur.fetchone()[0]
 
         # Get and print the survey entry
-        cur.execute("""select survey_id, survey_date,
+        cur.execute("""select survey_id, date,
 				survey_description, search_area_id
 				from survey where survey_id = %s""", (survey_id,))
         (survey_id,
-         survey_date,
+         date,
          survey_description,
          search_area_id) = cur.fetchone()
         conn.commit()
         cur.close()
         print("\nSurvey added:\n"
               + "\n\tsurvey_id=" + str(survey_id)
-              + "\n\tsurvey_date=" + str(survey_date)
+              + "\n\tdate=" + str(date)
               + "\n\tsurvey_description=" + survey_description
               + "\n\tsearch_area_id=" + str(search_area_id))
         return survey_id
@@ -221,6 +221,7 @@ def execute_search(config, platform="Airbnb", search_area_name='', start_date=No
             search_booking_rooms(ab_config, search_area_name,
                                  start_date, finish_date, survey_id)
             
+        return survey_id            
     except Exception as e:
         print("o erro 240:", e)
         update_super_survey_status(config,
@@ -228,8 +229,7 @@ def execute_search(config, platform="Airbnb", search_area_name='', start_date=No
                                    status=-11 if (_platform ==
                                                   "Airbnb") else -711,
                                    logs='Falha ao realizar pesquisa por ' + search_area_name)
-    return survey_id
-
+        return None
 
 def search_sublocalities(config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, super_survey_id=None):
     try:
@@ -355,8 +355,7 @@ def full_process(config=ab_config, platform="Airbnb", search_area_name='', start
                 print(search_area_name)
                 update_super_survey_status(ab_config,
                                            super_survey_id,
-                                           status=-
-                                           3 if (platform == 'Airbnb') else -73,
+                                           status=-3 if (platform == 'Airbnb') else -73,
                                            logs='Falha ao iniciar busca por ' + search_area_name)
         if (((status_super_survey_id in statusDict["PESQUISAR_BAIRRO_AIRBNB"]) or
              (status_super_survey_id in statusDict["PESQUISAR_BAIRRO_BOOKING"]))

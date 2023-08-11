@@ -98,7 +98,7 @@ class ABSurvey():
                            self.survey_id, )
             sql = """
             update survey
-            set survey_date = %s, survey_method = %s
+            set date = %s, survey_method = %s
             where survey_id = %s
             """
             conn = self.config.connect()
@@ -262,14 +262,14 @@ class ABSurvey():
 
     def fini(self):
         """
-        Wrap up a survey: correcting status and survey_date
+        Wrap up a survey: correcting status and date
         """
         try:
             logger.info("Finishing survey %s, for %s",
                         self.survey_id, self.search_area_name)
             sql_update = """
             update survey
-            set survey_date = (
+            set date = (
             select min(last_modified)
             from room
             where room.survey_id = survey.survey_id

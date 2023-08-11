@@ -52,11 +52,11 @@ def define_region(sub, lat, lng):
 
 def survey_df(ab_config, city, start_date):
     sql_survey_ids = """
-        select survey_id, survey_date, comment
+        select survey_id, date, comment
         from survey s, search_area sa
         where s.search_area_id = sa.search_area_id
         and sa.name = %(city)s
-        and s.survey_date > '{start_date}'
+        and s.date > '{start_date}'
         and s.status = 1
         order by survey_id
     """.format(start_date=start_date)

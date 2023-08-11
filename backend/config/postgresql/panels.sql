@@ -9,7 +9,7 @@ from
           rating_end - rating_start as rating_diff,
           rating_end
    from
-   ( select r.survey_id, room_id, host_id, survey_date,
+   ( select r.survey_id, room_id, host_id, date,
      first_value(reviews) over w as reviews_start, 
      last_value(reviews) over w as reviews_end,
      avg(price) over w as price,
@@ -18,7 +18,7 @@ from
      from listing_dc r join survey s
      on r.survey_id = s.survey_id
      -- where room_type = 'Private room'
-     -- and s.survey_date > '2016-01-01'
+     -- and s.date > '2016-01-01'
      window w as
 	          (partition by room_id
          	   order by r.survey_id

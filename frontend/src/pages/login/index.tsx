@@ -95,7 +95,7 @@ const Login: React.FC = () => {
                 <TextInputForm
                   name="email"
                   type="email"
-                  label="Nome de usuário"
+                  label="E-mail"
                   required
                 />
               </Grid>

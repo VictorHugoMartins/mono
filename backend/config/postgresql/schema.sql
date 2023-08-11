@@ -91,7 +91,7 @@ COMMENT ON COLUMN search_area.abbreviation IS 'Short form for city: used in view
 CREATE TABLE survey
 (
   survey_id serial NOT NULL,
-  survey_date date DEFAULT ('now'::text)::date,
+  date date DEFAULT ('now'::text)::date,
   survey_description character varying(255),
   search_area_id integer,
   comment character varying(255),

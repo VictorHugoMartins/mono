@@ -26,18 +26,18 @@ def db_add_survey(config, search_area):
 				survey_id = cur.fetchone()[0]
 
 				# Get and print the survey entry
-				cur.execute("""select survey_id, survey_date,
+				cur.execute("""select survey_id, date,
 				survey_description, search_area_id
 				from survey where survey_id = %s""", (survey_id,))
 				(survey_id,
-				 survey_date,
+				 date,
 				 survey_description,
 				 search_area_id) = cur.fetchone()
 				conn.commit()
 				cur.close()
 				print("\nSurvey added:\n"
 							+ "\n\tsurvey_id=" + str(survey_id)
-							+ "\n\tsurvey_date=" + str(survey_date)
+							+ "\n\tdate=" + str(date)
 							+ "\n\tsurvey_description=" + survey_description
 							+ "\n\tsearch_area_id=" + str(search_area_id))
 				return survey_id
