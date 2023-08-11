@@ -42,8 +42,10 @@ function MySuperSurveys() {
       const resp = fetch(apiUrl, requestOptions)
         .then(res => res.json())
         .then(data => {
-          if (data.success) Toast.success(data.message)
-          else Toast.error(data.message)
+          if (data.success) {
+            Toast.success(data.message)
+            loadTableData(userId);
+          } else Toast.error(data.message)
           setSearching(false);
         })
         .catch(error => { Toast.error(error); setSearching(false); });
@@ -80,6 +82,7 @@ function MySuperSurveys() {
         .then(data => {
           if (data.success) {
             Toast.success(data.message)
+            loadTableData(userId);
           } else Toast.error(data.message)
           setSearching(false);
         })
@@ -139,6 +142,7 @@ function MySuperSurveys() {
   useEffect(() => {
     loadTableData(userId);
   }, [userId])
+  
   return (
     <PrivatePageStructure title={"Minhas pesquisas"}>
       <Flexbox justify="flex-end" width={"100%"} >
