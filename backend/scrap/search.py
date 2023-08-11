@@ -243,6 +243,12 @@ def search_sublocalities(config, platform="Airbnb", search_area_name='', start_d
         print(city_sublocalities)
 
         i = 0
+        if (len(city_sublocalities) > 0 ):
+            update_super_survey_status(config,
+                                   super_survey_id,
+                                   status=49 if (
+                                       platform == "Airbnb") else 749,
+                                   logs='Nenhum bairro foi identificado em ' + search_area_name + '. Pesquisa dada como concluída')
         for city in city_sublocalities:
             i = i + 1
             if (city[0] is not None):
@@ -288,6 +294,12 @@ def search_routes(config, platform="Airbnb", search_area_name='', start_date=Non
         print(sublocalities_routes)
 
         i = 0
+        if (len(sublocalities_routes) > 0 ):
+            update_super_survey_status(config,
+                                   super_survey_id,
+                                   status=49 if (
+                                       platform == "Airbnb") else 749,
+                                   logs='Nenhuma rua foi identificada em ' + search_area_name + '. Pesquisa dada como concluída')
         for city in sublocalities_routes:
             i = i + 1
             if (city[0] is not None):
