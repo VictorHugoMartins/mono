@@ -5,7 +5,6 @@ import string
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium import webdriver
-import psycopg2
 from geopy import distance
 from utils.general_dict import get_all_rooms_by_ss_id
 from utils.file_manager import export_datatable
