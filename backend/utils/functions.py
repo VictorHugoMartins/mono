@@ -142,7 +142,7 @@ def insert_command(config, sql_script, params, initial_message, failure_message)
 
 def prepare_driver(url):
     '''Returns a Firefox Webdriver.'''
-    driver_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "driver", "geckodriver")
+    driver_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "driver", "geckodriver.exe")
     # options = Options()
     # options.add_argument('-headless')
     print("preparando driver", driver_path)
