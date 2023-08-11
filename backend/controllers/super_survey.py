@@ -4,7 +4,7 @@ import scrap.search as search
 from utils.file_manager import export_datatable
 from utils.general_dict import columnDict
 from utils.general_dict import get_all_rooms_by_ss_id
-from utils.functions import select_command, send_nullable_value
+from utils.functions import select_command, send_nullable_value, update_command
 from utils.functions import buildFilterQuery, build_options
 from utils.thread import Th
 
@@ -363,23 +363,23 @@ def update(data):  # ok
 		try:
 				print(data)
 
-				ss_id = select_command(ab_config,
+				ss_id = update_command(ab_config,
 						sql_script="""update super_survey set status=%s where ss_id = %s returning ss_id""",
 						params=((data["newStatus"], data["ss_id"])),
-						initial_message="Atualizando permissão do usuário...",
-						failure_message="Falha ao atualizar permissão do usuário")
+						initial_message="Atualizando status da pesquisa...",
+						failure_message="Falha ao atualizar status da pesquisa")
 				if ss_id:
 					return jsonify({
               "object": None,
-              "message": "Sucesso ao atualizar permissão do usuário",
+              "message": "Sucesso ao atualizar status da pesquisa",
               "success": True
           })
 				else:
 					return jsonify({
               "object": None,
-              "message": "Falha ao atualizar permissão do usuário",
+              "message": "Falha ao atualizar status da pesquisa",
               "success": False
           })
 		except:
 			# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
-			return jsonify({"message": "Erro ao atualizar permissão do usuário", "success": False}), 401 # Inicia a aplicação
+			return jsonify({"message": "Erro ao atualizar status da pesquisa", "success": False}), 401 # Inicia a aplicação
