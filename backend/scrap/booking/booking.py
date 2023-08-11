@@ -439,7 +439,7 @@ def go_to_next_page(driver, page):
 
 
 def search_booking_rooms(config, area, start_date, finish_date, survey_id):
-    print("Buscando  no bookind")
+    print("Buscando no bookind")
     city = area.split(',')[0]
 
     checkin_date = start_date
