@@ -92,7 +92,6 @@ def update_command(config, sql_script, params, initial_message, failure_message)
         conn.commit()
 
         id = cur.fetchone()[0]
-        cur.close()
 
         return id
     except Exception:

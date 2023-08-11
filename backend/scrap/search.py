@@ -243,7 +243,7 @@ def search_sublocalities(config, platform="Airbnb", search_area_name='', start_d
         print(city_sublocalities)
 
         i = 0
-        if (len(city_sublocalities) > 0 ):
+        if not city_sublocalities:
             update_super_survey_status(config,
                                    super_survey_id,
                                    status=49 if (
@@ -289,12 +289,11 @@ def search_routes(config, platform="Airbnb", search_area_name='', start_date=Non
                                    status=51 if (
                                        platform == 'Airbnb') else 751,
                                    logs='Selecionando ruas de ' + search_area_name)
-        sa_name = search_area_name.split(',')[0]
         sublocalities_routes = select_routes(config, super_survey_id)
         print(sublocalities_routes)
 
         i = 0
-        if (len(sublocalities_routes) > 0 ):
+        if not sublocalities_routes:
             update_super_survey_status(config,
                                    super_survey_id,
                                    status=49 if (
