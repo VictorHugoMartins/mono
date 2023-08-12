@@ -116,7 +116,6 @@ libgtk-3-0>=0.1
 libnspr4>=0.1
 libpango-1.0-0>=0.1
 libpangocairo-1.0-0>=0.1
-libstdc++6>=0.1
 libx11-6>=0.1
 libx11-xcb1>=0.1
 libxcb1>=0.1
