@@ -151,7 +151,7 @@ def prepare_driver(url):
     # chrome_options.add_argument("--no-sandbox")
     # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     # print("instanciou o driver")
-    # driver.get(url)
+    driver.get(url)
     # print("fez o get")
     time.sleep(3)
     return driver
