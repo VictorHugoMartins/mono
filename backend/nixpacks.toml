@@ -5,4 +5,4 @@ nixPkgs = ["...", "chromedriver"]
 aptPkgs = ["...", "libglib2.0-0", "libnss3", "libgconf-2-4", "libfontconfig1"]
 
 [start]
-cmd = 'web: google-chrome-stable --no-sandbox --headless --disable-gpu --remote-debugging-port=9222 main.py & chromedriver --port=9222 --url-base=/wd/hub & gunicorn main:app'
+cmd = 'web: gunicorn main:app'
