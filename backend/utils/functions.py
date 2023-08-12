@@ -142,12 +142,14 @@ def insert_command(config, sql_script, params, initial_message, failure_message)
 
 def prepare_driver(url):
     '''Returns a Firefox Webdriver.'''
-    driver_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "driver", "geckodriver.exe")
-    # options = Options()
-    # options.add_argument('-headless')
-    print("preparando driver", driver_path)
-    # binary = FirefoxBinary('C:\\Program Files\\Mozilla Firefox\\firefox.exe')
-    driver = webdriver.Firefox(executable_path=driver_path)
+    driver_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "driver", "chromedriver.exe")
+    binary_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "driver", "firefox.exe")
+    
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--no-sandbox')  # Evita problemas com permissões no Linux
+
+    # Inicializa o WebDriver do Chrome
+    driver = webdriver.Chrome(driver_path, options=chrome_options)
     print("instanciou o driver")
     driver.get(url)
     print("fez o get")
