@@ -81,7 +81,6 @@ seaborn>=0.10.1
 selenium>=3.141.0
 six>=1.14.0
 simplejson>=3.19.1
-sklearn>=0.0
 sniffio>=1.1.0
 soupsieve>=2.0
 sqlparse>=0.3.1
