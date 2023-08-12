@@ -3,14 +3,15 @@ import time
 import random
 import logging
 import string
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from geopy import distance
 from utils.general_dict import get_all_rooms_by_ss_id
 from utils.file_manager import export_datatable
 from config.general_config import ABConfig
-from webdriver_manager.chrome import ChromeDriverManager
+
+
 
 ab_config = ABConfig()
 
@@ -143,13 +144,19 @@ def insert_command(config, sql_script, params, initial_message, failure_message)
 
 def prepare_driver(url):
     '''Returns a Firefox Webdriver.'''
-    driver = webdriver.Chrome(ChromeDriverManager().install())
-    # chrome_options = webdriver.ChromeOptions()
-    # chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    # chrome_options.add_argument("--headless")
-    # chrome_options.add_argument("--disable-dev-shm-usage")
-    # chrome_options.add_argument("--no-sandbox")
-    # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    
+    prefs = {"profile.managed_default_content_settings.images":2}
+    chrome_options.headless = True
+
+
+    chrome_options.add_experimental_option("prefs", prefs)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+
+    
     # print("instanciou o driver")
     driver.get(url)
     # print("fez o get")
