@@ -10,11 +10,11 @@ def login(data):  # ok
         user_data = select_command(ab_config,
                                    sql_script="""SELECT user_id, name, email from users where email = %s and password = %s limit 1""",
                                    params=(
-                                       (data['email'], data['password'])),
+                                       (data.email, data.password)),
                                    initial_message="Autenticando usuario...",
                                    failure_message="Falha ao realizar login")
         print(user_data)
-        if user_data[0][2] == data['email']:
+        if user_data[0][2] == data.email:
             return {
                 "object": {
                     "user_id": user_data[0][0],
@@ -35,7 +35,7 @@ def register(data):  # chamando 2 vezes no front, n impede de cadastrar msm emai
         result = select_command(ab_config,
                                 """SELECT user_id from users where email = %s
 																	limit 1""",
-                                ((data["email"],)),
+                                ((data.email,)),
                                 "Verificando existência de usuário...",
                                 "Falha ao verificar existência de usuário")
         if result:
@@ -44,7 +44,7 @@ def register(data):  # chamando 2 vezes no front, n impede de cadastrar msm emai
             user_data = insert_command(ab_config,
                                        sql_script="""INSERT INTO users(name, email) values(%s, %s) returning user_id""",
                                        params=(
-                                           (data["name"], data["email"])),
+                                           (data.name, data.email)),
                                        initial_message="Autenticando usuario...",
                                        failure_message="Falha ao cadastrar usuário")
             print(user_data)
@@ -52,8 +52,8 @@ def register(data):  # chamando 2 vezes no front, n impede de cadastrar msm emai
                 return {
                     "object": {
                         "user_id": user_data,
-                        "name": data["name"],
-                        "email": data["email"]
+                        "name": data.name,
+                        "email": data.email
                     },
                     "message": "Sucesso ao cadastrar usuário",
                     "success": True
@@ -71,15 +71,15 @@ def edit_user(data):  # ok, mas seria bom ter um prepare. atualizar cookies apó
         user_data = update_command(ab_config,
                                    sql_script="""UPDATE users set name = %s, email = %s where user_id = %s returning user_id""",
                                    params=(
-                                       (data["name"], data["email"], data['userId'])),
+                                       (data.name, data.email, data.userId)),
                                    initial_message="Atualizando dados do usuario...",
                                    failure_message="Falha ao atualizar dados do usuário")
         if user_data:
             return {
                 "object": {
-                    "user_id": data["userId"],
-                    "name": data["name"],
-                    "email": data["email"]
+                    "user_id": data.userId,
+                    "name": data.name,
+                    "email": data.email
                 },
                 "message": "Sucesso ao atualizar dados do usuário",
                 "success": True
@@ -94,7 +94,7 @@ def change_password(data):  # ok
     try:
         user_data = insert_command(ab_config,
                                    sql_script="""UPDATE users set password = %s where user_id = %s returning user_id""",
-                                   params=((data["password"], data["userId"])),
+                                   params=((data.password, data.userId)),
                                    initial_message="Atualizando senha do usuário...",
                                    failure_message="Falha ao atualizar senha do usuário")
         if user_data:
@@ -113,7 +113,7 @@ def forgot_password(data):  # ok
     try:
         user_data = insert_command(ab_config,
                                    sql_script="""UPDATE users set password = %s where email = %s returning user_id""",
-                                   params=((data["password"], data["email"])),
+                                   params=((data.password, data.email)),
                                    initial_message="Atualizando senha do usuário...",
                                    failure_message="Falha ao atualizar senha do usuário")
         if user_data:

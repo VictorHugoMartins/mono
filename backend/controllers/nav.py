@@ -8,7 +8,7 @@ ab_config = ABConfig()
 def export(data):  # ok
     try:
         response = {
-            "object": export_datatable(ab_config, get_all_rooms_by_ss_id(data["ss_id"]), None, "Airbnb", True),
+            "object": export_datatable(ab_config, get_all_rooms_by_ss_id(data.ss_id), None, "Airbnb", True),
             "message": "Dados retornados com sucesso!",
             "success": True
         }

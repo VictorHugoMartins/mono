@@ -101,8 +101,12 @@ async def getbyid(data: NavGetById):
     return super_survey.getbyid(data)
 
 
+class NavPrepare(BaseModel):
+    ss_id: str
+
+
 @app.post('/nav/prepare')
-async def prepare(data):
+async def prepare(data: NavPrepare):
     return super_survey.prepare(data)
 
 
@@ -112,53 +116,98 @@ async def prepare_filter(ss_id: str):
     return super_survey.prepare_filter(ss_id)
 
 
+class NavChart(BaseModel):
+    str_column: str
+    number_collumn: str
+    agg_method: str
+
+
 @app.post('/nav/chart')
-async def chart(data):
+async def chart(data: NavChart):
     return super_survey.chart(data)
 
 
+class AuthLogin(BaseModel):
+    email: str
+    password: str
+
+
 @app.post('/auth/login')
-async def login(data):
+async def login(data: AuthLogin):
     return auth.login(data)
 
 
+class AuthRegister(BaseModel):
+    name: str
+    email: str
+
+
 @app.post('/auth/register')
-async def register(data):
+async def register(data: AuthRegister):
     return auth.register(data)
 
 
+class AuthEditUser(BaseModel):
+    userId: str
+    name: str
+    email: str
+
+
 @app.post('/auth/edit_user')
-async def edit_user(data):
+async def edit_user(data: AuthEditUser):
     return auth.edit_user(data)
 
 
+class AuthChangePassword(BaseModel):
+    userId: str
+    password: str
+
+
 @app.post('/auth/change_password')
-async def change_password(data):
+async def change_password(data: AuthChangePassword):
     return auth.change_password(data)
 
 
+class AuthForgotPassword(BaseModel):
+    email: str
+    password: str
+
+
 @app.post('/auth/forgot_password')
-async def forgot_password(data):
+async def forgot_password(data: AuthForgotPassword):
     return auth.forgot_password(data)
 
 
 @app.post('/users/list')
-async def list(data):
-    return users.list(data)
+async def list():
+    return users.list()
+
+
+class UsersChangePermission(BaseModel):
+    permission: str
+    user_id: str
 
 
 @app.post('/users/change_permission')
-async def change_permission(data):
+async def change_permission(data: UsersChangePermission):
     return users.change_permission(data)
 
 
+class UsersDelete(BaseModel):
+    user_id: str
+
+
 @app.post('/users/delete')
-async def delete_user(data):
+async def delete_user(data: UsersDelete):
     return users.delete(data)
 
 
+class UsersAccept(BaseModel):
+    user_id: str
+
+
 @app.post('/users/accept')
-async def accept(data):
+async def accept(data: UsersAccept):
     return users.accept(data)
 
 

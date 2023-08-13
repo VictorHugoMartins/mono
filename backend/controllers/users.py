@@ -28,7 +28,7 @@ def change_permission(data):
         user_id = update_command(ab_config,
                                  sql_script="""UPDATE users set permission = %s where user_id = %s returning user_id""",
                                  params=(
-                                     (data["permission"], data['user_id'])),
+                                     (data.permission, data.user_id)),
                                  initial_message="Atualizando permissão do usuario...",
                                  failure_message="Falha ao atualizar permissão do usuário")
         if (user_id):
@@ -47,12 +47,12 @@ def delete(data):  # ok
     try:
         removed = delete_command(ab_config,
                                  sql_script="""DELETE from users where user_id = %s returning user_id""",
-                                 params=((data['user_id'],)),
+                                 params=((data.user_id,)),
                                  initial_message="Deletando usuario...",
                                  failure_message="Falha ao deletar usuário")
         if (removed):
             response = {
-                "object": None,
+                "object": data.user_id,
                 "message": "Usuário removido com sucesso!",
                 "success": True
             }
@@ -67,7 +67,7 @@ def accept(data):  # erro no send mail
         password = get_random_string(10)
         email = update_command(ab_config,
                                sql_script="""UPDATE users set password = %s where user_id = %s returning email""",
-                               params=((password, data['user_id'])),
+                               params=((password, data.user_id)),
                                initial_message="Aceitando solicitação de acesso do usuario...",
                                failure_message="Falha ao aceitar solicitação de acesso")
         if (email):

@@ -2,7 +2,6 @@ from threading import Thread
 import sys
 import scrap.search as search
 from config.general_config import ABConfig
-from utils.functions import send_nullable_value
 
 ab_config = ABConfig()
 
@@ -14,20 +13,16 @@ class Th(Thread):
         Thread.__init__(self)
 
         self.num = num
-        self.platform = send_nullable_value(data, "platform")
-        self.search_area_name = send_nullable_value(data, "city")
-        self.user_id = send_nullable_value(data, "user_id")
-        self.columns = send_nullable_value(data, "columns")
-        self.clusterization_method = send_nullable_value(
-            data, "clusterization_method")
-        self.aggregation_method = send_nullable_value(
-            data, "aggregation_method")
-        self.start_date = send_nullable_value(data, "start_date")
-        self.finish_date = send_nullable_value(data, "finish_date")
-        self.include_locality_search = send_nullable_value(
-            data, "include_locality_search")
-        self.include_route_search = send_nullable_value(
-            data, "include_route_search")
+        self.platform = data.platform
+        self.search_area_name = data.city
+        self.user_id = data.user_id
+        self.columns = data.columns
+        self.clusterization_method = data.clusterization_method
+        self.aggregation_method = data.aggregation_method
+        self.start_date = data.start_date
+        self.finish_date = data.finish_date
+        self.include_locality_search = data.include_locality_search
+        self.include_route_search = data.include_route_search
         self.ss_id = ss_id
 
     def run(self):
