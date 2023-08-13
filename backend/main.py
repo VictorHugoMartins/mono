@@ -7,6 +7,8 @@ from fastapi import FastAPI, BackgroundTasks, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from typing import Union
+
 app = FastAPI()
 
 app.add_middleware(
@@ -23,10 +25,10 @@ class SuperSurveySave(BaseModel):
     city: str
     user_id: str
     columns: [str]
-    clusterization_method: str | None = None
-    aggregation_method: str | None = None
-    start_date: str | None = None
-    finish_date: str | None = None
+    clusterization_method: Union[str, None] = None
+    aggregation_method: Union[str, None] = None
+    start_date: Union[str, None] = None
+    finish_date: Union[str, None] = None
     include_locality_search: bool
     include_route_search: bool
 
@@ -34,7 +36,6 @@ class SuperSurveySave(BaseModel):
 @app.post('/super_survey/save')
 # @cross_origin(data)
 async def save(data: SuperSurveySave):
-    # data = request.get_json(data)
     return super_survey.save(data)
 
 
