@@ -54,7 +54,7 @@ def restart(data):
 																	ON super_survey_config.ss_id = super_survey.ss_id
 																	where super_survey_config.ss_id = %s
 																	limit 1""",
-                            (data["ss_id"],),
+                            (data.ss_id,),
                             "Selecionando dado de configuração de pesquisa",
                             "Falha ao selecionar dados de configurações de pesquisa")
     if not result:
@@ -74,11 +74,11 @@ def restart(data):
     }
 
     print("a data agora:", new_params)
-    thread = Th(1, new_params, data["ss_id"])
+    thread = Th(1, new_params, data.ss_id)
     thread.start()
 
     response = {
-        "object": {"super_survey_id": data["ss_id"]},
+        "object": {"super_survey_id": data.ss_id},
         "message": "Pesquisa em andamento!",
         "success": True
     }
@@ -117,7 +117,7 @@ def getbyid(data):
                             """SELECT platform, data_columns
 																FROM super_survey_config where ss_id = %s
 																limit 1""",
-                            (data["ss_id"],),
+                            (data.ss_id,),
                             "Selecionando colunas da configuração de pesquisa",
                             "Falha ao selecionar colunas da configuração de pesquisa")
     if not result:
@@ -127,7 +127,7 @@ def getbyid(data):
             "success": False
         }
 
-    platform = data["platform"]
+    platform = data.platform
     print(result[0][1])
     try:
         columns = result[0][1].replace('{', '').replace('}', '').split(',')
@@ -136,7 +136,7 @@ def getbyid(data):
         print("as colunas: ", columns)
     except:
         columns = result[0][1]
-    agg_method = data["agg_method"]
+    agg_method = data.agg_method
     if ('platform' in columns):
         columns = columns.replace('platform, ', '')
 
@@ -148,18 +148,18 @@ def getbyid(data):
         rooms = export_datatable(ab_config, """
 											WITH consulta AS ( {consulta} )
 												SELECT room_id, {columns} FROM consulta {query}
-												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Airbnb'", agg_method), columns=xNotIn(exclusive_booking_columns, columns), query=query), params, "Airbnb", True, True)
+												""".format(consulta=get_all_rooms_by_ss_id(data.ss_id, "'Airbnb'", agg_method), columns=xNotIn(exclusive_booking_columns, columns), query=query), params, "Airbnb", True, True)
     elif (platform == 'Booking'):
         (query, params) = buildFilterQuery(data, 'Booking')
         rooms = export_datatable(ab_config, """
 											WITH consulta AS ( {consulta} )
 												SELECT room_id, {columns} FROM consulta {query}
-												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Booking'", agg_method), columns=xNotIn(exclusive_airbnb_columns, columns), query=query), params, "Booking", True, True)
+												""".format(consulta=get_all_rooms_by_ss_id(data.ss_id, "'Booking'", agg_method), columns=xNotIn(exclusive_airbnb_columns, columns), query=query), params, "Booking", True, True)
 
     try:
         print("aqui", rooms)
         response = {
-            "object": {"table": cluster_data(data["clusterization_method"], rooms["df"], rooms["table"], data), "extra_info": agg_method},
+            "object": {"table": cluster_data(data.clusterization_method, rooms["df"], rooms["table"], data), "extra_info": agg_method},
             "message": "Dados retornados com sucesso!",
             "success": True
         }
@@ -182,7 +182,7 @@ def prepare(data):  # adicionar campo p/ visualizar cluster específico
                             """SELECT platform, data_columns
 																FROM super_survey_config where ss_id = %s
 																limit 1""",
-                            (data["ss_id"],),
+                            (data.ss_id,),
                             "Selecionando colunas da configuração de pesquisa",
                             "Falha ao selecionar colunas da configuração de pesquisa")
     if not result:
@@ -264,19 +264,19 @@ def prepare(data):  # adicionar campo p/ visualizar cluster específico
             result_columns.append(
                 {"name": column, "type": columnDict[column]["type"], "label": columnDict[column]["label"], "required": False})
         elif columnDict[column]["type"] == "number":
-            (min, max) = build_options(column, ["min", "max"], data["ss_id"])
+            (min, max) = build_options(column, ["min", "max"], data.ss_id)
             result_columns.append({"name": column, "type": "range",
                                    "label": columnDict[column]["label"], "required": False, "min": min, "max": max})
             numeric_columns.append(
                 {"label": columnDict[column]["label"], "value": column})
         elif columnDict[column]["type"] == "select":
-            options = build_options(column, ["options"], data["ss_id"])
+            options = build_options(column, ["options"], data.ss_id)
             result_columns.append(
                 {"name": column, "type": columnDict[column]["type"], "label": columnDict[column]["label"], "required": False, "options": options})
             str_columns.append(
                 {"label": columnDict[column]["label"], "value": column})
         elif columnDict[column]["type"] == "checkbox":
-            options = build_options(column, ["options"], data["ss_id"])
+            options = build_options(column, ["options"], data.ss_id)
             result_columns.append(
                 {"name": column, "type": columnDict[column]["type"], "label": columnDict[column]["label"], "required": False, "options": options})
             str_columns.append(
@@ -322,7 +322,7 @@ def prepare_filter(ss_id):  # ok
 
 
 def chart(data):  # ok
-    if ((data["agg_method"] != "count") and (data["number_column"] == "nenhum")):
+    if ((data.agg_method != "count") and (data.number_column == "nenhum")):
         return {
             "object": None,
             "message": "Selecione um campo numérico para criar a relação entre os dados!",
@@ -330,17 +330,17 @@ def chart(data):  # ok
         }
     # try:
 
-    if (data["number_column"] == "nenhum"):
-        data["number_column"] = data["str_column"]
+    if (data.number_column == "nenhum"):
+        data.number_column = data.str_column
 
-    agg_method = data["aggregation_method"]
+    agg_method = data.aggregation_method
     unformated_chart_data = select_command(ab_config,
                                            sql_script="""
 						with consulta as ( {consulta} )
 							select distinct({str_column}), {agg_method}({number_column}) as "{agg_method} de {number_column} por {str_column}" from consulta
 							group by {str_column}
 							order by {agg_method}({number_column}) desc
-							""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Airbnb'", agg_method), str_column=data['str_column'], number_column=data['number_column'], agg_method=data['agg_method']),
+							""".format(consulta=get_all_rooms_by_ss_id(data.ss_id, "'Airbnb'", agg_method), str_column=data['str_column'], number_column=data['number_column'], agg_method=data['agg_method']),
         params=(()),
         initial_message="Selecionando dados para gerar gráfico...",
         failure_message="Falha ao selecionar dados para gerar gráfico")
@@ -360,7 +360,7 @@ def update(data):  # ok
 
         ss_id = update_command(ab_config,
                                sql_script="""update super_survey set status=%s where ss_id = %s returning ss_id""",
-                               params=((data["newStatus"], data["ss_id"])),
+                               params=((data.newStatus, data.ss_id)),
                                initial_message="Atualizando status da pesquisa...",
                                failure_message="Falha ao atualizar status da pesquisa")
         if ss_id:

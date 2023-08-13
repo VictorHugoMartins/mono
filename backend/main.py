@@ -36,6 +36,8 @@ class SuperSurveySave(BaseModel):
 @app.post('/super_survey/save')
 async def save(data: SuperSurveySave):
     print(data)
+    print(data.platform)
+    print(data.city)
     return super_survey.save(data)
 
 
