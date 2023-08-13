@@ -20,35 +20,31 @@ app.add_middleware(
 )
 
 
-class SuperSurveySave(BaseModel):
-    platform: str
-    city: str
-    user_id: str
-    columns: List[str]
-    clusterization_method: Union[str, None] = None
-    aggregation_method: Union[str, None] = None
-    start_date: Union[str, None] = None
-    finish_date: Union[str, None] = None
-    include_locality_search: bool
-    include_route_search: bool
-
-
 @app.post('/super_survey/save')
-async def save(data: SuperSurveySave):
+async def save(data: super_survey.SaveModel):
     print(data)
     print(data.platform)
     print(data.city)
     return super_survey.save(data)
 
 
+class SuperSurveyContinue(BaseModel):
+    ss_id: str
+
+
 @app.post('/super_survey/continue')
-async def restart(data):
+async def restart(data: SuperSurveyContinue):
     print(data)
     return super_survey.restart(data)
 
 
+class SuperSurveyUpdate(BaseModel):
+    ss_id: str
+    newStatus: str
+
+
 @app.post('/super_survey/update')
-async def update(data):
+async def update(data: SuperSurveyUpdate):
     print(data)
     return super_survey.update(data)
 
@@ -58,8 +54,12 @@ async def get_data_columns(platform: str):
     return super_survey.get_data_columns(platform)
 
 
+class NavExport(BaseModel):
+    ss_id: str
+
+
 @app.post('/nav/export')
-async def export_super_survey(data):
+async def export_super_survey(data: NavExport):
     return nav.export(data)
 
 
@@ -77,13 +77,27 @@ async def export_public_super_survey_info():
     return nav.public_getall()
 
 
+class NavGetByCity(BaseModel):
+    city: str
+
+
 @app.post('/nav/getbycity')
-async def getbycity(data):
+async def getbycity(data: NavGetByCity):
     return nav.getbycity(data)
 
 
+class NavGetById(BaseModel):
+    ss_id: str
+    platform: str
+    city: str
+    user_id: str
+    columns: List[str]
+    clusterization_method: Union[str, None] = None
+    agg_method: Union[str, None] = None
+
+
 @app.post('/nav/getbyid')
-async def getbyid(data):
+async def getbyid(data: NavGetById):
     return super_survey.getbyid(data)
 
 

@@ -12,8 +12,24 @@ from utils.functions import buildGraphObjectFromSqlResult, get_rooms, xNotIn, ex
 
 ab_config = ABConfig()
 
+from pydantic import BaseModel
 
-def save(data):
+from typing import Union, List
+
+class SaveModel(BaseModel):
+    platform: str
+    city: str
+    user_id: str
+    columns: List[str]
+    clusterization_method: Union[str, None] = None
+    aggregation_method: Union[str, None] = None
+    start_date: Union[str, None] = None
+    finish_date: Union[str, None] = None
+    include_locality_search: bool
+    include_route_search: bool
+
+
+def save(data: SaveModel):
     ss_id = search.initialize_search(config=ab_config,
                                      platform=data.platform,
                                      search_area_name=data.city,
