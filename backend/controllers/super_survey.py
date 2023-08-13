@@ -15,26 +15,16 @@ ab_config = ABConfig()
 
 def save(data):
     ss_id = search.initialize_search(config=ab_config,
-                                     platform=send_nullable_value(
-                                         data, "platform"),
-                                     search_area_name=send_nullable_value(
-                                         data, "city"),
-                                     user_id=send_nullable_value(
-                                         data, "user_id"),
-                                     columns=send_nullable_value(
-                                         data, "columns"),
-                                     clusterization_method=send_nullable_value(
-                                         data, "clusterization_method"),
-                                     aggregation_method=send_nullable_value(
-                                         data, "aggregation_method"),
-                                     start_date=send_nullable_value(
-                                         data, "start_date"),
-                                     finish_date=send_nullable_value(
-                                         data, "finish_date"),
-                                     include_locality_search=send_nullable_value(
-                                         data, "include_locality_search"),
-                                     include_route_search=send_nullable_value(
-                                         data, "include_route_search"),
+                                     platform=data.platform,
+                                     search_area_name=data.city,
+                                     user_id=data.user_id,
+                                     columns=data.columns,
+                                     clusterization_method=data.clusterization_method,
+                                     aggregation_method=data.aggregation_method,
+                                     start_date=data.start_date,
+                                     finish_date=data.finish_date,
+                                     include_locality_search=data.include_locality_search,
+                                     include_route_search=data.include_route_search,
                                      )
 
     print("o ss_id: ", ss_id)
