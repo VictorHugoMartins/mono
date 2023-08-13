@@ -5,7 +5,6 @@ import psycopg2
 import datetime as dt
 
 from scrap.geocoding import reverse_geocode_coordinates_and_insert
-from config.general_config import ABConfig
 from utils.functions import prepare_driver
 
 DOMAIN = 'https://www.booking.com'
@@ -401,9 +400,7 @@ def search_booking_rooms(config, area, start_date, finish_date, survey_id):
 
 
 def main():
-    config = ABConfig()
-
-    search_booking_rooms(config, area='Ouro Preto, Minas Gerais',
+    search_booking_rooms(None, area='Ouro Preto, Minas Gerais',
                          start_date=None, finish_date=None, survey_id=3)
 
 
