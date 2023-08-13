@@ -1,4 +1,4 @@
-import os 
+import os
 import time
 import random
 import logging
@@ -10,7 +10,6 @@ from geopy import distance
 from utils.general_dict import get_all_rooms_by_ss_id
 from utils.file_manager import export_datatable
 from config.general_config import ABConfig
-
 
 
 ab_config = ABConfig()
@@ -149,15 +148,14 @@ def prepare_driver(url):
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    
-    prefs = {"profile.managed_default_content_settings.images":2}
+
+    prefs = {"profile.managed_default_content_settings.images": 2}
     chrome_options.headless = True
 
-
     chrome_options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    driver = webdriver.Chrome(service=Service(
+        ChromeDriverManager().install()), options=chrome_options)
 
-    
     print("instanciou o driver")
     driver.get(url)
     print("fez o get")
@@ -170,13 +168,6 @@ def buildChartObjectFromValueCounts(obj):
     for key in obj.keys():
         result.append({"label": key, "value": obj[key]})
     return result
-
-
-def send_nullable_value(data, key):
-    try:
-        return data[key]
-    except:
-        return None
 
 
 def removeLastWordOfString(word, str):
@@ -343,7 +334,7 @@ def xNotIn(exclusive_list, other_list):
 #     chrome_options.add_argument("--headless")
 #     chrome_options.add_argument("--no-sandbox")
 #     chrome_options.add_argument("--disable-dev-shm-usage")
-    
+
 #     prefs = {"profile.managed_default_content_settings.images":2}
 #     chrome_options.headless = True
 
@@ -351,7 +342,7 @@ def xNotIn(exclusive_list, other_list):
 #     chrome_options.add_experimental_option("prefs", prefs)
 #     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
-    
+
 #     print("instanciou o driver")
 #     driver.get(url)
 #     print("fez o get")

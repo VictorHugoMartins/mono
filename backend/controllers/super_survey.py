@@ -3,7 +3,7 @@ import scrap.search as search
 from utils.file_manager import export_datatable
 from utils.general_dict import columnDict
 from utils.general_dict import get_all_rooms_by_ss_id
-from utils.functions import select_command, send_nullable_value, update_command
+from utils.functions import select_command, update_command
 from utils.functions import buildFilterQuery, build_options
 from utils.thread import Th
 
