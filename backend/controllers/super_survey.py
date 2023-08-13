@@ -100,11 +100,11 @@ def restart(data):
 		#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 
-def get_data_columns(data):  # ok
+def get_data_columns(platform):  # ok
 		try:
 				result = []
 				for x in columnDict:
-						if (data.platform in columnDict[x]["excludeIn"]):
+						if (platform in columnDict[x]["excludeIn"]):
 								continue
 						else:
 								result.append({"label": columnDict[x]["label"], "value": x})
@@ -297,20 +297,19 @@ def prepare(data):  # adicionar campo p/ visualizar cluster específico
 		})
 
 
-def prepare_filter(args):  # ok
-		print(args)
+def prepare_filter(ss_id):  # ok
 		platform = select_command(ab_config,
 															"""SELECT platform
 																FROM super_survey_config where ss_id = %s
 																limit 1""",
-															(args.get("ss_id"),),
+															(ss_id,),
 															"Selecionando colunas da configuração de pesquisa",
 															"Falha ao selecionar colunas da configuração de pesquisa")
 
 		print(platform)
 		return jsonify({
 				"object": {
-						"ss_id": args.get("ss_id"),
+						"ss_id": ss_id,
 						"agg_method": "_avg",
 						"clusterization_method": "none",
 						"platform": platform[0][0],

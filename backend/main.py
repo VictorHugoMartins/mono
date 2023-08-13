@@ -30,11 +30,7 @@ async def update(data):
     return super_survey.update(data)
 
 
-class SuperSurveyGetDataColumns(BaseModel):
-    platform: str
-
-
-@app.get('/super_survey/get_data_columns/{platform}')
+@app.get('/super_survey/get_data_columns?{platform}')
 async def get_data_columns(platform: str):
     return super_survey.get_data_columns(platform)
 
@@ -83,11 +79,11 @@ async def prepare(data):
     return super_survey.prepare(data)
 
 
-@app.get('/nav/preparefilter')
+@app.get('/nav/preparefilter?{ss_id}')
 # @cross_origin(data)
-async def prepare_filter(data):
+async def prepare_filter(ss_id: str):
     # args = request.args
-    return super_survey.prepare_filter(data)
+    return super_survey.prepare_filter(ss_id)
 
 
 @app.post('/nav/chart')
