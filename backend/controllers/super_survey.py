@@ -1,4 +1,3 @@
-from flask import jsonify
 from config.general_config import ABConfig
 import scrap.search as search
 from utils.file_manager import export_datatable
@@ -47,7 +46,7 @@ def save(data):
         "message": "Pesquisa cadastrada com sucesso!",
         "success": True
     }
-    # response.headers.add('Access-Control-Allow-Origin', '*')
+
     return response
     # finally:
     #     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -93,7 +92,7 @@ def restart(data):
         "message": "Pesquisa em andamento!",
         "success": True
     }
-    # response.headers.add('Access-Control-Allow-Origin', '*')
+
     return response
     # finally:
     #     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
@@ -182,7 +181,6 @@ def getbyid(data):
             "success": True
         }
 
-    # response.headers.add('Access-Control-Allow-Origin', '*')
     return response
     # finally:
     #     # Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized

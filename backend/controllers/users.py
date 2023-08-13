@@ -1,4 +1,3 @@
-from flask import jsonify
 from config.general_config import ABConfig
 from utils.file_manager import export_datatable
 from utils.functions import update_command, delete_command
@@ -10,17 +9,18 @@ ab_config = ABConfig()
 
 def list(data):  # ok
     try:
-        users = export_datatable(ab_config, """select user_id, name, email, permission, case when password is not null then 'y' else null end as password from users order by user_id desc""", None, None, True)
+        users = export_datatable(
+            ab_config, """select user_id, name, email, permission, case when password is not null then 'y' else null end as password from users order by user_id desc""", None, None, True)
         print("users", users)
-        response = jsonify({
+        response = {
             "object": users,
             "message": "Dados retornados com sucesso!",
             "success": True
-        })
+        }
         # response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     except:
-        return jsonify({"message": "Falha ao buscar lista de usuário", "success": False}), 500
+        return {"message": "Falha ao buscar lista de usuário", "success": False}
 
 
 def change_permission(data):
@@ -32,15 +32,15 @@ def change_permission(data):
                                  initial_message="Atualizando permissão do usuario...",
                                  failure_message="Falha ao atualizar permissão do usuário")
         if (user_id):
-            response = jsonify({
+            response = {
                 "object": user_id,
                 "message": "Dados retornados com sucesso!",
                 "success": True
-            })
+            }
             # response.headers.add('Access-Control-Allow-Origin', '*')
             return response
     except:
-        return jsonify({"message": "Falha ao alterar permissão do usuário", "success": False}), 500
+        return {"message": "Falha ao alterar permissão do usuário", "success": False}
 
 
 def delete(data):  # ok
@@ -51,15 +51,15 @@ def delete(data):  # ok
                                  initial_message="Deletando usuario...",
                                  failure_message="Falha ao deletar usuário")
         if (removed):
-            response = jsonify({
+            response = {
                 "object": None,
                 "message": "Usuário removido com sucesso!",
                 "success": True
-            })
+            }
             # response.headers.add('Access-Control-Allow-Origin', '*')
             return response
     except:
-        return jsonify({"message": "Falha ao deletar usuário", "success": False}), 500
+        return {"message": "Falha ao deletar usuário", "success": False}
 
 
 def accept(data):  # erro no send mail
@@ -72,12 +72,12 @@ def accept(data):  # erro no send mail
                                failure_message="Falha ao aceitar solicitação de acesso")
         if (email):
             send_mail(email)
-            response = jsonify({
+            response = {
                 "object": None,
                 "message": "Acesso aceito com sucesso!",
                 "success": True
-            })
+            }
             # response.headers.add('Access-Control-Allow-Origin', '*')
             return response
     except:
-        return jsonify({"message": "Falha ao conceder permissão ao usuário", "success": False}), 500
+        return {"message": "Falha ao conceder permissão ao usuário", "success": False}

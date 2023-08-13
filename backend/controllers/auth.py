@@ -1,4 +1,3 @@
-from flask import jsonify
 from config.general_config import ABConfig
 from utils.functions import select_command, insert_command, update_command
 import psycopg2
@@ -16,7 +15,7 @@ def login(data):  # ok
                                    failure_message="Falha ao realizar login")
         print(user_data)
         if user_data[0][2] == data['email']:
-            return jsonify({
+            return {
                 "object": {
                     "user_id": user_data[0][0],
                     "name": user_data[0][1],
@@ -24,11 +23,11 @@ def login(data):  # ok
                 },
                 "message": "Sucesso ao realizar login",
                 "success": True
-            })
+            }
         else:
-            return jsonify({"message": "Erro ao realizar login!", "success": False}), 401
+            return {"message": "Erro ao realizar login!", "success": False}
     except:
-        return jsonify({"message": "Erro ao realizar login!", "success": False}), 401
+        return {"message": "Erro ao realizar login!", "success": False}
 
 
 def register(data):  # chamando 2 vezes no front, n impede de cadastrar msm email 2 vezes
@@ -40,7 +39,7 @@ def register(data):  # chamando 2 vezes no front, n impede de cadastrar msm emai
                                 "Verificando existência de usuário...",
                                 "Falha ao verificar existência de usuário")
         if result:
-            return jsonify({"message": "E-mail já cadastrado!", "success": False}), 400
+            return {"message": "E-mail já cadastrado!", "success": False}
         else:
             user_data = insert_command(ab_config,
                                        sql_script="""INSERT INTO users(name, email) values(%s, %s) returning user_id""",
@@ -50,7 +49,7 @@ def register(data):  # chamando 2 vezes no front, n impede de cadastrar msm emai
                                        failure_message="Falha ao cadastrar usuário")
             print(user_data)
             if user_data:
-                return jsonify({
+                return {
                     "object": {
                         "user_id": user_data,
                         "name": data["name"],
@@ -58,13 +57,13 @@ def register(data):  # chamando 2 vezes no front, n impede de cadastrar msm emai
                     },
                     "message": "Sucesso ao cadastrar usuário",
                     "success": True
-                })
+                }
             else:
-                return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 401
+                return {"message": "Erro ao cadastrar usuário!", "success": False}
     except psycopg2.errors.UniqueViolation:
-        return jsonify({"message": "Usuário já cadastrado! Talvez seja melhor tentar fazer login...", "success": False}), 400
+        return {"message": "Usuário já cadastrado! Talvez seja melhor tentar fazer login...", "success": False}
     except:
-        return jsonify({"message": "Exceção ao cadastrar usuário!", "success": False}), 500
+        return {"message": "Exceção ao cadastrar usuário!", "success": False}
 
 
 def edit_user(data):  # ok, mas seria bom ter um prepare. atualizar cookies após setar
@@ -76,7 +75,7 @@ def edit_user(data):  # ok, mas seria bom ter um prepare. atualizar cookies apó
                                    initial_message="Atualizando dados do usuario...",
                                    failure_message="Falha ao atualizar dados do usuário")
         if user_data:
-            return jsonify({
+            return {
                 "object": {
                     "user_id": data["userId"],
                     "name": data["name"],
@@ -84,11 +83,11 @@ def edit_user(data):  # ok, mas seria bom ter um prepare. atualizar cookies apó
                 },
                 "message": "Sucesso ao atualizar dados do usuário",
                 "success": True
-            })
+            }
         else:
-            return jsonify({"message": "Erro ao atualizar dados do usuário!", "success": False}), 401
+            return {"message": "Erro ao atualizar dados do usuário!", "success": False}
     except:
-        return jsonify({"message": "Erro ao cadastrar usuário!", "success": False}), 500
+        return {"message": "Erro ao cadastrar usuário!", "success": False}
 
 
 def change_password(data):  # ok
@@ -99,15 +98,15 @@ def change_password(data):  # ok
                                    initial_message="Atualizando senha do usuário...",
                                    failure_message="Falha ao atualizar senha do usuário")
         if user_data:
-            return jsonify({
+            return {
                 "object": None,
                 "message": "Sucesso ao atualizar senha do usuário",
                 "success": True
-            })
+            }
         else:
-            return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401
+            return {"message": "Erro ao atualizar senha do usuário!", "success": False}
     except:
-        return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401
+        return {"message": "Erro ao atualizar senha do usuário!", "success": False}
 
 
 def forgot_password(data):  # ok
@@ -118,12 +117,12 @@ def forgot_password(data):  # ok
                                    initial_message="Atualizando senha do usuário...",
                                    failure_message="Falha ao atualizar senha do usuário")
         if user_data:
-            return jsonify({
+            return {
                 "object": None,
                 "message": "Sucesso ao atualizar senha do usuário",
                 "success": True
-            })
+            }
         else:
-            return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401
+            return {"message": "Erro ao atualizar senha do usuário!", "success": False}
     except:
-        return jsonify({"message": "Erro ao atualizar senha do usuário!", "success": False}), 401
+        return {"message": "Erro ao atualizar senha do usuário!", "success": False}
