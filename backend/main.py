@@ -1,13 +1,16 @@
-import controllers.nav as nav
-import controllers.users as users
 import controllers.auth as auth
+import controllers.nav as nav
 import controllers.super_survey as super_survey
+import controllers.users as users
+
+from models.auth import *
+from models.nav import *
+from models.super_survey import *
+from models.users import *
 
 from fastapi import FastAPI, BackgroundTasks, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
-from typing import Union, List
 
 app = FastAPI()
 
@@ -21,30 +24,21 @@ app.add_middleware(
 
 
 @app.post('/super_survey/save')
-async def save(data: super_survey.SaveModel):
+async def save(data: SaveModel):
     print(data)
     print(data.platform)
     print(data.city)
     return super_survey.save(data)
 
 
-class SuperSurveyContinue(BaseModel):
-    ss_id: str
-
-
-@app.post('/super_survey/continue')
-async def restart(data: SuperSurveyContinue):
+@app.post('/super_survey/restart')
+async def restart(data: RestartModel):
     print(data)
     return super_survey.restart(data)
 
 
-class SuperSurveyUpdate(BaseModel):
-    ss_id: str
-    newStatus: str
-
-
 @app.post('/super_survey/update')
-async def update(data: SuperSurveyUpdate):
+async def update(data: UpdateModel):
     print(data)
     return super_survey.update(data)
 
@@ -54,12 +48,8 @@ async def get_data_columns(platform: str):
     return super_survey.get_data_columns(platform)
 
 
-class NavExport(BaseModel):
-    ss_id: str
-
-
 @app.post('/nav/export')
-async def export_super_survey(data: NavExport):
+async def export_super_survey(data: ExportModel):
     return nav.export(data)
 
 
@@ -68,7 +58,7 @@ class NavList(BaseModel):
 
 
 @app.post('/nav/list')
-async def export_super_survey_info(data: NavList):
+async def export_super_survey_info(data: ListModel):
     return nav.list(data)
 
 
@@ -77,36 +67,18 @@ async def export_public_super_survey_info():
     return nav.public_getall()
 
 
-class NavGetByCity(BaseModel):
-    city: str
-
-
 @app.post('/nav/getbycity')
-async def getbycity(data: NavGetByCity):
+async def getbycity(data: GetByCityModel):
     return nav.getbycity(data)
 
 
-class NavGetById(BaseModel):
-    ss_id: str
-    platform: str
-    city: str
-    user_id: str
-    columns: List[str]
-    clusterization_method: Union[str, None] = None
-    agg_method: Union[str, None] = None
-
-
 @app.post('/nav/getbyid')
-async def getbyid(data: NavGetById):
+async def getbyid(data: GetByIdModel):
     return super_survey.getbyid(data)
 
 
-class NavPrepare(BaseModel):
-    ss_id: str
-
-
 @app.post('/nav/prepare')
-async def prepare(data: NavPrepare):
+async def prepare(data: PrepareModel):
     return super_survey.prepare(data)
 
 
@@ -116,65 +88,33 @@ async def prepare_filter(ss_id: str):
     return super_survey.prepare_filter(ss_id)
 
 
-class NavChart(BaseModel):
-    str_column: str
-    number_collumn: str
-    agg_method: str
-
-
 @app.post('/nav/chart')
-async def chart(data: NavChart):
+async def chart(data: ChartModel):
     return super_survey.chart(data)
 
 
-class AuthLogin(BaseModel):
-    email: str
-    password: str
-
-
 @app.post('/auth/login')
-async def login(data: AuthLogin):
+async def login(data: LoginModel):
     return auth.login(data)
 
 
-class AuthRegister(BaseModel):
-    name: str
-    email: str
-
-
 @app.post('/auth/register')
-async def register(data: AuthRegister):
+async def register(data: RegisterModel):
     return auth.register(data)
 
 
-class AuthEditUser(BaseModel):
-    userId: str
-    name: str
-    email: str
-
-
 @app.post('/auth/edit_user')
-async def edit_user(data: AuthEditUser):
+async def edit_user(data: EditUserModel):
     return auth.edit_user(data)
 
 
-class AuthChangePassword(BaseModel):
-    userId: str
-    password: str
-
-
 @app.post('/auth/change_password')
-async def change_password(data: AuthChangePassword):
+async def change_password(data: ChangePasswordModel):
     return auth.change_password(data)
 
 
-class AuthForgotPassword(BaseModel):
-    email: str
-    password: str
-
-
 @app.post('/auth/forgot_password')
-async def forgot_password(data: AuthForgotPassword):
+async def forgot_password(data: ForgotPasswordModel):
     return auth.forgot_password(data)
 
 
@@ -183,31 +123,18 @@ async def list():
     return users.list()
 
 
-class UsersChangePermission(BaseModel):
-    permission: str
-    user_id: str
-
-
 @app.post('/users/change_permission')
-async def change_permission(data: UsersChangePermission):
+async def change_permission(data: ChangePermissionModel):
     return users.change_permission(data)
 
 
-class UsersDelete(BaseModel):
-    user_id: str
-
-
 @app.post('/users/delete')
-async def delete_user(data: UsersDelete):
+async def delete_user(data: DeleteModel):
     return users.delete(data)
 
 
-class UsersAccept(BaseModel):
-    user_id: str
-
-
 @app.post('/users/accept')
-async def accept(data: UsersAccept):
+async def accept(data: AcceptModel):
     return users.accept(data)
 
 
