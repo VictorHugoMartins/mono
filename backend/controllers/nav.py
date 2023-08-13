@@ -38,7 +38,7 @@ def list(data):  # ok
         return jsonify({"message": "Falha ao buscar dados", "success": False}), 500
 
 
-def public_getall(data):  # ok
+def public_getall():  # ok
     try:
         response = jsonify({
             "object": export_datatable(ab_config, """

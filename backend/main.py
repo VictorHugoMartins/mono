@@ -2,6 +2,7 @@ import controllers.nav as nav
 import controllers.users as users
 import controllers.auth as auth
 import controllers.super_survey as super_survey
+
 from fastapi import FastAPI, BackgroundTasks, HTTPException
 from pydantic import BaseModel
 
@@ -50,20 +51,19 @@ async def export_super_survey(data):
     # data = request.get_json(data)
     return nav.export(data)
 
+class NavList(BaseModel):
+    user_id: str
 
 @app.post('/nav/list')
-# @cross_origin(data)
-async def export_super_survey_info(data):
+async def export_super_survey_info(data: NavList):
     # data = request.get_json(data)
     return nav.list(data)
 
 
 @app.post('/nav/public_getall')
 # @cross_origin(data)
-async def export_public_super_survey_info(data):
-    data = request.get_json(data)
-    print(data)
-    return nav.public_getall(data)
+async def export_public_super_survey_info():
+    return nav.public_getall()
 
 
 @app.post('/nav/getbycity')
