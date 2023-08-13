@@ -30,7 +30,7 @@ async def update(data):
     return super_survey.update(data)
 
 
-@app.get('/super_survey/get_data_columns?{platform}')
+@app.get('/super_survey/get_data_columns/{platform}')
 async def get_data_columns(platform: str):
     return super_survey.get_data_columns(platform)
 
