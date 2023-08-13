@@ -68,7 +68,7 @@ class ABConfig():
                 if os.name == "nt":
                     username = os.environ['USERNAME']
                 else:
-                    username = os.environ['USER']
+                    username = 'root'
                 self.config_file = 'config/' + username + ".config"
             logging.info("Reading configuration file %s", self.config_file)
             if not os.path.isfile(self.config_file):
