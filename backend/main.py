@@ -8,14 +8,6 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# from flask import Flask, request, jsonify
-# from flask_cors import CORS, cross_origin
-
-# controllers
-
-# app = Flask(__name__)  # Dados de usuário armazenados em um dicionário
-# CORS(app)
-
 
 @app.post('/super_survey/save')
 # @cross_origin(data)
@@ -51,8 +43,10 @@ async def export_super_survey(data):
     # data = request.get_json(data)
     return nav.export(data)
 
+
 class NavList(BaseModel):
     user_id: str
+
 
 @app.post('/nav/list')
 async def export_super_survey_info(data: NavList):

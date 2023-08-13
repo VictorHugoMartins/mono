@@ -109,15 +109,15 @@ def get_data_columns(args):  # ok
 						else:
 								result.append({"label": columnDict[x]["label"], "value": x})
 
-				return jsonify({
+				return {
 						"object": result,
 						"message": "Sucesso ao retornar colunas para seleção de dados para coleta",
 						"success": True
-				})
+				}
 		except:
 				# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
 				# Inicia a aplicação
-				return jsonify({"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False}), 500
+				return {"message": "Erro ao retornar colunas para seleção de dados para coleta!", "success": False}
 
 # specific survey
 
