@@ -18,9 +18,22 @@ app.add_middleware(
 )
 
 
+class SuperSurveySave(BaseModel):
+    platform: str
+    city: str
+    user_id: str
+    columns: [str]
+    clusterization_method: str | None = None
+    aggregation_method: str | None = None
+    start_date: str | None = None
+    finish_date: str | None = None
+    include_locality_search: bool
+    include_route_search: bool
+
+
 @app.post('/super_survey/save')
 # @cross_origin(data)
-async def save(data):
+async def save(data: SuperSurveySave):
     # data = request.get_json(data)
     return super_survey.save(data)
 
@@ -88,7 +101,7 @@ async def prepare(data):
     return super_survey.prepare(data)
 
 
-@app.get('/nav/preparefilter?{ss_id}')
+@app.get('/nav/preparefilter/{ss_id}')
 # @cross_origin(data)
 async def prepare_filter(ss_id: str):
     # args = request.args
