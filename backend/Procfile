@@ -1,1 +1,1 @@
-web: google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 main:app
+web: gunicorn main:app
