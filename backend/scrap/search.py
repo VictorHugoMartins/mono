@@ -194,6 +194,7 @@ def update_survey_with_super_survey_id(config, super_survey_id, survey_id):
 
 
 def execute_search(config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, super_survey_id=None):
+    survey_id = db_add_survey(ab_config, search_area_name)
     search_booking_rooms(ab_config, search_area_name,
                                  start_date, finish_date, survey_id)
                                  
