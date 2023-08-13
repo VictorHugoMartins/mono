@@ -1,0 +1,32 @@
+2023-06-02 17:02:55,336 INFO    ======================================================================
+2023-06-02 17:02:55,337 INFO    Survey 347, for Aiuruoca, Minas Gerais
+2023-06-02 17:02:55,338 INFO    Searching by bounding box, max_zoom=24
+2023-06-02 17:02:55,339 INFO    ----------------------------------------------------------------------
+2023-06-02 17:02:55,340 INFO    Rectangle calculated: [-44.529, -21.742, -44.766, -22.163]
+2023-06-02 17:02:55,340 INFO    Searching rectangle: zoom factor = 0, node = []
+2023-06-02 17:02:55,759 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-06-02 17:03:02,691 INFO    Page 01 returned 00 listings
+2023-06-02 17:03:02,696 INFO    Final page of listings for this search
+2023-06-02 17:03:02,696 INFO    Results: 1 pages, 0 new rooms
+2023-06-02 17:03:02,713 INFO    Finishing survey 347, for Aiuruoca, Minas Gerais
+2023-06-02 17:03:02,717 INFO    Initialing search by overall satisfactions
+2023-06-02 17:03:02,719 INFO    0 results
+2023-06-02 17:03:02,719 INFO    Updating status of super survey 88
+2023-06-02 17:03:02,721 INFO    Updating status of super survey 88
+2023-06-02 17:03:02,724 INFO    Selecting sublocalities from city
+2023-06-02 17:03:02,798 INFO    Updating status of super survey 88
+2023-06-02 17:03:02,799 INFO    Updating status of super survey 88
+2023-06-02 17:03:02,801 INFO    Updating status of super survey 88
+2023-06-02 17:03:02,802 INFO    Selecting routes from sublocality
+2023-06-02 17:03:02,866 INFO    Updating status of super survey 88
+2023-06-02 17:03:02,867 INFO    Updating status of super survey 88
+2023-06-02 17:03:02,869 INFO    Updating status of super survey 88
+2023-06-02 17:03:02,871 INFO    Updating status of super survey 88
+2023-06-02 17:03:02,872 INFO    Updating status of super survey 0
+2023-06-02 17:03:02,873 ERROR   Failed to update status of super survey 0
+2023-06-02 17:03:03,557 INFO    ====== WebDriver manager ======
+2023-06-02 17:03:04,621 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:03:05,282 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 17:03:19,137 INFO    ====== WebDriver manager ======
+2023-06-02 17:03:19,867 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:03:20,573 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache

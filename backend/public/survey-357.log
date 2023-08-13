@@ -1,0 +1,42 @@
+2023-06-02 17:32:19,952 INFO    ======================================================================
+2023-06-02 17:32:19,953 INFO    Survey 357, for Aiuruoca, Minas Gerais
+2023-06-02 17:32:19,954 INFO    Searching by bounding box, max_zoom=24
+2023-06-02 17:32:19,954 INFO    ----------------------------------------------------------------------
+2023-06-02 17:32:19,954 INFO    Rectangle calculated: [-44.529, -21.742, -44.766, -22.163]
+2023-06-02 17:32:19,955 INFO    Searching rectangle: zoom factor = 0, node = []
+2023-06-02 17:32:20,488 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-06-02 17:32:26,678 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-06-02 17:32:34,328 INFO    Page 01 returned 00 listings
+2023-06-02 17:32:34,329 INFO    Final page of listings for this search
+2023-06-02 17:32:34,330 INFO    Results: 1 pages, 0 new rooms
+2023-06-02 17:32:34,333 INFO    Finishing survey 357, for Aiuruoca, Minas Gerais
+2023-06-02 17:32:34,337 INFO    Initialing search by overall satisfactions
+2023-06-02 17:32:34,341 INFO    0 results
+2023-06-02 17:32:34,342 INFO    Updating status of super survey 88 to 73
+2023-06-02 17:32:34,359 INFO    Updating status of super survey 88 to -74
+2023-06-02 17:32:34,360 INFO    Updating status of super survey 88 to 51
+2023-06-02 17:32:34,362 INFO    Selecting routes from sublocality
+2023-06-02 17:32:34,446 INFO    Updating status of super survey 88 to 83
+2023-06-02 17:32:34,448 INFO    Updating status of super survey 88 to 75
+2023-06-02 17:32:34,449 INFO    Updating status of super survey 88 to 6
+2023-06-02 17:32:34,450 INFO    Updating status of super survey 88 to 7
+2023-06-02 17:32:34,451 INFO    Updating status of super survey 88 to 711
+2023-06-02 17:32:35,182 INFO    Initializing update of survey with super survey id
+2023-06-02 17:32:35,186 INFO    ====== WebDriver manager ======
+2023-06-02 17:32:35,933 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:32:36,608 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 17:32:48,212 INFO    ====== WebDriver manager ======
+2023-06-02 17:32:49,126 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:32:49,740 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 17:33:03,669 INFO    ====== WebDriver manager ======
+2023-06-02 17:33:05,467 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:33:06,646 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 17:33:35,124 INFO    Updating status of super survey 88 to -711
+2023-06-02 17:33:39,248 INFO    Updating status of super survey 88 to 73
+2023-06-02 17:33:39,258 INFO    Updating status of super survey 88 to -74
+2023-06-02 17:33:39,260 INFO    Updating status of super survey 88 to -751
+2023-06-02 17:33:39,414 INFO    Selecting routes from sublocality
+2023-06-02 17:33:39,490 INFO    Updating status of super survey 88 to 783
+2023-06-02 17:33:39,491 INFO    Updating status of super survey 88 to 75
+2023-06-02 17:33:39,492 INFO    Updating status of super survey 88 to 200
+2023-06-02 17:33:42,823 INFO     * Detected change in 'C:\\mono\\mono\\backend\\search.py', reloading

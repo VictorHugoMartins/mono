@@ -1,0 +1,11 @@
+2023-07-22 13:26:15,502 INFO    ======================================================================
+2023-07-22 13:26:15,503 INFO    Survey 379, for A
+2023-07-22 13:26:15,504 INFO    Searching by bounding box, max_zoom=24
+2023-07-22 13:26:15,504 INFO    ----------------------------------------------------------------------
+2023-07-22 13:26:15,504 INFO    Rectangle calculated: [105.636812, 20.4648337, 97.3438072, 5.612851]
+2023-07-22 13:26:15,505 INFO    Searching rectangle: zoom factor = 0, node = []
+2023-07-22 13:26:25,546 WARNING Network request 0: connectionError. Bad proxy 103.243.132.58:60356?
+2023-07-22 13:26:35,618 WARNING Network request 1: connectionError. Bad proxy 149.28.180.233:8081?
+2023-07-22 13:26:46,058 WARNING Network request 2: connectionError. Bad proxy 201.62.56.49:35816?
+2023-07-22 13:26:56,228 WARNING Network request 3: connectionError. Bad proxy 118.174.196.112:36314?
+2023-07-22 13:27:05,071 INFO     * Detected change in 'C:\\mono\\mono\\backend\\thread.py', reloading

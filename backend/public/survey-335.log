@@ -1,0 +1,225 @@
+2023-05-24 13:39:56,861 INFO    ======================================================================
+2023-05-24 13:39:56,863 INFO    Survey 335, for Ouro Preto, Minas Gerais
+2023-05-24 13:39:56,865 INFO    Searching by bounding box, max_zoom=24
+2023-05-24 13:39:56,867 INFO    ----------------------------------------------------------------------
+2023-05-24 13:39:56,868 INFO    Rectangle calculated: [-20.2519, -43.4372, -20.5229, -43.7846]
+2023-05-24 13:39:56,869 INFO    Searching rectangle: zoom factor = 0, node = []
+2023-05-24 13:39:57,157 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:40:22,364 INFO    Page 01 returned 18 listings
+2023-05-24 13:40:23,796 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:40:48,276 INFO    Page 02 returned 18 listings
+2023-05-24 13:41:06,299 INFO    Page 03 returned 18 listings
+2023-05-24 13:41:06,981 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:41:30,366 INFO    Page 04 returned 18 listings
+2023-05-24 13:41:49,452 INFO    Page 05 returned 18 listings
+2023-05-24 13:42:08,253 INFO    Page 06 returned 18 listings
+2023-05-24 13:42:10,678 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:42:17,677 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:42:26,407 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:42:34,739 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:43:04,265 INFO    Page 07 returned 18 listings
+2023-05-24 13:43:09,659 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:43:39,285 INFO    Page 08 returned 18 listings
+2023-05-24 13:43:45,594 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:43:55,112 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:44:10,878 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:44:43,588 INFO    Page 09 returned 18 listings
+2023-05-24 13:45:09,396 INFO    Page 10 returned 18 listings
+2023-05-24 13:45:36,841 INFO    Page 11 returned 18 listings
+2023-05-24 13:46:02,849 INFO    Page 12 returned 18 listings
+2023-05-24 13:46:26,708 INFO    Page 13 returned 18 listings
+2023-05-24 13:46:52,317 INFO    Page 14 returned 18 listings
+2023-05-24 13:46:58,815 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:47:06,911 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:47:17,002 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:47:43,916 INFO    Page 15 returned 18 listings
+2023-05-24 13:47:53,845 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:48:19,261 INFO    Page 16 returned 18 listings
+2023-05-24 13:48:47,401 INFO    Page 17 returned 18 listings
+2023-05-24 13:49:00,807 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:49:26,320 INFO    Page 18 returned 18 listings
+2023-05-24 13:49:45,517 INFO    Page 19 returned 18 listings
+2023-05-24 13:50:12,399 INFO    Page 20 returned 18 listings
+2023-05-24 13:50:34,115 INFO    Page 21 returned 18 listings
+2023-05-24 13:50:50,338 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:51:21,005 INFO    Page 22 returned 18 listings
+2023-05-24 13:51:47,834 INFO    Page 23 returned 18 listings
+2023-05-24 13:52:04,403 INFO    Page 24 returned 18 listings
+2023-05-24 13:52:31,046 INFO    Page 25 returned 18 listings
+2023-05-24 13:52:55,428 INFO    Page 26 returned 18 listings
+2023-05-24 13:52:57,090 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:53:27,366 INFO    Page 27 returned 18 listings
+2023-05-24 13:53:45,816 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:54:24,605 INFO    Page 28 returned 18 listings
+2023-05-24 13:55:00,005 INFO    Page 29 returned 18 listings
+2023-05-24 13:55:32,394 INFO    Page 30 returned 18 listings
+2023-05-24 13:55:53,398 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:56:33,237 INFO    Page 31 returned 18 listings
+2023-05-24 13:57:05,722 INFO    Page 32 returned 18 listings
+2023-05-24 13:57:33,231 INFO    Page 33 returned 18 listings
+2023-05-24 13:57:41,602 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:58:15,923 INFO    Page 34 returned 18 listings
+2023-05-24 13:58:19,097 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 13:58:47,880 INFO    Page 35 returned 18 listings
+2023-05-24 13:59:10,099 INFO    Page 36 returned 18 listings
+2023-05-24 13:59:29,228 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:00:08,055 INFO    Page 37 returned 18 listings
+2023-05-24 14:00:27,402 INFO    Page 38 returned 18 listings
+2023-05-24 14:00:43,701 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:01:18,406 INFO    Page 39 returned 18 listings
+2023-05-24 14:01:34,812 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:02:17,386 INFO    Page 40 returned 18 listings
+2023-05-24 14:02:48,416 INFO    Page 41 returned 18 listings
+2023-05-24 14:03:03,386 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:03:44,325 INFO    Page 42 returned 18 listings
+2023-05-24 14:04:14,940 INFO    Page 43 returned 18 listings
+2023-05-24 14:04:40,853 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:05:26,214 INFO    Page 44 returned 18 listings
+2023-05-24 14:05:57,114 INFO    Page 45 returned 18 listings
+2023-05-24 14:06:37,795 INFO    Page 46 returned 18 listings
+2023-05-24 14:07:10,863 INFO    Page 47 returned 18 listings
+2023-05-24 14:07:11,540 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:07:22,093 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:07:30,222 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:08:08,626 INFO    Page 48 returned 18 listings
+2023-05-24 14:08:09,952 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:08:42,732 INFO    Page 49 returned 18 listings
+2023-05-24 14:08:44,688 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:09:28,498 INFO    Page 50 returned 18 listings
+2023-05-24 14:09:28,500 INFO    Results: 50 pages, 313 new rooms
+2023-05-24 14:09:28,586 INFO    ----------------------------------------------------------------------
+2023-05-24 14:09:28,587 INFO    Rectangle calculated: [-20.2519, -43.4372, -20.3874, -43.6109]
+2023-05-24 14:09:28,587 INFO    Searching rectangle: zoom factor = 1, node = [[0, 0]]
+2023-05-24 14:09:51,107 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:09:58,942 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:10:29,525 INFO    Page 01 returned 18 listings
+2023-05-24 14:10:51,436 INFO    Page 02 returned 18 listings
+2023-05-24 14:11:30,347 INFO    Page 03 returned 18 listings
+2023-05-24 14:12:01,580 INFO    Page 04 returned 18 listings
+2023-05-24 14:12:34,006 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:12:56,617 INFO    Page 05 returned 18 listings
+2023-05-24 14:13:24,438 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:14:01,899 INFO    Page 06 returned 18 listings
+2023-05-24 14:14:54,944 INFO    Page 07 returned 18 listings
+2023-05-24 14:15:19,130 INFO    Page 08 returned 18 listings
+2023-05-24 14:15:51,725 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:16:51,577 INFO    Page 09 returned 18 listings
+2023-05-24 14:17:19,315 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:17:56,241 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:18:20,008 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:19:16,476 INFO    Page 10 returned 18 listings
+2023-05-24 14:19:43,832 INFO    Page 11 returned 18 listings
+2023-05-24 14:20:15,356 INFO    Page 12 returned 18 listings
+2023-05-24 14:20:43,656 INFO    Page 13 returned 18 listings
+2023-05-24 14:20:52,534 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:21:34,493 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:21:59,804 INFO    Page 14 returned 18 listings
+2023-05-24 14:22:42,604 INFO    Page 15 returned 18 listings
+2023-05-24 14:23:26,841 INFO    Page 16 returned 18 listings
+2023-05-24 14:24:05,121 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:24:54,505 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:25:00,884 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-05-24 14:25:37,960 ERROR   Exception in get_search_page_info_rectangle
+Traceback (most recent call last):
+  File "C:\mono\mono\backend\airbnb_listing.py", line 161, in save
+    self.__insert()
+  File "C:\mono\mono\backend\airbnb_listing.py", line 236, in __insert
+    cur.execute(sql, insert_args)
+psycopg2.errors.InvalidTextRepresentation: invalid input syntax for type double precision: "30,272"
+LINE 12:                 6, 3, 1.0, '30,272', 0, 2,  -20.38482,  -43....
+                                    ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\mono\mono\backend\airbnb_survey.py", line 809, in search_node
+    if listing.save(self.config.FLAGS_INSERT_NO_REPLACE):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\mono\mono\backend\airbnb_listing.py", line 171, in save
+    self.config.connection.conn.rollback()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'psycopg2.extensions.connection' object has no attribute 'conn'
+2023-05-24 14:25:37,986 ERROR   Error in recurse_quadtree
+Traceback (most recent call last):
+  File "C:\mono\mono\backend\airbnb_listing.py", line 161, in save
+    self.__insert()
+  File "C:\mono\mono\backend\airbnb_listing.py", line 236, in __insert
+    cur.execute(sql, insert_args)
+psycopg2.errors.InvalidTextRepresentation: invalid input syntax for type double precision: "30,272"
+LINE 12:                 6, 3, 1.0, '30,272', 0, 2,  -20.38482,  -43....
+                                    ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\mono\mono\backend\airbnb_survey.py", line 525, in recurse_quadtree
+    (zoomable, median_leaf) = self.search_node(
+                              ^^^^^^^^^^^^^^^^^
+  File "C:\mono\mono\backend\airbnb_survey.py", line 809, in search_node
+    if listing.save(self.config.FLAGS_INSERT_NO_REPLACE):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\mono\mono\backend\airbnb_listing.py", line 171, in save
+    self.config.connection.conn.rollback()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'psycopg2.extensions.connection' object has no attribute 'conn'
+2023-05-24 14:25:38,002 ERROR   Error in recurse_quadtree
+Traceback (most recent call last):
+  File "C:\mono\mono\backend\airbnb_listing.py", line 161, in save
+    self.__insert()
+  File "C:\mono\mono\backend\airbnb_listing.py", line 236, in __insert
+    cur.execute(sql, insert_args)
+psycopg2.errors.InvalidTextRepresentation: invalid input syntax for type double precision: "30,272"
+LINE 12:                 6, 3, 1.0, '30,272', 0, 2,  -20.38482,  -43....
+                                    ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\mono\mono\backend\airbnb_survey.py", line 543, in recurse_quadtree
+    self.recurse_quadtree(quadtree_node, median_node,
+  File "C:\mono\mono\backend\airbnb_survey.py", line 525, in recurse_quadtree
+    (zoomable, median_leaf) = self.search_node(
+                              ^^^^^^^^^^^^^^^^^
+  File "C:\mono\mono\backend\airbnb_survey.py", line 809, in search_node
+    if listing.save(self.config.FLAGS_INSERT_NO_REPLACE):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\mono\mono\backend\airbnb_listing.py", line 171, in save
+    self.config.connection.conn.rollback()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'psycopg2.extensions.connection' object has no attribute 'conn'
+2023-05-24 14:25:38,011 ERROR   Error
+Traceback (most recent call last):
+  File "C:\mono\mono\backend\airbnb_listing.py", line 161, in save
+    self.__insert()
+  File "C:\mono\mono\backend\airbnb_listing.py", line 236, in __insert
+    cur.execute(sql, insert_args)
+psycopg2.errors.InvalidTextRepresentation: invalid input syntax for type double precision: "30,272"
+LINE 12:                 6, 3, 1.0, '30,272', 0, 2,  -20.38482,  -43....
+                                    ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\mono\mono\backend\airbnb_survey.py", line 463, in search
+    self.recurse_quadtree(quadtree_node, median_node, None, flag)
+  File "C:\mono\mono\backend\airbnb_survey.py", line 543, in recurse_quadtree
+    self.recurse_quadtree(quadtree_node, median_node,
+  File "C:\mono\mono\backend\airbnb_survey.py", line 525, in recurse_quadtree
+    (zoomable, median_leaf) = self.search_node(
+                              ^^^^^^^^^^^^^^^^^
+  File "C:\mono\mono\backend\airbnb_survey.py", line 809, in search_node
+    if listing.save(self.config.FLAGS_INSERT_NO_REPLACE):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\mono\mono\backend\airbnb_listing.py", line 171, in save
+    self.config.connection.conn.rollback()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'psycopg2.extensions.connection' object has no attribute 'conn'
+2023-05-24 14:25:38,018 INFO    Initialing search by overall satisfactions
+2023-05-24 14:25:38,022 ERROR   Failed to search overall satisfactions
+2023-05-24 14:25:38,023 INFO    Updating status of super survey 76
+2023-05-24 14:25:38,026 INFO    Updating status of super survey 76
+2023-05-24 14:25:38,048 INFO    Updating status of super survey 76

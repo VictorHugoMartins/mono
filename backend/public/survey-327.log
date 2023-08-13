@@ -1,0 +1,8 @@
+2023-05-12 19:43:28,028 INFO    ====== WebDriver manager ======
+2023-05-12 19:43:32,442 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-05-12 19:43:33,342 INFO    There is no [win32] chromedriver for browser 113.0.5672 in cache
+2023-05-12 19:43:33,343 INFO    About to download new driver from https://chromedriver.storage.googleapis.com/113.0.5672.63/chromedriver_win32.zip
+2023-05-12 19:43:36,509 INFO    Driver has been saved in cache [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672]
+2023-05-12 19:43:58,658 INFO    ====== WebDriver manager ======
+2023-05-12 19:43:59,136 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-05-12 19:43:59,806 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache

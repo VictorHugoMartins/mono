@@ -1,0 +1,9 @@
+2023-07-22 13:11:22,339 INFO    ======================================================================
+2023-07-22 13:11:22,340 INFO    Survey 376, for A
+2023-07-22 13:11:22,341 INFO    Searching by bounding box, max_zoom=24
+2023-07-22 13:11:22,342 INFO    ----------------------------------------------------------------------
+2023-07-22 13:11:22,343 INFO    Rectangle calculated: [105.636812, 20.4648337, 97.3438072, 5.612851]
+2023-07-22 13:11:22,344 INFO    Searching rectangle: zoom factor = 0, node = []
+2023-07-22 13:11:22,827 WARNING Network request 0: connectionError. Bad proxy 162.159.242.36:80?
+2023-07-22 13:11:23,936 WARNING Network request 10: connectionError. Bad proxy 5.23.103.98:45996?
+2023-07-22 13:11:24,363 WARNING Network request 11: connectionError. Bad proxy 190.122.186.194 8080?

@@ -1,0 +1,4 @@
+2023-06-02 16:53:44,266 INFO    ====== WebDriver manager ======
+2023-06-02 16:53:45,087 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 16:53:45,729 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 16:53:53,119 INFO     * Detected change in 'C:\\mono\\mono\\backend\\airbnb_score.py', reloading

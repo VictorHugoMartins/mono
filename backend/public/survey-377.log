@@ -1,0 +1,19 @@
+2023-07-22 13:24:25,168 INFO    ======================================================================
+2023-07-22 13:24:25,168 INFO    Survey 377, for A
+2023-07-22 13:24:25,170 INFO    Searching by bounding box, max_zoom=24
+2023-07-22 13:24:25,172 INFO    ----------------------------------------------------------------------
+2023-07-22 13:24:25,172 INFO    Rectangle calculated: [105.636812, 20.4648337, 97.3438072, 5.612851]
+2023-07-22 13:24:25,172 INFO    Searching rectangle: zoom factor = 0, node = []
+2023-07-22 13:24:35,717 WARNING Network request 0: connectionError. Bad proxy 189.5.224.17:3128?
+2023-07-22 13:24:45,948 WARNING Network request 1: connectionError. Bad proxy 109.248.62.207:47277?
+2023-07-22 13:24:46,042 WARNING Network request 2: connectionError. Bad proxy 162.159.248.7:80?
+2023-07-22 13:24:54,303 WARNING Network request 3: connectionError. Bad proxy 159.138.1.185:80?
+2023-07-22 13:24:54,816 WARNING Network request 4: connectionError. Bad proxy 162.159.242.227:80?
+2023-07-22 13:25:05,287 WARNING Network request 5: connectionError. Bad proxy 149.28.180.233:8081?
+2023-07-22 13:25:05,841 WARNING Network request 6: connectionError. Bad proxy 162.159.242.36:80?
+2023-07-22 13:25:16,173 WARNING Network request 7: connectionError. Bad proxy 200.255.122.170:8080?
+2023-07-22 13:25:17,174 WARNING Network request 8: connectionError. Bad proxy 180.252.181.2:80?
+2023-07-22 13:25:27,649 WARNING Network request 9: connectionError. Bad proxy 200.7.127.64:8080?
+2023-07-22 13:25:31,073 WARNING Network request 10: connectionError. Bad proxy 85.10.219.98:1080?
+2023-07-22 13:25:41,443 WARNING Network request 11: connectionError. Bad proxy 177.137.125.45:8080?
+2023-07-22 13:25:43,094 INFO     * Detected change in 'C:\\mono\\mono\\backend\\search.py', reloading

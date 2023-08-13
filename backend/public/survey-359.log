@@ -1,0 +1,56 @@
+2023-06-02 17:33:53,582 INFO    ======================================================================
+2023-06-02 17:33:53,584 INFO    Survey 359, for Aiuruoca, Minas Gerais
+2023-06-02 17:33:53,585 INFO    Searching by bounding box, max_zoom=24
+2023-06-02 17:33:53,586 INFO    ----------------------------------------------------------------------
+2023-06-02 17:33:53,586 INFO    Rectangle calculated: [-44.529, -21.742, -44.766, -22.163]
+2023-06-02 17:33:53,587 INFO    Searching rectangle: zoom factor = 0, node = []
+2023-06-02 17:33:54,149 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-06-02 17:34:01,016 INFO    Page 01 returned 00 listings
+2023-06-02 17:34:01,019 INFO    Final page of listings for this search
+2023-06-02 17:34:01,020 INFO    Results: 1 pages, 0 new rooms
+2023-06-02 17:34:01,023 INFO    Finishing survey 359, for Aiuruoca, Minas Gerais
+2023-06-02 17:34:01,029 INFO    Initialing search by overall satisfactions
+2023-06-02 17:34:01,034 INFO    0 results
+2023-06-02 17:34:01,035 INFO    Updating status of super survey 88 to 73
+2023-06-02 17:34:01,052 INFO    Updating status of super survey 88 to -74
+2023-06-02 17:34:01,054 INFO    Updating status of super survey 88 to 51
+2023-06-02 17:34:01,062 INFO    Selecting routes from sublocality
+2023-06-02 17:34:01,154 INFO    Updating status of super survey 88 to 83
+2023-06-02 17:34:01,155 INFO    Updating status of super survey 88 to 75
+2023-06-02 17:34:01,157 INFO    Updating status of super survey 88 to 6
+2023-06-02 17:34:01,159 INFO    Updating status of super survey 88 to 7
+2023-06-02 17:34:01,163 INFO    Updating status of super survey 88 to 711
+2023-06-02 17:34:01,849 INFO    Initializing update of survey with super survey id
+2023-06-02 17:34:01,855 INFO    ====== WebDriver manager ======
+2023-06-02 17:34:02,709 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:34:03,295 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 17:34:16,738 INFO    ====== WebDriver manager ======
+2023-06-02 17:34:17,292 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:34:17,929 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 17:34:32,536 INFO    ====== WebDriver manager ======
+2023-06-02 17:34:33,111 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:34:34,769 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 17:34:54,471 INFO    ====== WebDriver manager ======
+2023-06-02 17:34:56,930 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:34:57,700 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 17:35:39,211 INFO    ====== WebDriver manager ======
+2023-06-02 17:35:40,207 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:35:40,781 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 17:36:04,612 INFO    ====== WebDriver manager ======
+2023-06-02 17:36:06,075 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:36:07,188 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 17:36:28,224 INFO    ====== WebDriver manager ======
+2023-06-02 17:36:28,978 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:36:29,626 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 17:36:49,732 INFO    ====== WebDriver manager ======
+2023-06-02 17:36:50,195 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 17:36:50,852 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 17:37:06,127 INFO    Updating status of super survey 88 to -711
+2023-06-02 17:37:10,415 INFO    Updating status of super survey 88 to 73
+2023-06-02 17:37:10,420 INFO    Updating status of super survey 88 to -74
+2023-06-02 17:37:10,425 INFO    Updating status of super survey 88 to -751
+2023-06-02 17:37:10,430 INFO    Selecting routes from sublocality
+2023-06-02 17:37:10,555 INFO    Updating status of super survey 88 to 783
+2023-06-02 17:37:10,567 INFO    Updating status of super survey 88 to 75
+2023-06-02 17:37:10,570 INFO    Updating status of super survey 88 to 200
+2023-06-02 17:42:44,542 INFO     * Detected change in 'C:\\mono\\mono\\backend\\search.py', reloading

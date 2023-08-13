@@ -1,0 +1,16 @@
+2023-05-13 00:49:59,838 INFO    ======================================================================
+2023-05-13 00:49:59,838 INFO    Survey 329, for Airbnb
+2023-05-13 00:49:59,866 INFO    Searching by bounding box, max_zoom=24
+2023-05-13 00:49:59,867 INFO    ----------------------------------------------------------------------
+2023-05-13 00:49:59,867 INFO    Rectangle calculated: [-122.4053984, 37.7720068, -122.4054984, 37.7719068]
+2023-05-13 00:49:59,867 INFO    Searching rectangle: zoom factor = 0, node = []
+2023-05-13 00:50:00,747 INFO    Page 01 returned 00 listings
+2023-05-13 00:50:00,748 INFO    Final page of listings for this search
+2023-05-13 00:50:00,749 INFO    Results: 1 pages, 0 new rooms
+2023-05-13 00:50:00,873 INFO    Finishing survey 329, for Airbnb
+2023-05-13 00:50:01,124 INFO    Initialing search by overall satisfactions
+2023-05-13 00:50:01,136 ERROR   Failed to search overall satisfactions
+2023-05-13 00:50:01,137 INFO    Updating status of super survey None
+2023-05-13 00:50:01,139 INFO    Updating status of super survey None
+2023-05-13 00:50:01,148 INFO    127.0.0.1 - - [13/May/2023 00:50:01] "[35m[1mPOST /super_survey/save HTTP/1.1[0m" 500 -
+2023-05-13 00:52:07,302 INFO     * Detected change in 'C:\\ufop\\airbnbandbookingscrap\\search.py', reloading

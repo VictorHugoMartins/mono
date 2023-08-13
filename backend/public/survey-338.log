@@ -1,0 +1,17 @@
+2023-06-02 16:34:51,431 INFO    ======================================================================
+2023-06-02 16:34:51,431 INFO    Survey 338, for Aiuruoca, Minas Gerais
+2023-06-02 16:34:51,448 INFO    Searching by bounding box, max_zoom=24
+2023-06-02 16:34:51,448 INFO    ----------------------------------------------------------------------
+2023-06-02 16:34:51,449 INFO    Rectangle calculated: [-44.529, -21.742, -44.766, -22.163]
+2023-06-02 16:34:51,449 INFO    Searching rectangle: zoom factor = 0, node = []
+2023-06-02 16:34:51,670 WARNING HTTP status 403 from web site: IP address blocked. Waiting 0.1 minutes.
+2023-06-02 16:34:59,580 INFO    Page 01 returned 00 listings
+2023-06-02 16:34:59,580 INFO    Final page of listings for this search
+2023-06-02 16:34:59,581 INFO    Results: 1 pages, 0 new rooms
+2023-06-02 16:34:59,583 INFO    Finishing survey 338, for Aiuruoca, Minas Gerais
+2023-06-02 16:34:59,586 INFO    Initialing search by overall satisfactions
+2023-06-02 16:34:59,593 INFO    360 results
+2023-06-02 16:34:59,593 INFO    Attempt 1 to find room 47940589
+2023-06-02 16:34:59,594 INFO    ====== WebDriver manager ======
+2023-06-02 16:35:08,140 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 16:35:09,207 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache

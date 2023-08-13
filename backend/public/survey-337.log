@@ -1,0 +1,115 @@
+2023-06-02 11:36:28,660 INFO    ======================================================================
+2023-06-02 11:36:28,660 INFO    Survey 337, for Aiuruoca, Minas Gerais
+2023-06-02 11:36:28,677 INFO    Searching by bounding box, max_zoom=24
+2023-06-02 11:36:28,677 INFO    ----------------------------------------------------------------------
+2023-06-02 11:36:28,677 INFO    Rectangle calculated: [-44.529, -21.742, -44.766, -22.163]
+2023-06-02 11:36:28,677 INFO    Searching rectangle: zoom factor = 0, node = []
+2023-06-02 11:36:29,727 INFO    Page 01 returned 00 listings
+2023-06-02 11:36:29,740 INFO    Final page of listings for this search
+2023-06-02 11:36:29,741 INFO    Results: 1 pages, 0 new rooms
+2023-06-02 11:36:29,788 INFO    Finishing survey 337, for Aiuruoca, Minas Gerais
+2023-06-02 11:36:30,002 INFO    Initialing search by overall satisfactions
+2023-06-02 11:36:30,098 INFO    360 results
+2023-06-02 11:36:30,099 INFO    Attempt 1 to find room 47940589
+2023-06-02 11:36:30,100 INFO    ====== WebDriver manager ======
+2023-06-02 11:36:35,267 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 11:36:36,060 INFO    About to download new driver from https://chromedriver.storage.googleapis.com/113.0.5672.63/chromedriver_win32.zip
+2023-06-02 11:36:40,241 INFO    Driver has been saved in cache [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672]
+2023-06-02 11:36:58,027 INFO    127.0.0.1 - - [02/Jun/2023 11:36:58] "OPTIONS /super_survey/getall HTTP/1.1" 200 -
+2023-06-02 11:36:58,341 INFO    Initializing export Airbnb's rooms
+2023-06-02 11:36:58,496 INFO    127.0.0.1 - - [02/Jun/2023 11:36:58] "POST /super_survey/getall HTTP/1.1" 200 -
+2023-06-02 11:37:04,203 INFO    chegou aqui depois de preparar o driver
+2023-06-02 11:37:07,261 INFO    No cookies privacy
+2023-06-02 11:37:10,274 INFO    Unable to find element
+2023-06-02 11:37:10,274 INFO    No bathroom finded
+2023-06-02 11:37:10,284 INFO    Searching for comodities
+2023-06-02 11:37:10,342 INFO    Comodities of room 47940589 updated for []
+2023-06-02 11:37:14,426 INFO    Data collected
+2023-06-02 11:37:14,427 INFO    Attempt 1 to find room 17187548
+2023-06-02 11:37:14,429 INFO    ====== WebDriver manager ======
+2023-06-02 11:37:14,880 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 11:37:15,656 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 11:37:16,480 INFO    127.0.0.1 - - [02/Jun/2023 11:37:16] "OPTIONS /super_survey/getall HTTP/1.1" 200 -
+2023-06-02 11:37:16,800 INFO    Initializing export Airbnb's rooms
+2023-06-02 11:37:17,434 INFO    127.0.0.1 - - [02/Jun/2023 11:37:17] "POST /super_survey/getall HTTP/1.1" 200 -
+2023-06-02 11:37:31,144 INFO    chegou aqui depois de preparar o driver
+2023-06-02 11:37:34,210 INFO    No cookies privacy
+2023-06-02 11:37:37,228 INFO    Unable to find element
+2023-06-02 11:37:37,229 INFO    No bathroom finded
+2023-06-02 11:37:37,536 INFO    Searching for comodities
+2023-06-02 11:37:37,539 INFO    Comodities of room 17187548 updated for ['Vista para o resort', 'Vista para o pátio', 'Wi-Fi', 'Estacionamento gratuito na entrada da propriedade', 'Permitido animais']
+2023-06-02 11:37:39,784 INFO    Data collected
+2023-06-02 11:37:39,785 INFO    Attempt 1 to find room 764827317529662631
+2023-06-02 11:37:39,786 INFO    ====== WebDriver manager ======
+2023-06-02 11:37:40,587 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 11:37:41,132 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 11:37:57,845 INFO    chegou aqui depois de preparar o driver
+2023-06-02 11:37:59,853 INFO    127.0.0.1 - - [02/Jun/2023 11:37:59] "OPTIONS /super_survey/getall HTTP/1.1" 200 -
+2023-06-02 11:38:00,118 INFO    Initializing export Airbnb's rooms
+2023-06-02 11:38:00,682 INFO    127.0.0.1 - - [02/Jun/2023 11:38:00] "POST /super_survey/getall HTTP/1.1" 200 -
+2023-06-02 11:38:00,878 INFO    No cookies privacy
+2023-06-02 11:38:03,895 INFO    Unable to find element
+2023-06-02 11:38:03,896 INFO    No bathroom finded
+2023-06-02 11:38:04,315 INFO    Searching for comodities
+2023-06-02 11:38:04,316 INFO    Comodities of room 764827317529662631 updated for ['Cozinha', 'Wi-Fi', 'Estacionamento incluído', 'Permitido animais', 'HDTV']
+2023-06-02 11:38:06,627 INFO    Data collected
+2023-06-02 11:38:06,629 INFO    Attempt 1 to find room 46004813
+2023-06-02 11:38:06,631 INFO    ====== WebDriver manager ======
+2023-06-02 11:38:07,478 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 11:38:08,871 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 11:38:23,073 INFO    chegou aqui depois de preparar o driver
+2023-06-02 11:38:26,115 INFO    No cookies privacy
+2023-06-02 11:38:29,130 INFO    Unable to find element
+2023-06-02 11:38:29,131 INFO    No bathroom finded
+2023-06-02 11:38:29,352 INFO    Searching for comodities
+2023-06-02 11:38:29,353 INFO    Comodities of room 46004813 updated for ['Vista para as montanhas', 'Cozinha', 'Wi-Fi', 'Espaço de trabalho exclusivo', 'Estacionamento gratuito na rua']
+2023-06-02 11:38:31,669 INFO    Data collected
+2023-06-02 11:38:31,671 INFO    Attempt 1 to find room 32529555
+2023-06-02 11:38:31,673 INFO    ====== WebDriver manager ======
+2023-06-02 11:38:32,084 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 11:38:32,623 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 11:38:46,934 INFO    chegou aqui depois de preparar o driver
+2023-06-02 11:38:50,010 INFO    No cookies privacy
+2023-06-02 11:38:53,054 INFO    Unable to find element
+2023-06-02 11:38:53,055 INFO    No bathroom finded
+2023-06-02 11:38:53,310 INFO    Searching for comodities
+2023-06-02 11:38:53,311 INFO    Comodities of room 32529555 updated for ['Tranca na porta do quarto', 'Cozinha', 'Wi-Fi', 'Espaço de trabalho exclusivo', 'Estacionamento gratuito em local coberto na propriedade:1 vaga']
+2023-06-02 11:38:55,691 INFO    Data collected
+2023-06-02 11:38:55,691 INFO    Attempt 1 to find room 17026884
+2023-06-02 11:38:55,692 INFO    ====== WebDriver manager ======
+2023-06-02 11:38:56,136 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 11:38:56,726 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 11:39:11,728 INFO    chegou aqui depois de preparar o driver
+2023-06-02 11:39:14,759 INFO    No cookies privacy
+2023-06-02 11:39:17,771 INFO    Unable to find element
+2023-06-02 11:39:17,772 INFO    No bathroom finded
+2023-06-02 11:39:18,004 INFO    Searching for comodities
+2023-06-02 11:39:18,005 INFO    Comodities of room 17026884 updated for ['Cozinha', 'Wi-Fi', 'Estacionamento incluído', 'TV com TV a cabo', 'Berço']
+2023-06-02 11:39:20,257 INFO    Data collected
+2023-06-02 11:39:20,258 INFO    Attempt 1 to find room 34256755
+2023-06-02 11:39:20,260 INFO    ====== WebDriver manager ======
+2023-06-02 11:39:21,122 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 11:39:21,666 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 11:39:37,427 INFO    chegou aqui depois de preparar o driver
+2023-06-02 11:39:40,501 INFO    No cookies privacy
+2023-06-02 11:39:43,516 INFO    Unable to find element
+2023-06-02 11:39:43,516 INFO    No bathroom finded
+2023-06-02 11:39:43,760 INFO    Searching for comodities
+2023-06-02 11:39:43,761 INFO    Comodities of room 34256755 updated for ['Tranca na porta do quarto', 'Cozinha', 'Wi-Fi', 'Estacionamento incluído', 'TV']
+2023-06-02 11:39:46,015 INFO    Data collected
+2023-06-02 11:39:46,015 INFO    Attempt 1 to find room 815202368121595703
+2023-06-02 11:39:46,016 INFO    ====== WebDriver manager ======
+2023-06-02 11:39:47,040 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 11:39:47,621 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 11:40:01,782 INFO    chegou aqui depois de preparar o driver
+2023-06-02 11:40:04,840 INFO    No cookies privacy
+2023-06-02 11:40:07,864 INFO    Unable to find element
+2023-06-02 11:40:07,864 INFO    No bathroom finded
+2023-06-02 11:40:08,113 INFO    Searching for comodities
+2023-06-02 11:40:08,114 INFO    Comodities of room 815202368121595703 updated for ['Vista para o horizonte da cidade', 'Vista para as montanhas', 'Cozinha', 'Wi-Fi rápido (92 Mbps)', 'Espaço de trabalho exclusivo']
+2023-06-02 11:40:10,343 INFO    Data collected
+2023-06-02 11:40:10,343 INFO    Attempt 1 to find room 731014935944515463
+2023-06-02 11:40:10,344 INFO    ====== WebDriver manager ======
+2023-06-02 11:40:11,008 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-06-02 11:40:11,631 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-06-02 11:40:11,652 INFO     * Detected change in 'C:\\mono\\mono\\backend\\main.py', reloading

@@ -1,0 +1,11 @@
+2023-06-27 10:23:01,106 INFO    ======================================================================
+2023-06-27 10:23:01,109 INFO    Survey 372, for Aiuroca, MG
+2023-06-27 10:23:01,113 INFO    Searching by bounding box, max_zoom=24
+2023-06-27 10:23:01,115 INFO    ----------------------------------------------------------------------
+2023-06-27 10:23:01,116 INFO    Rectangle calculated: [-44.6830863, -21.9741965, -44.7783735, -22.0614693]
+2023-06-27 10:23:01,118 INFO    Searching rectangle: zoom factor = 0, node = []
+2023-06-27 10:23:11,464 WARNING Network request 0: connectionError. Bad proxy 186.229.25.18:8080?
+2023-06-27 10:23:21,742 WARNING Network request 1: connectionError. Bad proxy 77.94.144.164:3128?
+2023-06-27 10:23:32,250 WARNING Network request 2: connectionError. Bad proxy 77.94.144.164:3128?
+2023-06-27 10:23:35,770 WARNING Network request 3: connectionError. Bad proxy 179.127.241.151:59477?
+2023-06-27 10:23:37,499 INFO     * Detected change in 'C:\\mono\\mono\\backend\\search.py', reloading
