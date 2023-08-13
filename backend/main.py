@@ -30,10 +30,12 @@ async def update(data):
     return super_survey.update(data)
 
 
+class SuperSurveyGetDataColumns(BaseModel):
+    platform: str
+
+
 @app.get('/super_survey/get_data_columns')
-# @cross_origin(data)
-async def get_data_columns(data):
-    # args = request.args
+async def get_data_columns(data: SuperSurveyGetDataColumns):
     return super_survey.get_data_columns(data)
 
 

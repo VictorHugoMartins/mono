@@ -1,6 +1,0 @@
-2023-06-02 17:03:03,557 INFO    ====== WebDriver manager ======
-2023-06-02 17:03:04,621 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
-2023-06-02 17:03:05,282 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
-2023-06-02 17:03:19,137 INFO    ====== WebDriver manager ======
-2023-06-02 17:03:19,867 INFO    Get LATEST chromedriver version for google-chrome 113.0.5672
-2023-06-02 17:03:20,573 INFO    Driver [C:\Users\Usuario\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache

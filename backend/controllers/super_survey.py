@@ -100,11 +100,11 @@ def restart(data):
 		#     return jsonify({"message": "Falha ao iniciar pesquisa", "success": False}), 401 # Inicia a aplicação
 
 
-def get_data_columns(args):  # ok
+def get_data_columns(data):  # ok
 		try:
 				result = []
 				for x in columnDict:
-						if (args.get("platform") in columnDict[x]["excludeIn"]):
+						if (data.platform in columnDict[x]["excludeIn"]):
 								continue
 						else:
 								result.append({"label": columnDict[x]["label"], "value": x})
