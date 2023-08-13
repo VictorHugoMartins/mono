@@ -35,16 +35,19 @@ class SuperSurveySave(BaseModel):
 
 @app.post('/super_survey/save')
 async def save(data: SuperSurveySave):
+    print(data)
     return super_survey.save(data)
 
 
 @app.post('/super_survey/continue')
 async def restart(data):
+    print(data)
     return super_survey.restart(data)
 
 
 @app.post('/super_survey/update')
 async def update(data):
+    print(data)
     return super_survey.update(data)
 
 
