@@ -34,9 +34,9 @@ class SuperSurveyGetDataColumns(BaseModel):
     platform: str
 
 
-@app.get('/super_survey/get_data_columns')
-async def get_data_columns(data: SuperSurveyGetDataColumns):
-    return super_survey.get_data_columns(data)
+@app.get('/super_survey/get_data_columns/{platform}')
+async def get_data_columns(platform: str):
+    return super_survey.get_data_columns(platform)
 
 
 @app.post('/nav/export')
