@@ -343,11 +343,11 @@ def search_routes(config, platform="Airbnb", search_area_name='', start_date=Non
                                    logs='Falha ao buscar por ruas de ' + search_area_name)
 
 
-async def full_process(config=ab_config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
+def full_process(config=ab_config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
                  include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
     try:
         _platform = "Airbnb" if platform != 'Booking' else "Booking"
-        await execute_search(config=ab_config, platform=_platform, search_area_name=search_area_name,
+        execute_search(config=ab_config, platform=_platform, search_area_name=search_area_name,
                        start_date=start_date, finish_date=finish_date, super_survey_id=super_survey_id)
     except Exception as e:
         print("o erro na 351: ", e)

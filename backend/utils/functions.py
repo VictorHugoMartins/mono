@@ -159,6 +159,8 @@ def prepare_driver(url):
     except Exception as e:
         print("deu ruim!!!", e)
     print("instanciou o driver")
+
+    return driver
     try:
         driver.get(url)
     except Exception as e:

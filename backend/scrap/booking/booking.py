@@ -311,7 +311,7 @@ def go_to_next_page(driver, page):
 
 
 def search_booking_rooms(config, area, start_date, finish_date, survey_id):
-    print("Buscando no bookind")
+    print("Buscando no Booking")
     city = area.split(',')[0]
 
     checkin_date = start_date
@@ -328,6 +328,10 @@ def search_booking_rooms(config, area, start_date, finish_date, survey_id):
     print("vai instanciar")
     driver = prepare_driver(url)
     print("instanciou na 330")
+    driver.get(url)
+    print("fez o get")
+    print(driver.page_source)
+    print("a page_source")
 
     # FIND ALL PAGES
     all_pages = driver.find_elements(By.CLASS_NAME, 'f32a99c8d1')

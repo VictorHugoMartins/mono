@@ -27,16 +27,16 @@ class Th(Thread):
         self.ss_id = ss_id
 
     def run(self):
-        asyncio.run(search.full_process(config=ab_config,
-                                        platform=self.platform,
-                                        search_area_name=self.search_area_name,
-                                        user_id=self.user_id,
-                                        columns=self.columns,
-                                        start_date=self.start_date,
-                                        finish_date=self.finish_date,
-                                        include_locality_search=(
-                                            (self.include_locality_search == 'true') or self.include_locality_search),
-                                        include_route_search=(
-                                            (self.include_route_search == 'true') or self.include_route_search),
-                                        super_survey_id=self.ss_id,
-                                        ))
+        search.full_process(config=ab_config,
+                            platform=self.platform,
+                            search_area_name=self.search_area_name,
+                            user_id=self.user_id,
+                            columns=self.columns,
+                            start_date=self.start_date,
+                            finish_date=self.finish_date,
+                            include_locality_search=(
+                                (self.include_locality_search == 'true') or self.include_locality_search),
+                            include_route_search=(
+                                (self.include_route_search == 'true') or self.include_route_search),
+                            super_survey_id=self.ss_id,
+                            )
