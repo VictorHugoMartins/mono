@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
 import controllers.auth as auth
 import controllers.nav as nav
@@ -53,17 +52,13 @@ async def export_super_survey(data: ExportModel):
     return nav.export(data)
 
 
-class NavList(BaseModel):
-    user_id: str
-
-
 @app.post('/nav/list')
-async def export_super_survey_info(data: ListModel):
+async def list_nav(data: ListModel):
     return nav.list(data)
 
 
 @app.post('/nav/public_getall')
-async def export_public_super_survey_info():
+async def public_list_nav():
     return nav.public_getall()
 
 
