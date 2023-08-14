@@ -27,8 +27,9 @@ def save(data: SaveModel):
     
     loop = asyncio.get_event_loop()
     thread = Th(1, data, ss_id)
-    loop.run_until_complete(thread.start())
-    loop.close()
+    thread.start()
+    # loop.run_until_complete(thread.start())
+    # # loop.close()
 
     response = {
         "object": {"super_survey_id": ss_id},
