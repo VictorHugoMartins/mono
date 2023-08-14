@@ -299,134 +299,6 @@ class BListing():
             raise
 
 
-def fill_empty_routes(config):
-    try:
-        rowcount = 0
-        conn = config.connect()
-        cur = conn.cursor()
-        logger.debug("Updating...")
-        sql = """UPDATE booking_room set route = split_part(address, ',', 1)
-				where route is null"""
-        logger.debug("Executing...")
-        cur.execute(sql)
-        rowcount = cur.rowcount
-        logger.debug("Closing...")
-        cur.close()
-        conn.commit()
-        logger.debug(str(rowcount) + " rooms updated")
-
-    except:
-        # may want to handle connection close errors
-        logger.debug("Exception in updating")
-        logger.warning("Exception in __update: raising")
-        raise
-
-
-def update_cities(config, city):
-    try:
-        conn = config.connect()
-        cur = conn.cursor()
-
-        sql = """SELECT distinct(room_id), route, sublocality, city, state, country from booking_room
-				where route is not null
-				
-				group by room_id, route, sublocality, city, state, country
-				order by room_id"""  # os q precisa atualizar
-        cur.execute(sql)
-        results = cur.fetchall()
-        logger.debug(str(cur.rowcount) + " rooms to update")
-
-        i = 0
-        for result in results:
-            room_id = result[0]
-            route = result[1]
-            sublocality = result[2]
-            city = result[3]
-            state = result[4]
-            country = result[5]
-
-            sql = """UPDATE booking_room set route = %s,
-					sublocality = %s,
-					city = %s, state=%s, country = %s
-					where room_id = %s"""
-            update_args = (route, sublocality, city, state, country, room_id)
-            cur.execute(sql, update_args)
-            conn.commit()
-
-            logger.debug(cur.rowcount, "room(s) ", room_id,
-                         " updated for ", sublocality)
-
-    except:
-        raise
-
-
-def update_routes(config, city):
-    try:
-        conn = config.connect()
-        cur = conn.cursor()
-
-        sql = """SELECT distinct(room_id), latitude, longitude from booking_room
-				where route is null and
-				( sublocality is null or sublocality = '1392' or
-				sublocality = '162' or sublocality = '302'
-				or sublocality = '')
-				order by room_id"""  # os q precisa atualizar
-        cur.execute(sql)
-        routes = cur.fetchall()
-        logger.debug(str(cur.rowcount) + " routes to update")
-
-        sql = """SELECT distinct(room_id), latitude, longitude, sublocality from booking_room
-				where route is not null and ( sublocality is not null and sublocality <> '')
-				and sublocality <> '1392' and sublocality <> '162' and sublocality <> '302'
-				order by sublocality desc"""  # nenhum dos 2 é nulo
-        cur.execute(sql)
-        results = cur.fetchall()
-
-        for route in routes:
-            r_id = route[0]
-            latitude = route[1]
-            longitude = route[2]
-
-            for result in results:
-                room_id = result[0]
-                lat = result[1]
-                lng = result[2]
-                sublocality = result[3]
-
-                if utils.is_inside(latitude, longitude, lat, lng):
-                    sql = """UPDATE booking_room set sublocality = %s where room_id = %s"""
-                    update_args = (sublocality, r_id)
-                    cur.execute(sql, update_args)
-                    conn.commit()
-
-                    logger.debug("Room ", r_id, " updated for ", sublocality)
-                    break
-
-    except:
-        raise
-
-
-def add_routes_area_by_bounding_box(config, city):
-    try:
-        conn = config.connect()
-        cur = conn.cursor()
-
-        sql = """SELECT distinct(route) from booking_room
-				where city = %s"""  # os q precisa atualizar
-        select_args = (city,)
-        cur.execute(sql, select_args)
-        results = cur.fetchall()
-        logger.debug(str(cur.rowcount) + " rooms finded")
-
-        for result in results:
-            route_name = str(result[0]) + ', ' + city
-            bounding_box = BoundingBox.from_google(config, route_name)
-            if bounding_box != None:
-                bounding_box.add_search_area(config, route_name)
-    except:
-        raise
-
-
 def go_to_next_page(driver, page):
     try:
         page.click()
@@ -518,9 +390,6 @@ def parse_args():
                         metavar="config_file", action="store", default=None,
                         help="""explicitly set configuration file, instead of
 						using the default <username>.config""")
-    parser.add_argument("-sr", "--search_reviews",
-                        action="store_true", default=False,
-                        help="""search only for reviews""")  # para implementar
     parser.add_argument('-sc', '--city',
                         metavar='city_name', type=str,
                         help="""search by a city
@@ -533,9 +402,6 @@ def parse_args():
                         metavar='finish_date', type=str,
                         help="""finish date of travel
 						 """)
-    parser.add_argument("-urbb", "--update_routes_with_bounding_box",
-                        metavar="city_name", type=str,
-                        help="""update geolocation based on Google's API""")
 
     # Only one argument!
     group = parser.add_mutually_exclusive_group()
@@ -563,11 +429,6 @@ def main():
 
             search_booking_rooms(config, args.city, args.start_date, args.finish_date,
                                  survey_id)
-        elif args.update_routes_with_database:
-            fill_empty_routes(config)
-            update_cities(config, args.update_routes)
-            update_routes(config, args.update_routes)
-            logger.debug("Data updated")
     except (SystemExit, KeyboardInterrupt):
         logger.debug("Interrupted execution")
         exit(0)
