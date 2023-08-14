@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 
 import controllers.auth as auth
@@ -23,11 +23,8 @@ app.add_middleware(
 
 
 @app.post('/super_survey/save')
-async def save(data: SaveModel):
-    print(data)
-    print(data.platform)
-    print(data.city)
-    return super_survey.save(data)
+async def save(data: SaveModel, background_tasks: BackgroundTasks):
+    return super_survey.save(data, background_tasks)
 
 
 @app.post('/super_survey/restart')

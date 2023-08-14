@@ -1,15 +1,15 @@
+from fastapi import FastAPI, BackgroundTasks
 from config.general_config import ABConfig
 import scrap.search as search
 from utils.general_dict import columnDict
 from utils.functions import select_command, update_command
 from utils.thread import Th
-import asyncio
 from models.super_survey import *
 
 ab_config = ABConfig()
 
 
-def save(data: SaveModel):
+def save(data: SaveModel, background_tasks: BackgroundTasks):
     ss_id = search.initialize_search(config=ab_config,
                                      platform=data.platform,
                                      search_area_name=data.city,
@@ -25,25 +25,38 @@ def save(data: SaveModel):
 
     print("o ss_id: ", ss_id)
 
-    try:
-        loop = asyncio.get_event_loop()
-        # thread = Th(1, data, ss_id)
-        loop.call_soon(name='supersurvey%s%s'.format(data.platform, data.city),
-                                coro=search.full_process(platform=data.platform,
-                                                        search_area_name=data.city,
-                                                        user_id=data.user_id,
-                                                        columns=data.columns,
-                                                        start_date=data.start_date,
-                                                        finish_date=data.finish_date,
-                                                        include_locality_search=(
-                                                            (data.include_locality_search == 'true')),
-                                                        include_route_search=(
-                                                            (data.include_route_search == 'true')),
-                                                        super_survey_id=ss_id,
-                                                        ))
-        loop.run_forever()
-    finally:
-        loop.close()
+    background_tasks.add_task(search.full_process, platform=data.platform,
+                              search_area_name=data.city,
+                              user_id=data.user_id,
+                              columns=data.columns,
+                              start_date=data.start_date,
+                              finish_date=data.finish_date,
+                              include_locality_search=(
+                                  (data.include_locality_search == 'true')),
+                              include_route_search=(
+                                  (data.include_route_search == 'true')),
+                              super_survey_id=ss_id,
+                              )
+    # try:
+    # loop = asyncio.get_event_loop()
+    # thread = Th(1, data, ss_id)
+    # thread.start()
+    # loop.call_soon(name='supersurvey%s%s'.format(data.platform, data.city),
+    #                         coro=search.full_process(platform=data.platform,
+    #                                                 search_area_name=data.city,
+    #                                                 user_id=data.user_id,
+    #                                                 columns=data.columns,
+    #                                                 start_date=data.start_date,
+    #                                                 finish_date=data.finish_date,
+    #                                                 include_locality_search=(
+    #                                                     (data.include_locality_search == 'true')),
+    #                                                 include_route_search=(
+    #                                                     (data.include_route_search == 'true')),
+    #                                                 super_survey_id=ss_id,
+    #                                                 ))
+    # loop.run_forever()
+    # finally:
+    #     loop.close()
 
     response = {
         "object": {"super_survey_id": ss_id},
