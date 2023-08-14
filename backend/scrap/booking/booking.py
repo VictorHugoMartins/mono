@@ -327,7 +327,7 @@ def search_booking_rooms(config, area, start_date, finish_date, survey_id):
     print("instanciou na 330")
     driver.get(url)
     print("fez o get")
-    print(driver.page_source)
+    print(driver.page_source.split('\n')[0])
     print("a page_source")
 
     # FIND ALL PAGES
