@@ -324,8 +324,10 @@ def search_booking_rooms(config, area, start_date, finish_date, survey_id):
 
     url = "https://www.booking.com/searchresults.pt-br.html?ss={}&ssne={}&ssne_untouched={}&checkin={}&checkout={}".format(
         city, city, city, checkin_date, checkout_date)
+    
+    print("vai instanciar")
     driver = prepare_driver(url)
-    print("aqui")
+    print("instanciou na 330")
 
     wait = WebDriverWait(driver, timeout=10).until(
         EC.presence_of_all_elements_located(

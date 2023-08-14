@@ -197,6 +197,7 @@ def execute_search(config, platform="Airbnb", search_area_name='', start_date=No
     survey_id = db_add_survey(ab_config, search_area_name)
     search_booking_rooms(ab_config, search_area_name,
                          start_date, finish_date, survey_id)
+    print("acabou a pesquisa!")
     # exit(0)
 
     # try:
