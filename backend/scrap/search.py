@@ -354,7 +354,6 @@ def full_process(platform="Airbnb", search_area_name='', start_date=None, finish
 
     try:
         _platform = "Airbnb" if platform != 'Booking' else "Booking"
-        fill_bnb_with_selenium = platform != 'Booking'
         if ((status_super_survey_id in statusDict["PESQUISAR_CIDADE_AIRBNB"]) or
                 (status_super_survey_id in statusDict["PESQUISAR_CIDADE_BOOKING"])):
             try:

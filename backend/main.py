@@ -133,3 +133,8 @@ async def accept(data: AcceptModel):
 @app.get("/")
 async def root(data):
     return {"message": "Hello World. Welcome to FastAPI!"}
+
+# melhorar homepage
+# botão de solicitar cadastro 100%
+# email?? talvez pedir pra enviar manualmente kk
+# proxies e selenium?? será q as pesquisas n tão funcionando??
