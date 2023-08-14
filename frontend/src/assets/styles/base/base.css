@@ -278,3 +278,15 @@ h6 {
   -webkit-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
   box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
 }
+
+.w3-content {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+  .w3-content {
+    flex-direction: column;
+    justify-content: center;
+  }
+}

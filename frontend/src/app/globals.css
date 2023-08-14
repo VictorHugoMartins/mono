@@ -76,6 +76,7 @@ body {
 }
 
 body {
+  background-color: black;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(to bottom,
       transparent,
@@ -101,9 +102,4 @@ h6 {
 h1,
 button {
   font-family: "Montserrat", sans-serif
-}
-
-.fa-anchor,
-.fa-coffee {
-  font-size: 200px
 }

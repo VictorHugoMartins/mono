@@ -10,6 +10,7 @@ import comumroute from "~/routes/public.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
 import Toast from "~/utils/Toast/Toast";
 import { API_NAV } from "~/config/apiRoutes/nav";
+import Icon from "~/components/ui/Icon/Icon";
 
 interface TableButtonProps {
   rowData?: any;
@@ -87,7 +88,9 @@ function Home() {
           </div>
 
           <div className="w3-third w3-center">
-            <i className="fa fa-anchor w3-padding-64 w3-text-red"></i>
+            <i className="fa fa-house-damage w3-padding-64 w3-text-red">
+              <Icon type="FaHouseDamage" size={200} />
+            </i>
           </div>
         </div>
       </div>
@@ -95,7 +98,7 @@ function Home() {
       <div className="w3-row-padding w3-light-grey w3-padding-64 w3-container">
         <div className="w3-content">
           <div className="w3-third w3-center">
-            <i className="fa fa-coffee w3-padding-64 w3-text-red w3-margin-right"></i>
+            <Icon type="FaLaptopCode" size={200} />
           </div>
 
           <div className="w3-twothird">
