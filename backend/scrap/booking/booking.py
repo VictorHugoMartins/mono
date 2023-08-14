@@ -329,9 +329,6 @@ def search_booking_rooms(config, area, start_date, finish_date, survey_id):
     driver = prepare_driver(url)
     print("instanciou na 330")
 
-    wait = WebDriverWait(driver, timeout=10).until(
-        EC.presence_of_all_elements_located(
-                        (By.XPATH, '//*[@data-testid="property-card"]')))
     # FIND ALL PAGES
     all_pages = driver.find_elements(By.CLASS_NAME, 'f32a99c8d1')
     print("as pages: ", all_pages)

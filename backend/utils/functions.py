@@ -164,7 +164,6 @@ def prepare_driver(url):
     except Exception as e:
         print("deu ruim no get!!!", e)
     print("fez o get")
-    time.sleep(3)
     return driver
 
 
