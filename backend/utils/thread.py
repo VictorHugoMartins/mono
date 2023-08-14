@@ -26,19 +26,6 @@ class Th(Thread):
         self.ss_id = ss_id
 
     def run(self):
-        print(self.platform,
-              self.search_area_name,
-              self.user_id,
-              self.columns,
-              self.clusterization_method,
-              self.aggregation_method,
-              self.start_date,
-              self.finish_date,
-              self.include_locality_search,
-              self.include_route_search,
-              self.ss_id,
-              )
-
         return search.full_process(config=ab_config,
                                    platform=self.platform,
                                    search_area_name=self.search_area_name,

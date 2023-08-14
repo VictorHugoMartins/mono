@@ -20,8 +20,8 @@ class GetByIdModel(BaseModel):
     platform: str
     city: str
     user_id: str
-    columns: List[str]
-    clusterization_method: Union[str, None] = None
+    columns: str
+    clusterization_method: str
     agg_method: Union[str, None] = None
 
 

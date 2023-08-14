@@ -1,3 +1,7 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
 import controllers.auth as auth
 import controllers.nav as nav
 import controllers.super_survey as super_survey
@@ -7,10 +11,6 @@ from models.auth import *
 from models.nav import *
 from models.super_survey import *
 from models.users import *
-
-from fastapi import FastAPI, BackgroundTasks, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
 app = FastAPI()
 
