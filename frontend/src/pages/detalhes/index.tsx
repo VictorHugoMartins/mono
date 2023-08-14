@@ -212,6 +212,9 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
                 options: _prepareData.numeric_columns
               }
             ] as InputRenderType[]}
+            onCancel={(e) => {
+              console.log("não filtrou")
+            }}
           />
         }
         <div>

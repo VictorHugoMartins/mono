@@ -34,7 +34,7 @@ export interface FormPageStructureProps {
   handleClose?: () => void;
   externalInitalData?: {}
   setObjectReturn?: React.Dispatch<React.SetStateAction<ObjectResponse>>,
-  isMessageApi?:boolean;
+  isMessageApi?: boolean;
 }
 
 const FormPageStructure: React.FC<FormPageStructureProps> = ({
@@ -93,7 +93,7 @@ const FormPageStructure: React.FC<FormPageStructureProps> = ({
             />
           </Grid>
         )}
-        <Grid xs={12} md={6}>
+        <Grid xs={12} md={!(buttonCancelText && (returnPath || onCancel)) ? 12 : 6}>
           <SubmitButton color="primary" text={buttonSubmitText} type="submit" />
         </Grid>
       </FormRender>
