@@ -3,7 +3,7 @@ import scrap.search as search
 from utils.general_dict import columnDict
 from utils.functions import select_command, update_command
 from utils.thread import Th
-
+import asyncio
 from models.super_survey import *
 
 ab_config = ABConfig()
@@ -24,8 +24,11 @@ def save(data: SaveModel):
                                      )
 
     print("o ss_id: ", ss_id)
+    
+    loop = asyncio.get_event_loop()
     thread = Th(1, data, ss_id)
-    thread.start()
+    loop.run_until_complete(thread.start())
+    loop.close()
 
     response = {
         "object": {"super_survey_id": ss_id},
