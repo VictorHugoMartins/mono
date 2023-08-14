@@ -29,7 +29,7 @@ def save(data: SaveModel):
     # thread = Th(1, data, ss_id)
     search.full_process(config=ab_config,
                         platform=data.platform,
-                        search_area_name=data.search_area_name,
+                        search_area_name=data.city,
                         user_id=data.user_id,
                         columns=data.columns,
                         start_date=data.start_date,
@@ -38,7 +38,7 @@ def save(data: SaveModel):
                             (data.include_locality_search == 'true')),
                         include_route_search=(
                             (data.include_route_search == 'true')),
-                        super_survey_id=data.ss_id,
+                        super_survey_id=ss_id,
                         )
     # loop.run_until_complete(task)
 
