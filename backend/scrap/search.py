@@ -343,7 +343,7 @@ def search_routes(config, platform="Airbnb", search_area_name='', start_date=Non
                                    logs='Falha ao buscar por ruas de ' + search_area_name)
 
 
-async def full_process(config=ab_config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
+async def full_process(platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
                  include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
     try:
         _platform = "Airbnb" if platform != 'Booking' else "Booking"
@@ -596,7 +596,7 @@ def main():
             search_routes(ab_config, args.search_routes)
         elif args.full_survey and args.platform:
             print(args.full_survey, args.platform)
-            full_process(config=ab_config, platform=args.platform, search_area_name=args.full_survey,
+            full_process(platform=args.platform, search_area_name=args.full_survey,
                          user_id=args.user_id, super_survey_id=args.continue_super_survey)
         else:
             parser.print_help()

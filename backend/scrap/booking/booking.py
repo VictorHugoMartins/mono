@@ -332,7 +332,6 @@ def search_booking_rooms(config, area, start_date, finish_date, survey_id):
 
     # FIND ALL PAGES
     all_pages = driver.find_elements(By.CLASS_NAME, 'f32a99c8d1')
-    print(all_pages[0].text)
     print("as pages: ", all_pages)
     for page in all_pages[1:len(all_pages)-1]:
         print(page)

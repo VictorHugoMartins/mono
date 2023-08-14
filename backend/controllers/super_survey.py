@@ -27,8 +27,7 @@ def save(data: SaveModel):
 
     loop = asyncio.get_event_loop()
     # thread = Th(1, data, ss_id)
-    task = loop.create_task(search.full_process(config=ab_config,
-                                                platform=data.platform,
+    task = loop.create_task(search.full_process(platform=data.platform,
                                                 search_area_name=data.city,
                                                 user_id=data.user_id,
                                                 columns=data.columns,
