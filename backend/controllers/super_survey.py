@@ -1,4 +1,4 @@
-from fastapi import FastAPI, BackgroundTasks
+from fastapi import BackgroundTasks
 from config.general_config import ABConfig
 import scrap.search as search
 from utils.general_dict import columnDict
@@ -25,17 +25,18 @@ def save(data: SaveModel, background_tasks: BackgroundTasks):
 
     print("o ss_id: ", ss_id)
 
-    background_tasks.add_task(search.full_process, platform=data.platform,
+    background_tasks.add_task(search.full_process,
+                              platform=data.platform,
                               search_area_name=data.city,
                               user_id=data.user_id,
                               columns=data.columns,
                               start_date=data.start_date,
                               finish_date=data.finish_date,
                               include_locality_search=(
-                                  (data.include_locality_search == 'true')),
+                                  data.include_locality_search == 'true'),
                               include_route_search=(
-                                  (data.include_route_search == 'true')),
-                              super_survey_id=ss_id,
+                                  data.include_route_search == 'true'),
+                              super_survey_id=ss_id
                               )
     # try:
     # loop = asyncio.get_event_loop()
