@@ -1,6 +1,8 @@
 import logging
 import argparse
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import selenium
 import psycopg2
 from scrap.geocoding import BoundingBox
@@ -321,11 +323,13 @@ def search_booking_rooms(config, area, start_date, finish_date, survey_id):
 
     url = "https://www.booking.com/searchresults.pt-br.html?ss={}&ssne={}&ssne_untouched={}&checkin={}&checkout={}".format(
         city, city, city, checkin_date, checkout_date)
-    
+
     print("vai instanciar")
     driver = prepare_driver(url)
     print("instanciou na 330")
     driver.get(url)
+    wait = WebDriverWait(driver, 10).until(EC.presence_of_element_located(
+        (By.XPATH, '//*[@data-testid="property-card"]//*[@data-testid="title-link"]')))
     print("fez o get")
     print(driver.page_source.split('\n')[0])
     print("a page_source")
