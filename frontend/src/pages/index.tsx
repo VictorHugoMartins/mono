@@ -4,7 +4,6 @@ import DataTableButton from "~/components/local/LocalDataTable/DataTableButton/D
 import Table from "~/components/ui/Table";
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
-import Typography from "~/components/ui/Typography/Typography";
 import { BASE_API_URL } from "~/config/apiBase";
 import comumroute from "~/routes/public.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
@@ -81,10 +80,6 @@ function Home() {
           <div className="w3-twothird">
             <h1>DashAcomodações</h1>
             <h5 className="w3-padding-32">Partindo de uma abordagem multidispliciplinar que envolve Turismo e Ciência da Computação, este trabalho promove transparência sobre a atuação das plataformas envolvidas ao propor a implementação de um web scraping e técnicas de ciência de dados para extrair e analisar de forma automatizadas os dados de interesse tanto do Airbnb quanto do Booking.</h5>
-
-            {/* <p className="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
-              occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-              laboris nisi ut aliquip ex ea commodo consequat.</p> */}
           </div>
 
           <div className="w3-third w3-center">

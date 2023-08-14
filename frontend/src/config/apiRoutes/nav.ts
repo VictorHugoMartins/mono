@@ -6,7 +6,7 @@ export const API_NAV = {
   EXPORT: () => `${BASE_API_URL}/nav/export`,
   GETBYCITY: () => `${BASE_API_URL}/nav/getbycity`,
   GETBYID: () => `${BASE_API_URL}/nav/getbyid`,
-  PREPAREFILTER: (token: string) => `${BASE_API_URL}/nav/preparefilter?ss_id=${token}`,
+  PREPAREFILTER: (token: string) => `${BASE_API_URL}/nav/preparefilter/${token}`,
   PREPARE: () => `${BASE_API_URL}/nav/prepare`,
   CHART: () => `${BASE_API_URL}/nav/chart`
 }

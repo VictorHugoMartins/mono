@@ -1,4 +1,3 @@
-import psycopg2 as pg
 import pandas as pd
 import argparse
 import logging
@@ -35,6 +34,7 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
 
         if (toJson):
             results = cur.fetchall()
+            original_results = results  # without masks
 
             # Cria um dicionário com os resultados
             data = []

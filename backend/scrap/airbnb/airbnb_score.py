@@ -112,7 +112,7 @@ def update_price(config, driver, city, room_id):
         try:
             x = driver.find_element(
                 By.XPATH, '//*[@class="_ymq6as"]/span/span[@class="_pgfqnw"]')
-            price = x.text.replace('.', '').replace(',', '.').split('R$')[1]
+            price = float(x.text.replace('.', '').replace(',', '.').split('R$')[1])
         except selenium.common.exceptions.NoSuchElementException:
             logging.info("This room don't have a price yet.")
             return

@@ -204,7 +204,7 @@ class ABSurvey():
 
             if "structured_stay_display_price" in json_pricing:
                 structured_price = json_pricing['structured_stay_display_price']['primary_line']['price']
-                listing.price = structured_price.split('$')[1].split()[0]
+                listing.price = float(structured_price.split('$')[1].split()[0])
                 if len(structured_price.split()) > 0:
                     listing.currency = structured_price.split()[1]
 

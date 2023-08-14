@@ -189,7 +189,7 @@ class BListing():
         # preco
         price = row.find_element(
             By.CSS_SELECTOR, '.bui-price-display__value')
-        self.price = price.text.split('R$ ')[1]
+        self.price = float(price.text.split('R$ ')[1])
         # print("preco:", self.price)
 
     def find_qtd_rooms(self, row):

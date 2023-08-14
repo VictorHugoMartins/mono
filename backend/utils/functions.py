@@ -198,6 +198,8 @@ def buildFilterQuery(data, platform):
             data[key] = ['Airbnb', 'Booking']
 
         if (key != 'ss_id'):
+            if data[key] is None:
+                continue
             if (type(data[key]) == list):
                 values = data[key]
                 if (len(values) > 1):

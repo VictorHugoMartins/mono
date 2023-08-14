@@ -1,5 +1,6 @@
 from fastapi import FastAPI, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 import controllers.auth as auth
 import controllers.nav as nav
@@ -66,23 +67,23 @@ async def getbycity(data: GetByCityModel):
 
 @app.post('/nav/getbyid')
 async def getbyid(data: GetByIdModel):
-    return super_survey.getbyid(data)
+    return nav.getbyid(data)
 
 
 @app.post('/nav/prepare')
 async def prepare(data: PrepareModel):
-    return super_survey.prepare(data)
+    return nav.prepare(data)
 
 
 @app.get('/nav/preparefilter/{ss_id}')
 async def prepare_filter(ss_id: str):
     # args = request.args
-    return super_survey.prepare_filter(ss_id)
+    return nav.prepare_filter(ss_id)
 
 
 @app.post('/nav/chart')
 async def chart(data: ChartModel):
-    return super_survey.chart(data)
+    return nav.chart(data)
 
 
 @app.post('/auth/login')
@@ -133,6 +134,9 @@ async def accept(data: AcceptModel):
 @app.get("/")
 async def root(data):
     return {"message": "Hello World. Welcome to FastAPI!"}
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="127.0.0.1", port=5000, log_level="info", reload=True)
 
 # melhorar homepage
 # botão de solicitar cadastro 100%

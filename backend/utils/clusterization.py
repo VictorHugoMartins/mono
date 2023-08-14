@@ -3,6 +3,8 @@ from kmodes.kprototypes import KPrototypes
 from sklearn.cluster import DBSCAN, Birch
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
+from kmodes.kmodes import KModes
+
 
 def add_labels_to_table_view(table_view, labels):
     table_view["columns"].append(
@@ -26,13 +28,26 @@ def prepare_kmodes_data(data):
     return d, catColumnsPos
 
 
+def convertStringToFloat(str):
+    try:
+        return float(str)
+    except:
+        return None
+
+
 def prepare_mixed_data(data):
     df_encoded = data.copy()
+
+    df_encoded["price"] = [convertStringToFloat(
+        price) if price else None for price in df_encoded['price']]
+    df_encoded["price"] = [price if price else df_encoded["encoded"]["price"].mean() for price in df_encoded['price']]
+
     df_encoded = df_encoded.apply(lambda x: x.fillna(
-        x.mean()) if x.dtype.kind in 'biufc' else x.fillna('.'))
+        x.mean()) if (x.dtype.kind in 'biufc') else x.fillna('.'))
     label_encoder = LabelEncoder()
 
     for col in df_encoded.columns:
+        print(df_encoded[col])
         if df_encoded[col].dtype == 'object':
             df_encoded[col] = label_encoder.fit_transform(
                 df_encoded[col].astype(str))
@@ -44,15 +59,29 @@ def prepare_mixed_data(data):
     return df_scaled
 
 # particionamento
-def run_kmodes(data, table_view, init='Huang', n_clusters=3, n_init=3):
+
+
+def run_kprototypes(data, table_view, init='Huang', n_clusters=3, n_init=3):
     d, catColumnsPos = prepare_kmodes_data(data)
 
-    kmodes_model = KPrototypes(n_clusters=n_clusters, init=init, n_init=n_init)
-    clusters = kmodes_model.fit_predict(d, categorical=catColumnsPos)
+    kprototypes_model = KPrototypes(
+        n_clusters=n_clusters, init=init, n_init=n_init)
+    clusters = kprototypes_model.fit_predict(d, categorical=catColumnsPos)
+
+    return add_labels_to_table_view(table_view, kprototypes_model.labels_)
+
+
+def run_kmodes(data, table_view, init='Huang', n_clusters=3, n_init=3):
+    df_scaled = prepare_mixed_data(data)
+
+    kmodes_model = KModes(n_clusters=n_clusters, init=init, n_init=n_init)
+    clusters = kmodes_model.fit_predict(df_scaled)
 
     return add_labels_to_table_view(table_view, kmodes_model.labels_)
 
 # densidade
+
+
 def run_dbscan(data, table_view, eps=3, min_samples=2):
     df_scaled = prepare_mixed_data(data)
 
@@ -62,6 +91,8 @@ def run_dbscan(data, table_view, eps=3, min_samples=2):
     return add_labels_to_table_view(table_view, dbscan_model.labels_)
 
 # hierarquico
+
+
 def run_birch(data, table_view, n_clusters=3, threshold=0.5, branching_factor=50):
     df_scaled = prepare_mixed_data(data)
 
@@ -74,14 +105,19 @@ def run_birch(data, table_view, n_clusters=3, threshold=0.5, branching_factor=50
 
 
 def cluster_data(clusterization_method='none', data=None, table_view=None, parameters=None):
+    print("os parametros: ", parameters)
     if (clusterization_method == 'kmodes'):
         print(parameters["init"], parameters["n_clusters"],
               parameters["n_init"])
-        return run_kmodes(data, table_view, parameters["init"], parameters["n_clusters"], parameters["n_init"])
+        try:
+            return run_kmodes(data, table_view, parameters["init"], parameters["n_clusters"], parameters["n_init"])
+        except AssertionError:
+            return run_kprototypes(data, table_view, parameters["init"], parameters["n_clusters"], parameters["n_init"])
     elif (clusterization_method == 'dbscan'):
         print(parameters["eps"], parameters["min_samples"])
         return run_dbscan(data, table_view, float(parameters["eps"]), parameters["min_samples"])
     elif (clusterization_method == 'birch'):
-        print(parameters["n_clusters"], parameters["threshold"], parameters["branching_factor"])
+        print(parameters["n_clusters"], parameters["threshold"],
+              parameters["branching_factor"])
         return run_birch(data, table_view, parameters["n_clusters"], float(parameters["threshold"]), parameters["branching_factor"])
     return table_view

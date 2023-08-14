@@ -1,3 +1,5 @@
+from fastapi.encoders import jsonable_encoder
+
 from config.general_config import ABConfig
 from utils.file_manager import export_datatable
 from utils.general_dict import get_all_rooms_by_ss_id
@@ -81,13 +83,15 @@ def getbycity(data):  # ok
                     "success": False, "status": 500}
         return response
 
-def getbyid(data):
-    print(data)
+def getbyid(original_data):
+    print(original_data)
+    data = jsonable_encoder(original_data)
+    print("nova data: ", data)
     result = select_command(ab_config,
                             """SELECT platform, data_columns
 																FROM super_survey_config where ss_id = %s
 																limit 1""",
-                            (data.ss_id,),
+                            (data["ss_id"],),
                             "Selecionando colunas da configuração de pesquisa",
                             "Falha ao selecionar colunas da configuração de pesquisa")
     if not result:
@@ -97,8 +101,8 @@ def getbyid(data):
             "success": False
         }
 
-    platform = data.platform
-    print(result[0][1])
+    platform = data["platform"]
+    
     try:
         columns = result[0][1].replace('{', '').replace('}', '').split(',')
         if (len(columns) == 1):
@@ -106,7 +110,7 @@ def getbyid(data):
         print("as colunas: ", columns)
     except:
         columns = result[0][1]
-    agg_method = data.agg_method
+    agg_method = data["agg_method"]
     if ('platform' in columns):
         columns = columns.replace('platform, ', '')
 
@@ -118,23 +122,23 @@ def getbyid(data):
         rooms = export_datatable(ab_config, """
 											WITH consulta AS ( {consulta} )
 												SELECT room_id, {columns} FROM consulta {query}
-												""".format(consulta=get_all_rooms_by_ss_id(data.ss_id, "'Airbnb'", agg_method), columns=xNotIn(exclusive_booking_columns, columns), query=query), params, "Airbnb", True, True)
+												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Airbnb'", agg_method), columns=xNotIn(exclusive_booking_columns, columns), query=query), params, "Airbnb", True, True)
     elif (platform == 'Booking'):
         (query, params) = buildFilterQuery(data, 'Booking')
         rooms = export_datatable(ab_config, """
 											WITH consulta AS ( {consulta} )
 												SELECT room_id, {columns} FROM consulta {query}
-												""".format(consulta=get_all_rooms_by_ss_id(data.ss_id, "'Booking'", agg_method), columns=xNotIn(exclusive_airbnb_columns, columns), query=query), params, "Booking", True, True)
+												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Booking'", agg_method), columns=xNotIn(exclusive_airbnb_columns, columns), query=query), params, "Booking", True, True)
 
     try:
-        print("aqui", rooms)
+        # print("aqui", rooms)
         response = {
-            "object": {"table": cluster_data(data.clusterization_method, rooms["df"], rooms["table"], data), "extra_info": agg_method},
+            "object": {"table": cluster_data(data["clusterization_method"], rooms["df"], rooms["table"], data), "extra_info": agg_method},
             "message": "Dados retornados com sucesso!",
             "success": True
         }
-    except KeyError:
-        print("erro")
+    except KeyError as a:
+        print("erro", a)
         response = {
             "object": {"table": {"columns": [], "rows": []}, "extra_info": agg_method},
             "message": "Dados retornados com sucesso!",
@@ -194,10 +198,10 @@ def prepare(data):  # adicionar campo p/ visualizar cluster específico
              "value": "birch"},
             {"label": "DBScan",
              "value": "dbscan"},
-            {"label": "K-Modes",
+            {"label": "K-Derivados",
              "value": "kmodes"},
         ],
-        "description": "Agrupamento se refere ao processo de gerar grupos menores dentro dos dados coletados a partir de características semelhantes entre eles. Para saber mais sobre cada um dos três métodos disponíveis, acesse: https://scikit-learn.org/stable/modules/clustering.html#birch"
+        "description": "Agrupamento se refere ao processo de gerar grupos menores dentro dos dados coletados a partir de características semelhantes entre eles. Para saber mais sobre cada um dos três métodos disponíveis, acesse: https://scikit-learn.org/stable/modules/clustering.html"
     },
         {
         "name": "agg_method",

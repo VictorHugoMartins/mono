@@ -151,7 +151,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
         }
       </Flexbox>
       <Flexbox width={"100%"} justify="space-between">
-        <div style={{ width: "30vw", maxHeight: "80vh", overflow: "hidden", overflowY: "scroll" }}>
+        <div style={{ maxHeight: "80vh", overflow: "hidden", overflowY: "scroll", marginRight: 16 }}>
           <DetailsFilter
             data={_prepareData}
             setResultData={setFilteredResponseData}
@@ -212,9 +212,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
                 options: _prepareData.numeric_columns
               }
             ] as InputRenderType[]}
-            onCancel={(e) => {
-              console.log("não filtrou")
-            }}
+            onCancel={(e) => { console.log("não filtrou") }}
           />
         }
         <div>
