@@ -385,6 +385,9 @@ def search_booking_rooms(config, area, start_date, finish_date, survey_id):
 
             driver = return_next_page(
                 city, checkin_date, checkout_date, offset)
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located(
+                (By.ID, 'bodyconstraint-inner')))
+            print("aguardou")
         except selenium.common.exceptions.TimeoutException:
             print("hmm")
             continue
