@@ -71,7 +71,7 @@ def save(data: SaveModel, background_tasks: BackgroundTasks):
     #     return {"message": "Falha ao iniciar pesquisa", "success": False}
 
 
-def restart(data: RestartModel):
+def restart(data: RestartModel, background_tasks: BackgroundTasks):
     result = select_command(ab_config,
                             """SELECT platform, search_area_name, super_survey_config.user_id, data_columns,
 																	clusterization_method, aggregation_method,
@@ -102,8 +102,22 @@ def restart(data: RestartModel):
     }
 
     print("a data agora:", new_params)
-    thread = Th(1, new_params, data.ss_id)
-    thread.start()
+    # thread = Th(1, new_params, data.ss_id)
+    # thread.start()
+
+    background_tasks.add_task(search.full_process,
+                              platform=new_params.platform,
+                              search_area_name=new_params.city,
+                              user_id=new_params.user_id,
+                              columns=new_params.columns,
+                              start_date=new_params.start_date,
+                              finish_date=new_params.finish_date,
+                              include_locality_search=(
+                                  new_params.include_locality_search == 'true'),
+                              include_route_search=(
+                                  new_params.include_route_search == 'true'),
+                              super_survey_id=data.ss_id
+                              )
 
     response = {
         "object": {"super_survey_id": data.ss_id},

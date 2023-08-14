@@ -28,9 +28,9 @@ async def save(data: SaveModel, background_tasks: BackgroundTasks):
 
 
 @app.post('/super_survey/restart')
-async def restart(data: RestartModel):
+async def restart(data: RestartModel, background_tasks: BackgroundTasks):
     print(data)
-    return super_survey.restart(data)
+    return super_survey.restart(data, background_tasks)
 
 
 @app.post('/super_survey/update')

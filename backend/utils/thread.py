@@ -27,7 +27,7 @@ class Th(Thread):
         self.ss_id = ss_id
 
     async def run(self):
-        search.full_process(platform=self.platform,
+        return search.full_process(platform=self.platform,
                             search_area_name=self.search_area_name,
                             user_id=self.user_id,
                             columns=self.columns,
