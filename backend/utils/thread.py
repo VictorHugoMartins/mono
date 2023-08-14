@@ -27,7 +27,7 @@ class Th(Thread):
         self.ss_id = ss_id
 
     async def run(self):
-        tasks = [asyncio.create_task(search.full_process(config=ab_config,
+        search.full_process(config=ab_config,
                             platform=self.platform,
                             search_area_name=self.search_area_name,
                             user_id=self.user_id,
@@ -39,8 +39,7 @@ class Th(Thread):
                             include_route_search=(
                                 (self.include_route_search == 'true') or self.include_route_search),
                             super_survey_id=self.ss_id,
-                            ))]
-        await asyncio.wait(tasks)
+                            )
 
 # loop = asyncio.get_event_loop()
 # loop.run_until_complete(Th())
