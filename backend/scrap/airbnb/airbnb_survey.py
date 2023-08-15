@@ -207,17 +207,20 @@ class ABSurvey():
                 listing.price = float(structured_price.split(
                     '$')[1].split()[0].replace(',', '.'))
                 try:
-                    if len(structured_price.split()) > 0:
+                    if len(structured_price.split() > 0):
                         listing.currency = structured_price.split()[1]
                 except Exception as e:
                     logger.exception(e)
-                    return listing
-
-            return listing
+                    pass
         except:
             logger.exception(
                 "Error in survey.listing_from_search_page_json: returning None")
             return None
+        finally:
+            try:
+                return listing
+            except:
+                return None
 
     def log_progress(self, room_type, neighborhood_id,
                      guests, section_offset, has_rooms):
