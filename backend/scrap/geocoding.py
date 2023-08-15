@@ -135,9 +135,9 @@ class Location():
                                                  (
                                                      self.route, self.sublocality, self.locality, self.level1, self.level2, self.country
                                                  )),
-                                             initial_message="Inserindo Localização {r}...".format(
-                                                 r=self.location_id),
-                                             failure_message="Falha ao inserir Localização {r}!".format(r=self.location_id))
+                                             initial_message="Inserindo Localização...",
+                                             failure_message="Falha ao inserir Localização {r}!"
+                                             )
 
         except Exception as e:
             logger.error(e)

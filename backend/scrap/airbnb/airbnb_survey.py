@@ -187,7 +187,7 @@ class ABSurvey():
                 listing.price = float(structured_price.split(
                     '$')[1].split()[0].replace(',', '.'))
                 try:
-                    if len(structured_price.split()) > 0:
+                    if len(structured_price.split(' ')) > 1:
                         listing.currency = structured_price.split()[1]
                 except Exception as e:
                     logger.exception(e)
