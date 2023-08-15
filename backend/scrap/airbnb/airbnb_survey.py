@@ -17,7 +17,6 @@ from bs4 import BeautifulSoup
 import json
 from scrap.airbnb.airbnb_listing import ABListing
 import scrap.airbnb.airbnb_ws as airbnb_ws
-import os
 
 logger = logging.getLogger()
 
@@ -38,26 +37,7 @@ class ABSurvey():
         self.set_search_area()
         self.room_types = ["Private room", "Entire home/apt", "Shared room"]
 
-        # Set up logging
         logger.setLevel(config.log_level)
-
-        # create a file handler
-        print("criando aqui!!!")
-        # check_and_create_file(".logs/survey-{survey_id}.log".format(
-        #     survey_id=self.survey_id))
-
-        # logfile = "logs/survey-{survey_id}.log".format(
-        #     survey_id=self.survey_id)
-        # filelog_handler = logging.FileHandler(logfile, encoding="utf-8")
-        # filelog_handler.setLevel(config.log_level)
-        # filelog_formatter = logging.Formatter(
-        #     '%(asctime)-15s %(levelname)-8s%(message)s')
-        # filelog_handler.setFormatter(filelog_formatter)
-
-        # logging: set log file name, format, and level
-        # logger.addHandler(filelog_handler)
-
-        # Suppress informational logging from requests module
         logging.getLogger("requests").setLevel(logging.WARNING)
         logging.getLogger("urllib3").setLevel(logging.WARNING)
         logger.propagate = False

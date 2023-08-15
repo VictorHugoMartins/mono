@@ -135,44 +135,6 @@ def update_price(config, driver, city, room_id):
         raise
 
 
-def update_with_preexistent_comodities(config, city, args):
-    try:
-        rowcount = -1
-        logging.info("Initialing search by overall satisfactions")
-        conn = config.connect()
-        cur = conn.cursor()
-
-        sql = """SELECT distinct(room_id), comodities from room where city = %s
-				and comodities is not null
-				order by room_id"""  # and comodities is null
-        # and price is null
-        # and overall_satisfaction is null
-
-        cur.execute(sql, (city,))
-        rowcount = cur.rowcount
-        logging.info(str(rowcount) + " results")
-
-        if rowcount > 0:
-            results = cur.fetchall()
-            for result in results:
-                room_id = result[0]
-                comodities = result[1]
-                rowcount = -1
-                sql = """UPDATE room set comodities = %s
-						where room_id = %s and comodities is null"""
-                update_args = (comodities, room_id)
-                cur.execute(sql, update_args)
-                rowcount = cur.rowcount
-                conn.commit()
-
-                logging.info(rowcount, " comodities updated")
-        return True
-    except Exception as e:
-        logger.error(e)
-        logger.error("Failed to update comodities")
-        raise
-
-
 def airbnb_score_search(config, city, survey_id):
     try:
         driver = None

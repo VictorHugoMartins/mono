@@ -574,5 +574,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# selecionar route, sublocality e tal só quando for exportar os dados
