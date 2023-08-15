@@ -211,7 +211,7 @@ class ABSurvey():
                         listing.currency = structured_price.split()[1]
                 except Exception as e:
                     logger.exception(e)
-                    pass
+                    return listing
 
             # pricing
             # json_pricing = json["pricing_quote"]
@@ -223,7 +223,6 @@ class ABSurvey():
         except:
             logger.exception(
                 "Error in survey.listing_from_search_page_json: returning None")
-            sys.exit(-1)
             return None
 
     def log_progress(self, room_type, neighborhood_id,
