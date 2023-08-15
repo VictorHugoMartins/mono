@@ -6,14 +6,17 @@ logging = logging.getLogger()
 
 def select_command(config=ABConfig(), sql_script=None, params=None, initial_message=None, failure_message=None):
     try:
-        print(sql_script, (params))
         logging.info(initial_message)
         conn = config.connect()
         cur = conn.cursor()
 
         cur.execute(sql_script, (params))
 
-        return cur.fetchall()
+        print(sql_script)
+
+        results = cur.fetchall()
+        print(results)
+        return results
     except Exception:
         logging.error(failure_message)
         return None
