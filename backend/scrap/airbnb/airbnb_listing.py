@@ -28,7 +28,6 @@ class ABListing():
         self.room_type = None
         self.country = None
         self.city = None
-        self.neighborhood = None
         self.address = None
         self.reviews = None
         self.reviews_text = False
@@ -160,7 +159,7 @@ class ABListing():
         return insert_command(sql_script="""
                                   insert into room (
                                       room_id, host_id, room_type, country, city,
-                                      neighborhood, address, reviews, overall_satisfaction,
+                                      address, reviews, overall_satisfaction,
                                       accommodates, bedrooms, bathrooms, price, deleted,
                                       minstay, latitude, longitude, survey_id,
                                       coworker_hosted, extra_host_languages, name,
@@ -169,12 +168,12 @@ class ABListing():
                                       is_superhost, bathroom, location_id)
                                   values (%s, %s, %s, %s, %s, %s, %s, %s, %s,
                                   %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                                  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                                  %s, %s, %s, %s, %s, %s, %s, %s, %s
                                   ) returning room_id""",
                               params=(
                                   (
                                       self.room_id, self.host_id, self.room_type, self.country,
-                                      self.city, self.neighborhood, self.address, self.reviews,
+                                      self.city, self.address, self.reviews,
                                       self.overall_satisfaction, self.accommodates, self.bedrooms,
                                       self.bathrooms, self.price, self.deleted, self.minstay,
                                       self.latitude, self.longitude, self.survey_id,

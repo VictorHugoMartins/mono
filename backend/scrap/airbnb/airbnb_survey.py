@@ -202,40 +202,6 @@ class ABSurvey():
             except:
                 return None
 
-    def log_progress(self, room_type, neighborhood_id,
-                     guests, section_offset, has_rooms):
-        """ Add an entry to the survey_progress_log table to record the fact
-        that a page has been visited.
-        This does not apply to search by bounding box, but does apply to both
-        neighborhood and zipcode searches, which is why it is in ABSurvey.
-        """
-        try:
-            page_info = (self.survey_id, room_type, neighborhood_id,
-                         guests, section_offset, has_rooms)
-            logger.debug("Search page: " + str(page_info))
-            sql = """
-            insert into survey_progress_log
-            (survey_id, room_type, neighborhood_id,
-            guests, page_number, has_rooms)
-            values (%s, %s, %s, %s, %s, %s)
-            """
-            conn = self.config.connect()
-            cur = conn.cursor()
-            cur.execute(sql, page_info)
-            cur.close()
-            conn.commit()
-            logger.debug("Logging survey search page for neighborhood " +
-                         str(neighborhood_id))
-            return True
-        except psycopg2.Error as pge:
-            logger.error(pge.pgerror)
-            cur.close()
-            conn.rollback()
-            return False
-        except Exception:
-            logger.error("Save survey search page failed")
-            return False
-
     def fini(self):
         """
         Wrap up a survey: correcting status and date

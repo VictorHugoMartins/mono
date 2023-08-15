@@ -13,7 +13,6 @@ import json
 from config.general_config import ABConfig
 import sys
 import logging
-import os
 import psycopg2
 from utils.sql_commands import select_command, update_command, insert_command
 
@@ -32,7 +31,6 @@ class Location():
         self.id = None
         self.lat_round = lat_round
         self.lng_round = lng_round
-        self.neighborhood = None
         self.sublocality = None
         self.locality = None
         self.level2 = None
@@ -46,7 +44,6 @@ class Location():
         self.id = None
         self.lat_round = lat_round
         self.lng_round = lng_round
-        self.neighborhood = None
         self.sublocality = None
         self.locality = None
         self.level2 = None
@@ -246,43 +243,6 @@ class Location():
             config, self.sublocality + ', ' + self.level2)
         bounding_box.add_search_area(
             config, self.sublocality + ', ' + self.level2)
-
-    def get_country(self):
-        return self.country
-
-    def get_level2(self):
-        return self.level2
-
-    def get_level1(self):
-        return self.level1
-
-    def get_neighborhood(self):
-        return self.neighborhood
-
-    def get_sublocality(self):
-        return self.sublocality
-
-    def get_route(self):
-        return self.route
-
-    def get_sublocality_id(self, config):
-        try:
-            rowcount = -1
-            # logging.info("Adding location to database")
-            conn = config.connect()
-            cur = conn.cursor()
-
-            # check if it exists
-            cur.execute(
-                """ select sublocality_id from sublocality where sublocality_name = %s """, (self.sublocality,))
-            rowcount = cur.rowcount
-
-            if rowcount > 0:
-                (sublocality_id) = cur.fetchone()[0]
-                return sublocality_id
-        except:
-            logger.exception("Exception in get sublocality")
-            raise
 
 
 class BoundingBox():
