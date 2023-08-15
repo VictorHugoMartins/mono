@@ -209,7 +209,8 @@ class ABSurvey():
                 try:
                     if len(structured_price.split()) > 0:
                         listing.currency = structured_price.split()[1]
-                except:
+                except Exception as e:
+                    logger.exception(e)
                     pass
 
             # pricing

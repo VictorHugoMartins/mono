@@ -236,6 +236,7 @@ class ABListing():
                 self.max_nights, self.pictures, self.bathroom,
                 self.location_id
             )
+            print(sql, insert_args)
             cur.execute(sql, insert_args)
             cur.close()
             conn.commit()
@@ -421,3 +422,5 @@ class ABListing():
                              ": failed to retrieve from web site.")
             logger.error("Exception: " + str(type(ex)))
             raise
+
+# colunas para remover: sublocality, route, max_nights, pictures
