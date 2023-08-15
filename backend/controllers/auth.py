@@ -11,6 +11,7 @@ def login(data: LoginModel):  # ok
                                        (data.email, data.password)),
                                    initial_message="Autenticando usuario...",
                                    failure_message="Falha ao realizar login")
+        print(user_data)
         if user_data[0][2] == data.email:
             return {
                 "object": {
@@ -23,7 +24,7 @@ def login(data: LoginModel):  # ok
                 "success": True
             }
         else:
-            return {"message": "Erro ao realizar login!", "success": False}
+            return {"message": "Tente novamente!", "success": False}
     except:
         return {"message": "Erro ao realizar login!", "success": False}
 
