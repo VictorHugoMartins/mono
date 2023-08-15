@@ -38,10 +38,6 @@ def convertStringToFloat(str):
 def prepare_mixed_data(data):
     df_encoded = data.copy()
 
-    df_encoded["price"] = [convertStringToFloat(
-        price) if price else None for price in df_encoded['price']]
-    df_encoded["price"] = [price if price else df_encoded["encoded"]["price"].mean() for price in df_encoded['price']]
-
     df_encoded = df_encoded.apply(lambda x: x.fillna(
         x.mean()) if (x.dtype.kind in 'biufc') else x.fillna('.'))
     label_encoder = LabelEncoder()

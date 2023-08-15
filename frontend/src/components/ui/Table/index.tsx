@@ -34,38 +34,39 @@ const Table: React.FC<TableProps> = ({
 
   return (
     <>
-      <div className={styles.table}>
+      <div style={{ maxWidth: "calc(100vw - 64px)", overflow: "scroll" }}>
+        <div className={styles.table}>
 
-        <div className={`${styles.row} ${styles.header} ${styles.blue}`}>
-          {columns?.map((item) => (!hiddenColumns?.includes(item.value) ? <div className={styles.cell}>{item.label}</div> : <></>))}
+          <div className={`${styles.row} ${styles.header} ${styles.blue}`}>
+            {columns?.map((item) => (!hiddenColumns?.includes(item.value) ? <div className={styles.cell}>{item.label}</div> : <></>))}
 
-          {buttons && <div className={styles.cell}></div>}
+            {buttons && <div className={styles.cell}></div>}
 
-        </div>
+          </div>
 
-        {rows?.slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map(function (row, index) {
-            return (
-              <div className={styles.row}>
-                {columns?.map((item) => (
-                  !hiddenColumns?.includes(item.value) ?
-                    <div className={styles.cell} data-title={item.value}>
-                      {row[item.value]}
+          {rows?.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map(function (row, index) {
+              return (
+                <div className={styles.row}>
+                  {columns?.map((item) => (
+                    !hiddenColumns?.includes(item.value) ?
+                      <div className={styles.cell} data-title={item.value}>
+                        {row[item.value]}
+                      </div>
+                      : <></>
+                  ))
+                  }
+
+                  {buttons && <td>
+                    <div className={styles.buttons}>
+                      {ChildrenWithProps(buttons, { rowData: row })}
                     </div>
-                    : <></>
-                ))
-                }
-
-                {buttons && <td>
-                  <div className={styles.buttons}>
-                    {ChildrenWithProps(buttons, { rowData: row })}
-                  </div>
-                </td>}
-              </div>
-            )
-          })}
+                  </td>}
+                </div>
+              )
+            })}
+        </div>
       </div>
-
       {
         numberOfPages > 1 &&
         <Grid className='pagination-center' item md={12} xs={12}>
@@ -85,6 +86,7 @@ const Table: React.FC<TableProps> = ({
           </div>
         </Grid>
       }
+
     </>
   )
 }

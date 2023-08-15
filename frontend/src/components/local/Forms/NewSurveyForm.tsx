@@ -69,7 +69,7 @@ export default function NewSurveyOptions() {
       <FormPageStructure
         buildObject={surveyBuild}
         buildPath={'na'}
-        submitPath={API_SUPER_SURVEY.SAVE()}
+        submitPath={API_SUPER_SURVEY.START()}
         buttonSubmitText="Solicitar pesquisa"
         buttonCancelText="Cancelar"
         returnPath="/"

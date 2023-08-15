@@ -24,6 +24,7 @@ class ABListing():
     # Occasionally, a survey_id = None will happen, but for retrieving data
     # straight from the web site, and not stored in the database.
     """
+
     def __init__(self, config, room_id, survey_id):
         self.config = config
         self.room_id = room_id
@@ -71,7 +72,7 @@ class ABListing():
         logger.setLevel(config.log_level)
 
     def status_check(self):
-        # if sufficient of the values are None or don't exist, the room 
+        # if sufficient of the values are None or don't exist, the room
         # entry was not properly parsed and we may as well throw the whole
         # thing away.
         status = True  # OK
@@ -90,9 +91,11 @@ class ABListing():
                 if (key == "overall_satisfaction" and "reviews" not in
                         unassigned_values):
                     if val is None and self.reviews > 2:
-                        logger.debug("Room " + str(self.room_id) + ": No value for " + key)
+                        logger.debug("Room " + str(self.room_id) +
+                                     ": No value for " + key)
                 elif val is None:
-                    logger.debug("Room " + str(self.room_id) + ": No value for " + key)
+                    logger.debug("Room " + str(self.room_id) +
+                                 ": No value for " + key)
         return status
 
     def get_columns(self):
@@ -149,31 +152,39 @@ class ABListing():
                 if (rowcount == 0 or
                         insert_replace_flag == self.config.FLAGS_INSERT_NO_REPLACE):
                     try:
-                        if (self.config.FLAGS_INSERT_IN_LOCATION): self.location_id = reverse_geocode_coordinates_and_insert(self.config, self.latitude, self.longitude)
+                        if (self.config.FLAGS_INSERT_IN_LOCATION):
+                            for i in range(self.config.ATTEMPTS_TO_FIND_PAGE):
+                                try:
+                                    self.location_id = reverse_geocode_coordinates_and_insert(
+                                        self.config, self.latitude, self.longitude)
+                                    break
+                                except:
+                                    pass
                         self.__insert()
                         return True
                     except psycopg2.IntegrityError:
-                        logger.debug("Room " + str(self.room_id) + ": already collected")
+                        logger.debug("Room " + str(self.room_id) +
+                                     ": already collected")
                         return False
         except psycopg2.OperationalError:
             # connection closed
             logger.error("Operational error (connection closed): resuming")
-            del(self.config.connection)
+            del (self.config.connection)
         except psycopg2.DatabaseError as de:
             self.config.connection.conn.rollback()
             logger.erro(psycopg2.errorcodes.lookup(de.pgcode[:2]))
             logger.error("Database error: resuming")
-            del(self.config.connection)
+            del (self.config.connection)
         except psycopg2.InterfaceError:
             # connection closed
             logger.error("Interface error: resuming")
-            del(self.config.connection)
+            del (self.config.connection)
         except psycopg2.Error as pge:
             # database error: rollback operations and resume
             self.config.connection.conn.rollback()
             logger.error("Database error: " + str(self.room_id))
             logger.error("Diagnostics " + pge.diag.message_primary)
-            del(self.config.connection)
+            del (self.config.connection)
         except (KeyboardInterrupt, SystemExit):
             raise
         except UnicodeEncodeError as uee:
@@ -221,15 +232,16 @@ class ABListing():
                 self.coworker_hosted, self.extra_host_languages, self.name,
                 self.property_type, self.currency, self.rate_type,
                 self.sublocality, self.route, self.avg_rating,
-                 self.is_superhost,
+                self.is_superhost,
                 self.max_nights, self.pictures, self.bathroom,
                 self.location_id
-                )
+            )
             cur.execute(sql, insert_args)
             cur.close()
             conn.commit()
             logger.debug("Room " + str(self.room_id) + ": inserted")
-            logger.debug("(lat, long) = ({lat:+.5f}, {lng:+.5f})".format(lat=self.latitude, lng=self.longitude))
+            logger.debug(
+                "(lat, long) = ({lat:+.5f}, {lng:+.5f})".format(lat=self.latitude, lng=self.longitude))
         except psycopg2.IntegrityError:
             # logger.info("Room " + str(self.room_id) + ": insert failed")
             conn.rollback()
@@ -271,7 +283,7 @@ class ABListing():
                 self.property_type, self.currency, self.rate_type, self.pictures,
                 self.room_id,
                 self.survey_id,
-                )
+            )
             logger.debug("Executing...")
             cur.execute(sql, update_args)
             rowcount = cur.rowcount
@@ -289,7 +301,8 @@ class ABListing():
     def __get_reviews(self, tree):
         try:
             # 2020-05-09
-            x = tree.xpath("//*[@id='reviews']/div/div/section/div[1]/div/div[2]/div[1]/div/div/div/div/div/div[3]/span[1]/text()")
+            x = tree.xpath(
+                "//*[@id='reviews']/div/div/section/div[1]/div/div[2]/div[1]/div/div/div/div/div/div[3]/span[1]/text()")
             if x is not None:
                 self.reviews = x[0]
                 return True
@@ -300,7 +313,7 @@ class ABListing():
             temp2 = tree.xpath(
                 "//div[@class='___iso-state___p3summarybundlejs']"
                 "/@data-state"
-                )
+            )
             if s is not None:
                 j = json.loads(s[0])
                 self.reviews = \
@@ -321,7 +334,7 @@ class ABListing():
                 # try old page match
                 temp = tree.xpath(
                     "//span[@itemprop='reviewCount']/text()"
-                    )
+                )
                 if len(temp) > 0:
                     self.reviews = temp[0]
             if self.reviews is not None:
@@ -333,9 +346,11 @@ class ABListing():
             self.reviews = None
 
     def get_location(self):
-        location = Location(self.latitude, self.longitude) # initialize a location with coordinates
-        location.reverse_geocode(self.config) # find atributes for location with google api key
-        
+        # initialize a location with coordinates
+        location = Location(self.latitude, self.longitude)
+        # find atributes for location with google api key
+        location.reverse_geocode(self.config)
+
         if location.get_country() is not None:
             self.country = location.get_country()
         if location.get_level2() is not None:
@@ -385,7 +400,7 @@ class ABListing():
             logger.info("Host " + str(host_id) +
                         ": getting from Airbnb web site")
             room_url = "airbnb.com.br/users/show/" + str(host_id)
-            
+
             if response is not None:
                 page = response.text
                 tree = html.fromstring(page)

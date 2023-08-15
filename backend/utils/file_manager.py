@@ -34,7 +34,7 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
 
         if (toJson):
             results = cur.fetchall()
-            original_results = results  # without masks
+            # print("OS RESULTADOS::::", results)
 
             # Cria um dicionário com os resultados
             data = []
@@ -56,10 +56,13 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
             if (toPandas):
                 print("veio aqui na 52")
                 df = pd.DataFrame(results)
-                df = df.T.drop_duplicates().T  # in case of duplicate columns
+                print("59")
+                # df = df.T.drop_duplicates().T  # in case of duplicate columns
                 if ((len(data) > 0) and (data[0])):
-                    print("veio na 56")
+                    print("veio na 62")
+                    print(data[0].keys())
                     df.columns = data[0].keys()
+                    print("64")
                     if (len(data) > 0):
                         print("a")
                         return {"table": {"columns": buildColumnsObject(data[0].keys()), "rows": data}, "df": df}
@@ -72,15 +75,17 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
             else:
                 if (len(data) > 0):
                     print("d")
-                    print(data[0].keys(), data)
+                    # print(data[0].keys(), data)
                     print("dd")
                     return {"columns": buildColumnsObject(data[0].keys()), "rows": data}
                 else:
                     print("e")
                     return {"columns": [], "rows": []}
         else:
+            print("sSEM RESULTADOS")
             return {"columns": [], "rows": []}
-    except:
+    except Exception as e:
+        print(e)
         return {"columns": [], "rows": []}
 
 

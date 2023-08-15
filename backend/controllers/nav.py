@@ -9,7 +9,7 @@ from utils.functions import buildFilterQuery, build_options
 from utils.clusterization import cluster_data
 from utils.functions import buildGraphObjectFromSqlResult, get_rooms, xNotIn, exclusive_airbnb_columns, exclusive_booking_columns
 from utils.general_dict import get_all_rooms_by_ss_id
-from utils.functions import select_command
+from utils.sql_commands import select_command
 
 from utils.general_dict import columnDict
 
@@ -34,7 +34,7 @@ def list(data):  # ok
     try:
         print("nesse")
         response = {
-            "object": export_datatable(ab_config, """SELECT ss_id, city, status, logs, date FROM super_survey WHERE user_id = %s ORDER BY ss_id desc""", (data['user_id'],), "Airbnb", True),
+            "object": export_datatable(ab_config, """SELECT ss_id, city, status, logs, date FROM super_survey WHERE user_id = %s ORDER BY ss_id desc""", (data.user_id,), "Airbnb", True),
             "message": "Dados retornados com sucesso!",
             "success": True
         }
@@ -43,7 +43,8 @@ def list(data):  # ok
     except KeyError:
         response = {"message": "Faça login!", "success": False, "status": 401}
         return response
-    except:
+    except Exception as e:
+        print("uai", e)
         return {"message": "Falha ao buscar dados", "success": False}
 
 
@@ -71,7 +72,7 @@ def getbycity(data):  # ok
         response = {
             "object": export_datatable(ab_config, """
 											select ss_id, date, logs from super_survey where city = %s
-										""", (data['city'],), None, True),
+										""", (data.city,), None, True),
             "message": "Dados retornados com sucesso!",
             "success": True
         }
@@ -82,6 +83,7 @@ def getbycity(data):  # ok
         response = {"message": "Falha ao buscar pesquisas!",
                     "success": False, "status": 500}
         return response
+
 
 def getbyid(original_data):
     print(original_data)
@@ -102,7 +104,7 @@ def getbyid(original_data):
         }
 
     platform = data["platform"]
-    
+
     try:
         columns = result[0][1].replace('{', '').replace('}', '').split(',')
         if (len(columns) == 1):
@@ -121,13 +123,13 @@ def getbyid(original_data):
         (query, params) = buildFilterQuery(data, 'Airbnb')
         rooms = export_datatable(ab_config, """
 											WITH consulta AS ( {consulta} )
-												SELECT room_id, {columns} FROM consulta {query}
+												SELECT {columns}, 'Airbnb' as platform FROM consulta {query}
 												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Airbnb'", agg_method), columns=xNotIn(exclusive_booking_columns, columns), query=query), params, "Airbnb", True, True)
     elif (platform == 'Booking'):
         (query, params) = buildFilterQuery(data, 'Booking')
         rooms = export_datatable(ab_config, """
 											WITH consulta AS ( {consulta} )
-												SELECT room_id, {columns} FROM consulta {query}
+												SELECT {columns}, 'Booking' as platform FROM consulta {query}
 												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Booking'", agg_method), columns=xNotIn(exclusive_airbnb_columns, columns), query=query), params, "Booking", True, True)
 
     try:
@@ -228,8 +230,8 @@ def prepare(data):  # adicionar campo p/ visualizar cluster específico
     excluded_columns = ["platform", "latitude", "longitude", "city", "host_id"]
     for column in columns:
         if (column == 'host_id'):
-            str_columns.append(
-                {"label": columnDict[column]["label"], "value": column})
+            # str_columns.append(
+            #     {"label": columnDict[column]["label"], "value": column})
             result_columns.append(
                 {"name": column, "type": columnDict[column]["type"], "label": columnDict[column]["label"], "required": False})
         if column in excluded_columns:
@@ -302,27 +304,26 @@ def chart(data):  # ok
             "message": "Selecione um campo numérico para criar a relação entre os dados!",
             "success": False
         }
-    # try:
+    try:
 
-    if (data.number_column == "nenhum"):
-        data.number_column = data.str_column
+        if (data.number_column == "nenhum"):
+            data.number_column = data.str_column
 
-    agg_method = data.aggregation_method
-    unformated_chart_data = select_command(ab_config,
-                                           sql_script="""
-						with consulta as ( {consulta} )
-							select distinct({str_column}), {agg_method}({number_column}) as "{agg_method} de {number_column} por {str_column}" from consulta
-							group by {str_column}
-							order by {agg_method}({number_column}) desc
-							""".format(consulta=get_all_rooms_by_ss_id(data.ss_id, "'Airbnb'", agg_method), str_column=data['str_column'], number_column=data['number_column'], agg_method=data['agg_method']),
-        params=(()),
-        initial_message="Selecionando dados para gerar gráfico...",
-        failure_message="Falha ao selecionar dados para gerar gráfico")
-    return {
-        "object": buildGraphObjectFromSqlResult(unformated_chart_data),
-        "message": "Sucesso ao gerar gráfico",
-        "success": True
-    }
-    # except:
-    # 	# Se os dados de login estiverem incorretos, retorna erro 401 - Unauthorized
-    # 	return {"message": "Erro ao selecionar dados para gerar gráfico!", "success": False}
+        agg_method = data.agg_method
+        unformated_chart_data = select_command(ab_config,
+                                               sql_script="""
+              with consulta as ( {consulta} )
+                select distinct({str_column}), {agg_method}({number_column}) as "{agg_method} de {number_column} por {str_column}" from consulta
+                group by {str_column}
+                order by {agg_method}({number_column}) desc
+                """.format(consulta=get_all_rooms_by_ss_id(data.ss_id, "'Airbnb'", agg_method), str_column=data.str_column, number_column=data.number_column, agg_method=data.agg_method),
+            params=(()),
+            initial_message="Selecionando dados para gerar gráfico...",
+            failure_message="Falha ao selecionar dados para gerar gráfico")
+        return {
+            "object": buildGraphObjectFromSqlResult(unformated_chart_data),
+            "message": "Sucesso ao gerar gráfico",
+            "success": True
+        }
+    except:
+        return {"message": "Erro ao selecionar dados para gerar gráfico!", "success": False}

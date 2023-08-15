@@ -139,7 +139,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
       <Flexbox justify="flex-end" width={"100%"} >
         <div style={{ maxWidth: "250px", padding: "8px" }}>
           <Button color="primary" text={"Baixar dados filtrados"}
-            onClick={() => downloadData({ ss_id: survey, aggregation_method: _filteredData?.extra_info })}
+            onClick={() => downloadData({ ss_id: survey, agg_method: _filteredData?.extra_info })}
           />
         </div>
         {_filteredData?.table?.rows && _filteredData?.table?.rows[0] && (typeof (_filteredData?.table.rows[0]["cluster"]) !== "undefined") &&
@@ -177,7 +177,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
             returnPath="/"
             hiddenInputs={{
               ss_id: survey,
-              aggregation_method: _filteredData?.extra_info ?? "_avg"
+              agg_method: _filteredData?.extra_info ?? "_avg"
             }}
             onSuccess={(e) => {
               Toast.success(

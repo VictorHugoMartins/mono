@@ -6,7 +6,7 @@ from scrap.airbnb.airbnb_survey import ABSurveyByBoundingBox
 from scrap.geocoding import BoundingBox
 from scrap.airbnb.airbnb_score import airbnb_score_search
 from scrap.booking.booking import search_booking_rooms
-from utils.functions import select_command, update_command, insert_command
+from utils.sql_commands import select_command, update_command, insert_command
 from utils.general_dict import statusDict
 
 ab_config = ABConfig()
@@ -344,7 +344,7 @@ def search_routes(config, platform="Airbnb", search_area_name='', start_date=Non
 
 
 def full_process(platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
-                 include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
+                 include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", agg_method="avg"):
     # try:
     #     _platform = "Airbnb" if platform != 'Booking' else "Booking"
     #     execute_search(config=ab_config, platform=_platform, search_area_name=search_area_name,
@@ -430,7 +430,7 @@ def full_process(platform="Airbnb", search_area_name='', start_date=None, finish
 
 
 def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
-                      include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
+                      include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", agg_method="avg"):
     try:
         # status 0, ainda n fez nada
         if (super_survey_id is None):  # super survey previously in progress
@@ -442,7 +442,7 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
                     save_config(ab_config, platform, search_area_name,
                                 start_date, finish_date, user_id, super_survey_id, status_super_survey_id,
                                 include_locality_search, include_route_search, columns,
-                                clusterization_method, aggregation_method)
+                                clusterization_method, agg_method)
                     print("3", super_survey_id)
                     update_super_survey_status(ab_config,
                                                super_survey_id,
@@ -485,7 +485,7 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
 
 
 def save_config(config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
-                include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
+                include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", agg_method="avg"):
     insert_command(config,
                    """INSERT INTO super_survey_config(
 																platform,
@@ -498,13 +498,13 @@ def save_config(config, platform="Airbnb", search_area_name='', start_date=None,
 																include_route_search,
 																data_columns,
 																clusterization_method,
-																aggregation_method
+																agg_method
 														)
 												values(%s, %s, %s, %s, %s,%s, %s,%s, %s,%s, %s) returning config_id""",
                    (platform, search_area_name,
                     start_date, finish_date, user_id, super_survey_id,
                     include_locality_search, include_route_search, columns,
-                    clusterization_method, aggregation_method),
+                    clusterization_method, agg_method),
                    "Salvando configurações da pesquisa...",
                    "Falha ao salvar configurações da pesquisa")
 

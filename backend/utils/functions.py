@@ -9,7 +9,7 @@ from geopy import distance
 from utils.general_dict import get_all_rooms_by_ss_id
 from utils.file_manager import export_datatable
 from config.general_config import ABConfig
-
+from utils.sql_commands import select_command
 
 ab_config = ABConfig()
 
@@ -52,84 +52,6 @@ def check_and_create_file(filename):
     finally:
         print("existe o arquivo?", os.path.isdir(filename))
         exit(0)
-
-
-def select_command(config, sql_script, params, initial_message, failure_message):
-    try:
-        print(sql_script, (params))
-        logging.info(initial_message)
-        conn = config.connect()
-        cur = conn.cursor()
-
-        cur.execute(sql_script, (params))
-
-        return cur.fetchall()
-    except Exception:
-        logging.error(failure_message)
-        return None
-    finally:
-        cur.close()
-
-
-def delete_command(config, sql_script, params, initial_message, failure_message):
-    try:
-        rowcount = -1
-        logging.info(initial_message)
-        conn = config.connect()
-        cur = conn.cursor()
-
-        cur.execute(sql_script, params)
-        rowcount = cur.rowcount
-        conn.commit()
-
-        return rowcount > -1
-    except Exception:
-        logging.error(failure_message)
-        raise
-    finally:
-        cur.close()
-        return rowcount > -1
-
-
-def update_command(config, sql_script, params, initial_message, failure_message):
-    try:
-        id = None
-        logging.info(initial_message)
-        conn = config.connect()
-        cur = conn.cursor()
-
-        cur.execute(sql_script, params)
-        conn.commit()
-
-        id = cur.fetchone()[0]
-    except Exception:
-        logging.error(failure_message)
-        raise
-    finally:
-        cur.close()
-        return id
-
-
-def insert_command(config, sql_script, params, initial_message, failure_message):
-    try:
-        id = None
-        logging.info(initial_message)
-        conn = config.connect()
-        cur = conn.cursor()
-
-        sql = sql_script
-        cur.execute(sql, params)
-        conn.commit()
-
-        id = cur.fetchone()[0]
-
-        return id
-    except Exception as e:
-        print(e)
-        logging.error(failure_message)
-        conn.rollback()
-        cur.close()
-        return None
 
 
 def prepare_driver(url):
@@ -301,15 +223,18 @@ def get_rooms(data, columns, agg_method):
 
     rooms = export_datatable(ab_config, """
 										WITH consulta AS ( {consulta} )
-											SELECT room_id, platform, {columns} FROM consulta {query}
+											SELECT {columns}, platform FROM consulta {query}
 											""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], agg_method=agg_method), columns=columns, query=query), params, "Airbnb", True, True)
     return rooms
 
 
 def xNotIn(exclusive_list, other_list):
     result = []
-    other_list = other_list.split(', ')
+    try:
+        other_list = other_list.split(', ')
+    except AttributeError:
+        pass
     for x in other_list:
-        if x not in exclusive_airbnb_columns:
+        if x not in exclusive_list:
             result.append(x)
     return ', '.join(result)

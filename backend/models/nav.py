@@ -63,6 +63,7 @@ class PrepareModel(BaseModel):
 
 
 class ChartModel(BaseModel):
+    ss_id: str
     str_column: str
-    number_collumn: str
+    number_column: str
     agg_method: str

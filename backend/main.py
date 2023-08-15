@@ -23,9 +23,9 @@ app.add_middleware(
 )
 
 
-@app.post('/super_survey/save')
-async def save(data: SaveModel, background_tasks: BackgroundTasks):
-    return super_survey.save(data, background_tasks)
+@app.post('/super_survey/start')
+async def start(data: StartModel, background_tasks: BackgroundTasks):
+    return super_survey.start(data, background_tasks)
 
 
 @app.post('/super_survey/restart')
@@ -136,9 +136,11 @@ async def root(data):
     return {"message": "Hello World. Welcome to FastAPI!"}
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=5000, log_level="info", reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=5000,
+                log_level="info", reload=True)
+    
 
-# melhorar homepage
-# botão de solicitar cadastro 100%
-# email?? talvez pedir pra enviar manualmente kk
-# proxies e selenium?? será q as pesquisas n tão funcionando??
+# kmodes
+# email
+# search por booking
+# search por airbnb

@@ -1,5 +1,5 @@
 from config.general_config import ABConfig
-from utils.functions import select_command, insert_command, update_command
+from utils.sql_commands import select_command, insert_command, update_command
 import psycopg2
 
 ab_config = ABConfig()
@@ -8,7 +8,7 @@ ab_config = ABConfig()
 def login(data):  # ok
     try:
         user_data = select_command(ab_config,
-                                   sql_script="""SELECT user_id, name, email from users where email = %s and password = %s limit 1""",
+                                   sql_script="""SELECT user_id, name, email, permission from users where email = %s and password = %s limit 1""",
                                    params=(
                                        (data.email, data.password)),
                                    initial_message="Autenticando usuario...",
@@ -19,7 +19,8 @@ def login(data):  # ok
                 "object": {
                     "user_id": user_data[0][0],
                     "name": user_data[0][1],
-                    "email": user_data[0][2]
+                    "email": user_data[0][2],
+                    "permission": user_data[0][3]
                 },
                 "message": "Sucesso ao realizar login",
                 "success": True

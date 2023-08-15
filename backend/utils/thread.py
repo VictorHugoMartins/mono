@@ -18,7 +18,7 @@ class Th(Thread):
         self.user_id = data.user_id
         self.columns = data.columns
         self.clusterization_method = data.clusterization_method
-        self.aggregation_method = data.aggregation_method
+        self.agg_method = data.agg_method
         self.start_date = data.start_date
         self.finish_date = data.finish_date
         self.include_locality_search = data.include_locality_search

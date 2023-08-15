@@ -295,6 +295,8 @@ class BListing():
                     for i in range(qtd_rooms):
                         print("inserindo vez ", i+1)
                         self.room_id = self.room_id.join(str(i))
+
+                    exit(0)
                 else:
                     self.room_id = self.room_id.join('1')
                     print(self.room_id)
@@ -349,7 +351,7 @@ def scrap_page_data(config, driver, url, survey_id, checkin_date, checkout_date)
     hotel_page.quit()
 
 
-def search_booking_rooms(config, area, start_date, finish_date, survey_id):
+def search_booking_rooms(config=ABConfig(), area='', start_date=None, finish_date=None, survey_id=None):
     print("Searching in Booking")
     city = area.split(',')[0]
 

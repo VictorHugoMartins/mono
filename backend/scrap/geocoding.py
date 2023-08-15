@@ -15,7 +15,7 @@ import sys
 import logging
 import os
 import psycopg2
-from utils.functions import select_command, update_command
+from utils.sql_commands import select_command, update_command
 
 FORMAT_STRING = "%(asctime)-15s %(levelname)-8s%(message)s"
 logging.basicConfig(level=logging.INFO, format=FORMAT_STRING)
