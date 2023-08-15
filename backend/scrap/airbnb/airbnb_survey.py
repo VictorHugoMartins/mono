@@ -302,11 +302,16 @@ class ABSurveyByBoundingBox(ABSurvey):
                 logger.error("Invalid bounding box: contains 'None'")
                 return None
             if bounding_box[0] <= bounding_box[2]:
-                logger.error("Invalid bounding box: n_lat must be > s_lat")
-                return None
+                logger.error("Manipulating bounding box: n_lat must be > s_lat")
+                aux = bounding_box[0]
+                bounding_box[0] = bounding_box[2]
+                bounding_box[2] = aux
+                # return None
             if bounding_box[1] <= bounding_box[3]:
-                logger.error("Invalid bounding box: e_lng must be > w_lng")
-                return None
+                logger.error("Manipulating bounding box: e_lng must be > w_lng")
+                aux = bounding_box[1]
+                bounding_box[1] = bounding_box[3]
+                bounding_box[3] = aux
             return bounding_box
         except Exception:
             logger.exception("Exception in set_bounding_box")
@@ -468,7 +473,7 @@ class ABSurveyByBoundingBox(ABSurvey):
                 quadtree_node, median_node)
             logger.info("Searching rectangle: zoom factor = %s, node = %s",
                         len(quadtree_node), str(quadtree_node))
-            logger.debug("Rectangle: N={n:+.5f}, E={e:+.5f}, S={s:+.5f}, W={w:+.5f}"
+            logger.info("Rectangle: N={n:+.5f}, E={e:+.5f}, S={s:+.5f}, W={w:+.5f}"
                          .format(n=rectangle[0], e=rectangle[1],
                                  s=rectangle[2], w=rectangle[3]))
             new_rooms = 0
