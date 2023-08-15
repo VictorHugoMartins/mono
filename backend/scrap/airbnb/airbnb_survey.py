@@ -45,7 +45,7 @@ class ABSurvey():
         print("criando aqui!!!")
         # check_and_create_file(".logs/survey-{survey_id}.log".format(
         #     survey_id=self.survey_id))
-        
+
         # logfile = "logs/survey-{survey_id}.log".format(
         #     survey_id=self.survey_id)
         # filelog_handler = logging.FileHandler(logfile, encoding="utf-8")
@@ -204,9 +204,13 @@ class ABSurvey():
 
             if "structured_stay_display_price" in json_pricing:
                 structured_price = json_pricing['structured_stay_display_price']['primary_line']['price']
-                listing.price = float(structured_price.split('$')[1].split()[0].replace(',','.'))
-                if len(structured_price.split()) > 0:
-                    listing.currency = structured_price.split()[1]
+                listing.price = float(structured_price.split(
+                    '$')[1].split()[0].replace(',', '.'))
+                try:
+                    if len(structured_price.split()) > 0:
+                        listing.currency = structured_price.split()[1]
+                except:
+                    pass
 
             # pricing
             # json_pricing = json["pricing_quote"]
@@ -280,6 +284,7 @@ class ABSurvey():
         except:
             logger.exception("Survey fini failed")
             return False
+
 
 class ABSurveyByBoundingBox(ABSurvey):
     """
