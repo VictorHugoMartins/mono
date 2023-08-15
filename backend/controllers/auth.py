@@ -6,7 +6,7 @@ from models.auth import *
 
 def login(data: LoginModel):  # ok
     try:
-        user_data = select_command(sql_script="""SELECT user_id, name, email, permission from users where email = %s and password = %s limit 1""",
+        user_data = select_command(sql_script="SELECT user_id, name, email, permission from users where email = %s and password = %s limit 1",
                                    params=(
                                        (data.email, data.password)),
                                    initial_message="Autenticando usuario...",
