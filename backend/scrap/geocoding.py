@@ -304,8 +304,8 @@ class BoundingBox():
 
                 print(bounds)
                 bounding_box = (bounds[1],
-                                bounds[3],
                                 bounds[0],
+                                bounds[3],
                                 bounds[2]
                                 )
 
