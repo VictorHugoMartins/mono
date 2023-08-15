@@ -398,8 +398,10 @@ class ABSurveyByBoundingBox(ABSurvey):
                 self.recurse_quadtree(quadtree_node, median_node, None, flag)
             self.fini()
         except (SystemExit, KeyboardInterrupt):
+            print("excecao 401")
             raise
-        except Exception:
+        except Exception as e:
+            print(e)
             logger.exception("Error")
 
     def recurse_quadtree(self, quadtree_node, median_node, room_type, flag):
