@@ -10,7 +10,6 @@ export function insertNewElementsAtIndex(oldArray: Array<any>, newElements: Arra
 }
 
 export function removeClusterParameters(someArray: InputRenderType[]) {
-  console.log("removendo cluster parameters");
   let x = someArray;
   x = x.filter(function (el: InputRenderType) { return el.name !== "n_clusters" });
   x = x.filter(function (el: InputRenderType) { return el.name !== "threshold" });
@@ -23,7 +22,6 @@ export function removeClusterParameters(someArray: InputRenderType[]) {
 }
 
 export function removeClusterParameterInput(someArray: InputRenderType[]) {
-  console.log("aqui");
   let x = someArray;
   x = x.filter(function (el: InputRenderType) { return el.name !== "cluster_parameters" });
   return x;

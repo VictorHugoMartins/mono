@@ -287,6 +287,7 @@ def prepare_filter(ss_id: str):  # ok
             "min_samples": 50,
             "threshold": 0.5,
             "branching_factor": 200,
+            "cluster_parameters": "nao"
         },
         "message": "Sucesso ao selecionar colunas da configuração de pesquisa",
         "success": True

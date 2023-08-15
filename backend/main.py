@@ -138,7 +138,8 @@ if __name__ == "__main__":
                 log_level="info", reload=True)
     
 
-# kmodes
+# nova home (ok)
+# search por airbnb (ok)
+# exibição fields filtro
 # email
 # search por booking
-# search por airbnb

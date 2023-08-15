@@ -66,7 +66,6 @@ const FormRender: React.FC<FormRenderProps> = ({
   }
 
   function addInputs(clusterMethod: string, clusterParameters: string, action?: number) {
-    console.log("os parametros: ", clusterMethod, clusterParameters)
     if (action >= 1) {
       // action 1 -> mudou o metodo
       // action 2 -> n quer personalizar
@@ -80,8 +79,6 @@ const FormRender: React.FC<FormRenderProps> = ({
     }
 
     if (clusterMethod !== "none" && _inputs[2].name !== "cluster_parameters") { // n tem cluster parameters, adiciona
-      console.log("no um", _inputs[2].name);
-      // setAdvancedInputs(removeClusterParameters(_inputs));
       const newInputs = insertNewElementsAtIndex(_inputs, [
         {
           "name": "cluster_parameters",
@@ -97,13 +94,11 @@ const FormRender: React.FC<FormRenderProps> = ({
         }] as InputRenderType[], 2);
       setAdvancedInputs([]);
       setAdvancedInputs(newInputs);
-    } else {
-      console.log("n entrei no if: ", clusterMethod, _inputs[2].name)
     }
 
     if (clusterMethod === "birch" && (clusterParameters === "sim")) {
       let newInputs = removeClusterParameters(_inputs);
-      newInputs = insertNewElementsAtIndex(_inputs, [
+      newInputs = insertNewElementsAtIndex(newInputs, [
         {
           "name": "n_clusters",
           "label": "Quantidade de grupos:",
@@ -137,9 +132,8 @@ const FormRender: React.FC<FormRenderProps> = ({
       setAdvancedInputs([]);
       setAdvancedInputs(newInputs)
     } else if (clusterMethod === "kmodes" && (clusterParameters === "sim")) {
-      // setAdvancedInputs(removeClusterParameters(_inputs));
       let newInputs = removeClusterParameters(_inputs);
-      newInputs = insertNewElementsAtIndex(_inputs, [
+      newInputs = insertNewElementsAtIndex(newInputs, [
         {
           "name": "n_clusters",
           "label": "Quantidade de grupos:",
@@ -177,9 +171,8 @@ const FormRender: React.FC<FormRenderProps> = ({
       setAdvancedInputs([]);
       setAdvancedInputs(newInputs)
     } else if (clusterMethod === "dbscan" && (clusterParameters === "sim")) {
-      // setAdvancedInputs(removeClusterParameters(_inputs));
       let newInputs = removeClusterParameters(_inputs);
-      newInputs = insertNewElementsAtIndex(_inputs, [
+      newInputs = insertNewElementsAtIndex(newInputs, [
         {
           "name": "eps",
           "label": "Quantidade de épocas:",
@@ -205,7 +198,6 @@ const FormRender: React.FC<FormRenderProps> = ({
 
   useEffect(() => {
     if (_advancedInputs?.length > 0) {
-      console.log("setando");
       setInputs(_advancedInputs);
     }
   }, [_advancedInputs])
