@@ -167,7 +167,8 @@ def update_with_preexistent_comodities(config, city, args):
 
                 logging.info(rowcount, " comodities updated")
         return True
-    except Exception:
+    except Exception as e:
+        logger.error(e)
         logger.error("Failed to update comodities")
         raise
 
