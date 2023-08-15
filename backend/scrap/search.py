@@ -229,6 +229,8 @@ def execute_search(config, platform="Airbnb", search_area_name='', start_date=No
             print("216")
             survey = ABSurveyByBoundingBox(ab_config, survey_id)
             print("218")
+            if not survey:
+                print("233")
             survey.search(ab_config.FLAGS_ADD)
             print("219")
             airbnb_score_search(ab_config, search_area_name,

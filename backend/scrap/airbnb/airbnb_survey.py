@@ -192,9 +192,10 @@ class ABSurvey():
                 except Exception as e:
                     logger.exception(e)
                     pass
-        except:
+        except Exception as e:
             logger.exception(
                 "Error in survey.listing_from_search_page_json: returning None")
+            print(e)
             return None
         finally:
             try:
@@ -224,8 +225,9 @@ class ABSurvey():
             cur.close()
             conn.commit()
             return True
-        except:
+        except Exception as e:
             logger.exception("Survey fini failed")
+            print(e)
             return False
 
 
@@ -322,6 +324,7 @@ class ABSurveyByBoundingBox(ABSurvey):
         corners of the box.
         """
         try:
+            print("325")
             logger.info("=" * 70)
             logger.info("Survey {survey_id}, for {search_area_name}".format(
                 survey_id=self.survey_id, search_area_name=self.search_area_name
@@ -339,13 +342,16 @@ class ABSurveyByBoundingBox(ABSurvey):
             # set starting point for survey being resumed
             if self.logged_progress:
                 logger.info("Restarting incomplete survey")
+            print(343)
             if self.config.SEARCH_DO_LOOP_OVER_ROOM_TYPES:
+                print(345)
                 for room_type in self.room_types:
                     logger.info("-" * 70)
                     logger.info("Beginning of search for %s", room_type)
                     self.recurse_quadtree(
                         quadtree_node, median_node, room_type, flag)
             else:
+                print(352)
                 self.recurse_quadtree(quadtree_node, median_node, None, flag)
             self.fini()
         except (SystemExit, KeyboardInterrupt):
@@ -372,6 +378,7 @@ class ABSurveyByBoundingBox(ABSurvey):
         The quadrants are searched in the order [0,0], [0,1], [1,0], [1,1]
         """
         try:
+            print(379)
             zoomable = True
             if self.is_subtree_previously_completed(quadtree_node, room_type):
                 logger.info(
@@ -385,6 +392,7 @@ class ABSurveyByBoundingBox(ABSurvey):
                 # progress is [0,0][0,1] then the subtree is not completed.
                 # TODO: use the same technique as the loop, below
                 if not quadtree_node:
+                    print(393)
                     return
                 if quadtree_node[-1] == [0, 0]:
                     quadtree_node[-1] = [0, 1]
@@ -436,19 +444,17 @@ class ABSurveyByBoundingBox(ABSurvey):
                     del quadtree_node[-1]
                 if len(median_node) > 0:
                     del median_node[-1]
+                print(445)
             logger.debug(
                 "Returning from recurse_quadtree for %s", quadtree_node)
-            if flag == self.config.FLAGS_PRINT:
-                # for FLAGS_PRINT, fetch one page and print it
-                sys.exit(0)
         except (SystemExit, KeyboardInterrupt):
             raise
         except TypeError as type_error:
             logger.exception("TypeError in recurse_quadtree")
             logger.error(type_error.args)
             raise
-        except:
-            logger.exception("Error in recurse_quadtree")
+        except Exception as e:
+            logger.exception("Error in recurse_quadtree", e)
             raise
 
     def search_node(self, quadtree_node, median_node, room_type, flag):
@@ -790,8 +796,9 @@ class ABSurveyByBoundingBox(ABSurvey):
                                  round(w_lng - blur, 5),]
             logger.info("Rectangle calculated: %s", rectangle)
             return rectangle
-        except:
+        except Exception as e:
             logger.exception("Exception in get_rectangle_from_quadtree_node")
+            print(e)
             return None
 
     def is_subtree_previously_completed(self, quadtree_node, room_type):
