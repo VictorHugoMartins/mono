@@ -62,6 +62,8 @@ def restart(data: RestartModel, background_tasks: BackgroundTasks):
         if not result:
             return {"message": "Falha ao selecionar dados de configurações de pesquisa", "success": False}
 
+        print(result)
+        
         new_params = {
             "platform": result[0][0],
             "city": result[0][1],
