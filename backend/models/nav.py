@@ -1,8 +1,7 @@
+from __future__ import annotations
+
 from pydantic import BaseModel
-
-from typing import Union, List
-from typing import Generic, List, Optional, TypeVar
-
+from typing import List
 
 class ExportModel(BaseModel):
     ss_id: str
