@@ -238,8 +238,11 @@ class ABSurveyByBoundingBox(ABSurvey):
     def __init__(self, config, survey_id):
         super().__init__(config, survey_id)
         self.search_node_counter = 0
+        print("241")
         self.logged_progress = self.get_logged_progress()
+        print("243")
         self.bounding_box = self.get_bounding_box()
+        print("245")
 
     def get_logged_progress(self):
         """
