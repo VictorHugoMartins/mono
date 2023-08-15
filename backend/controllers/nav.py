@@ -266,7 +266,7 @@ def prepare_filter(ss_id: str):  # ok
     platform = select_command(sql_script="""SELECT platform
 																FROM super_survey_config where ss_id = %s
 																limit 1""",
-                              params=(ss_id,),
+                              params=((ss_id,)),
                               initial_message="Selecionando colunas da configuração de pesquisa",
                               failure_message="Falha ao selecionar colunas da configuração de pesquisa")
 
