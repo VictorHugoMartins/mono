@@ -10,9 +10,8 @@ def select_command(config=ABConfig(), sql_script=None, params=None, initial_mess
         conn = config.connect()
         cur = conn.cursor()
 
+        print(sql_script, params)
         cur.execute(sql_script, (params))
-
-        print(sql_script)
 
         results = cur.fetchall()
         print(results)
@@ -35,6 +34,7 @@ def delete_command(config=ABConfig(), sql_script=None, params=None, initial_mess
         conn = config.connect()
         cur = conn.cursor()
 
+        print(sql_script, params)
         cur.execute(sql_script, params)
         rowcount = cur.rowcount
         conn.commit()
@@ -56,6 +56,7 @@ def update_command(config=ABConfig(), sql_script=None, params=None, initial_mess
         conn = config.connect()
         cur = conn.cursor()
 
+        print(sql_script, params)
         cur.execute(sql_script, params)
         conn.commit()
 
@@ -76,8 +77,8 @@ def insert_command(config=ABConfig(), sql_script=None, params=None, initial_mess
         conn = config.connect()
         cur = conn.cursor()
 
-        sql = sql_script
-        cur.execute(sql, params)
+        print(sql_script, params)
+        cur.execute(sql_script, params)
         conn.commit()
 
         id = cur.fetchone()[0]
