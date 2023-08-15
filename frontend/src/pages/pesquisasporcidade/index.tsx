@@ -34,10 +34,9 @@ const MySuperSurveys: React.FC<DetailsProps> = ({ city }) => {
   const loadTableData = (city: string) => {
     setSearching(true);
     console.log(BASE_API_URL)
-    const apiUrl = API_NAV.GETBYCITY(); // url da API Flask
-    const requestData = { city: city }; // dados de login a serem enviados na requisição
+    const apiUrl = API_NAV.GETBYCITY(); 
+    const requestData = { city: city };
 
-    // Configuração do cabeçalho da requisição
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -47,7 +46,6 @@ const MySuperSurveys: React.FC<DetailsProps> = ({ city }) => {
       body: JSON.stringify(requestData)
     };
 
-    // Realiza a requisição para a API Flask
     const resp = fetch(apiUrl, requestOptions)
       .then(res => res.json())
       .then(data => {

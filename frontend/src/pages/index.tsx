@@ -33,10 +33,9 @@ function Home() {
   const loadTableData = (userId: string) => {
     setSearching(true);
     console.log(BASE_API_URL)
-    const apiUrl = API_NAV.PUBLICGETALL(); // url da API Flask
-    const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
+    const apiUrl = API_NAV.PUBLICGETALL(); 
+    const requestData = { user_id: userId };
 
-    // Configuração do cabeçalho da requisição
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -46,7 +45,6 @@ function Home() {
       body: JSON.stringify(requestData)
     };
 
-    // Realiza a requisição para a API Flask
     const resp = fetch(apiUrl, requestOptions)
       .then(res => res.json())
       .then(data => {

@@ -15,16 +15,13 @@ import NavBarMrAuto from "~/components/ui/Navigation/NavBar/NavBarMrAuto";
 import { Grid } from "~/components/ui/Layout/Grid";
 import Typography from "~/components/ui/Typography/Typography";
 
-//Import types
-import { RenderMenuType } from "~/types/global/RenderMenuType";
-
 //Import utils
 import Logout from "~/utils/Logout/Logout";
 
 import styles from "./localNavBar.module.scss";
 import { parseCookies } from "nookies";
 import RedirectTo from "~/utils/Redirect/Redirect";
-import Navbarversion from "~/components/ui/Navigation/NavBar/Navbarversion";
+import NavbarVersion from "~/components/ui/Navigation/NavBar/Navbarversion";
 
 interface ModalLogoutButtonsProps {
   handleClose?: React.MouseEventHandler<HTMLButtonElement>;
@@ -145,7 +142,7 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ hideLoginButton, returnPath, 
                 text="Sair"
                 onClick={() => handleLogoutModal(true)}
               />
-              <Navbarversion />
+              <NavbarVersion />
             </NavbarDropdown>}
           </>
         ) :

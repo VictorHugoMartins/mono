@@ -32,7 +32,7 @@ const Register: React.FC = () => {
       Toast.error("As senhas devem ser iguais!");
       return;
     }
-    const apiUrl = API_AUTH.REGISTER() // url da API Flask
+    const apiUrl = API_AUTH.REGISTER() 
     const requestData = {
       email: data.email,
       name: data.name,
@@ -40,7 +40,6 @@ const Register: React.FC = () => {
       confirmPassword: data.confirmPassword
     };
 
-    // Configuração do cabeçalho da requisição
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -50,7 +49,6 @@ const Register: React.FC = () => {
       body: JSON.stringify(requestData)
     };
 
-    // Realiza a requisição para a API Flask
     const resp = fetch(apiUrl, requestOptions)
     fetch(apiUrl, requestOptions)
       .then(res => res.json())

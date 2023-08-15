@@ -15,14 +15,13 @@ function ChangePasswordForm() {
       Toast.error("As senhas devem ser iguais!")
       return;
     }
-    const apiUrl = API_AUTH.CHANGE_PASSWORD(); // url da API Flask
+    const apiUrl = API_AUTH.CHANGE_PASSWORD(); 
     const requestData = {
       password: data.password,
       userId: userId,
-    }; // dados de login a serem enviados na requisição
+    };
     console.log(requestData);
 
-    // Configuração do cabeçalho da requisição
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -32,7 +31,6 @@ function ChangePasswordForm() {
       body: JSON.stringify(requestData)
     };
 
-    // Realiza a requisição para a API Flask
     const resp = fetch(apiUrl, requestOptions)
     fetch(apiUrl, requestOptions)
       .then(res => res.json())

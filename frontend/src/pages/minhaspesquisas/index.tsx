@@ -25,11 +25,10 @@ function MySuperSurveys() {
   function TableButtons({ rowData }: TableButtonProps) {
     const update = (data: any) => {
       setSearching(true);
-      const apiUrl = API_SUPER_SURVEY.UPDATE(); // url da API Flask
-      const requestData = data; // dados de login a serem enviados na requisição
+      const apiUrl = API_SUPER_SURVEY.UPDATE(); 
+      const requestData = data;
 
-      // Configuração do cabeçalho da requisição
-      const headers = new Headers();
+        const headers = new Headers();
       headers.append('Content-Type', 'application/json');
 
       const requestOptions = {
@@ -38,8 +37,7 @@ function MySuperSurveys() {
         body: JSON.stringify(requestData)
       };
 
-      // Realiza a requisição para a API Flask
-      const resp = fetch(apiUrl, requestOptions)
+        const resp = fetch(apiUrl, requestOptions)
         .then(res => res.json())
         .then(data => {
           if (data.success) {
@@ -61,13 +59,12 @@ function MySuperSurveys() {
 
     const tryAgain = (ss_id: string) => {
       setSearching(true);
-      const apiUrl = API_SUPER_SURVEY.CONTINUE(); // url da API Flask
-      const requestData = { ss_id }; // dados de login a serem enviados na requisição
+      const apiUrl = API_SUPER_SURVEY.CONTINUE(); 
+      const requestData = { ss_id };
 
       console.log(requestData);
 
-      // Configuração do cabeçalho da requisição
-      const headers = new Headers();
+        const headers = new Headers();
       headers.append('Content-Type', 'application/json');
 
       const requestOptions = {
@@ -76,8 +73,7 @@ function MySuperSurveys() {
         body: JSON.stringify(requestData)
       };
 
-      // Realiza a requisição para a API Flask
-      const resp = fetch(apiUrl, requestOptions)
+        const resp = fetch(apiUrl, requestOptions)
         .then(res => res.json())
         .then(data => {
           if (data.success) {
@@ -109,10 +105,9 @@ function MySuperSurveys() {
   const loadTableData = (userId: string) => {
     setSearching(true);
     console.log(BASE_API_URL)
-    const apiUrl = API_NAV.LIST(); // url da API Flask
-    const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
+    const apiUrl = API_NAV.LIST(); 
+    const requestData = { user_id: userId };
 
-    // Configuração do cabeçalho da requisição
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -122,7 +117,6 @@ function MySuperSurveys() {
       body: JSON.stringify(requestData)
     };
 
-    // Realiza a requisição para a API Flask
     const resp = fetch(apiUrl, requestOptions)
       .then(res => res.json())
       .then(data => {

@@ -3,7 +3,7 @@ import Typography from "~/components/ui/Typography/Typography";
 import { GetProjectVersion } from "~/utils/GetProjectVersion";
 import styles from "./navbarversion.module.scss";
 
-const Navbarversion: React.FC = () => {
+const NavbarVersion: React.FC = () => {
   const getProjectVersion = GetProjectVersion();
 
   return (
@@ -14,4 +14,4 @@ const Navbarversion: React.FC = () => {
   )
 }
 
-export default Navbarversion;
+export default NavbarVersion;

@@ -12,14 +12,13 @@ export default function EditUserForm() {
   const { userId } = parseCookies();
 
   const edit_user = (data: any) => {
-    const apiUrl = API_AUTH.EDIT_USER(); // url da API Flask
+    const apiUrl = API_AUTH.EDIT_USER(); 
     const requestData = {
       email: data.email,
       name: data.name,
       userId: userId,
     };
 
-    // Configuração do cabeçalho da requisição
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -29,7 +28,6 @@ export default function EditUserForm() {
       body: JSON.stringify(requestData)
     };
 
-    // Realiza a requisição para a API Flask
     const resp = fetch(apiUrl, requestOptions)
     fetch(apiUrl, requestOptions)
       .then(res => res.json())

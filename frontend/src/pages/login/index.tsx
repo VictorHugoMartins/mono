@@ -17,13 +17,12 @@ import { API_AUTH } from "~/config/apiRoutes/auth";
 
 const Login: React.FC = () => {
   const signIn = (data: any) => {
-    const apiUrl = API_AUTH.LOGIN(); // url da API Flask
+    const apiUrl = API_AUTH.LOGIN(); 
     const requestData = {
       email: data.email,
       password: data.password
-    }; // dados de login a serem enviados na requisição
+    };
 
-    // Configuração do cabeçalho da requisição
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -33,7 +32,6 @@ const Login: React.FC = () => {
       body: JSON.stringify(requestData)
     };
 
-    // Realiza a requisição para a API Flask
     const resp = fetch(apiUrl, requestOptions)
     fetch(apiUrl, requestOptions)
       .then(res => res.json())

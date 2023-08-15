@@ -33,9 +33,8 @@ function MySuperSurveys() {
     const acceptUser = (obj: any) => {
       setSearching(true);
       const apiUrl = API_USER.ACCEPT();
-      const requestData = { user_id: obj.user_id }; // dados de login a serem enviados na requisição
+      const requestData = { user_id: obj.user_id };
 
-      // Configuração do cabeçalho da requisição
       const headers = new Headers();
       headers.append('Content-Type', 'application/json');
 
@@ -45,7 +44,6 @@ function MySuperSurveys() {
         body: JSON.stringify(requestData)
       };
 
-      // Realiza a requisição para a API Flask
       const resp = fetch(apiUrl, requestOptions)
         .then(res => res.json())
         .then(data => {
@@ -60,10 +58,9 @@ function MySuperSurveys() {
     };
     const deleteUser = (obj: any) => {
       setSearching(true);
-      const apiUrl = API_USER.DELETE(); // url da API Flask
-      const requestData = { user_id: obj.user_id }; // dados de login a serem enviados na requisição
+      const apiUrl = API_USER.DELETE();
+      const requestData = { user_id: obj.user_id };
 
-      // Configuração do cabeçalho da requisição
       const headers = new Headers();
       headers.append('Content-Type', 'application/json');
 
@@ -73,7 +70,6 @@ function MySuperSurveys() {
         body: JSON.stringify(requestData)
       };
 
-      // Realiza a requisição para a API Flask
       const resp = fetch(apiUrl, requestOptions)
         .then(res => res.json())
         .then(data => {
@@ -89,12 +85,11 @@ function MySuperSurveys() {
 
     const switchPermission = (ss_id: string, newPermission: string) => {
       setSearching(true);
-      const apiUrl = API_USER.CHANGE_PERMISSION(); // url da API Flask
-      const requestData = { user_id: ss_id, permission: newPermission }; // dados de login a serem enviados na requisição
+      const apiUrl = API_USER.CHANGE_PERMISSION();
+      const requestData = { user_id: ss_id, permission: newPermission };
 
       console.log(requestData);
 
-      // Configuração do cabeçalho da requisição
       const headers = new Headers();
       headers.append('Content-Type', 'application/json');
 
@@ -104,7 +99,6 @@ function MySuperSurveys() {
         body: JSON.stringify(requestData)
       };
 
-      // Realiza a requisição para a API Flask
       const resp = fetch(apiUrl, requestOptions)
         .then(res => res.json())
         .then(data => {
@@ -131,10 +125,9 @@ function MySuperSurveys() {
 
   const loadTable = (userId: string) => {
     setSearching(true);
-    const apiUrl = API_USER.LIST(); // url da API Flask
-    const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
+    const apiUrl = API_USER.LIST();
+    const requestData = { user_id: userId };
 
-    // Configuração do cabeçalho da requisição
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -144,7 +137,6 @@ function MySuperSurveys() {
       body: JSON.stringify(requestData)
     };
 
-    // Realiza a requisição para a API Flask
     const resp = fetch(apiUrl, requestOptions)
       .then(res => res.json())
       .then(data => {
@@ -160,10 +152,6 @@ function MySuperSurveys() {
 
     return resp;
   };
-
-  // useEffect(() => {
-  //   loadTable(userId);
-  // }, [userId])
 
   return (
     <PrivatePageStructure title={"Lista de Usuários"}>

@@ -45,10 +45,9 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
 
   const prepare = (data: any) => {
     setSearching(true);
-    const apiUrl = API_NAV.PREPARE() // url da API Flask
+    const apiUrl = API_NAV.PREPARE() 
     const requestData = { ss_id: survey };
 
-    // Configuração do cabeçalho da requisição
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -58,7 +57,6 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
       body: JSON.stringify(requestData)
     };
 
-    // Realiza a requisição para a API Flask
     const resp = fetch(apiUrl, requestOptions)
       .then(res => res.json())
       .then(data => {
@@ -89,7 +87,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
 
   const getData = (data: any) => {
     setSearching(true);
-    const apiUrl = API_NAV.GETBYID(); // url da API Flask
+    const apiUrl = API_NAV.GETBYID(); 
     const requestData = {
       ss_id: survey,
       agg_method: data?.agg_method ?? "_avg",
@@ -97,7 +95,6 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
       platform: data?.platform ?? "both",
     };
 
-    // Configuração do cabeçalho da requisição
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -107,7 +104,6 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
       body: JSON.stringify(requestData)
     };
 
-    // Realiza a requisição para a API Flask
     const resp = fetch(apiUrl, requestOptions)
       .then(res => res.json())
       .then(data => {

@@ -18,13 +18,12 @@ const ForgotPassword: React.FC = () => {
       Toast.error("As senhas devem ser iguais!")
       return;
     }
-    const apiUrl = API_AUTH.CHANGE_PASSWORD(); // url da API Flask
+    const apiUrl = API_AUTH.CHANGE_PASSWORD(); 
     const requestData = {
       email: data.email,
       password: data.password
-    }; // dados de login a serem enviados na requisição
+    };
 
-    // Configuração do cabeçalho da requisição
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -34,7 +33,6 @@ const ForgotPassword: React.FC = () => {
       body: JSON.stringify(requestData)
     };
 
-    // Realiza a requisição para a API Flask
     const resp = fetch(apiUrl, requestOptions)
     fetch(apiUrl, requestOptions)
       .then(res => res.json())
