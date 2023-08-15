@@ -293,13 +293,15 @@ class BoundingBox():
 
                 print(location.raw)
 
+
+
                 # 2 3 0 1
                 # 1 3 0 2
 
-                bounding_box = (bounds[1],
-                                bounds[3],
-                                bounds[0],
-                                bounds[2]
+                bounding_box = (bounds[0],
+                                bounds[2],
+                                bounds[1],
+                                bounds[3]
                                 )
 
                 print(bounding_box)
