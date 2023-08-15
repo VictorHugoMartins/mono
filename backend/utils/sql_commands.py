@@ -77,6 +77,7 @@ def insert_command(config=ABConfig(), sql_script=None, params=None, initial_mess
         conn = config.connect()
         cur = conn.cursor()
 
+        print(sql_script, params)
         cur.execute(sql_script, params)
         conn.commit()
 
