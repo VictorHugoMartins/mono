@@ -30,13 +30,11 @@ async def start(data: StartModel, background_tasks: BackgroundTasks):
 
 @app.post('/super_survey/restart')
 async def restart(data: RestartModel, background_tasks: BackgroundTasks):
-    print(data)
     return super_survey.restart(data, background_tasks)
 
 
 @app.post('/super_survey/update')
 async def update(data: UpdateModel):
-    print(data)
     return super_survey.update(data)
 
 

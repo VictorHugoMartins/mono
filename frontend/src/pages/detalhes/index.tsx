@@ -137,13 +137,13 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
     <PrivatePageStructure title="Detalhes da pesquisa " returnPath="/minhaspesquisas">
       <PopupLoading show={searching} />
       <Flexbox justify="flex-end" width={"100%"} >
-        <div style={{ maxWidth: "250px", padding: "8px" }}>
+        <div style={{ maxWidth: "300px", padding: "8px" }}>
           <Button color="primary" text={"Baixar dados filtrados"}
             onClick={() => downloadData({ ss_id: survey, agg_method: _filteredData?.extra_info })}
           />
         </div>
         {_filteredData?.table?.rows && _filteredData?.table?.rows[0] && (typeof (_filteredData?.table.rows[0]["cluster"]) !== "undefined") &&
-          <div style={{ maxWidth: "250px", padding: "8px" }}>
+          <div style={{ maxWidth: "300px", padding: "8px" }}>
             <Button color="primary" text={_viewForClusters ? "Visualizar anúncios por origem" : "Visualizar anúncios por grupo"}
               onClick={() => setViewForClusters(!_viewForClusters)}
             />

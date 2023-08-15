@@ -8,7 +8,7 @@ from kmodes.kmodes import KModes
 
 def add_labels_to_table_view(table_view, labels):
     table_view["columns"].append(
-        {'value': 'cluster', 'label': "Cluster", 'type': 'number'})
+        {'value': 'cluster', 'label': "Grupo", 'type': 'number'})
 
     i = 0
     for row in table_view["rows"]:

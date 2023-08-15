@@ -19,13 +19,12 @@ import Typography from "~/components/ui/Typography/Typography";
 import { RenderMenuType } from "~/types/global/RenderMenuType";
 
 //Import utils
-import IsLogged from "~/utils/IsLogged/IsLogged";
 import Logout from "~/utils/Logout/Logout";
-import Toast from "~/utils/Toast/Toast";
 
 import styles from "./localNavBar.module.scss";
 import { parseCookies } from "nookies";
 import RedirectTo from "~/utils/Redirect/Redirect";
+import Navbarversion from "~/components/ui/Navigation/NavBar/Navbarversion";
 
 interface ModalLogoutButtonsProps {
   handleClose?: React.MouseEventHandler<HTMLButtonElement>;
@@ -39,9 +38,8 @@ interface LocalNavBarProps {
 }
 
 const LocalNavBar: React.FC<LocalNavBarProps> = ({ hideLoginButton, returnPath, title, publicPage }) => {
-  const [menuOptions, setMenuOptions] = useState<RenderMenuType[]>(null);
   const [openLogoutModal, setOpenLogoutModal] = useState<boolean>(false);
-  const { userId, userName } = parseCookies();
+  const { userId, userName, permission } = parseCookies();
 
   let isLogged = userId && userName // isLogged();
 
@@ -103,22 +101,6 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ hideLoginButton, returnPath, 
       </Flexbox>
       <NavBarMrAuto />
       <Flexbox align="center" spacing="xg">
-        {/* {user?.managementsList?.length > 0 && (
-          <div className={styles.outsideSelect}>
-            <NavbarSelect
-              initialValue={user?.managementSelectedId}
-              options={user?.managementsList}
-              onChange={async (value) => {
-                let response = await managementService.setManagementUser(value);
-                if (response.success) Toast.success(response.message);
-                else Toast.error(response.message);
-                window.location.reload();
-                return response.success;
-              }}
-            />
-          </div>
-        )} */}
-
         {isLogged ? (
           <>
             {<NavbarDropdown
@@ -135,28 +117,6 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ hideLoginButton, returnPath, 
                 </>
               }
             >
-              {/* {user?.managementsList?.length > 0 && (
-                <div className={styles.insideSelect}>
-                  <NavbarSelect
-                    initialValue={user?.managementSelectedId}
-                    options={user?.managementsList}
-                    onChange={async (value) => {
-                      let response = await managementService.setManagementUser(
-                        value
-                      );
-                      if (response.success) Toast.success(response.message);
-                      else Toast.error(response.message);
-                      window.location.reload();
-                      return response.success;
-                    }}
-                  />
-                </div>
-              )} */}
-
-              {/* {menuOptions && (
-                <NavbarDropdownOptionsRender options={menuOptions} />
-              )} */}
-
               <NavbarDropdownItem
                 href="/minhaspesquisas"
                 label="Minhas Pesquisas"
@@ -165,6 +125,12 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ hideLoginButton, returnPath, 
                 href="/novapesquisa"
                 label="Iniciar Nova Pesquisa"
               />
+              {permission === "adm" &&
+                <NavbarDropdownItem
+                  href="/adm/usuarios/lista"
+                  label="Gerenciar usuários"
+                />
+              }
               <NavbarDropdownItem
                 href="/usuario/editar"
                 label="Editar Usuário"
@@ -179,7 +145,7 @@ const LocalNavBar: React.FC<LocalNavBarProps> = ({ hideLoginButton, returnPath, 
                 text="Sair"
                 onClick={() => handleLogoutModal(true)}
               />
-              {/* <Navbarversion /> */}
+              <Navbarversion />
             </NavbarDropdown>}
           </>
         ) :

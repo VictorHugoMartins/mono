@@ -48,6 +48,10 @@ const Login: React.FC = () => {
             maxAge: 60 * 60 * 24, //24 hours
             path: "/",
           });
+          setCookie(undefined, 'permission', data.object.permission, {
+            maxAge: 60 * 60 * 24, //24 hours
+            path: "/",
+          });
           window.location.assign("/");
         } else {
           Toast.error(data.message)

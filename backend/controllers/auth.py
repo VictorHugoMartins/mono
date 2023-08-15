@@ -13,7 +13,6 @@ def login(data):  # ok
                                        (data.email, data.password)),
                                    initial_message="Autenticando usuario...",
                                    failure_message="Falha ao realizar login")
-        print(user_data)
         if user_data[0][2] == data.email:
             return {
                 "object": {
@@ -48,7 +47,6 @@ def register(data):  # chamando 2 vezes no front, n impede de cadastrar msm emai
                                            (data.name, data.email)),
                                        initial_message="Autenticando usuario...",
                                        failure_message="Falha ao cadastrar usuário")
-            print(user_data)
             if user_data:
                 return {
                     "object": {

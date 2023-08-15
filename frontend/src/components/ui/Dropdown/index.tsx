@@ -59,7 +59,7 @@ const DropdownButton: React.FC<LayoutProps> = ({
           style={{
             position: fixed ? "fixed" : "absolute",
             animation: showOptions ? "inAnimation 250ms ease-in" : "outAnimation 270ms ease-out",
-            minWidth: "100%"
+            minWidth: "200px"
           }}
         >
           {

@@ -69,11 +69,6 @@ const MySuperSurveys: React.FC<DetailsProps> = ({ city }) => {
   }, [city])
   return (
     <PrivatePageStructure title={`Pesquisas por ${city}`}>
-      {/* <Flexbox justify="flex-end" width={"100%"} >
-        <div style={{ maxWidth: "250px", padding: "8px" }}>
-          <Button color="primary" text={"Iniciar nova pesquisa"} onClick={() => window.location.assign("/novapesquisa")} />
-        </div>
-      </Flexbox> */}
       <PopupLoading show={searching} />
       {_tableData && <Table
         columns={_tableData.columns}

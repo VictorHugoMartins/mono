@@ -71,12 +71,11 @@ def getbycity(data):  # ok
     try:
         response = {
             "object": export_datatable(ab_config, """
-											select ss_id, date, logs from super_survey where city = %s
+											select ss_id, date, logs from super_survey where city = %s order by date desc
 										""", (data.city,), None, True),
             "message": "Dados retornados com sucesso!",
             "success": True
         }
-        print(response)
 
         return response
     except:
@@ -86,9 +85,7 @@ def getbycity(data):  # ok
 
 
 def getbyid(original_data):
-    print(original_data)
     data = jsonable_encoder(original_data)
-    print("nova data: ", data)
     result = select_command(ab_config,
                             """SELECT platform, data_columns
 																FROM super_survey_config where ss_id = %s

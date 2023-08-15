@@ -9,8 +9,7 @@ const Navbarversion: React.FC = () => {
   return (
     <div className={`${styles.navbarversion} ${styles[`theme${'light'}`]
       }`}>
-      <Typography component="caption"> Mono v
-        {(getProjectVersion)}</Typography>
+      <Typography component="caption"> DashAcomodações {(getProjectVersion)}</Typography>
     </div>
   )
 }

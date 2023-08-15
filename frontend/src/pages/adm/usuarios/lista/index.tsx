@@ -4,10 +4,10 @@ import DataTableButton from "~/components/local/LocalDataTable/DataTableButton/D
 import Table from "~/components/ui/Table";
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
-import { BASE_API_URL } from "~/config/apiBase";
 import privateroute from "~/routes/private.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
 import Toast from "~/utils/Toast/Toast";
+import { API_USER } from "~/config/apiRoutes/user";
 
 interface TableButtonProps {
   rowData?: any;
@@ -16,12 +16,23 @@ interface TableButtonProps {
 function MySuperSurveys() {
   const [searching, setSearching] = useState(false);
 
-  const { userId } = parseCookies();
+  const { userId, permission } = parseCookies();
+
+  useEffect(() => {
+    if (userId && permission !== "adm") {
+      Toast.error("Você não tem permissão para acessar essa página!")
+      setTimeout(() => {
+        window.location.assign("/")
+      }, 3000);
+    } else if (userId && permission === "adm") {
+      loadTable(userId);
+    }
+  }, [userId, permission])
 
   function TableButtons({ rowData }: TableButtonProps) {
     const acceptUser = (obj: any) => {
       setSearching(true);
-      const apiUrl = `${BASE_API_URL}/users/accept`; // url da API Flask
+      const apiUrl = API_USER.ACCEPT();
       const requestData = { user_id: obj.user_id }; // dados de login a serem enviados na requisição
 
       // Configuração do cabeçalho da requisição
@@ -49,7 +60,7 @@ function MySuperSurveys() {
     };
     const deleteUser = (obj: any) => {
       setSearching(true);
-      const apiUrl = `${BASE_API_URL}/users/delete`; // url da API Flask
+      const apiUrl = API_USER.DELETE(); // url da API Flask
       const requestData = { user_id: obj.user_id }; // dados de login a serem enviados na requisição
 
       // Configuração do cabeçalho da requisição
@@ -78,7 +89,7 @@ function MySuperSurveys() {
 
     const switchPermission = (ss_id: string, newPermission: string) => {
       setSearching(true);
-      const apiUrl = `${BASE_API_URL}/users/change_permission`; // url da API Flask
+      const apiUrl = API_USER.CHANGE_PERMISSION(); // url da API Flask
       const requestData = { user_id: ss_id, permission: newPermission }; // dados de login a serem enviados na requisição
 
       console.log(requestData);
@@ -120,7 +131,7 @@ function MySuperSurveys() {
 
   const loadTable = (userId: string) => {
     setSearching(true);
-    const apiUrl = `${BASE_API_URL}/users/list`; // url da API Flask
+    const apiUrl = API_USER.LIST(); // url da API Flask
     const requestData = { user_id: userId }; // dados de login a serem enviados na requisição
 
     // Configuração do cabeçalho da requisição
@@ -150,9 +161,9 @@ function MySuperSurveys() {
     return resp;
   };
 
-  useEffect(() => {
-    loadTable(userId);
-  }, [userId])
+  // useEffect(() => {
+  //   loadTable(userId);
+  // }, [userId])
 
   return (
     <PrivatePageStructure title={"Lista de Usuários"}>
