@@ -1,3 +1,4 @@
+import psycopg2
 import logging
 from config.general_config import ABConfig
 
@@ -84,6 +85,14 @@ def insert_command(config=ABConfig(), sql_script=None, params=None, initial_mess
         id = cur.fetchone()[0]
 
         return id
+    except psycopg2.errors.UniqueViolation as e:
+        logging.info("Register already inserted: ", e)
+        conn.rollback()
+        cur.close()
+        return None
+    except psycopg2.errors.NumericValueOutOfRange as e:
+        logging.error("Numeric value out of range: ", e)
+        return None
     except Exception as e:
         print(sql_script, params)
         logging.error("no insert: ", e)
@@ -91,3 +100,9 @@ def insert_command(config=ABConfig(), sql_script=None, params=None, initial_mess
         conn.rollback()
         cur.close()
         return None
+    finally:
+        try:
+            conn.rollback()
+            cur.close()
+        except:
+            pass
