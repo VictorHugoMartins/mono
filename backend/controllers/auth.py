@@ -2,10 +2,12 @@ from config.general_config import ABConfig
 from utils.sql_commands import select_command, insert_command, update_command
 import psycopg2
 
+from models.auth import *
+
 ab_config = ABConfig()
 
 
-def login(data):  # ok
+def login(data: LoginModel):  # ok
     try:
         user_data = select_command(ab_config,
                                    sql_script="""SELECT user_id, name, email, permission from users where email = %s and password = %s limit 1""",
@@ -30,7 +32,8 @@ def login(data):  # ok
         return {"message": "Erro ao realizar login!", "success": False}
 
 
-def register(data):  # chamando 2 vezes no front, n impede de cadastrar msm email 2 vezes
+# chamando 2 vezes no front, n impede de cadastrar msm email 2 vezes
+def register(data: RegisterModel):
     try:
         result = select_command(ab_config,
                                 """SELECT user_id from users where email = %s
@@ -65,7 +68,8 @@ def register(data):  # chamando 2 vezes no front, n impede de cadastrar msm emai
         return {"message": "Exceção ao cadastrar usuário!", "success": False}
 
 
-def edit_user(data):  # ok, mas seria bom ter um prepare. atualizar cookies após setar
+# ok, mas seria bom ter um prepare. atualizar cookies após setar
+def edit_user(data: EditUserModel):
     try:
         user_data = update_command(ab_config,
                                    sql_script="""UPDATE users set name = %s, email = %s where user_id = %s returning user_id""",
@@ -89,7 +93,7 @@ def edit_user(data):  # ok, mas seria bom ter um prepare. atualizar cookies apó
         return {"message": "Erro ao cadastrar usuário!", "success": False}
 
 
-def change_password(data):  # ok
+def change_password(data: ChangePasswordModel):  # ok
     try:
         user_data = insert_command(ab_config,
                                    sql_script="""UPDATE users set password = %s where user_id = %s returning user_id""",
@@ -108,7 +112,7 @@ def change_password(data):  # ok
         return {"message": "Erro ao atualizar senha do usuário!", "success": False}
 
 
-def forgot_password(data):  # ok
+def forgot_password(data: ForgotPasswordModel):  # ok
     try:
         user_data = insert_command(ab_config,
                                    sql_script="""UPDATE users set password = %s where email = %s returning user_id""",

@@ -123,7 +123,7 @@ def update(data: UpdateModel):  # ok
         return {"message": "Erro ao atualizar status da pesquisa", "success": False}
 
 
-def get_data_columns(platform):  # ok
+def get_data_columns(platform: str):  # ok
     try:
         result = []
         for x in columnDict:

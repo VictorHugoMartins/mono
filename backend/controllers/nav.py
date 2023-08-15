@@ -13,10 +13,12 @@ from utils.sql_commands import select_command
 
 from utils.general_dict import columnDict
 
+from models.nav import *
+
 ab_config = ABConfig()
 
 
-def export(data):  # ok
+def export(data: ExportModel):  # ok
     try:
         response = {
             "object": export_datatable(ab_config, get_all_rooms_by_ss_id(data.ss_id), None, "Airbnb", True),
@@ -30,7 +32,7 @@ def export(data):  # ok
         return {"message": "Falha ao exportar dados", "success": False}
 
 
-def list(data):  # ok
+def list(data: ListModel):  # ok
     try:
         print("nesse")
         response = {
@@ -60,14 +62,11 @@ def public_getall():  # ok
         print("o response: ", response)
 
         return response
-    except KeyError:
-        response = {"message": "Faça login!", "success": False, "status": 401}
-        return response
     except:
         return {"message": "Falha ao buscar dados!", "success": False}
 
 
-def getbycity(data):  # ok
+def getbycity(data: GetByCityModel):  # ok
     try:
         response = {
             "object": export_datatable(ab_config, """
@@ -84,7 +83,7 @@ def getbycity(data):  # ok
         return response
 
 
-def getbyid(original_data):
+def getbyid(original_data: GetByIdModel):
     data = jsonable_encoder(original_data)
     result = select_command(ab_config,
                             """SELECT platform, data_columns
@@ -150,7 +149,7 @@ def getbyid(original_data):
     #     return {"message": "Falha ao iniciar pesquisa", "success": False}
 
 
-def prepare(data):  # adicionar campo p/ visualizar cluster específico
+def prepare(data: PrepareModel):  # adicionar campo p/ visualizar cluster específico
     result = select_command(ab_config,
                             """SELECT platform, data_columns
 																FROM super_survey_config where ss_id = %s
@@ -265,7 +264,7 @@ def prepare(data):  # adicionar campo p/ visualizar cluster específico
     }
 
 
-def prepare_filter(ss_id):  # ok
+def prepare_filter(ss_id: str):  # ok
     platform = select_command(ab_config,
                               """SELECT platform
 																FROM super_survey_config where ss_id = %s
@@ -294,7 +293,7 @@ def prepare_filter(ss_id):  # ok
     }
 
 
-def chart(data):  # ok
+def chart(data: ChartModel):  # ok
     if ((data.agg_method != "count") and (data.number_column == "nenhum")):
         return {
             "object": None,
