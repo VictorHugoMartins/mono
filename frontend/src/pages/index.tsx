@@ -63,7 +63,8 @@ function Home() {
         <div className="w3-content">
           <div className="w3-twothird">
             <h1>DashAcomodações</h1>
-            <h5 className="w3-padding-32">Partindo de uma abordagem multidispliciplinar que envolve Turismo e Ciência da Computação, este trabalho promove transparência sobre a atuação das plataformas envolvidas ao propor a implementação de um web scraping e técnicas de ciência de dados para extrair e analisar de forma automatizadas os dados de interesse tanto do Airbnb quanto do Booking.</h5>
+            <h5 className="w3-padding-32">
+              Partindo de uma abordagem multidispliciplinar que envolve Turismo e Ciência da Computação, este trabalho promove transparência sobre a atuação das plataformas envolvidas ao propor a implementação de um web scraping e técnicas de ciência de dados para extrair e analisar de forma automatizadas os dados de interesse tanto do Airbnb quanto do Booking.</h5>
           </div>
 
           <div className="w3-third w3-center">
