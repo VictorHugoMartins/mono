@@ -297,11 +297,15 @@ class BoundingBox():
 
                 # 2 3 0 1
                 # 1 3 0 2
+                # 0 2 1 3
 
-                bounding_box = (bounds[0],
-                                bounds[2],
-                                bounds[1],
-                                bounds[3]
+                # [-20.2519, -43.4372, -20.5229, -43.7846]
+                # [n_lat, e_lng, s_lat, w_lng]
+
+                bounding_box = (bounds[1],
+                                bounds[3],
+                                bounds[0],
+                                bounds[2]
                                 )
 
                 print(bounding_box)
