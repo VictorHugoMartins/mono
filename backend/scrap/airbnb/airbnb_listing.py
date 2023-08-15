@@ -216,7 +216,7 @@ class ABListing():
                                       is_superhost, bathroom, location_id)
                                   values (%s, %s, %s, %s, %s, %s, %s, %s, %s,
                                   %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                                  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                                  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                                   )""",
                               params=(
                                   (
