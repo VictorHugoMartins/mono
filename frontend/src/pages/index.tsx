@@ -1,10 +1,8 @@
-import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import DataTableButton from "~/components/local/LocalDataTable/DataTableButton/DataTableButton";
 import Table from "~/components/ui/Table";
 import PrivatePageStructure from "~/components/structure/PrivatePageStructure/PrivatePageStructure";
 import PopupLoading from "~/components/ui/Loading/PopupLoading/PopupLoading";
-import { BASE_API_URL } from "~/config/apiBase";
 import comumroute from "~/routes/public.route";
 import { DataTableRenderType } from "~/types/global/DataTableRenderType";
 import Toast from "~/utils/Toast/Toast";
@@ -18,8 +16,6 @@ interface TableButtonProps {
 function Home() {
   const [searching, setSearching] = useState(false);
 
-  const { userId, userName } = parseCookies();
-
   function TableButtons({ rowData }: TableButtonProps) {
     return (
       <>
@@ -30,20 +26,14 @@ function Home() {
 
   const [_tableData, setTableData] = useState<DataTableRenderType>();
 
-  const loadTableData = (userId: string) => {
+  const loadTableData = () => {
     setSearching(true);
-    console.log(BASE_API_URL)
-    const apiUrl = API_NAV.PUBLICGETALL(); 
-    const requestData = { user_id: userId };
+    const apiUrl = API_NAV.PUBLICGETALL();
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    const requestOptions = {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(requestData)
-    };
+    const requestOptions = { method: 'POST', headers };
 
     const resp = fetch(apiUrl, requestOptions)
       .then(res => res.json())
@@ -62,8 +52,9 @@ function Home() {
   };
 
   useEffect(() => {
-    loadTableData(userId);
-  }, [userId])
+    loadTableData();
+  }, [])
+
   return (
     <PrivatePageStructure title={"DashAcomodações"}>
       <PopupLoading show={searching} />

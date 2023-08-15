@@ -24,7 +24,7 @@ def select_command(config=ABConfig(), sql_script=None, params=None, initial_mess
             pass
 
 
-def delete_command(config, sql_script, params, initial_message, failure_message):
+def delete_command(config=ABConfig(), sql_script=None, params=None, initial_message=None, failure_message=None):
     try:
         rowcount = -1
         logging.info(initial_message)
@@ -44,7 +44,7 @@ def delete_command(config, sql_script, params, initial_message, failure_message)
         return rowcount > -1
 
 
-def update_command(config, sql_script, params, initial_message, failure_message):
+def update_command(config=ABConfig(), sql_script=None, params=None, initial_message=None, failure_message=None):
     try:
         id = None
         logging.info(initial_message)
@@ -63,7 +63,7 @@ def update_command(config, sql_script, params, initial_message, failure_message)
         return id
 
 
-def insert_command(config, sql_script, params, initial_message, failure_message):
+def insert_command(config=ABConfig(), sql_script=None, params=None, initial_message=None, failure_message=None):
     try:
         id = None
         logging.info(initial_message)
@@ -78,7 +78,7 @@ def insert_command(config, sql_script, params, initial_message, failure_message)
 
         return id
     except Exception as e:
-        print(e)
+        logging.error(e)
         logging.error(failure_message)
         conn.rollback()
         cur.close()

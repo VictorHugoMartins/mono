@@ -46,7 +46,7 @@ def list(data: ListModel):  # ok
         response = {"message": "Faça login!", "success": False, "status": 401}
         return response
     except Exception as e:
-        print("uai", e)
+        print("error:", e)
         return {"message": "Falha ao buscar dados", "success": False}
 
 
@@ -85,13 +85,12 @@ def getbycity(data: GetByCityModel):  # ok
 
 def getbyid(original_data: GetByIdModel):
     data = jsonable_encoder(original_data)
-    result = select_command(ab_config,
-                            """SELECT platform, data_columns
+    result = select_command(sql_script="""SELECT platform, data_columns
 																FROM super_survey_config where ss_id = %s
 																limit 1""",
-                            (data["ss_id"],),
-                            "Selecionando colunas da configuração de pesquisa",
-                            "Falha ao selecionar colunas da configuração de pesquisa")
+                            params=(data["ss_id"],),
+                            initial_message="Selecionando colunas da configuração de pesquisa",
+                            failure_message="Falha ao selecionar colunas da configuração de pesquisa")
     if not result:
         return {
             "object": None,
@@ -150,13 +149,12 @@ def getbyid(original_data: GetByIdModel):
 
 
 def prepare(data: PrepareModel):  # adicionar campo p/ visualizar cluster específico
-    result = select_command(ab_config,
-                            """SELECT platform, data_columns
+    result = select_command(sql_script="""SELECT platform, data_columns
 																FROM super_survey_config where ss_id = %s
 																limit 1""",
-                            (data.ss_id,),
-                            "Selecionando colunas da configuração de pesquisa",
-                            "Falha ao selecionar colunas da configuração de pesquisa")
+                            params=(data.ss_id,),
+                            initial_message="Selecionando colunas da configuração de pesquisa",
+                            failure_message="Falha ao selecionar colunas da configuração de pesquisa")
     if not result:
         return {
             "object": None,
@@ -265,13 +263,12 @@ def prepare(data: PrepareModel):  # adicionar campo p/ visualizar cluster espec�
 
 
 def prepare_filter(ss_id: str):  # ok
-    platform = select_command(ab_config,
-                              """SELECT platform
+    platform = select_command(sql_script="""SELECT platform
 																FROM super_survey_config where ss_id = %s
 																limit 1""",
-                              (ss_id,),
-                              "Selecionando colunas da configuração de pesquisa",
-                              "Falha ao selecionar colunas da configuração de pesquisa")
+                              params=(ss_id,),
+                              initial_message="Selecionando colunas da configuração de pesquisa",
+                              failure_message="Falha ao selecionar colunas da configuração de pesquisa")
 
     print(platform)
     return {
@@ -307,8 +304,7 @@ def chart(data: ChartModel):  # ok
             data.number_column = data.str_column
 
         aggregation_method = data.aggregation_method
-        unformated_chart_data = select_command(ab_config,
-                                               sql_script="""
+        unformated_chart_data = select_command(sql_script="""
               with consulta as ( {consulta} )
                 select distinct({str_column}), {aggregation_method}({number_column}) as "{aggregation_method} de {number_column} por {str_column}" from consulta
                 group by {str_column}
@@ -328,13 +324,12 @@ def chart(data: ChartModel):  # ok
 
 def getlogsdetails(ss_id: str):  # ok
     try:
-        all_logs = select_command(ab_config,
-                                  """SELECT all_logs
+        all_logs = select_command(sql_script="""SELECT all_logs
 																FROM super_survey where ss_id = %s
 																limit 1""",
-                                  (ss_id,),
-                                  "Selecionando detalhes de execução da pesquisa",
-                                  "Falha ao selecionar detalhes de execução da pesquisa")
+                                  params=(ss_id,),
+                                  initial_message="Selecionando detalhes de execução da pesquisa",
+                                  failure_message="Falha ao selecionar detalhes de execução da pesquisa")
 
         print(all_logs[0][0])
         return {

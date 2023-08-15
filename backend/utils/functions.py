@@ -48,7 +48,7 @@ def check_and_create_file(filename):
             os.mkdir(filename)
             print("errooo!!")
     except Exception as e:
-        print("o erro: ", e)
+        logging.error(e)
     finally:
         print("existe o arquivo?", os.path.isdir(filename))
         exit(0)
@@ -70,8 +70,7 @@ def prepare_driver(url):
         driver = webdriver.Chrome(service=Service(
             ChromeDriverManager().install()), options=chrome_options)
     except Exception as e:
-        print("deu ruim!!!", e)
-    print("instanciou o driver")
+        logging.error(e)
 
     return driver
     try:
@@ -170,8 +169,7 @@ def asSelectObject(array):
 
 def build_options(column, values, ss_id):
     if (values == ["min", "max"]):
-        result = select_command(ab_config,
-                                sql_script="""WITH consulta AS ( {consulta}) 
+        result = select_command(sql_script="""WITH consulta AS ( {consulta}) 
 							SELECT min({column}), max({column}) FROM consulta
 							""".format(consulta=get_all_rooms_by_ss_id(ss_id), column=column),
             params=(()),

@@ -1,16 +1,12 @@
-from config.general_config import ABConfig
 from utils.sql_commands import select_command, insert_command, update_command
 import psycopg2
 
 from models.auth import *
 
-ab_config = ABConfig()
-
 
 def login(data: LoginModel):  # ok
     try:
-        user_data = select_command(ab_config,
-                                   sql_script="""SELECT user_id, name, email, permission from users where email = %s and password = %s limit 1""",
+        user_data = select_command(sql_script="""SELECT user_id, name, email, permission from users where email = %s and password = %s limit 1""",
                                    params=(
                                        (data.email, data.password)),
                                    initial_message="Autenticando usuario...",
@@ -32,20 +28,17 @@ def login(data: LoginModel):  # ok
         return {"message": "Erro ao realizar login!", "success": False}
 
 
-# chamando 2 vezes no front, n impede de cadastrar msm email 2 vezes
 def register(data: RegisterModel):
     try:
-        result = select_command(ab_config,
-                                """SELECT user_id from users where email = %s
+        result = select_command(sql_script="""SELECT user_id from users where email = %s
 																	limit 1""",
-                                ((data.email,)),
-                                "Verificando existência de usuário...",
-                                "Falha ao verificar existência de usuário")
+                                params=((data.email,)),
+                                initial_message="Verificando existência de usuário...",
+                                failure_message="Falha ao verificar existência de usuário")
         if result:
             return {"message": "E-mail já cadastrado!", "success": False}
         else:
-            user_data = insert_command(ab_config,
-                                       sql_script="""INSERT INTO users(name, email) values(%s, %s) returning user_id""",
+            user_data = insert_command(sql_script="""INSERT INTO users(name, email) values(%s, %s) returning user_id""",
                                        params=(
                                            (data.name, data.email)),
                                        initial_message="Autenticando usuario...",
@@ -68,11 +61,9 @@ def register(data: RegisterModel):
         return {"message": "Exceção ao cadastrar usuário!", "success": False}
 
 
-# ok, mas seria bom ter um prepare. atualizar cookies após setar
 def edit_user(data: EditUserModel):
     try:
-        user_data = update_command(ab_config,
-                                   sql_script="""UPDATE users set name = %s, email = %s where user_id = %s returning user_id""",
+        user_data = update_command(sql_script="""UPDATE users set name = %s, email = %s where user_id = %s returning user_id""",
                                    params=(
                                        (data.name, data.email, data.userId)),
                                    initial_message="Atualizando dados do usuario...",
@@ -95,8 +86,7 @@ def edit_user(data: EditUserModel):
 
 def change_password(data: ChangePasswordModel):  # ok
     try:
-        user_data = insert_command(ab_config,
-                                   sql_script="""UPDATE users set password = %s where user_id = %s returning user_id""",
+        user_data = insert_command(sql_script="""UPDATE users set password = %s where user_id = %s returning user_id""",
                                    params=((data.password, data.userId)),
                                    initial_message="Atualizando senha do usuário...",
                                    failure_message="Falha ao atualizar senha do usuário")
@@ -114,8 +104,7 @@ def change_password(data: ChangePasswordModel):  # ok
 
 def forgot_password(data: ForgotPasswordModel):  # ok
     try:
-        user_data = insert_command(ab_config,
-                                   sql_script="""UPDATE users set password = %s where email = %s returning user_id""",
+        user_data = insert_command(sql_script="""UPDATE users set password = %s where email = %s returning user_id""",
                                    params=((data.password, data.email)),
                                    initial_message="Atualizando senha do usuário...",
                                    failure_message="Falha ao atualizar senha do usuário")

@@ -27,8 +27,7 @@ def list():  # ok
 
 def change_permission(data: ChangePermissionModel):
     try:
-        user_id = update_command(ab_config,
-                                 sql_script="""UPDATE users set permission = %s
+        user_id = update_command(sql_script="""UPDATE users set permission = %s
                                                 where user_id = %s returning user_id""",
                                  params=(
                                      (data.permission, data.user_id)),
@@ -47,8 +46,7 @@ def change_permission(data: ChangePermissionModel):
 
 def delete(data: DeleteModel):  # ok
     try:
-        removed = delete_command(ab_config,
-                                 sql_script="""DELETE from users where user_id = %s returning user_id""",
+        removed = delete_command(sql_script="""DELETE from users where user_id = %s returning user_id""",
                                  params=((data.user_id,)),
                                  initial_message="Deletando usuario...",
                                  failure_message="Falha ao deletar usuário")
@@ -67,8 +65,7 @@ def delete(data: DeleteModel):  # ok
 def accept(data: AcceptModel):  # erro no send mail
     try:
         password = get_random_string(10)
-        email = update_command(ab_config,
-                               sql_script="""UPDATE users set password = %s where user_id = %s returning email""",
+        email = update_command(sql_script="""UPDATE users set password = %s where user_id = %s returning email""",
                                params=((password, data.user_id)),
                                initial_message="Aceitando solicitação de acesso do usuario...",
                                failure_message="Falha ao aceitar solicitação de acesso")

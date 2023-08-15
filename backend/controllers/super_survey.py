@@ -12,8 +12,7 @@ def start(data: StartModel, background_tasks: BackgroundTasks):
     try:
         data.columns.append("room_id", "host_id", "price",
                             "latitude", "longitude")
-        ss_id = search.initialize_search(config=ab_config,
-                                         platform=data.platform,
+        ss_id = search.initialize_search(platform=data.platform,
                                          search_area_name=data.city,
                                          user_id=data.user_id,
                                          columns=data.columns,
@@ -50,17 +49,16 @@ def start(data: StartModel, background_tasks: BackgroundTasks):
 
 def restart(data: RestartModel, background_tasks: BackgroundTasks):
     try:
-        result = select_command(ab_config,
-                                """SELECT platform, search_area_name, super_survey_config.user_id, data_columns,
+        result = select_command(sql_script="""SELECT platform, search_area_name, super_survey_config.user_id, data_columns,
 																	clusterization_method, aggregation_method, start_date, finish_date,
 																	include_locality_search, include_route_search, status
 																	FROM super_survey_config
 																	LEFT JOIN super_survey
 																	ON super_survey_config.ss_id = super_survey.ss_id
 																	where super_survey_config.ss_id = %s limit 1""",
-                                (data.ss_id,),
-                                "Selecionando dado de configuração de pesquisa",
-                                "Falha ao selecionar dados de configurações de pesquisa")
+                                params=(data.ss_id,),
+                                initial_message="Selecionando dado de configuração de pesquisa",
+                                failure_message="Falha ao selecionar dados de configurações de pesquisa")
         if not result:
             return {"message": "Falha ao selecionar dados de configurações de pesquisa", "success": False}
 
@@ -114,8 +112,7 @@ def restart(data: RestartModel, background_tasks: BackgroundTasks):
 
 def update(data: UpdateModel):  # ok
     try:
-        ss_id = update_command(ab_config,
-                               sql_script="""update super_survey set status=%s where ss_id = %s returning ss_id""",
+        ss_id = update_command(sql_script="""update super_survey set status=%s where ss_id = %s returning ss_id""",
                                params=((data.newStatus, data.ss_id)),
                                initial_message="Atualizando status da pesquisa...",
                                failure_message="Falha ao atualizar status da pesquisa")

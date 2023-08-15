@@ -63,7 +63,6 @@ class Location():
                 True: listing is saved in the database
                 False: listing already existed
         """
-        self.__insert()
         try:
             rowcount = -1
 
@@ -73,7 +72,7 @@ class Location():
                     insert_replace_flag == self.config.FLAGS_INSERT_NO_REPLACE):
                 try:
                     # self.get_address()
-                    self.__insert()
+                    self.insert()
                     return True
                 except psycopg2.IntegrityError:
                     logger.debug("Room " + str(self.room_name) +
@@ -118,32 +117,41 @@ class Location():
         """ Insert a room into the database. Raise an error if it fails """
         try:
             location_id = None
-            logger.debug("Inserting location")
-            # logger.debug("\tlocation: {}".format(self.address))
-            conn = self.config.connect()
-            cur = conn.cursor()
-            sql = """
-							INSERT INTO LOCATION(route, sublocality, locality, level1, level2, country)
-								values (%s, %s, %s, %s, %s, %s)
-							ON CONFLICT (route, sublocality, locality, level1, country)
-							DO UPDATE SET
-									route = excluded.route,
-									sublocality=excluded.sublocality,
-									locality=excluded.locality,
-									level1=excluded.level1,
-									country=excluded.country
-							RETURNING location_id"""
-            insert_args = (
-                self.route, self.sublocality, self.locality, self.level1, self.level2, self.country
-            )
-            cur.execute(sql, insert_args)
+            already_exists = select_command(sql_script="""SELECT location_id from location
+                                            where route = %s and sublocality = %s
+                                            and locality = %s and level1 = %s and level2 = %s
+                                            and country = %s limit 1""",
+                                            params=(
+                                                self.route, self.sublocality, self.locality,
+                                                self.level1, self.level2, self.country
+                                            ),
+                                            initial_message="Verificando se Localização já existe...",
+                                            failure_message="Falha ao verificar se Localização já existe")
+            if already_exists:
+                location_id = already_exists[0][0]
+            else:
+                logger.debug("Inserting location")
+                # logger.debug("\tlocation: {}".format(self.address))
+                conn = self.config.connect()
+                cur = conn.cursor()
+                print("125")
+                sql = """
+                  INSERT INTO LOCATION(route, sublocality, locality, level1, level2, country)
+                    values (%s, %s, %s, %s, %s, %s) returning location_id
+                  """
+                insert_args = (
+                    self.route, self.sublocality, self.locality, self.level1, self.level2, self.country
+                )
+                cur.execute(sql, insert_args)
+                print(141)
 
-            location_id = cur.fetchone()[0]
+                location_id = cur.fetchone()[0]
+                print("O LOCATION ID!!!", location_id)
 
-            cur.close()
-            conn.commit()
-            logger.debug("Location %s, %s inserted".format(
-                lat=self.route, lng=self.sublocality))
+                cur.close()
+                conn.commit()
+                logger.debug("Location %s, %s inserted".format(
+                    lat=self.route, lng=self.sublocality))
         except psycopg2.errors.UniqueViolation:
             logger.info("Location {lat}, {lng}: already exists".format(
                 lat=self.route, lng=self.sublocality))
@@ -155,13 +163,14 @@ class Location():
             conn.rollback()
             cur.close()
             raise
-        except:
+        except Exception as e:
+            logger.error(e)
             conn.rollback()
             raise
         finally:
             return location_id
 
-    @classmethod
+    @ classmethod
     def from_db(cls, lat_round, lng_round):
         """
         Get a location (address etc) by reading from the database
@@ -365,7 +374,7 @@ class BoundingBox():
          self.bb_w_lng,
          self.bb_e_lng) = bounding_box
 
-    @classmethod
+    @ classmethod
     def from_db(cls, config, search_area):
         """
         Get a bounding box from the database by reading the search_area.name
@@ -387,7 +396,7 @@ class BoundingBox():
             logger.exception("Exception in BoundingBox_from_db: exiting")
             sys.exit()
 
-    @classmethod
+    @ classmethod
     def from_google(cls, config, search_area):
         """
         Get a bounding box from Google
@@ -423,7 +432,7 @@ class BoundingBox():
             logger.exception("Exception in BoundingBox_from_google: exiting")
             sys.exit()
 
-    @classmethod
+    @ classmethod
     def from_geopy(cls, config, search_area):
         """
         Get a bounding box from Google
@@ -503,7 +512,7 @@ class BoundingBox():
         except:
             raise
 
-    @classmethod
+    @ classmethod
     def from_args(cls, config, args):
         """
         Get a bounding box from the command line
@@ -767,47 +776,6 @@ def insert_sublocality(config, sublocality, level2_id, level2):
         raise
 
 
-def get_coordinates_list_and_update_database(config, table='room', platform="Airbnb", survey_id=1):
-    coordinates_list = select_command(config,
-                                      sql_script="""SELECT DISTINCT latitude, longitude, room_id from {table} where survey_id >= %s and location_id is null""".format(
-                                          table=table),
-                                      params=((survey_id,)),
-                                      initial_message="Selecting coordinates list from " +
-                                      platform + " to update location ids",
-                                      failure_message="Failed to search coordinates list")
-    for coordinate in coordinates_list:
-        lat = coordinate[0]
-        lng = coordinate[1]
-        room_id = coordinate[2]
-        if (lat is not None) and (lng is not None):
-            reverse_geocode_coordinates_and_update_airbnb_room(
-                config, table, lat, lng, room_id)
-
-
-def reverse_geocode_coordinates_and_update_airbnb_room(config, table, lat, lng, room_id):
-    location = Location(config, str(lat), str(lng))
-    location.reverse_geocode(config)
-
-    location_id = select_command(config,
-                                 sql_script="""SELECT location_id FROM location
-													WHERE (route is null or route = %s) AND
-																(sublocality is null or sublocality = %s) and
-																(locality is null or locality = %s) and
-																(level1 is null or level1 = %s ) and
-																(level2 is null or level2 = %s ) and
-																(country is null or country = %s )""",
-                                 params=((location.route, location.sublocality, location.locality,
-                                         location.level1, location.level2, location.country,)),
-                                 initial_message="Selecting coordinates list to update location ids",
-                                 failure_message="Failed to search coordinates list")
-    if (len(location_id) == 0):
-        location_id = location.insert()
-    else:
-        location_id = location_id[0][0]
-
-    update_airbnb_room_with_location_id(config, table, room_id, location_id)
-
-
 def update_airbnb_room_with_location_id(config, table='room', room_id=None, location_id=None):
     update_command(config,
                    sql_script="""
@@ -824,24 +792,57 @@ def update_airbnb_room_with_location_id(config, table='room', room_id=None, loca
 def reverse_geocode_coordinates_and_insert(config, lat, lng):
     location = Location(config, str(lat), str(lng))
     location.reverse_geocode(config)
-    return location.insert()
+    already_exists = select_command(sql_script="""SELECT location_id from location
+                                            where route = %s and sublocality = %s
+                                            and locality = %s and level1 = %s and level2 = %s
+                                            and country = %s limit 1""",
+                                    params=(
+                                        location.route, location.sublocality, location.locality,
+                                        location.level1, location.level2, location.country
+                                    ),
+                                    initial_message="Verificando se Localização já existe...",
+                                    failure_message="Falha ao verificar se Localização já existe")
+    if len(already_exists) > 0:
+        return already_exists[0][0]
+    else:
+        return location.insert()
 
 
-def get_coordinates_list(config, platform="Airbnb", survey_id=1):
-    return select_command(config,
-                          sql_script="""SELECT DISTINCT latitude, longitude from room where survey_id >= %s""" if platform == "Airbnb" else """SELECT DISTINCT latitude, longitude from booking_room where survey_id >= %s""",
-                          params=((survey_id,)),
-                          initial_message="Selecting coordinates list from " + platform,
-                          failure_message="Failed to search coordinates list")
+def reverse_geocode_coordinates_and_update(config, lat, lng, room_id, table):
+    location_id = reverse_geocode_coordinates_and_insert(config, lat, lng)
+
+    return update_command(sql_script="""UPDATE {p} set location_id = %s where room_id = %s and location_id is null returning location_id""".format(p=table),
+                          params=(
+                              (location_id, room_id)),
+                          initial_message="Atualizando localização da Acomodação {a}...".format(
+                              a=room_id),
+                          failure_message="Falha ao atualizar localização da Acomodação {a}...".format(
+                              a=room_id)
+                          )
 
 
-def identify_and_insert_locations(config, platform, survey_id):
-    coordinates_list = get_coordinates_list(config, platform, survey_id)
-    for coordinate in coordinates_list:
-        lat = coordinate[0]
-        lng = coordinate[1]
-        if (lat is not None) and (lng is not None):
-            reverse_geocode_coordinates_and_insert(config, lat, lng)
+def get_coordinates_list(table="room"):
+    return select_command(sql_script="""SELECT DISTINCT latitude, longitude, room_id from {t} where location_id is null limit 100""".format(
+        t=table),
+        params=(()),
+        initial_message="Selecting coordinates list from " + table,
+        failure_message="Failed to search coordinates list")
+
+
+def identify_and_update_locations(platform):
+    table = 'room' if platform == 'Airbnb' else 'booking_room'
+    coordinates_list = get_coordinates_list(table)
+    if ((coordinates_list is not None) and (len(coordinates_list) > 0)):
+        for coordinate in coordinates_list:
+            try:
+                lat = coordinate[0]
+                lng = coordinate[1]
+                room_id = coordinate[2]
+                if (lat is not None) and (lng is not None):
+                    reverse_geocode_coordinates_and_update(
+                        ABConfig(), lat, lng, room_id, table)
+            except:
+                pass
 
 
 def main():

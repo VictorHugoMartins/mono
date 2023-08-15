@@ -2,6 +2,8 @@ from fastapi import FastAPI, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
+import scrap.geocoding as geocoding
+
 import controllers.auth as auth
 import controllers.nav as nav
 import controllers.super_survey as super_survey
@@ -49,7 +51,12 @@ async def export_super_survey(data: ExportModel):
 
 
 @app.post('/nav/list')
-async def list_nav(data: ListModel):
+async def list_nav(data: ListModel, background_tasks: BackgroundTasks):
+    background_tasks.add_task(
+        geocoding.identify_and_update_locations('Airbnb'))
+    background_tasks.add_task(
+        geocoding.identify_and_update_locations('Booking'))
+
     return nav.list(data)
 
 
@@ -57,6 +64,18 @@ async def list_nav(data: ListModel):
 async def public_list_nav():
     return nav.public_getall()
 
+
+@app.get('/system/update_locations/{userId}')
+async def update_locations(userId: str, background_tasks: BackgroundTasks):
+    try:
+        background_tasks.add_task(
+            geocoding.identify_and_update_locations('Airbnb'))
+        background_tasks.add_task(
+            geocoding.identify_and_update_locations('Booking'))
+
+        return {"object": None, "message": "Localizações atualizado com sucesso!", "success": True}
+    except:
+        return {"object": None, "message": "Falha ao atualizar localizações em segundo plano!", "success": False}
 
 @app.post('/nav/getbycity')
 async def getbycity(data: GetByCityModel):
@@ -76,6 +95,7 @@ async def prepare(data: PrepareModel):
 @app.get('/nav/preparefilter/{ss_id}')
 async def prepare_filter(ss_id: str):
     return nav.prepare_filter(ss_id)
+
 
 @app.get('/nav/getlogsdetails/{ss_id}')
 async def getlogsdetails(ss_id: str):
@@ -133,17 +153,9 @@ async def accept(data: AcceptModel):
 
 
 @app.get("/")
-async def root(data):
+async def root():
     return {"message": "Hello World. Welcome to FastAPI!"}
 
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=5000,
-                log_level="info", reload=True)
-    
-
-# nova home (ok)
-# search por airbnb (ok)
-# exibição fields filtro (ok)
-# email
-# search por booking
-# exibição de logs totais
+# if __name__ == "__main__":
+#     uvicorn.run("main:app", host="127.0.0.1", port=5000,
+#                 log_level="info", reload=True)
