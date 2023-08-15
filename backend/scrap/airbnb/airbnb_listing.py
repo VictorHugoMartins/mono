@@ -217,7 +217,7 @@ class ABListing():
                                   values (%s, %s, %s, %s, %s, %s, %s, %s, %s,
                                   %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
                                   %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
-                                  )""",
+                                  ) returning room_id""",
                               params=(
                                   (
                                       self.room_id, self.host_id, self.room_type, self.country,
