@@ -86,16 +86,18 @@ def insert_command(config=ABConfig(), sql_script=None, params=None, initial_mess
 
         return id
     except psycopg2.errors.UniqueViolation as e:
+        print(sql_script, params)
         logging.info("Register already inserted: ", e)
         conn.rollback()
         cur.close()
         return None
     except psycopg2.errors.NumericValueOutOfRange as e:
+        print(sql_script, params)
         logging.error("Numeric value out of range: ", e)
         return None
     except Exception as e:
         print(sql_script, params)
-        logging.error("no insert: ", e)
+        logging.error("Exception no insert: ", e)
         logging.error(failure_message)
         conn.rollback()
         cur.close()
