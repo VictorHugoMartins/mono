@@ -291,10 +291,18 @@ class BoundingBox():
                 location = geolocator.geocode((search_area))
                 bounds = location.raw['boundingbox']
 
-                bounding_box = (bounds[2],
+                print(location.raw)
+
+                # 2 3 0 1
+                # 1 3 0 2
+
+                bounding_box = (bounds[1],
                                 bounds[3],
                                 bounds[0],
-                                bounds[1],)
+                                bounds[2]
+                                )
+
+                print(bounding_box)
 
                 return cls(bounding_box)
             except geopy.exc.GeocoderUnavailable:
