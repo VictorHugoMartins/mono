@@ -52,11 +52,6 @@ async def export_super_survey(data: ExportModel):
 
 @app.post('/nav/list')
 async def list_nav(data: ListModel, background_tasks: BackgroundTasks):
-    background_tasks.add_task(
-        geocoding.identify_and_update_locations('Airbnb'))
-    background_tasks.add_task(
-        geocoding.identify_and_update_locations('Booking'))
-
     return nav.list(data)
 
 
@@ -69,13 +64,14 @@ async def public_list_nav():
 async def update_locations(userId: str, background_tasks: BackgroundTasks):
     try:
         background_tasks.add_task(
-            geocoding.identify_and_update_locations('Airbnb'))
+            geocoding.identify_and_update_locations, 'Airbnb')
         background_tasks.add_task(
-            geocoding.identify_and_update_locations('Booking'))
+            geocoding.identify_and_update_locations, 'Booking')
 
         return {"object": None, "message": "Localizações atualizado com sucesso!", "success": True}
     except:
         return {"object": None, "message": "Falha ao atualizar localizações em segundo plano!", "success": False}
+
 
 @app.post('/nav/getbycity')
 async def getbycity(data: GetByCityModel):
