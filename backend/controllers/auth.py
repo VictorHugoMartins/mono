@@ -13,6 +13,11 @@ def login(data: LoginModel):  # ok
                                    failure_message="Falha ao realizar login")
         print(user_data)
         if user_data[0][2] == data.email:
+            print("é igual!")
+            print(user_data[0][0])
+            print(user_data[0][1])
+            print(user_data[0][2])
+            print(user_data[0][3])
             return {
                 "object": {
                     "user_id": user_data[0][0],
