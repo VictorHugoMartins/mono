@@ -10,8 +10,8 @@ ab_config = ABConfig()
 
 def start(data: StartModel, background_tasks: BackgroundTasks):
     try:
-        data.columns.append("room_id", "host_id", "price",
-                            "latitude", "longitude")
+        for x in ["room_id", "host_id", "price", "latitude", "longitude"]:
+            data.columns.append(x)
         ss_id = search.initialize_search(platform=data.platform,
                                          search_area_name=data.city,
                                          user_id=data.user_id,
