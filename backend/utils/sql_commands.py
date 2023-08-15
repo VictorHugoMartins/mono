@@ -17,7 +17,8 @@ def select_command(config=ABConfig(), sql_script=None, params=None, initial_mess
         results = cur.fetchall()
         print(results)
         return results
-    except Exception:
+    except Exception as e:
+        print("noe exception:", e)
         logging.error(failure_message)
         return None
     finally:
@@ -39,7 +40,8 @@ def delete_command(config=ABConfig(), sql_script=None, params=None, initial_mess
         conn.commit()
 
         return rowcount > -1
-    except Exception:
+    except Exception as e:
+        print("no delete: ", e)
         logging.error(failure_message)
         raise
     finally:
@@ -58,7 +60,8 @@ def update_command(config=ABConfig(), sql_script=None, params=None, initial_mess
         conn.commit()
 
         id = cur.fetchone()[0]
-    except Exception:
+    except Exception as e:
+        print("no update: ", e)
         logging.error(failure_message)
         raise
     finally:
@@ -81,7 +84,7 @@ def insert_command(config=ABConfig(), sql_script=None, params=None, initial_mess
 
         return id
     except Exception as e:
-        logging.error(e)
+        logging.error("no insert: ", e)
         logging.error(failure_message)
         conn.rollback()
         cur.close()
