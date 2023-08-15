@@ -43,7 +43,8 @@ def start(data: StartModel, background_tasks: BackgroundTasks):
         }
 
         return response
-    except:
+    except Exception as e:
+        print("erro na 47", e)
         return {"message": "Falha ao iniciar pesquisa", "success": False}
 
 
