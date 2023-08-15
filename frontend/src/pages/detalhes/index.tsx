@@ -20,6 +20,7 @@ import { SelectObjectType } from "~/types/global/SelectObjectType";
 import { JSONtoCSV, downloadCSV } from "~/utils/JsonFile";
 import Toast from "~/utils/Toast/Toast";
 import { API_NAV } from "~/config/apiRoutes/nav";
+import { Modal } from "~/components/ui/Modal/Modal";
 
 type DetailsData = {
   result_columns?: InputRenderType[],
@@ -34,7 +35,9 @@ interface DetailsProps {
 const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
   const [searching, setSearching] = useState(false);
 
+  const [_allLogsData, setAllLogsData] = useState<DetailsData>();
   const [_prepareData, setPrepareData] = useState<DetailsData>();
+  const [_preparedData, setPreparedData] = useState<any>();
   const [_filteredData, setFilteredData] = useState({ table: null as DataTableRenderType, extra_info: "_avg" });
   const [_chartData, setChartData] = useState<ChartDataType[]>();
   const [_filteredResponseData, setFilteredResponseData] = useState<ObjectResponse>();
@@ -45,7 +48,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
 
   const prepare = (data: any) => {
     setSearching(true);
-    const apiUrl = API_NAV.PREPARE() 
+    const apiUrl = API_NAV.PREPARE()
     const requestData = { ss_id: survey };
 
     const headers = new Headers();
@@ -87,12 +90,12 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
 
   const getData = (data: any) => {
     setSearching(true);
-    const apiUrl = API_NAV.GETBYID(); 
+    const apiUrl = API_NAV.GETBYID();
     const requestData = {
       ss_id: survey,
-      agg_method: data?.agg_method ?? "_avg",
-      clusterization_method: data?.clusterization_method ?? "none",
-      platform: data?.platform ?? "both",
+      aggregation_method: data?.aggregation_method ?? _preparedData?.aggregation_method ?? "_avg",
+      clusterization_method: data?.clusterization_method ?? _preparedData?.clusterization_method ?? "none",
+      platform: data?.platform ?? _preparedData?.platform ?? "both",
     };
 
     const headers = new Headers();
@@ -118,11 +121,64 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
     return resp;
   };
 
+  const getPreparedData = () => {
+    setSearching(true);
+    const apiUrl = API_NAV.PREPAREFILTER(survey);
+    // const requestData = {
+    //   ss_id: survey,
+    //   aggregation_method: data?.aggregation_method ?? "_avg",
+    //   clusterization_method: data?.clusterization_method ?? "none",
+    //   platform: data?.platform ?? "both",
+    // };
+
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const requestOptions = { method: 'GET', headers };
+
+    const resp = fetch(apiUrl, requestOptions)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setPreparedData(data.object);
+        } else Toast.error(data.message);
+      })
+      .catch(error => { Toast.error(error); setSearching(false) });
+
+    return resp;
+  };
+
+  const loadAllLogs = () => {
+    setSearching(true);
+    const apiUrl = API_NAV.GETLOGSDETAILS(survey);
+
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const requestOptions = { method: 'GET', headers };
+
+    const resp = fetch(apiUrl, requestOptions)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setAllLogsData(data.object);
+        else Toast.error(data.message);
+        setSearching(false)
+      })
+      .catch(error => { Toast.error(error); setSearching(false) });
+
+    return resp;
+  };
+
+
   useEffect(() => {
-    if (_prepareData) {
+    if (_prepareData && _preparedData) {
       getData(null);
     }
-  }, [_prepareData])
+  }, [_prepareData, _preparedData])
+
+  useEffect(() => {
+    getPreparedData()
+  }, [])
 
   useEffect(() => {
     if (_chartResponseData)
@@ -133,9 +189,19 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
     <PrivatePageStructure title="Detalhes da pesquisa " returnPath="/minhaspesquisas">
       <PopupLoading show={searching} />
       <Flexbox justify="flex-end" width={"100%"} >
+        <Modal openButton={
+          <div style={{ maxWidth: "300px", padding: "8px" }}>
+            <Button color="primary" text={"Ver detalhes da execução"}
+              onClick={() => loadAllLogs()}
+            />
+          </div>}
+          title={`Detalhes da execução da pesquisa ${survey}`}
+        >
+          {_allLogsData ?? "Sem detalhes para exibir"}
+        </Modal>
         <div style={{ maxWidth: "300px", padding: "8px" }}>
           <Button color="primary" text={"Baixar dados filtrados"}
-            onClick={() => downloadData({ ss_id: survey, agg_method: _filteredData?.extra_info })}
+            onClick={() => downloadData({ ss_id: survey, aggregation_method: _filteredData?.extra_info })}
           />
         </div>
         {_filteredData?.table?.rows && _filteredData?.table?.rows[0] && (typeof (_filteredData?.table.rows[0]["cluster"]) !== "undefined") &&
@@ -173,7 +239,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
             returnPath="/"
             hiddenInputs={{
               ss_id: survey,
-              agg_method: _filteredData?.extra_info ?? "_avg"
+              aggregation_method: _filteredData?.extra_info ?? "_avg"
             }}
             onSuccess={(e) => {
               Toast.success(
@@ -183,7 +249,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
             buildObject={[
               {
                 label: "Informação a se obter",
-                name: "agg_method",
+                name: "aggregation_method",
                 type: "radio",
                 required: true,
                 options: [

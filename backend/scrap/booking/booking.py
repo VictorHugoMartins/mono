@@ -296,16 +296,12 @@ class BListing():
                         print("inserindo vez ", i+1)
                         self.room_id = self.room_id.join(str(i))
 
-                    exit(0)
+                    self.save(self.config.FLAG_INSERT_REPLACE)
                 else:
                     self.room_id = self.room_id.join('1')
                     print(self.room_id)
 
-            exit(0)
-
-            # corrigir accommodates (ok)
-            # decidir entre ter 2 apis, configurar 1 so
-            # especificar no texto como as acomodacoes sao inseridas
+                    self.save(self.config.FLAG_INSERT_REPLACE)
         except selenium.common.exceptions.NoSuchElementException:
             raise
 

@@ -175,14 +175,24 @@ def create_super_survey(config, city, userId):
 
 
 def update_super_survey_status(config, ss_id, status, logs):
-    return update_command(config,
-                          sql_script="""
-															update super_survey set status = %s, logs = %s where ss_id = %s returning status
+    try:
+        update_command(config,
+                       sql_script="""
+															update super_survey set all_logs = ( SELECT all_logs from super_survey where ss_id = %s) || '\n' || %s where ss_id = %s returning ss_id
 														""",
-                          params=(status, logs, ss_id),
-                          initial_message="Updating status of super survey {ss_id} to {status}".format(
-                              ss_id=ss_id, status=status),
-                          failure_message="Failed to update status of super survey {ss_id} to {status}".format(ss_id=ss_id, status=status))
+                       params=(ss_id, logs, ss_id),
+                       initial_message="Updating all logs of super survey {ss_id} to {status}".format(
+                           ss_id=ss_id, status=status),
+                       failure_message="Failed to update all logs of super survey {ss_id} to {status}".format(ss_id=ss_id, status=status))
+    finally:
+        return update_command(config,
+                              sql_script="""
+                                  update super_survey set status = %s, logs = %s where ss_id = %s returning status
+                                """,
+                              params=(status, logs, ss_id),
+                              initial_message="Updating status of super survey {ss_id} to {status}".format(
+                                  ss_id=ss_id, status=status),
+                              failure_message="Failed to update status of super survey {ss_id} to {status}".format(ss_id=ss_id, status=status))
 
 
 def update_survey_with_super_survey_id(config, super_survey_id, survey_id):
@@ -344,7 +354,7 @@ def search_routes(config, platform="Airbnb", search_area_name='', start_date=Non
 
 
 def full_process(platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
-                 include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", agg_method="avg"):
+                 include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
     try:
         _platform = "Airbnb" if platform != 'Booking' else "Booking"
         if ((status_super_survey_id in statusDict["PESQUISAR_CIDADE_AIRBNB"]) or
@@ -423,7 +433,7 @@ def full_process(platform="Airbnb", search_area_name='', start_date=None, finish
 
 
 def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
-                      include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", agg_method="avg"):
+                      include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
     try:
         # status 0, ainda n fez nada
         if (super_survey_id is None):  # super survey previously in progress
@@ -435,7 +445,7 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
                     save_config(ab_config, platform, search_area_name,
                                 start_date, finish_date, user_id, super_survey_id, status_super_survey_id,
                                 include_locality_search, include_route_search, columns,
-                                clusterization_method, agg_method)
+                                clusterization_method, aggregation_method)
                     print("3", super_survey_id)
                     update_super_survey_status(ab_config,
                                                super_survey_id,
@@ -478,7 +488,7 @@ def initialize_search(config=ab_config, platform="Airbnb", search_area_name='', 
 
 
 def save_config(config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, user_id=None, super_survey_id=None, status_super_survey_id=0,
-                include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", agg_method="avg"):
+                include_locality_search=True, include_route_search=True, columns=[], clusterization_method="kmodes", aggregation_method="avg"):
     insert_command(config,
                    """INSERT INTO super_survey_config(
 																platform,
@@ -491,13 +501,13 @@ def save_config(config, platform="Airbnb", search_area_name='', start_date=None,
 																include_route_search,
 																data_columns,
 																clusterization_method,
-																agg_method
+																aggregation_method
 														)
 												values(%s, %s, %s, %s, %s,%s, %s,%s, %s,%s, %s) returning config_id""",
                    (platform, search_area_name,
                     start_date, finish_date, user_id, super_survey_id,
                     include_locality_search, include_route_search, columns,
-                    clusterization_method, agg_method),
+                    clusterization_method, aggregation_method),
                    "Salvando configurações da pesquisa...",
                    "Falha ao salvar configurações da pesquisa")
 

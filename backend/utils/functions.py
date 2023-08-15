@@ -110,7 +110,7 @@ def buildFilterQuery(data, platform):
         print(key, key in exclusive_airbnb_columns)
         if (key in ignore_columns):
             continue
-        if ((key == 'agg_method') or (key == 'clusterization_method')):
+        if ((key == 'aggregation_method') or (key == 'clusterization_method')):
             continue
         if ((platform == 'Airbnb') and (key in exclusive_booking_columns)):
             continue
@@ -209,7 +209,7 @@ def buildGraphObjectFromSqlResult(data):
     return [{"values": result}]
 
 
-def get_rooms(data, columns, agg_method):
+def get_rooms(data, columns, aggregation_method):
     print("veio nesse aqui")
     (query, params) = buildFilterQuery(data, 'both')
     try:
@@ -224,7 +224,7 @@ def get_rooms(data, columns, agg_method):
     rooms = export_datatable(ab_config, """
 										WITH consulta AS ( {consulta} )
 											SELECT {columns}, platform FROM consulta {query}
-											""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], agg_method=agg_method), columns=columns, query=query), params, "Airbnb", True, True)
+											""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], aggregation_method=aggregation_method), columns=columns, query=query), params, "Airbnb", True, True)
     return rooms
 
 

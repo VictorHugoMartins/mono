@@ -108,37 +108,37 @@ def getbyid(original_data: GetByIdModel):
         print("as colunas: ", columns)
     except:
         columns = result[0][1]
-    agg_method = data["agg_method"]
+    aggregation_method = data["aggregation_method"]
     if ('platform' in columns):
         columns = columns.replace('platform, ', '')
 
     rooms = []
     if (platform == "both"):
-        rooms = get_rooms(data, columns, agg_method)
+        rooms = get_rooms(data, columns, aggregation_method)
     elif (platform == 'Airbnb'):
         (query, params) = buildFilterQuery(data, 'Airbnb')
         rooms = export_datatable(ab_config, """
 											WITH consulta AS ( {consulta} )
 												SELECT {columns}, 'Airbnb' as platform FROM consulta {query}
-												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Airbnb'", agg_method), columns=xNotIn(exclusive_booking_columns, columns), query=query), params, "Airbnb", True, True)
+												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Airbnb'", aggregation_method), columns=xNotIn(exclusive_booking_columns, columns), query=query), params, "Airbnb", True, True)
     elif (platform == 'Booking'):
         (query, params) = buildFilterQuery(data, 'Booking')
         rooms = export_datatable(ab_config, """
 											WITH consulta AS ( {consulta} )
 												SELECT {columns}, 'Booking' as platform FROM consulta {query}
-												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Booking'", agg_method), columns=xNotIn(exclusive_airbnb_columns, columns), query=query), params, "Booking", True, True)
+												""".format(consulta=get_all_rooms_by_ss_id(data["ss_id"], "'Booking'", aggregation_method), columns=xNotIn(exclusive_airbnb_columns, columns), query=query), params, "Booking", True, True)
 
     try:
         # print("aqui", rooms)
         response = {
-            "object": {"table": cluster_data(data["clusterization_method"], rooms["df"], rooms["table"], data), "extra_info": agg_method},
+            "object": {"table": cluster_data(data["clusterization_method"], rooms["df"], rooms["table"], data), "extra_info": aggregation_method},
             "message": "Dados retornados com sucesso!",
             "success": True
         }
     except KeyError as a:
         print("erro", a)
         response = {
-            "object": {"table": {"columns": [], "rows": []}, "extra_info": agg_method},
+            "object": {"table": {"columns": [], "rows": []}, "extra_info": aggregation_method},
             "message": "Dados retornados com sucesso!",
             "success": True
         }
@@ -202,7 +202,7 @@ def prepare(data: PrepareModel):  # adicionar campo p/ visualizar cluster espec�
         "description": "Agrupamento se refere ao processo de gerar grupos menores dentro dos dados coletados a partir de características semelhantes entre eles. Para saber mais sobre cada um dos três métodos disponíveis, acesse: https://scikit-learn.org/stable/modules/clustering.html"
     },
         {
-        "name": "agg_method",
+        "name": "aggregation_method",
         "label": "Método de Agregação para seleção de dados repetidos:",
         "disabled": False,
         "required": False,
@@ -277,7 +277,7 @@ def prepare_filter(ss_id: str):  # ok
     return {
         "object": {
             "ss_id": ss_id,
-            "agg_method": "_avg",
+            "aggregation_method": "_avg",
             "clusterization_method": "none",
             "platform": platform[0][0],
             "n_clusters": 3,
@@ -295,7 +295,7 @@ def prepare_filter(ss_id: str):  # ok
 
 
 def chart(data: ChartModel):  # ok
-    if ((data.agg_method != "count") and (data.number_column == "nenhum")):
+    if ((data.aggregation_method != "count") and (data.number_column == "nenhum")):
         return {
             "object": None,
             "message": "Selecione um campo numérico para criar a relação entre os dados!",
@@ -306,14 +306,14 @@ def chart(data: ChartModel):  # ok
         if (data.number_column == "nenhum"):
             data.number_column = data.str_column
 
-        agg_method = data.agg_method
+        aggregation_method = data.aggregation_method
         unformated_chart_data = select_command(ab_config,
                                                sql_script="""
               with consulta as ( {consulta} )
-                select distinct({str_column}), {agg_method}({number_column}) as "{agg_method} de {number_column} por {str_column}" from consulta
+                select distinct({str_column}), {aggregation_method}({number_column}) as "{aggregation_method} de {number_column} por {str_column}" from consulta
                 group by {str_column}
-                order by {agg_method}({number_column}) desc
-                """.format(consulta=get_all_rooms_by_ss_id(data.ss_id, "'Airbnb'", agg_method), str_column=data.str_column, number_column=data.number_column, agg_method=data.agg_method),
+                order by {aggregation_method}({number_column}) desc
+                """.format(consulta=get_all_rooms_by_ss_id(data.ss_id, "'Airbnb'", aggregation_method), str_column=data.str_column, number_column=data.number_column, aggregation_method=data.aggregation_method),
             params=(()),
             initial_message="Selecionando dados para gerar gráfico...",
             failure_message="Falha ao selecionar dados para gerar gráfico")
@@ -324,3 +324,23 @@ def chart(data: ChartModel):  # ok
         }
     except:
         return {"message": "Erro ao selecionar dados para gerar gráfico!", "success": False}
+
+
+def getlogsdetails(ss_id: str):  # ok
+    try:
+        all_logs = select_command(ab_config,
+                                  """SELECT all_logs
+																FROM super_survey where ss_id = %s
+																limit 1""",
+                                  (ss_id,),
+                                  "Selecionando detalhes de execução da pesquisa",
+                                  "Falha ao selecionar detalhes de execução da pesquisa")
+
+        print(all_logs[0][0])
+        return {
+            "object": all_logs[0][0] if all_logs[0][0] else "Sem detalhes para exibir",
+            "message": "Sucesso ao selecionar detalhes de execução da pesquisa",
+            "success": True
+        }
+    except:
+        return {"message": "Erro ao selecionar detalhes de execução da pesquisa!", "success": False}

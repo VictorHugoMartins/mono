@@ -75,8 +75,11 @@ async def prepare(data: PrepareModel):
 
 @app.get('/nav/preparefilter/{ss_id}')
 async def prepare_filter(ss_id: str):
-    # args = request.args
     return nav.prepare_filter(ss_id)
+
+@app.get('/nav/getlogsdetails/{ss_id}')
+async def getlogsdetails(ss_id: str):
+    return nav.getlogsdetails(ss_id)
 
 
 @app.post('/nav/chart')
@@ -140,6 +143,7 @@ if __name__ == "__main__":
 
 # nova home (ok)
 # search por airbnb (ok)
-# exibição fields filtro
+# exibição fields filtro (ok)
 # email
 # search por booking
+# exibição de logs totais

@@ -18,7 +18,7 @@ class GetByCityModel(BaseModel):
 
 class GetByIdModel(BaseModel):
     ss_id: str
-    agg_method: str
+    aggregation_method: str
     clusterization_method: str
     platform: str
     room_id: str | None = None
@@ -66,4 +66,4 @@ class ChartModel(BaseModel):
     ss_id: str
     str_column: str
     number_column: str
-    agg_method: str
+    aggregation_method: str

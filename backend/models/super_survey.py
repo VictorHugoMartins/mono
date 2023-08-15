@@ -9,7 +9,7 @@ class StartModel(BaseModel):
     user_id: str
     columns: List[str]
     clusterization_method: Union[str, None] = None
-    agg_method: Union[str, None] = None
+    aggregation_method: Union[str, None] = None
     start_date: Union[str, None] = None
     finish_date: Union[str, None] = None
     include_locality_search: bool
