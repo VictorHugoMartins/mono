@@ -8,6 +8,7 @@ import psycopg2
 from scrap.geocoding import BoundingBox
 import datetime as dt
 
+from utils.sql_commands import insert_command
 from scrap.airbnb.airbnb import db_add_survey
 from scrap.geocoding import reverse_geocode_coordinates_and_insert
 from config.general_config import ABConfig
@@ -111,40 +112,25 @@ class BListing():
 
     def __insert(self):
         """ Insert a room into the database. Raise an error if it fails """
-        try:
-            logger.debug("Values: ")
-            logger.debug("\troom: {}".format(self.room_id))
-            conn = self.config.connect()
-            cur = conn.cursor()
-            sql = """
-				insert into booking_room (
-					room_id, room_name, hotel_name, hotel_id, address, comodities,
-					avg_rating, property_type, bed_type, accommodates,
-					price, latitude, longitude, reviews, survey_id,
-					checkin_date, checkout_date, location_id
-					)
-				values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-            insert_args = (
-                self.room_id, self.hotel_name, self.room_name, self.hotel_id, self.localized_address, self.comodities,
-                self.avg_rating, self.property_type, self.bedtype, self.accomodates,
-                self.price, self.latitude, self.longitude, self.reviews, self.survey_id, self.checkin_date, self.checkout_date,
-                self.location_id
-            )
-
-            cur.execute(sql, insert_args)
-            cur.close()
-            conn.commit()
-            logger.debug("Room " + str(self.room_name) + ": inserted")
-            logger.debug("(lat, long) = (%s, %s)".format(
-                lat=self.latitude, lng=self.longitude))
-        except psycopg2.IntegrityError:
-            logger.info("Room " + str(self.room_name) + ": insert failed")
-            conn.rollback()
-            cur.close()
-            raise
-        except:
-            conn.rollback()
-            raise
+        return insert_command(sql_script="""
+                                            insert into booking_room (
+                                              room_id, room_name, hotel_name, hotel_id, address, comodities,
+                                              avg_rating, property_type, bed_type, accommodates,
+                                              price, latitude, longitude, reviews, survey_id,
+                                              checkin_date, checkout_date, location_id
+                                              )
+                                            values (%s, %s, %s, %s, %s, %s, %s, %s, %s,
+                                                    %s, %s, %s, %s, %s, %s, %s, %s, %s) returning room_id""",
+                              params=(
+                                  (
+                                      self.room_id, self.hotel_name, self.room_name, self.hotel_id, self.localized_address, self.comodities,
+                                      self.avg_rating, self.property_type, self.bedtype, self.accomodates,
+                                      self.price, self.latitude, self.longitude, self.reviews, self.survey_id, self.checkin_date, self.checkout_date,
+                                      self.location_id
+                                  )),
+                              initial_message="Inserindo Acomodação {r} do Booking...".format(
+                                  r=self.location_id),
+                              failure_message="Falha ao inserir Acomodação {r} do Booking!".format(r=self.location_id))
 
     def find_room_id_and_name(self, row):
         room_name = row.find_element(
