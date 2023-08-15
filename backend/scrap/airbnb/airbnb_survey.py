@@ -213,12 +213,6 @@ class ABSurvey():
                     logger.exception(e)
                     return listing
 
-            # pricing
-            # json_pricing = json["pricing_quote"]
-            # listing.price = json_pricing["rate"]["amount"] if "rate" in json_pricing else None
-            # listing.currency = json_pricing["rate"]["currency"] if "rate" in json_pricing else None
-            # listing.rate_type = json_pricing["rate_type"] if "rate_type" in json_pricing else None
-
             return listing
         except:
             logger.exception(
