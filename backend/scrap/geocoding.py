@@ -15,7 +15,7 @@ import sys
 import logging
 import os
 import psycopg2
-from utils.sql_commands import select_command, update_command
+from utils.sql_commands import select_command, update_command, insert_command
 
 FORMAT_STRING = "%(asctime)-15s %(levelname)-8s%(message)s"
 logging.basicConfig(level=logging.INFO, format=FORMAT_STRING)
@@ -130,42 +130,20 @@ class Location():
             if already_exists:
                 location_id = already_exists[0][0]
             else:
-                logger.debug("Inserting location")
-                # logger.debug("\tlocation: {}".format(self.address))
-                conn = self.config.connect()
-                cur = conn.cursor()
-                print("125")
-                sql = """
+                location_id = insert_command(sql_script="""
                   INSERT INTO LOCATION(route, sublocality, locality, level1, level2, country)
                     values (%s, %s, %s, %s, %s, %s) returning location_id
-                  """
-                insert_args = (
-                    self.route, self.sublocality, self.locality, self.level1, self.level2, self.country
-                )
-                cur.execute(sql, insert_args)
-                print(141)
+                  """,
+                                             params=(
+                                                 (
+                                                     self.route, self.sublocality, self.locality, self.level1, self.level2, self.country
+                                                 )),
+                                             initial_message="Inserindo Localização {r}...".format(
+                                                 r=self.location_id),
+                                             failure_message="Falha ao inserir Localização {r}!".format(r=self.location_id))
 
-                location_id = cur.fetchone()[0]
-                print("O LOCATION ID!!!", location_id)
-
-                cur.close()
-                conn.commit()
-                logger.debug("Location %s, %s inserted".format(
-                    lat=self.route, lng=self.sublocality))
-        except psycopg2.errors.UniqueViolation:
-            logger.info("Location {lat}, {lng}: already exists".format(
-                lat=self.route, lng=self.sublocality))
-            conn.rollback()
-            cur.close()
-        except psycopg2.IntegrityError:
-            logger.info("Location {lat}, {lng}: insert failed".format(
-                lat=self.route, lng=self.sublocality))
-            conn.rollback()
-            cur.close()
-            raise
         except Exception as e:
             logger.error(e)
-            conn.rollback()
             raise
         finally:
             return location_id

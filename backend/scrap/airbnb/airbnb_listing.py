@@ -13,6 +13,7 @@ import json
 
 from scrap.geocoding import Location
 from scrap.geocoding import reverse_geocode_coordinates_and_insert
+from utils.sql_commands import insert_command
 
 logger = logging.getLogger()
 
@@ -203,54 +204,36 @@ class ABListing():
 
     def __insert(self):
         """ Insert a room into the database. Raise an error if it fails """
-        try:
-            logger.debug("Values: ")
-            logger.debug("\troom_id: {}".format(self.room_id))
-            logger.debug("\thost_id: {}".format(self.host_id))
-            conn = self.config.connect()
-            cur = conn.cursor()
-            sql = """
-                insert into room (
-                    room_id, host_id, room_type, country, city,
-                    neighborhood, address, reviews, overall_satisfaction,
-                    accommodates, bedrooms, bathrooms, price, deleted,
-                    minstay, latitude, longitude, survey_id,
-                    coworker_hosted, extra_host_languages, name,
-                    property_type, currency, rate_type,
-                    sublocality, route, avg_rating,
-                    is_superhost, max_nights, pictures, bathroom, location_id)
-                values (%s, %s, %s, %s, %s, %s, %s, %s, %s,
-                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
-                )"""
-            insert_args = (
-                self.room_id, self.host_id, self.room_type, self.country,
-                self.city, self.neighborhood, self.address, self.reviews,
-                self.overall_satisfaction, self.accommodates, self.bedrooms,
-                self.bathrooms, self.price, self.deleted, self.minstay,
-                self.latitude, self.longitude, self.survey_id,
-                self.coworker_hosted, self.extra_host_languages, self.name,
-                self.property_type, self.currency, self.rate_type,
-                self.sublocality, self.route, self.avg_rating,
-                self.is_superhost,
-                self.max_nights, self.pictures, self.bathroom,
-                self.location_id
-            )
-            print(sql, insert_args)
-            cur.execute(sql, insert_args)
-            cur.close()
-            conn.commit()
-            logger.debug("Room " + str(self.room_id) + ": inserted")
-            logger.debug(
-                "(lat, long) = ({lat:+.5f}, {lng:+.5f})".format(lat=self.latitude, lng=self.longitude))
-        except psycopg2.IntegrityError:
-            # logger.info("Room " + str(self.room_id) + ": insert failed")
-            conn.rollback()
-            cur.close()
-            raise
-        except:
-            conn.rollback()
-            raise
+        return insert_command(sql_script="""
+                                  insert into room (
+                                      room_id, host_id, room_type, country, city,
+                                      neighborhood, address, reviews, overall_satisfaction,
+                                      accommodates, bedrooms, bathrooms, price, deleted,
+                                      minstay, latitude, longitude, survey_id,
+                                      coworker_hosted, extra_host_languages, name,
+                                      property_type, currency, rate_type,
+                                      sublocality, route, avg_rating,
+                                      is_superhost, bathroom, location_id)
+                                  values (%s, %s, %s, %s, %s, %s, %s, %s, %s,
+                                  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                                  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                                  )""",
+                              params=(
+                                  (
+                                      self.room_id, self.host_id, self.room_type, self.country,
+                                      self.city, self.neighborhood, self.address, self.reviews,
+                                      self.overall_satisfaction, self.accommodates, self.bedrooms,
+                                      self.bathrooms, self.price, self.deleted, self.minstay,
+                                      self.latitude, self.longitude, self.survey_id,
+                                      self.coworker_hosted, self.extra_host_languages, self.name,
+                                      self.property_type, self.currency, self.rate_type,
+                                      self.sublocality, self.route, self.avg_rating,
+                                      self.is_superhost, self.bathroom,
+                                      self.location_id
+                                  )),
+                              initial_message="Inserindo Acomodação {r} do Airbnb...".format(
+                                  r=self.room_id),
+                              failure_message="Falha ao inserir Acomodação {r} do Airbnb...".format(r=self.room_id))
 
     def __update(self):
         """ Update a room in the database. Raise an error if it fails.

@@ -197,7 +197,7 @@ const DetailsPage: React.FC<DetailsProps> = ({ survey }) => {
           </div>}
           title={`Detalhes da execução da pesquisa ${survey}`}
         >
-          {_allLogsData ? _allLogsData.toString().replaceAll('\n', "<br>") : "Sem detalhes para exibir"}
+          {_allLogsData ? _allLogsData.toString().split('\n').map((item) => (item)) : "Sem detalhes para exibir"}
         </Modal>
         <div style={{ maxWidth: "300px", padding: "8px" }}>
           <Button color="primary" text={"Baixar dados filtrados"}
