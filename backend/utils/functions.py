@@ -6,7 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from geopy import distance
-from utils.general_dict import get_all_rooms_by_ss_id
+from utils.general_dict import get_all_rooms_by_ss_id, build_query
 from utils.file_manager import export_datatable
 from config.general_config import ABConfig
 from utils.sql_commands import select_command
@@ -168,10 +168,11 @@ def asSelectObject(array):
 
 
 def build_options(column, values, ss_id):
+    query = build_query(ss_id)
     if (values == ["min", "max"]):
         result = select_command(sql_script="""WITH consulta AS ( {consulta}) 
-							SELECT min({column}), max({column}) FROM consulta
-							""".format(consulta=get_all_rooms_by_ss_id(ss_id), column=column),
+							SELECT min({column}), max({column}) FROM consulta where 1 = 1 {query}
+							""".format(consulta=get_all_rooms_by_ss_id(ss_id), column=column, query=query),
             params=(()),
             initial_message="Selecionando valores mínimo e máximo para " +
             str(column),

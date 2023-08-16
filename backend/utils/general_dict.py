@@ -198,8 +198,7 @@ statusDict = {
 
 # SQL SCRIPTS
 
-
-def get_all_rooms_by_ss_id(ss_id, platform="'Airbnb' or platform = 'Booking'", aggregation_method='_avg'):
+def build_query(ss_id, aggregation_method="_avg"):
     s_ids = select_command(sql_script="""SELECT distinct(survey_id) from survey where ss_id = %s""",
                            params=(ss_id,),
                            initial_message="Selecting status from super survey",
@@ -216,6 +215,11 @@ def get_all_rooms_by_ss_id(ss_id, platform="'Airbnb' or platform = 'Booking'", a
 
     if (query == 'and ()'):
         query = ''
+
+    return query
+
+def get_all_rooms_by_ss_id(ss_id, platform="'Airbnb' or platform = 'Booking'", aggregation_method='_avg'):
+    query = build_query(ss_id, aggregation_method)
 
     return """SELECT * from accommodates{aggregation_method}
 							  WHERE platform = {platform} {query}
