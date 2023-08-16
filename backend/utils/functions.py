@@ -186,7 +186,7 @@ def build_options(column, values, ss_id):
                                              sql_script="""with consulta as ( {consulta} ) 
 							select distinct({column}) from consulta where 1 = 1 {query}
 							order by {column}
-							""".format(consulta=get_all_rooms_by_ss_id(ss_id), column=column),
+							""".format(consulta=get_all_rooms_by_ss_id(ss_id), column=column, query=query),
             params=(()),
             initial_message="Selecionando valores mínimo e máximo para " +
             str(column),
