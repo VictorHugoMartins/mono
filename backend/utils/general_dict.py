@@ -209,7 +209,7 @@ def get_all_rooms_by_ss_id(ss_id, platform="'Airbnb' or platform = 'Booking'", a
     if (s_ids and len(s_ids) > 0):
         for s_id in s_ids:
             query = "{query}{x}".format(query=query,
-                                        x=" (strpos(accommodates{ag}.surve_id, '{s},') <> 0) or (strpos(accommodates{ag}.surve_id, ',{s}') <> 0) or test.surve_id = '{s}' or".format(a=aggregation_method, s=s_id[0]))
+                                        x=" (strpos(accommodates{ag}.surve_id, '{s},') <> 0) or (strpos(accommodates{ag}.surve_id, ',{s}') <> 0) or test.surve_id = '{s}' or".format(ag=aggregation_method, s=s_id[0]))
     query = removeLastWordOfString('or', query)
     query = removeLastWordOfString('and', query)
     query = "{query})".format(query=query)
