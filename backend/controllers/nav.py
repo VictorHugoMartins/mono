@@ -85,9 +85,7 @@ def getbycity(data: GetByCityModel):  # ok
 
 def getbyid(original_data: GetByIdModel):
     data = jsonable_encoder(original_data)
-    result = select_command(sql_script="""SELECT platform, data_columns
-																FROM super_survey_config where ss_id = %s
-																limit 1""",
+    result = select_command(sql_script="""SELECT platform, data_columns FROM super_survey_config where ss_id = %s limit 1""",
                             params=(data["ss_id"],),
                             initial_message="Selecionando colunas da configuração de pesquisa",
                             failure_message="Falha ao selecionar colunas da configuração de pesquisa")
