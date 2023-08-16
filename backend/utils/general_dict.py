@@ -214,6 +214,9 @@ def get_all_rooms_by_ss_id(ss_id, platform="'Airbnb' or platform = 'Booking'", a
     query = removeLastWordOfString('and', query)
     query = "{query})".format(query=query)
 
+    if query == 'and ()':
+        query = ''
+
     return """SELECT * from accommodates{aggregation_method}
 							  WHERE platform = {platform} {query}
 							ORDER BY locality, sublocality, route, location_id, room_id""".format(ss_id=ss_id, query=query, platform=platform, aggregation_method=aggregation_method)
