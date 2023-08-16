@@ -8,8 +8,12 @@ logging = logging.getLogger()
 def select_command(config=ABConfig(), sql_script=None, params=None, initial_message=None, failure_message=None):
     try:
         logging.info(initial_message)
+
+        print("na linha 12")
         conn = config.connect()
         cur = conn.cursor()
+
+        print("na linha 16")
 
         cur.execute(sql_script, (params))
 
@@ -18,7 +22,7 @@ def select_command(config=ABConfig(), sql_script=None, params=None, initial_mess
         return results
     except Exception as e:
         print(sql_script, params)
-        print("noe exception:", e)
+        print("no select exception:", e)
         logging.error(failure_message)
         return None
     finally:

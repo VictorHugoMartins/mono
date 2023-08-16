@@ -160,6 +160,9 @@ def airbnb_score_search(config, city, survey_id):
                         logging.info("Attempt " + str(i+1) + " to find room " + str(room_id))
                         driver = prepare_driver(url)
 
+                        if not driver:
+                            return
+
                         if url not in driver.current_url:
                             logging.info("Room " + str(room_id) + " has been removed")
                             save_as_deleted(config, room_id)

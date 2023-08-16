@@ -251,3 +251,66 @@ GROUP BY
   a.survey_id,
   a.is_superhost,
   a.comodities
+
+--   create or replace view accommodates_avg as  SELECT b.room_id,
+--     string_agg(DISTINCT b.hotel_name::text, ' JOIN '::text) AS name,
+--     string_agg(DISTINCT b.room_name::text, ' JOIN '::text) AS hotel_name,
+--     string_agg(DISTINCT b.property_type::text, ' JOIN '::text) AS property_type,
+--     string_agg(DISTINCT b.room_type::text, ' JOIN '::text) AS room_type,
+--     string_agg(DISTINCT b.hotel_id, ' JOIN '::text) AS host_id,
+--     avg(b.price) AS price,
+--     max(b.reviews) AS reviews,
+--     NULL::numeric AS minstay,
+--     avg(b.avg_rating) AS avg_rating,
+--     avg(b.accommodates::numeric) AS accommodates,
+--     avg(b.bedrooms::numeric) AS bedrooms,
+--     avg(b.bathrooms::numeric) AS bathrooms,
+--     NULL::text AS bathroom,
+--     max(b.latitude) AS latitude,
+--     max(b.longitude) AS longitude,
+--     NULL::text AS extra_host_languages,
+--     NULL::numeric AS is_superhost,
+--     string_agg(DISTINCT b.comodities::text, ' JOIN '::text) AS comodities,
+--     location.location_id,
+--     location.route,
+--     location.sublocality,
+--     location.locality,
+--     'Booking'::text AS platform,
+--     string_agg(DISTINCT b.survey_id::text, ','::text) AS survey_id
+--    FROM booking_room b
+--      JOIN location ON location.location_id = b.location_id
+--      JOIN survey ON survey.survey_id = b.survey_id
+--   WHERE (b.survey_id IN ( SELECT DISTINCT s.survey_id
+--            FROM survey s
+--           WHERE s.ss_id = 111))
+--   GROUP BY location.locality, location.sublocality, location.route, location.location_id, b.room_id
+-- UNION ALL
+--  SELECT a.room_id,
+--     string_agg(DISTINCT a.name::character varying::text, ' JOIN '::text) AS name,
+--     NULL::text AS hotel_name,
+--     string_agg(DISTINCT a.property_type::text, ' JOIN '::text) AS property_type,
+--     string_agg(DISTINCT a.room_type::text, ' JOIN '::text) AS room_type,
+--     string_agg(DISTINCT a.host_id::text, ' JOIN '::text) AS host_id,
+--     avg(a.price) AS price,
+--     max(a.reviews::numeric) AS reviews,
+--     avg(a.minstay::numeric) AS minstay,
+--     avg(a.avg_rating) AS avg_rating,
+--     avg(a.accommodates::numeric) AS accommodates,
+--     avg(a.bedrooms::numeric) AS bedrooms,
+--     avg(a.bathrooms::numeric) AS bathrooms,
+--     string_agg(DISTINCT a.bathroom::text, ' JOIN '::text) AS bathroom,
+--     max(a.latitude) AS latitude,
+--     max(a.longitude) AS longitude,
+--     string_agg(DISTINCT a.extra_host_languages::text, 'JOIN '::text) AS extra_host_languages,
+--     avg(a.is_superhost::integer) AS is_superhost,
+--     string_agg(DISTINCT a.comodities::text, ' JOIN '::text) AS comodities,
+--     location.location_id,
+--     location.route,
+--     location.sublocality,
+--     location.locality,
+--     'Airbnb'::text AS platform,
+--     string_agg(DISTINCT a.survey_id::text, ','::text) AS survey_id
+--    FROM room a
+--      JOIN location ON location.location_id = a.location_id
+--      JOIN survey ON survey.survey_id = a.survey_id
+--   GROUP BY location.locality, location.sublocality, location.route, location.location_id, a.room_id;
