@@ -173,14 +173,24 @@ def create_super_survey(config, city, userId):
 
 def update_super_survey_status(config, ss_id, status, logs):
     try:
-        update_command(config,
-                       sql_script="""
+        if ((not status) or (status == 1)):
+            update_command(config,
+                           sql_script="""
 															update super_survey set all_logs = ( SELECT all_logs from super_survey where ss_id = %s) || '\n' || %s where ss_id = %s returning ss_id
 														""",
-                       params=(ss_id, logs, ss_id),
-                       initial_message="Updating all logs of super survey {ss_id} to {status}".format(
-                           ss_id=ss_id, status=status),
-                       failure_message="Failed to update all logs of super survey {ss_id} to {status}".format(ss_id=ss_id, status=status))
+                           params=(ss_id, logs, ss_id),
+                           initial_message="Updating all logs of super survey {ss_id} to {status}".format(
+                               ss_id=ss_id, status=status),
+                           failure_message="Failed to update all logs of super survey {ss_id} to {status}".format(ss_id=ss_id, status=status))
+        else:
+            update_command(config,
+                           sql_script="""
+															update super_survey set all_logs = %s where ss_id = %s returning ss_id
+														""",
+                           params=(logs, ss_id),
+                           initial_message="Updating all logs of super survey {ss_id} to {status}".format(
+                               ss_id=ss_id, status=status),
+                           failure_message="Failed to update all logs of super survey {ss_id} to {status}".format(ss_id=ss_id, status=status))
     finally:
         return update_command(config,
                               sql_script="""
@@ -201,12 +211,6 @@ def update_survey_with_super_survey_id(config, super_survey_id, survey_id):
 
 
 def execute_search(config, platform="Airbnb", search_area_name='', start_date=None, finish_date=None, super_survey_id=None):
-    # survey_id = db_add_survey(ab_config, search_area_name)
-    # search_booking_rooms(ab_config, search_area_name,
-    #                      start_date, finish_date, survey_id)
-    # print("acabou a pesquisa!")
-    # exit(0)
-
     try:
         _platform = "Airbnb" if platform != 'Booking' else "Booking"
         update_super_survey_status(config,
