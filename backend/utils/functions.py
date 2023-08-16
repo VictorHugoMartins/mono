@@ -168,7 +168,7 @@ def asSelectObject(array):
 
 
 def build_options(column, values, ss_id):
-    query = build_query(ss_id)
+    query = build_query(ss_id, 'consulta')
     if (values == ["min", "max"]):
         result = select_command(sql_script="""WITH consulta AS ( {consulta}) 
 							SELECT min({column}), max({column}) FROM consulta where 1 = 1 {query}

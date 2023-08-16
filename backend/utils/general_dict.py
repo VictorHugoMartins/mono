@@ -198,7 +198,7 @@ statusDict = {
 
 # SQL SCRIPTS
 
-def build_query(ss_id, aggregation_method="_avg"):
+def build_query(ss_id, table):
     s_ids = select_command(sql_script="""SELECT distinct(survey_id) from survey where ss_id = %s""",
                            params=(ss_id,),
                            initial_message="Selecting status from super survey",
@@ -208,7 +208,7 @@ def build_query(ss_id, aggregation_method="_avg"):
     if (s_ids and len(s_ids) > 0):
         for s_id in s_ids:
             query = "{query}{x}".format(query=query,
-                                        x=" (strpos(accommodates{ag}.survey_id, '{s},') <> 0) or (strpos(accommodates{ag}.survey_id, ',{s}') <> 0) or accommodates{ag}.survey_id = '{s}' or".format(ag=aggregation_method, s=s_id[0]))
+                                        x=" (strpos({t}.survey_id, '{s},') <> 0) or (strpos({t}.survey_id, ',{s}') <> 0) or {t}.survey_id = '{s}' or".format(t=table, s=s_id[0]))
     query = removeLastWordOfString('or', query)
     query = removeLastWordOfString('and', query)
     query = "{query})".format(query=query)
@@ -219,7 +219,7 @@ def build_query(ss_id, aggregation_method="_avg"):
     return query
 
 def get_all_rooms_by_ss_id(ss_id, platform="'Airbnb' or platform = 'Booking'", aggregation_method='_avg'):
-    query = build_query(ss_id, aggregation_method)
+    query = build_query(ss_id, 'accommodates{ag}'.format(ag=aggregation_method))
 
     return """SELECT * from accommodates{aggregation_method}
 							  WHERE platform = {platform} {query}
