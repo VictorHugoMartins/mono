@@ -69,11 +69,10 @@ class ABSurvey():
     def update_survey_entry(self, search_by):
         try:
             survey_info = (date.today(),
-                           search_by,
                            self.survey_id, )
             sql = """
             update survey
-            set date = %s, survey_method = %s
+            set date = %s
             where survey_id = %s
             """
             conn = self.config.connect()

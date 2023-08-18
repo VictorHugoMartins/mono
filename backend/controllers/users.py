@@ -2,7 +2,7 @@ from config.general_config import ABConfig
 from utils.file_manager import export_datatable
 from utils.sql_commands import update_command, delete_command
 from utils.functions import get_random_string
-from utils.mail import send_mail
+# from utils.mail import send_mail
 
 from models.users import *
 
@@ -70,9 +70,9 @@ def accept(data: AcceptModel):  # erro no send mail
                                initial_message="Aceitando solicitação de acesso do usuario...",
                                failure_message="Falha ao aceitar solicitação de acesso")
         if (email):
-            send_mail(email)
+            # send_mail(email)
             response = {
-                "object": None,
+                "object": { "email": email, "password": password},
                 "message": "Acesso aceito com sucesso!",
                 "success": True
             }

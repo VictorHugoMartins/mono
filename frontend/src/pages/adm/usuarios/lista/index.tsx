@@ -48,7 +48,7 @@ function MySuperSurveys() {
         .then(res => res.json())
         .then(data => {
           if (data.success) {
-            loadTable(userId);
+            window.location.assign(`/adm/usuarios/aceito?email=${data.object.email}&password=${data.object.password}`);
           } else Toast.error(data.message)
           setSearching(false)
         })
