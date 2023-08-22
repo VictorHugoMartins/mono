@@ -90,7 +90,7 @@ const Register: React.FC = () => {
                 buttonSubmitText="Solicitar cadastro"
                 onSuccess={(e) => {
                   Toast.success(
-                    "Filtros aplicados com sucesso!"
+                    "Acesso solicitado! Aguarde retorno de um administrador!"
                   );
                 }}
                 buildObject={[
