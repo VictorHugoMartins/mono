@@ -28,6 +28,7 @@ def select_command(config=ABConfig(), sql_script=None, params=None, initial_mess
     finally:
         try:
             cur.close()
+            print("fechou a conexão")
         except:
             pass
 

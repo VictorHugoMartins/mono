@@ -87,6 +87,14 @@ def export_datatable(config, sql_command, params, project, toJson, toPandas=Fals
     except Exception as e:
         print(e)
         return {"columns": [], "rows": []}
+    finally:
+        try:
+            cur.close()
+            conn.close()
+            print("fechando conexão")
+        except:
+            print("n teve conexão pra fechar aqui")
+            pass
 
 
 def main():

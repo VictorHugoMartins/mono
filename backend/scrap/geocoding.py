@@ -262,18 +262,11 @@ class BoundingBox():
         Get a bounding box from the database by reading the search_area.name
         """
         try:
-            cls.search_area = search_area
-            conn = config.connect()
-            cur = conn.cursor()
-            sql = """
-						SELECT bb_s_lat, bb_n_lat, bb_w_lng, bb_e_lng
-						FROM search_area
-						WHERE name = %s
-						"""
-            cur.execute(sql, (search_area,))
-            bounding_box = cur.fetchone()
-            cur.close()
-            return cls(bounding_box)
+            return select_command(config=config,
+                                  sql_script="SELECT bb_s_lat, bb_n_lat, bb_w_lng, bb_e_lng FROM search_area WHERE name = %s",
+                                  params=((search_area,)),
+                                  initial_message="Selecionando coordenadas...",
+                                  failure_message="Falha ao selecionar coordenadas")
         except:
             logger.exception("Exception in BoundingBox_from_db: exiting")
             sys.exit()
@@ -292,7 +285,7 @@ class BoundingBox():
                 bounds = location.raw['boundingbox']
 
                 print(location.raw)
-                
+
                 # [n_lat, e_lng, s_lat, w_lng]
 
                 print(bounds)
@@ -365,6 +358,11 @@ class BoundingBox():
                                  " updated. New sublocality: " + name)
         except:
             raise
+        finally:
+            try:
+                cur.close()
+            except:
+                pass
 
     @ classmethod
     def from_args(cls, config, args):
@@ -430,6 +428,11 @@ class BoundingBox():
         except Exception:
             logger.debug("Error adding search area to database")
             raise
+        finally:
+            try:
+                cur.close()
+            except:
+                pass
 
 
 def reverse_geocode_coordinates_and_insert(config, lat, lng):
