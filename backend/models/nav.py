@@ -40,7 +40,7 @@ class GetByIdModel(BaseModel):
     sublocality: Union[List[str], None] = None
     locality: Union[List[str], None] = None
     avg_rating: Union[float, None] = None
-    location_id: Union[List[str], None] = None
+    location_id: Union[List[int], None] = None
     ss_id: Union[str, None] = None
     city: Union[str, None] = None
     status: Union[str, None] = None
